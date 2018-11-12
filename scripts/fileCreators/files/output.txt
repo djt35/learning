@@ -1,0 +1,93 @@
+
+	
+	
+	
+	
+	require ('../headerCreator.php');	
+	
+	$formv1 = new formGenerator;
+
+	$general = new general;
+
+	$video = new video;
+
+	$tagCategories = new tagCategories;
+
+
+
+foreach ($_GET as $k=>$v){
+	
+	$sanitised = $general->sanitiseInput($v);
+	$_GET[$k] = $sanitised;
+	
+	
+}
+
+if (isset($_GET['$pageURLIdentifier']) && is_numeric($_GET['$pageURLIdentifier'])){
+	$id = $_GET['$pageURLIdentifier'];
+	
+}else{
+	
+	$id = null;
+	
+}
+
+
+
+//TERMINATE THE SCRIPT IF NOT A SUPERUSER
+
+
+
+// Page content
+\?\>
+\<\!DOCTYPE html PUBLIC -//W3C//DTD HTML 4.01//EN\>
+
+\<html\>
+<head>
+    <title>' . $title . '</title>
+</head>
+
+<?php
+include($root . '/scripts/logobar.php');
+
+include($root . '/includes/naviCreator.php');
+?>
+
+<body>
+	
+	<div id='id' style='display:none;'>\<\?php if ($id){echo $id;}?></div>
+	
+    <div id="content" class="content">
+	    
+        <div class="responsiveContainer white">
+	        
+	        <div class="row">
+                <div class="col-9">
+                    <h2 style='text-align:left;'>" $title "</h2>
+                </div>
+
+                <div id='messageBox' class="col-3 yellow-light narrow center">
+                    <p></p>
+                </div>
+            </div>
+	        
+	        
+	        <p><?php
+		        
+		        if ($id){
+	
+					$q = "SELECT " $databaseIdentifier " FROM " $databaseTable " WHERE " $databaseIdentifier " = $id";
+					if ($general->returnYesNoDBQuery($q) === 0){
+						echo 'Passed id does not exist in the database';
+						exit();
+						
+					}
+				}
+	
+?></p>
+	        
+	        	        
+	        <p>
+			    
+			    <form id='"$databaseTable"'>
+			    \<\?php 

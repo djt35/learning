@@ -31,7 +31,7 @@ function getDataQuery (table, query, fieldsToGetObject, outputFormat){
 	
 	datastring = datastring + '&' + jQuery.param(fieldsToGetObject);
 	
-	//console.log(datastring);
+	console.log(datastring);
 	
 	return $.ajax({
 	        url: siteRoot + "scripts/masterAjaxDataReturnQuery.php",

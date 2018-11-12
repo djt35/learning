@@ -1,34 +1,31 @@
 
-	
+
 	<?php
-	
-	require ('../headerCreator.php');	
-	
+
+	require ('../headerCreator.php');
+
 	$formv1 = new formGenerator;
 	$general = new general;
 	$video = new video;
 	$tagCategories = new tagCategories;
 
 
-// Include the header file:
-include($root . '/includes/header.php');
-include($root . '/includes/naviCreator.php');
 
 foreach ($_GET as $k=>$v){
-	
+
 	$sanitised = $general->sanitiseInput($v);
 	$_GET[$k] = $sanitised;
-	
-	
+
+
 }
 
-if (isset($_GET['id']) && is_numeric($_GET['id'])){
-	$id = $_GET['id'];
-	
+if (isset($_GET["id"]) && is_numeric($_GET["id"])){
+	$id = $_GET["id"];
+
 }else{
-	
+
 	$id = null;
-	
+
 }
 
 
@@ -39,347 +36,351 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])){
 
 // Page content
 ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!DOCTYPE html PUBLIC '-//W3C//DTD HTML 4.01//EN'>
 
 <html>
 <head>
-    <title>Users Form</title>
+    <title>Chapter Form</title>
 </head>
 
+<?php
+include($root . "/scripts/logobar.php");
+
+include($root . "/includes/naviCreator.php");
+?>
+
 <body>
-	
-	<div id='id' style='display:none;'><?php if ($id){echo $id;}?></div>
-	
-    <div id="content" class="content">
-	    
-        <div class="responsiveContainer white">
-	        
-	        <div class="row">
-                <div class="col-9">
-                    <h2 style='text-align:left;'>Users Form</h2>
+
+	<div id="id" style="display:none;"><?php if ($id){echo $id;}?></div>
+
+    <div id='content' class='content'>
+
+        <div class='responsiveContainer white'>
+
+	        <div class='row'>
+                <div class='col-9'>
+                    <h2 style="text-align:left;">Chapter Form</h2>
                 </div>
 
-                <div id='messageBox' class="col-3 yellow-light narrow center">
+                <div id="messageBox" class='col-3 yellow-light narrow center'>
                     <p></p>
                 </div>
             </div>
-	        
-	        
+
+
 	        <p><?php
-		        
+
 		        if ($id){
-	
-					$q = "SELECT user_id FROM users WHERE user_id = $id";
-					if ($general->returnYesNoDBQuery($q) === 0){
-						echo 'Passed id does not exist in the database';
+
+					$q = 'SELECT  id  FROM  chapter  WHERE  id  = ' . $id;
+					if ($general->returnYesNoDBQuery($q) != 1){
+						echo "Passed id does not exist in the database";
 						exit();
-						
+
 					}
 				}
-	
+
 ?></p>
-	        
-	        	        
+
+
 	        <p>
-			    
-			    <form id='users'>
-			    <?php echo $formv1->generateText('user_id', 'user_id', '', 'tooltip here');
-echo $formv1->generateText('firstname', 'firstname', '', 'tooltip here');
-echo $formv1->generateText('surname', 'surname', '', 'tooltip here');
-echo $formv1->generateText('email', 'email', '', 'tooltip here');
-echo $formv1->generateText('password', 'password', '', 'tooltip here');
-echo $formv1->generateText('centre', 'centre', '', 'tooltip here');
-echo $formv1->generateText('registered_date', 'registered_date', '', 'tooltip here');
-echo $formv1->generateText('last_login', 'last_login', '', 'tooltip here');
-echo $formv1->generateText('previous_login', 'previous_login', '', 'tooltip here');
-echo $formv1->generateText('timezone', 'timezone', '', 'tooltip here');
-echo $formv1->generateText('access_level', 'access_level', '', 'tooltip here');
-echo $formv1->generateText('contactPhone', 'contactPhone', '', 'tooltip here');
-echo $formv1->generateText('key', 'key', '', 'tooltip here');
+
+			    <form id="chapter">
+			    <?php //echo $formv1->generateText('id', 'id', '', 'tooltip here');
+echo $formv1->generateText('number', 'number', '', 'tooltip here');
+echo $formv1->generateText('name', 'name', '', 'tooltip here');
+echo $formv1->generateText('timeFrom', 'timeFrom', '', 'tooltip here');
+echo $formv1->generateText('timeTo', 'timeTo', '', 'tooltip here');
+echo $formv1->generateText('video_id', 'video_id', '', 'tooltip here');
 ?>
-				    <button id='submitusers'>Submit</button>
-				        
-			    </form>   
-			        
+				    <button id="submitchapter">Submit</button>
+
+			    </form>
+
 		        </p>
-		        
-		        
-	        
+
+
+
         </div>
-        
+
     </div>
 <script>
-	var siteRoot = 'http://localhost:90/dashboard/learning/';
+	var siteRoot = "http://localhost:90/dashboard/learning/";
 
-	usersPassed = $('#id').text();
-	
-	if (usersPassed == ''){
-		
+	 chapterPassed = $("#id").text();
+
+	if ( chapterPassed == ""){
+
 		var edit = 0;
-		
-	}else{
-		
-		var edit = 1;
-		
-	}
-	
-	
-    /*var availableTags = [
-      "AEST",
-      "GDT",
-    ];*/
-    
 
-	
+	}else{
+
+		var edit = 1;
+
+	}
+
+
+
+
+
 	function fillForm (idPassed){
-	
-		disableFormInputs('users');
+
+		disableFormInputs("chapter");
+
+		chapterRequired = new Object;
+
+		chapterRequired = getNamesFormElements("chapter");
 		
-		usersRequired = new Object;
-			
-		usersRequired = getNamesFormElements('users');
-		
-		usersString = '`user_id`=\''+idPassed+'\'';
-		
-		var selectorObject = getDataQuery ('users', usersString, getNamesFormElements('users'), 1);
-		
-		//console.log(selectorObject);
-		
+		console.log(chapterRequired);
+
+		chapterString = '`id`=\''+idPassed+'\'';
+
+		var selectorObject = getDataQuery ("chapter", chapterString, getNamesFormElements("chapter"), 1);
+
+		console.log(selectorObject);
+
 		selectorObject.done(function (data){
+
+			console.log(data);
 			
-			//console.log(data);
+			try{
 			
 			var formData = $.parseJSON(data);
-			    
-			 
+			
+			}catch(err){
+				
+				console.log('invalid ajax data '+data);
+				
+			}
+
+
 		    $(formData).each(function(i,val){
 			    $.each(val,function(k,v){
-			        $('#'+k).val(v);  
-			        //console.log(k+" : "+ v);     
+			        $("#"+k).val(v);
+			        console.log(k+' : '+ v);
 			    });
-		        
+
 		    });
-		    
-		    enableFormInputs('users');
-		
+
+		    enableFormInputs("chapter");
+
 		});
-		
+
 		try {
-			
-			$('form#users').find('button#deleteusers').length();
-			
+
+			$("form#chapter").find("button#deletechapter").length();
+
 		}catch(error){
-			
-			$('form#users').find('button').after('<button id="deleteusers">Delete</button>');
-			
+
+			$("form#chapter").find("button").after("<button id='deletechapter'>Delete</button>");
+
 		}
-	
+
 	}
-	
-	
+
+
 	//delete behaviour
-	
-	function deleteusers (){
-		
-		//usersPassed is the current record, some security to check its also that in the id field
-		
-		if (usersPassed != $('#id').text()){
-			
+
+	function deletechapter (){
+
+		//chapterPassed is the current record, some security to check its also that in the id field
+
+		if (chapterPassed != $("#id").text()){
+
 			return;
-			
+
 		}
-		
-		
-		if (confirm('Do you wish to delete this users?')) {
-		
-			disableFormInputs('users');
-			
-			var usersObject = pushDataFromFormAJAX('users', 'users', 'user_id', usersPassed, '2'); //delete users
-			
-			userObject.done(function (data){
-		
+
+
+		if (confirm("Do you wish to delete this chapter?")) {
+
+			disableFormInputs("chapter");
+
+			var chapterObject = pushDataFromFormAJAX("chapter", "chapter", "id", chapterPassed, "2"); //delete chapter
+
+			chapterObject.done(function (data){
+
 				//console.log(data);
 
 				if (data){
-					
+
 					if (data == 1){
-					
-						alert ('users deleted');
+
+						alert ("chapter deleted");
 						edit = 0;
-						usersPassed = null;
-						window.location.href = siteRoot + 'scripts/forms/usersTable.php';
-						//go to users list
-						
+						chapterPassed = null;
+						window.location.href = siteRoot + "scripts/forms/chapterTable.php";
+						//go to chapter list
+
 					}else {
-					
-					alert('Error, try again');
-					
-					enableFormInputs('users');
-					
+
+					alert("Error, try again");
+
+					enableFormInputs("chapter");
+
 				    }
-					
-					
-					
+
+
+
 				}
-	      
-		
+
+
 			});
-		
+
 		}
-		
-		
+
+
 	}
-	
-	function submitusersForm (){
-		
+
+	function submitchapterForm (){
+
 		//pushDataFromFormAJAX (form, table, identifierKey, identifier, updateType)
-		
+
 		if (edit == 0){
-			
-			var usersObject = pushDataFromFormAJAX('users', 'users', 'user_id', null, '0'); //insert new object
-			
-			usersObject.done(function (data){
-		
+
+			var chapterObject = pushDataFromFormAJAX("chapter", "chapter", "id", null, "0"); //insert new object
+
+			chapterObject.done(function (data){
+
 				//console.log(data);
 
 				if (data){
-					
-					alert ('New users no '+data+' created');
+
+					alert ("New chapter no "+data+" created");
 					edit = 1;
-					$('#id').text(data);
-					usersPassed = data;
+					$("#id").text(data);
+					chapterPassed = data;
 					fillForm(data);
-					
-					
-					
-					
+
+
+
+
 				}else {
-					
-					alert('No data inserted, try again');
-					
+
+					alert("No data inserted, try again");
+
 				}
-	      
-		
+
+
 			});
-			
+
 		} else if (edit == 1){
-			
-			var usersObject = pushDataFromFormAJAX('users', 'users', 'user_id', usersPassed, '1'); //insert new object
-			
-			usersObject.done(function (data){
-		
+
+			var chapterObject = pushDataFromFormAJAX("chapter", "chapter", "id", chapterPassed, "1"); //insert new object
+
+			chapterObject.done(function (data){
+
 				//console.log(data);
 
 				if (data){
-					
+
 					if (data == 1){
-					
-						alert ('Data updated');
+
+						alert ("Data updated");
 						edit = 1;
-						
+
 					} else if (data == 0) {
-					
-					alert('No change in data detected');
-					
+
+					alert("No change in data detected");
+
 				    } else if (data == 2) {
-					
-					alert('Error, try again');
-					
+
+					alert("Error, try again");
+
 				    }
-					
-					
-					
+
+
+
 				}
-	      
-		
+
+
 			});
-			
-			
-			
-			
+
+
+
+
 		}
-		
-		
+
+
 	}
-	
+
 	$(document).ready(function() {
 
 		if (edit == 1){
-		
-			fillForm(usersPassed);
-	
+
+			fillForm(chapterPassed);
+
 		}
-		
-		/*$("#timezone").autocomplete({
-			source: availableTags
-	  	});*/
 
 		
-		$('#content').on("click", "#submitusers", (function(event) {
+
+	  	var titleGraphic = $(".title").height();
+		var titleBar = $("#menu").height();
+		$(".title").css('height',(titleBar));
+
+
+		$(window).resize(function () {
+	    waitForFinalEvent(function(){
+	      //alert("Resize...");
+	      var titleGraphic = $(".title").height();
+		  var titleBar = $("#menu").height();
+		  $(".title").css('height',(titleBar));
+
+	    }, 100, 'Resize header');
+			});
+
+
+		$("#content").on('click', '#submitchapter', (function(event) {
 	        event.preventDefault();
-	        $("#users").submit();
-	
-	
+	        $('#chapter').submit();
+
+
 	    }));
-	    
-	    $('#content').on("click", "#deleteusers", (function(event) {
+
+	    $("#content").on('click', '#deletechapter', (function(event) {
 	        event.preventDefault();
-	        deleteusers();
-	
-	
+	        deletechapter();
+
+
 	    }));
-	
-		$('#users').validate({
-	
+
+		$("#chapter").validate({
+
 	        invalidHandler: function(event, validator) {
 	            var errors = validator.numberOfInvalids();
-	            console.log('there were ' + errors + 'errors');
+	            console.log("there were " + errors + "errors");
 	            if (errors) {
 	                var message = errors == 1 ?
-	                    'You missed 1 field. It has been highlighted' :
-	                    'You missed ' + errors + ' fields. They have been highlighted';
-	                $("div.error span").html(message);
-	                $("div.error").show();
+	                    "You missed 1 field. It has been highlighted" :
+	                    "You missed " + errors + " fields. They have been highlighted";
+	                $('div.error span').html(message);
+	                $('div.error').show();
 	            } else {
-	                $("div.error").hide();
+	                $('div.error').hide();
 	            }
 	        },rules: {
-user_id: { required: true },   
-firstname: { required: true },   
-surname: { required: true },   
-email: { required: true },   
-password: { required: true },   
-centre: { required: true },   
-registered_date: { required: true },   
-last_login: { required: true },   
-previous_login: { required: true },   
-timezone: { required: true },   
-access_level: { required: true },   
-contactPhone: { required: true },   
-key: { required: true },   
+//id: { required: true },   
+number: { required: true },   
+name: { required: true },   
+timeFrom: { required: true },   
+timeTo: { required: true },   
+video_id: { required: true },   
 },messages: {
-user_id: { required: 'message' },   
-firstname: { required: 'message' },   
-surname: { required: 'message' },   
-email: { required: 'message' },   
-password: { required: 'message' },   
-centre: { required: 'message' },   
-registered_date: { required: 'message' },   
-last_login: { required: 'message' },   
-previous_login: { required: 'message' },   
-timezone: { required: 'message' },   
-access_level: { required: 'message' },   
-contactPhone: { required: 'message' },   
-key: { required: 'message' },   
-},	
+id: { required: 'message' },   
+number: { required: 'message' },   
+name: { required: 'message' },   
+timeFrom: { required: 'message' },   
+timeTo: { required: 'message' },   
+video_id: { required: 'message' },   
+},
 	        submitHandler: function(form) {
-	
-	            submitusersForm();
-	            
-	          	console.log('submitted form');
-	
-	
-	
+
+	            submitchapterForm();
+
+	          	console.log("submitted form");
+
+
+
 	    }
 
 
@@ -393,7 +394,7 @@ key: { required: 'message' },
 <?php
 
     // Include the footer file to complete the template:
-    include($root .'/includes/footer.html');
+    include($root ."/includes/footer.html");
 
 
 

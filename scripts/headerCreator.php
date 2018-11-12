@@ -38,7 +38,7 @@ if (!isset($_SESSION['user_id'])) {
 </script>
     <script src="<?php echo $roothttp . 'includes/jquery.min.js'; ?>" type="text/javascript">
 </script>
-    <script src="<?php echo $roothttp . 'includes/jquery-ui.js'; ?>" type="text/javascript">
+   
 	    
 	    
 </script>

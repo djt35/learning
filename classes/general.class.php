@@ -196,20 +196,24 @@ Class general {
 		        
 		        foreach ($columns as $key=>$value){
 			        
-			        echo 'echo $formv1->generateText(\'';
+			        
 			        
 			        foreach ($value as $k=>$v){
 				        
 				        if ($k == 'name'){
 					        
+					        echo 'echo $formv1->generateText(\'';
+					        
 					        echo $v . '\', \'' . $v . '\', ';
+					        
+					        echo '\'\', \'tooltip here\');' . PHP_EOL;
 					        
 				        }
 				        
 				        
 			        }
 			        
-			        echo '\'\', \'tooltip here\');' . PHP_EOL;
+			        
 			        
 			        //echo '\n';
 			        
