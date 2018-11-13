@@ -202,11 +202,15 @@ Class general {
 				        
 				        if ($k == 'name'){
 					        
-					        echo 'echo $formv1->generateText(\'';
+					        if ($v != 'id'){
 					        
-					        echo $v . '\', \'' . $v . '\', ';
+						        echo 'echo $formv1->generateText(\'';
+						        
+						        echo $v . '\', \'' . $v . '\', ';
+						        
+						        echo '\'\', \'tooltip here\');' . PHP_EOL;
 					        
-					        echo '\'\', \'tooltip here\');' . PHP_EOL;
+					        }
 					        
 				        }
 				        
@@ -285,8 +289,12 @@ Class general {
 				        
 				        if ($k == 'name'){
 					        
-					        echo $v . ': { required: true },   '. PHP_EOL;
-					        //echo '<br><br>';
+					        if ($v != 'id'){
+					        
+						        echo $v . ': { required: true },   '. PHP_EOL;
+						        //echo '<br><br>';
+					        
+					        }
 					        
 				        }
 				        
@@ -307,8 +315,12 @@ Class general {
 				        
 				        if ($k == 'name'){
 					        
+					         if ($v != 'id'){
+					        
 					        echo $v . ': { required: \'message\' },   '. PHP_EOL;
 					        //echo '<br><br>';
+					        
+					         }
 					        
 				        }
 				        

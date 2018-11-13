@@ -359,6 +359,8 @@ print_r($datafields);
 					    });
 		
 				    });
+				    
+				    $(\"#messageBox\").text(\"Editing {$databaseTable} id \"+idPassed);
 		
 				    enableFormInputs(\"{$databaseTable}\");
 		
@@ -508,6 +510,10 @@ print_r($datafields);
 		
 					fillForm({$databaseTable}Passed);
 		
+				}else{
+					
+					$(\"#messageBox\").text(\"New {$databaseTable}\");
+					
 				}
 		
 				
