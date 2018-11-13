@@ -41,7 +41,7 @@
 		
 		<html>
 		<head>
-		    <title>audio Form</title>
+		    <title>users Form</title>
 		</head>
 		
 		<?php
@@ -60,7 +60,7 @@
 		
 			        <div class='row'>
 		                <div class='col-9'>
-		                    <h2 style="text-align:left;">audio Form</h2>
+		                    <h2 style="text-align:left;">users Form</h2>
 		                </div>
 		
 		                <div id="messageBox" class='col-3 yellow-light narrow center'>
@@ -73,7 +73,7 @@
 		
 				        if ($id){
 		
-							$q = "SELECT  id  FROM  audio  WHERE  id  = $id";
+							$q = "SELECT  user_id  FROM  users  WHERE  user_id  = $id";
 							if ($general->returnYesNoDBQuery($q) != 1){
 								echo "Passed id does not exist in the database";
 								exit();
@@ -86,12 +86,22 @@
 		
 			        <p>
 		
-					    <form id="audio">
-					    <?php echo $formv1->generateText('id', 'id', '', 'tooltip here');
-echo $formv1->generateText('name', 'name', '', 'tooltip here');
-echo $formv1->generateText('url', 'url', '', 'tooltip here');
+					    <form id="users">
+					    <?php echo $formv1->generateText('user_id', 'user_id', '', 'tooltip here');
+echo $formv1->generateText('firstname', 'firstname', '', 'tooltip here');
+echo $formv1->generateText('surname', 'surname', '', 'tooltip here');
+echo $formv1->generateText('email', 'email', '', 'tooltip here');
+echo $formv1->generateText('password', 'password', '', 'tooltip here');
+echo $formv1->generateText('centre', 'centre', '', 'tooltip here');
+echo $formv1->generateText('registered_date', 'registered_date', '', 'tooltip here');
+echo $formv1->generateText('last_login', 'last_login', '', 'tooltip here');
+echo $formv1->generateText('previous_login', 'previous_login', '', 'tooltip here');
+echo $formv1->generateText('timezone', 'timezone', '', 'tooltip here');
+echo $formv1->generateText('access_level', 'access_level', '', 'tooltip here');
+echo $formv1->generateText('contactPhone', 'contactPhone', '', 'tooltip here');
+echo $formv1->generateText('key', 'key', '', 'tooltip here');
 ?>
-						    <button id="submitaudio">Submit</button>
+						    <button id="submitusers">Submit</button>
 		
 					    </form>
 		
@@ -105,9 +115,9 @@ echo $formv1->generateText('url', 'url', '', 'tooltip here');
 		<script>
 			var siteRoot = "http://localhost:90/dashboard/learning/";
 		
-			 audioPassed = $("#id").text();
+			 usersPassed = $("#id").text();
 		
-			if ( audioPassed == ""){
+			if ( usersPassed == ""){
 		
 				var edit = 0;
 		
@@ -123,15 +133,15 @@ echo $formv1->generateText('url', 'url', '', 'tooltip here');
 		
 			function fillForm (idPassed){
 		
-				disableFormInputs("audio");
+				disableFormInputs("users");
 		
-				audioRequired = new Object;
+				usersRequired = new Object;
 		
-				audioRequired = getNamesFormElements("audio");
+				usersRequired = getNamesFormElements("users");
 		
-				audioString = '`id`=\''+idPassed+'\'';
+				usersString = '`user_id`=\''+idPassed+'\'';
 		
-				var selectorObject = getDataQuery ("audio", audioString, getNamesFormElements("audio"), 1);
+				var selectorObject = getDataQuery ("users", usersString, getNamesFormElements("users"), 1);
 		
 				//console.log(selectorObject);
 		
@@ -150,17 +160,17 @@ echo $formv1->generateText('url', 'url', '', 'tooltip here');
 		
 				    });
 		
-				    enableFormInputs("audio");
+				    enableFormInputs("users");
 		
 				});
 		
 				try {
 		
-					$("form#audio").find("button#deleteaudio").length();
+					$("form#users").find("button#deleteusers").length();
 		
 				}catch(error){
 		
-					$("form#audio").find("button").after("<button id='deleteaudio'>Delete</button>");
+					$("form#users").find("button").after("<button id='deleteusers'>Delete</button>");
 		
 				}
 		
@@ -169,24 +179,24 @@ echo $formv1->generateText('url', 'url', '', 'tooltip here');
 		
 			//delete behaviour
 		
-			function deleteaudio (){
+			function deleteusers (){
 		
-				//audioPassed is the current record, some security to check its also that in the id field
+				//usersPassed is the current record, some security to check its also that in the id field
 		
-				if (audioPassed != $("#id").text()){
+				if (usersPassed != $("#id").text()){
 		
 					return;
 		
 				}
 		
 		
-				if (confirm("Do you wish to delete this audio?")) {
+				if (confirm("Do you wish to delete this users?")) {
 		
-					disableFormInputs("audio");
+					disableFormInputs("users");
 		
-					var audioObject = pushDataFromFormAJAX("audio", "audio", "id", audioPassed, "2"); //delete audio
+					var usersObject = pushDataFromFormAJAX("users", "users", "user_id", usersPassed, "2"); //delete users
 		
-					audioObject.done(function (data){
+					usersObject.done(function (data){
 		
 						//console.log(data);
 		
@@ -194,17 +204,17 @@ echo $formv1->generateText('url', 'url', '', 'tooltip here');
 		
 							if (data == 1){
 		
-								alert ("audio deleted");
+								alert ("users deleted");
 								edit = 0;
-								audioPassed = null;
-								window.location.href = siteRoot + "scripts/forms/audioTable.php";
-								//go to audio list
+								usersPassed = null;
+								window.location.href = siteRoot + "scripts/forms/usersTable.php";
+								//go to users list
 		
 							}else {
 		
 							alert("Error, try again");
 		
-							enableFormInputs("audio");
+							enableFormInputs("users");
 		
 						    }
 		
@@ -220,24 +230,24 @@ echo $formv1->generateText('url', 'url', '', 'tooltip here');
 		
 			}
 		
-			function submitaudioForm (){
+			function submitusersForm (){
 		
 				//pushDataFromFormAJAX (form, table, identifierKey, identifier, updateType)
 		
 				if (edit == 0){
 		
-					var audioObject = pushDataFromFormAJAX("audio", "audio", "id", null, "0"); //insert new object
+					var usersObject = pushDataFromFormAJAX("users", "users", "user_id", null, "0"); //insert new object
 		
-					audioObject.done(function (data){
+					usersObject.done(function (data){
 		
 						//console.log(data);
 		
 						if (data){
 		
-							alert ("New audio no "+data+" created");
+							alert ("New users no "+data+" created");
 							edit = 1;
 							$("#id").text(data);
-							audioPassed = data;
+							usersPassed = data;
 							fillForm(data);
 		
 		
@@ -254,9 +264,9 @@ echo $formv1->generateText('url', 'url', '', 'tooltip here');
 		
 				} else if (edit == 1){
 		
-					var audioObject = pushDataFromFormAJAX("audio", "audio", "id", audioPassed, "1"); //insert new object
+					var usersObject = pushDataFromFormAJAX("users", "users", "user_id", usersPassed, "1"); //insert new object
 		
-					audioObject.done(function (data){
+					usersObject.done(function (data){
 		
 						//console.log(data);
 		
@@ -296,7 +306,7 @@ echo $formv1->generateText('url', 'url', '', 'tooltip here');
 		
 				if (edit == 1){
 		
-					fillForm(audioPassed);
+					fillForm(usersPassed);
 		
 				}
 		
@@ -318,21 +328,21 @@ echo $formv1->generateText('url', 'url', '', 'tooltip here');
 					});
 		
 		
-				$("#content").on('click', '#submitaudio', (function(event) {
+				$("#content").on('click', '#submitusers', (function(event) {
 			        event.preventDefault();
-			        $('#audio').submit();
+			        $('#users').submit();
 		
 		
 			    }));
 		
-			    $("#content").on('click', '#deleteaudio', (function(event) {
+			    $("#content").on('click', '#deleteusers', (function(event) {
 			        event.preventDefault();
-			        deleteaudio();
+			        deleteusers();
 		
 		
 			    }));
 		
-				$("#audio").validate({
+				$("#users").validate({
 		
 			        invalidHandler: function(event, validator) {
 			            var errors = validator.numberOfInvalids();
@@ -347,17 +357,37 @@ echo $formv1->generateText('url', 'url', '', 'tooltip here');
 			                $('div.error').hide();
 			            }
 			        },rules: {
-id: { required: true },   
-name: { required: true },   
-url: { required: true },   
+user_id: { required: true },   
+firstname: { required: true },   
+surname: { required: true },   
+email: { required: true },   
+password: { required: true },   
+centre: { required: true },   
+registered_date: { required: true },   
+last_login: { required: true },   
+previous_login: { required: true },   
+timezone: { required: true },   
+access_level: { required: true },   
+contactPhone: { required: true },   
+key: { required: true },   
 },messages: {
-id: { required: 'message' },   
-name: { required: 'message' },   
-url: { required: 'message' },   
+user_id: { required: 'message' },   
+firstname: { required: 'message' },   
+surname: { required: 'message' },   
+email: { required: 'message' },   
+password: { required: 'message' },   
+centre: { required: 'message' },   
+registered_date: { required: 'message' },   
+last_login: { required: 'message' },   
+previous_login: { required: 'message' },   
+timezone: { required: 'message' },   
+access_level: { required: 'message' },   
+contactPhone: { required: 'message' },   
+key: { required: 'message' },   
 },
 			        submitHandler: function(form) {
 		
-			            submitaudioForm();
+			            submitusersForm();
 		
 			          	console.log("submitted form");
 		

@@ -41,7 +41,7 @@
 		
 		<html>
 		<head>
-		    <title>audio Form</title>
+		    <title>userLearningToolAccess Form</title>
 		</head>
 		
 		<?php
@@ -60,7 +60,7 @@
 		
 			        <div class='row'>
 		                <div class='col-9'>
-		                    <h2 style="text-align:left;">audio Form</h2>
+		                    <h2 style="text-align:left;">userLearningToolAccess Form</h2>
 		                </div>
 		
 		                <div id="messageBox" class='col-3 yellow-light narrow center'>
@@ -73,7 +73,7 @@
 		
 				        if ($id){
 		
-							$q = "SELECT  id  FROM  audio  WHERE  id  = $id";
+							$q = "SELECT  id  FROM  userLearningToolAccess  WHERE  id  = $id";
 							if ($general->returnYesNoDBQuery($q) != 1){
 								echo "Passed id does not exist in the database";
 								exit();
@@ -86,12 +86,13 @@
 		
 			        <p>
 		
-					    <form id="audio">
+					    <form id="userLearningToolAccess">
 					    <?php echo $formv1->generateText('id', 'id', '', 'tooltip here');
-echo $formv1->generateText('name', 'name', '', 'tooltip here');
-echo $formv1->generateText('url', 'url', '', 'tooltip here');
+echo $formv1->generateText('userid', 'userid', '', 'tooltip here');
+echo $formv1->generateText('learningToolid', 'learningToolid', '', 'tooltip here');
+echo $formv1->generateText('access', 'access', '', 'tooltip here');
 ?>
-						    <button id="submitaudio">Submit</button>
+						    <button id="submituserLearningToolAccess">Submit</button>
 		
 					    </form>
 		
@@ -105,9 +106,9 @@ echo $formv1->generateText('url', 'url', '', 'tooltip here');
 		<script>
 			var siteRoot = "http://localhost:90/dashboard/learning/";
 		
-			 audioPassed = $("#id").text();
+			 userLearningToolAccessPassed = $("#id").text();
 		
-			if ( audioPassed == ""){
+			if ( userLearningToolAccessPassed == ""){
 		
 				var edit = 0;
 		
@@ -123,15 +124,15 @@ echo $formv1->generateText('url', 'url', '', 'tooltip here');
 		
 			function fillForm (idPassed){
 		
-				disableFormInputs("audio");
+				disableFormInputs("userLearningToolAccess");
 		
-				audioRequired = new Object;
+				userLearningToolAccessRequired = new Object;
 		
-				audioRequired = getNamesFormElements("audio");
+				userLearningToolAccessRequired = getNamesFormElements("userLearningToolAccess");
 		
-				audioString = '`id`=\''+idPassed+'\'';
+				userLearningToolAccessString = '`id`=\''+idPassed+'\'';
 		
-				var selectorObject = getDataQuery ("audio", audioString, getNamesFormElements("audio"), 1);
+				var selectorObject = getDataQuery ("userLearningToolAccess", userLearningToolAccessString, getNamesFormElements("userLearningToolAccess"), 1);
 		
 				//console.log(selectorObject);
 		
@@ -150,17 +151,17 @@ echo $formv1->generateText('url', 'url', '', 'tooltip here');
 		
 				    });
 		
-				    enableFormInputs("audio");
+				    enableFormInputs("userLearningToolAccess");
 		
 				});
 		
 				try {
 		
-					$("form#audio").find("button#deleteaudio").length();
+					$("form#userLearningToolAccess").find("button#deleteuserLearningToolAccess").length();
 		
 				}catch(error){
 		
-					$("form#audio").find("button").after("<button id='deleteaudio'>Delete</button>");
+					$("form#userLearningToolAccess").find("button").after("<button id='deleteuserLearningToolAccess'>Delete</button>");
 		
 				}
 		
@@ -169,24 +170,24 @@ echo $formv1->generateText('url', 'url', '', 'tooltip here');
 		
 			//delete behaviour
 		
-			function deleteaudio (){
+			function deleteuserLearningToolAccess (){
 		
-				//audioPassed is the current record, some security to check its also that in the id field
+				//userLearningToolAccessPassed is the current record, some security to check its also that in the id field
 		
-				if (audioPassed != $("#id").text()){
+				if (userLearningToolAccessPassed != $("#id").text()){
 		
 					return;
 		
 				}
 		
 		
-				if (confirm("Do you wish to delete this audio?")) {
+				if (confirm("Do you wish to delete this userLearningToolAccess?")) {
 		
-					disableFormInputs("audio");
+					disableFormInputs("userLearningToolAccess");
 		
-					var audioObject = pushDataFromFormAJAX("audio", "audio", "id", audioPassed, "2"); //delete audio
+					var userLearningToolAccessObject = pushDataFromFormAJAX("userLearningToolAccess", "userLearningToolAccess", "id", userLearningToolAccessPassed, "2"); //delete userLearningToolAccess
 		
-					audioObject.done(function (data){
+					userLearningToolAccessObject.done(function (data){
 		
 						//console.log(data);
 		
@@ -194,17 +195,17 @@ echo $formv1->generateText('url', 'url', '', 'tooltip here');
 		
 							if (data == 1){
 		
-								alert ("audio deleted");
+								alert ("userLearningToolAccess deleted");
 								edit = 0;
-								audioPassed = null;
-								window.location.href = siteRoot + "scripts/forms/audioTable.php";
-								//go to audio list
+								userLearningToolAccessPassed = null;
+								window.location.href = siteRoot + "scripts/forms/userLearningToolAccessTable.php";
+								//go to userLearningToolAccess list
 		
 							}else {
 		
 							alert("Error, try again");
 		
-							enableFormInputs("audio");
+							enableFormInputs("userLearningToolAccess");
 		
 						    }
 		
@@ -220,24 +221,24 @@ echo $formv1->generateText('url', 'url', '', 'tooltip here');
 		
 			}
 		
-			function submitaudioForm (){
+			function submituserLearningToolAccessForm (){
 		
 				//pushDataFromFormAJAX (form, table, identifierKey, identifier, updateType)
 		
 				if (edit == 0){
 		
-					var audioObject = pushDataFromFormAJAX("audio", "audio", "id", null, "0"); //insert new object
+					var userLearningToolAccessObject = pushDataFromFormAJAX("userLearningToolAccess", "userLearningToolAccess", "id", null, "0"); //insert new object
 		
-					audioObject.done(function (data){
+					userLearningToolAccessObject.done(function (data){
 		
 						//console.log(data);
 		
 						if (data){
 		
-							alert ("New audio no "+data+" created");
+							alert ("New userLearningToolAccess no "+data+" created");
 							edit = 1;
 							$("#id").text(data);
-							audioPassed = data;
+							userLearningToolAccessPassed = data;
 							fillForm(data);
 		
 		
@@ -254,9 +255,9 @@ echo $formv1->generateText('url', 'url', '', 'tooltip here');
 		
 				} else if (edit == 1){
 		
-					var audioObject = pushDataFromFormAJAX("audio", "audio", "id", audioPassed, "1"); //insert new object
+					var userLearningToolAccessObject = pushDataFromFormAJAX("userLearningToolAccess", "userLearningToolAccess", "id", userLearningToolAccessPassed, "1"); //insert new object
 		
-					audioObject.done(function (data){
+					userLearningToolAccessObject.done(function (data){
 		
 						//console.log(data);
 		
@@ -296,7 +297,7 @@ echo $formv1->generateText('url', 'url', '', 'tooltip here');
 		
 				if (edit == 1){
 		
-					fillForm(audioPassed);
+					fillForm(userLearningToolAccessPassed);
 		
 				}
 		
@@ -318,21 +319,21 @@ echo $formv1->generateText('url', 'url', '', 'tooltip here');
 					});
 		
 		
-				$("#content").on('click', '#submitaudio', (function(event) {
+				$("#content").on('click', '#submituserLearningToolAccess', (function(event) {
 			        event.preventDefault();
-			        $('#audio').submit();
+			        $('#userLearningToolAccess').submit();
 		
 		
 			    }));
 		
-			    $("#content").on('click', '#deleteaudio', (function(event) {
+			    $("#content").on('click', '#deleteuserLearningToolAccess', (function(event) {
 			        event.preventDefault();
-			        deleteaudio();
+			        deleteuserLearningToolAccess();
 		
 		
 			    }));
 		
-				$("#audio").validate({
+				$("#userLearningToolAccess").validate({
 		
 			        invalidHandler: function(event, validator) {
 			            var errors = validator.numberOfInvalids();
@@ -348,16 +349,18 @@ echo $formv1->generateText('url', 'url', '', 'tooltip here');
 			            }
 			        },rules: {
 id: { required: true },   
-name: { required: true },   
-url: { required: true },   
+userid: { required: true },   
+learningToolid: { required: true },   
+access: { required: true },   
 },messages: {
 id: { required: 'message' },   
-name: { required: 'message' },   
-url: { required: 'message' },   
+userid: { required: 'message' },   
+learningToolid: { required: 'message' },   
+access: { required: 'message' },   
 },
 			        submitHandler: function(form) {
 		
-			            submitaudioForm();
+			            submituserLearningToolAccessForm();
 		
 			          	console.log("submitted form");
 		

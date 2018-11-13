@@ -127,11 +127,14 @@ if (count($_GET) > 0){
 	if ($query){
 	
 		$q = "SELECT `$dataString2` FROM `$table` WHERE $query";
+		
+		//echo $q;
 	
 	}else {
 		
 		$q = "SELECT `$dataString2` FROM `$table`";
-
+		
+		//echo $q;
 		
 		
 	}
@@ -146,12 +149,16 @@ if (count($_GET) > 0){
 			
 				//$returnArray = array();
 				
+				//print_r($result->fetch_array(MYSQLI_ASSOC));
+				
 			if ($outputFormat == 1){
 			
-			while($row[] = $result->fetch_array(MYSQLI_ASSOC));
+				while($row = $result->fetch_array(MYSQLI_ASSOC)){
+				    $rows[] = array_map('utf8_encode', $row);
+				}
+			
 								
-								
-			echo json_encode($row);	
+			echo json_encode($rows);	
 			
 			}else if ($outputFormat == 2){
 				

@@ -45,33 +45,14 @@ $tagCategories = new tagCategories;
 
 //!change title
 
-$page_title = 'User Editor';
+$page_title = 'User Table';
 
 // Include the header file:
 include($root . '/includes/header.php');
 include($root . '/includes/naviCreator.php');
 
-$columns = $formv1->getAllDatabaseTables();
 
-$datafields = array();
 
-$x=0;
-
-foreach ($columns as $key=>$value){
-	
-	if 	($table != $value['table']) {
-
-	
-		$table = $value['table'];
-		//$identifier = $value['name'];
-		
-		$datafields[$x] = array ('databaseTable' => $table); 
-		
-		$x++;
-	
-	}
-		
-} 
 
 
 
@@ -90,82 +71,31 @@ foreach ($columns as $key=>$value){
 
 <body>
 	
-	<div id='id' style='display:none;'><?php if ($id){echo $id;}?></div>
-	
+		
     <div id="content" class="content">
 	    
         <div class="responsiveContainer white">
 	        
 	        <div class="row">
                 <div class="col-9">
-                    <h2 style='text-align:left;'>Main Creator Menu</h2>
+                    <h2 style='text-align:left;'>Videos</h2>
                 </div>
 
                 <div id='messageBox' class="col-3 yellow-light narrow center">
                     <p></p>
                 </div>
             </div>
+	        
+	        <div class="row">
+                <div class="col-1"></div>
 
-            <div class="row">
-                <div class="col-2"></div>
-
-                <div class="col-8 narrow">
-                    <p>Choose an entity to edit or create</p>
+                <div class="col-10 narrow" style="overflow-x: scroll;">
+                    <p><?php $general->makeTable('SELECT id, name, url, active, split from video'); ?></p>
                 </div>
 
-                <div class="col-2"></div>
+                <div class="col-1"></div>
             </div>
-	        
-	        
-	        <?php
-	        foreach ($datafields as $key=>$value){
-		        
-		        $name = $value['databaseTable'];
-		        
-		       echo '
-		       
-		       <div class="row">
-                <div class="col-4"><b>'.$name.'</b></div>
 
-                <div class="col-4 narrow">
-                    <p><a href=\''.$roothttp.'scripts/forms/'.$name.'Form.php\'>New</a></p>
-                </div>
-                
-                <div class="col-4 narrow">
-                     <p><a href=\''.$roothttp.'scripts/forms/'.$name.'Table.php\'>Modify</a></p>                    
-                </div>
-
-
-                
-            </div>
-            
-            ';
-		        
-		          
-	        }
-	        
-	        
-	        
-	        
-	         
-            
-            ?>
-	        
-	        		        
-		    <div class="row">
-                <div class="col-4"><b>Helpers</b></div>
-
-                <div class="col-4 narrow">
-                    <p><a href='<?php echo $roothttp.'/scripts/helpers/getTables.php';?>'>All tables in database</a></p>
-                </div>
-                
-                <div class="col-4 narrow">
-                    <p><a href='<?php echo $roothttp.'/scripts/helpers/createFormHtml.php';?>'>Generate code for particular table</a></p>
-                </div>
-
-
-                
-            </div>    
 	        
         </div>
         
@@ -176,12 +106,23 @@ foreach ($columns as $key=>$value){
 		
 	$(document).ready(function() {
 
-		
+		$('#dataTable').find('tr');
+
+		$('.content').on('click', '.datarow', function(){
+			
+			var id = $(this).find('td:first').text();
+			
+			//console.log(id);
+			
+			window.location.href = siteRoot + "scripts/forms/videoForm.php?id=" + id;
+
+			
+		})
 
 
+    });
 
 
-})
 
 	</script>    
     

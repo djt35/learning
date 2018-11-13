@@ -41,7 +41,7 @@
 		
 		<html>
 		<head>
-		    <title>audio Form</title>
+		    <title>auth_permission Form</title>
 		</head>
 		
 		<?php
@@ -60,7 +60,7 @@
 		
 			        <div class='row'>
 		                <div class='col-9'>
-		                    <h2 style="text-align:left;">audio Form</h2>
+		                    <h2 style="text-align:left;">auth_permission Form</h2>
 		                </div>
 		
 		                <div id="messageBox" class='col-3 yellow-light narrow center'>
@@ -73,7 +73,7 @@
 		
 				        if ($id){
 		
-							$q = "SELECT  id  FROM  audio  WHERE  id  = $id";
+							$q = "SELECT  id  FROM  auth_permission  WHERE  id  = $id";
 							if ($general->returnYesNoDBQuery($q) != 1){
 								echo "Passed id does not exist in the database";
 								exit();
@@ -86,12 +86,13 @@
 		
 			        <p>
 		
-					    <form id="audio">
+					    <form id="auth_permission">
 					    <?php echo $formv1->generateText('id', 'id', '', 'tooltip here');
 echo $formv1->generateText('name', 'name', '', 'tooltip here');
-echo $formv1->generateText('url', 'url', '', 'tooltip here');
+echo $formv1->generateText('content_type_id', 'content_type_id', '', 'tooltip here');
+echo $formv1->generateText('codename', 'codename', '', 'tooltip here');
 ?>
-						    <button id="submitaudio">Submit</button>
+						    <button id="submitauth_permission">Submit</button>
 		
 					    </form>
 		
@@ -105,9 +106,9 @@ echo $formv1->generateText('url', 'url', '', 'tooltip here');
 		<script>
 			var siteRoot = "http://localhost:90/dashboard/learning/";
 		
-			 audioPassed = $("#id").text();
+			 auth_permissionPassed = $("#id").text();
 		
-			if ( audioPassed == ""){
+			if ( auth_permissionPassed == ""){
 		
 				var edit = 0;
 		
@@ -123,15 +124,15 @@ echo $formv1->generateText('url', 'url', '', 'tooltip here');
 		
 			function fillForm (idPassed){
 		
-				disableFormInputs("audio");
+				disableFormInputs("auth_permission");
 		
-				audioRequired = new Object;
+				auth_permissionRequired = new Object;
 		
-				audioRequired = getNamesFormElements("audio");
+				auth_permissionRequired = getNamesFormElements("auth_permission");
 		
-				audioString = '`id`=\''+idPassed+'\'';
+				auth_permissionString = '`id`=\''+idPassed+'\'';
 		
-				var selectorObject = getDataQuery ("audio", audioString, getNamesFormElements("audio"), 1);
+				var selectorObject = getDataQuery ("auth_permission", auth_permissionString, getNamesFormElements("auth_permission"), 1);
 		
 				//console.log(selectorObject);
 		
@@ -150,17 +151,17 @@ echo $formv1->generateText('url', 'url', '', 'tooltip here');
 		
 				    });
 		
-				    enableFormInputs("audio");
+				    enableFormInputs("auth_permission");
 		
 				});
 		
 				try {
 		
-					$("form#audio").find("button#deleteaudio").length();
+					$("form#auth_permission").find("button#deleteauth_permission").length();
 		
 				}catch(error){
 		
-					$("form#audio").find("button").after("<button id='deleteaudio'>Delete</button>");
+					$("form#auth_permission").find("button").after("<button id='deleteauth_permission'>Delete</button>");
 		
 				}
 		
@@ -169,24 +170,24 @@ echo $formv1->generateText('url', 'url', '', 'tooltip here');
 		
 			//delete behaviour
 		
-			function deleteaudio (){
+			function deleteauth_permission (){
 		
-				//audioPassed is the current record, some security to check its also that in the id field
+				//auth_permissionPassed is the current record, some security to check its also that in the id field
 		
-				if (audioPassed != $("#id").text()){
+				if (auth_permissionPassed != $("#id").text()){
 		
 					return;
 		
 				}
 		
 		
-				if (confirm("Do you wish to delete this audio?")) {
+				if (confirm("Do you wish to delete this auth_permission?")) {
 		
-					disableFormInputs("audio");
+					disableFormInputs("auth_permission");
 		
-					var audioObject = pushDataFromFormAJAX("audio", "audio", "id", audioPassed, "2"); //delete audio
+					var auth_permissionObject = pushDataFromFormAJAX("auth_permission", "auth_permission", "id", auth_permissionPassed, "2"); //delete auth_permission
 		
-					audioObject.done(function (data){
+					auth_permissionObject.done(function (data){
 		
 						//console.log(data);
 		
@@ -194,17 +195,17 @@ echo $formv1->generateText('url', 'url', '', 'tooltip here');
 		
 							if (data == 1){
 		
-								alert ("audio deleted");
+								alert ("auth_permission deleted");
 								edit = 0;
-								audioPassed = null;
-								window.location.href = siteRoot + "scripts/forms/audioTable.php";
-								//go to audio list
+								auth_permissionPassed = null;
+								window.location.href = siteRoot + "scripts/forms/auth_permissionTable.php";
+								//go to auth_permission list
 		
 							}else {
 		
 							alert("Error, try again");
 		
-							enableFormInputs("audio");
+							enableFormInputs("auth_permission");
 		
 						    }
 		
@@ -220,24 +221,24 @@ echo $formv1->generateText('url', 'url', '', 'tooltip here');
 		
 			}
 		
-			function submitaudioForm (){
+			function submitauth_permissionForm (){
 		
 				//pushDataFromFormAJAX (form, table, identifierKey, identifier, updateType)
 		
 				if (edit == 0){
 		
-					var audioObject = pushDataFromFormAJAX("audio", "audio", "id", null, "0"); //insert new object
+					var auth_permissionObject = pushDataFromFormAJAX("auth_permission", "auth_permission", "id", null, "0"); //insert new object
 		
-					audioObject.done(function (data){
+					auth_permissionObject.done(function (data){
 		
 						//console.log(data);
 		
 						if (data){
 		
-							alert ("New audio no "+data+" created");
+							alert ("New auth_permission no "+data+" created");
 							edit = 1;
 							$("#id").text(data);
-							audioPassed = data;
+							auth_permissionPassed = data;
 							fillForm(data);
 		
 		
@@ -254,9 +255,9 @@ echo $formv1->generateText('url', 'url', '', 'tooltip here');
 		
 				} else if (edit == 1){
 		
-					var audioObject = pushDataFromFormAJAX("audio", "audio", "id", audioPassed, "1"); //insert new object
+					var auth_permissionObject = pushDataFromFormAJAX("auth_permission", "auth_permission", "id", auth_permissionPassed, "1"); //insert new object
 		
-					audioObject.done(function (data){
+					auth_permissionObject.done(function (data){
 		
 						//console.log(data);
 		
@@ -296,7 +297,7 @@ echo $formv1->generateText('url', 'url', '', 'tooltip here');
 		
 				if (edit == 1){
 		
-					fillForm(audioPassed);
+					fillForm(auth_permissionPassed);
 		
 				}
 		
@@ -318,21 +319,21 @@ echo $formv1->generateText('url', 'url', '', 'tooltip here');
 					});
 		
 		
-				$("#content").on('click', '#submitaudio', (function(event) {
+				$("#content").on('click', '#submitauth_permission', (function(event) {
 			        event.preventDefault();
-			        $('#audio').submit();
+			        $('#auth_permission').submit();
 		
 		
 			    }));
 		
-			    $("#content").on('click', '#deleteaudio', (function(event) {
+			    $("#content").on('click', '#deleteauth_permission', (function(event) {
 			        event.preventDefault();
-			        deleteaudio();
+			        deleteauth_permission();
 		
 		
 			    }));
 		
-				$("#audio").validate({
+				$("#auth_permission").validate({
 		
 			        invalidHandler: function(event, validator) {
 			            var errors = validator.numberOfInvalids();
@@ -349,15 +350,17 @@ echo $formv1->generateText('url', 'url', '', 'tooltip here');
 			        },rules: {
 id: { required: true },   
 name: { required: true },   
-url: { required: true },   
+content_type_id: { required: true },   
+codename: { required: true },   
 },messages: {
 id: { required: 'message' },   
 name: { required: 'message' },   
-url: { required: 'message' },   
+content_type_id: { required: 'message' },   
+codename: { required: 'message' },   
 },
 			        submitHandler: function(form) {
 		
-			            submitaudioForm();
+			            submitauth_permissionForm();
 		
 			          	console.log("submitted form");
 		

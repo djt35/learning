@@ -41,7 +41,7 @@
 		
 		<html>
 		<head>
-		    <title>audio Form</title>
+		    <title>users_customuser Form</title>
 		</head>
 		
 		<?php
@@ -60,7 +60,7 @@
 		
 			        <div class='row'>
 		                <div class='col-9'>
-		                    <h2 style="text-align:left;">audio Form</h2>
+		                    <h2 style="text-align:left;">users_customuser Form</h2>
 		                </div>
 		
 		                <div id="messageBox" class='col-3 yellow-light narrow center'>
@@ -73,7 +73,7 @@
 		
 				        if ($id){
 		
-							$q = "SELECT  id  FROM  audio  WHERE  id  = $id";
+							$q = "SELECT  id  FROM  users_customuser  WHERE  id  = $id";
 							if ($general->returnYesNoDBQuery($q) != 1){
 								echo "Passed id does not exist in the database";
 								exit();
@@ -86,12 +86,22 @@
 		
 			        <p>
 		
-					    <form id="audio">
+					    <form id="users_customuser">
 					    <?php echo $formv1->generateText('id', 'id', '', 'tooltip here');
-echo $formv1->generateText('name', 'name', '', 'tooltip here');
-echo $formv1->generateText('url', 'url', '', 'tooltip here');
+echo $formv1->generateText('password', 'password', '', 'tooltip here');
+echo $formv1->generateText('last_login', 'last_login', '', 'tooltip here');
+echo $formv1->generateText('is_superuser', 'is_superuser', '', 'tooltip here');
+echo $formv1->generateText('username', 'username', '', 'tooltip here');
+echo $formv1->generateText('first_name', 'first_name', '', 'tooltip here');
+echo $formv1->generateText('last_name', 'last_name', '', 'tooltip here');
+echo $formv1->generateText('email', 'email', '', 'tooltip here');
+echo $formv1->generateText('is_staff', 'is_staff', '', 'tooltip here');
+echo $formv1->generateText('is_active', 'is_active', '', 'tooltip here');
+echo $formv1->generateText('date_joined', 'date_joined', '', 'tooltip here');
+echo $formv1->generateText('age', 'age', '', 'tooltip here');
+echo $formv1->generateText('institution', 'institution', '', 'tooltip here');
 ?>
-						    <button id="submitaudio">Submit</button>
+						    <button id="submitusers_customuser">Submit</button>
 		
 					    </form>
 		
@@ -105,9 +115,9 @@ echo $formv1->generateText('url', 'url', '', 'tooltip here');
 		<script>
 			var siteRoot = "http://localhost:90/dashboard/learning/";
 		
-			 audioPassed = $("#id").text();
+			 users_customuserPassed = $("#id").text();
 		
-			if ( audioPassed == ""){
+			if ( users_customuserPassed == ""){
 		
 				var edit = 0;
 		
@@ -123,15 +133,15 @@ echo $formv1->generateText('url', 'url', '', 'tooltip here');
 		
 			function fillForm (idPassed){
 		
-				disableFormInputs("audio");
+				disableFormInputs("users_customuser");
 		
-				audioRequired = new Object;
+				users_customuserRequired = new Object;
 		
-				audioRequired = getNamesFormElements("audio");
+				users_customuserRequired = getNamesFormElements("users_customuser");
 		
-				audioString = '`id`=\''+idPassed+'\'';
+				users_customuserString = '`id`=\''+idPassed+'\'';
 		
-				var selectorObject = getDataQuery ("audio", audioString, getNamesFormElements("audio"), 1);
+				var selectorObject = getDataQuery ("users_customuser", users_customuserString, getNamesFormElements("users_customuser"), 1);
 		
 				//console.log(selectorObject);
 		
@@ -150,17 +160,17 @@ echo $formv1->generateText('url', 'url', '', 'tooltip here');
 		
 				    });
 		
-				    enableFormInputs("audio");
+				    enableFormInputs("users_customuser");
 		
 				});
 		
 				try {
 		
-					$("form#audio").find("button#deleteaudio").length();
+					$("form#users_customuser").find("button#deleteusers_customuser").length();
 		
 				}catch(error){
 		
-					$("form#audio").find("button").after("<button id='deleteaudio'>Delete</button>");
+					$("form#users_customuser").find("button").after("<button id='deleteusers_customuser'>Delete</button>");
 		
 				}
 		
@@ -169,24 +179,24 @@ echo $formv1->generateText('url', 'url', '', 'tooltip here');
 		
 			//delete behaviour
 		
-			function deleteaudio (){
+			function deleteusers_customuser (){
 		
-				//audioPassed is the current record, some security to check its also that in the id field
+				//users_customuserPassed is the current record, some security to check its also that in the id field
 		
-				if (audioPassed != $("#id").text()){
+				if (users_customuserPassed != $("#id").text()){
 		
 					return;
 		
 				}
 		
 		
-				if (confirm("Do you wish to delete this audio?")) {
+				if (confirm("Do you wish to delete this users_customuser?")) {
 		
-					disableFormInputs("audio");
+					disableFormInputs("users_customuser");
 		
-					var audioObject = pushDataFromFormAJAX("audio", "audio", "id", audioPassed, "2"); //delete audio
+					var users_customuserObject = pushDataFromFormAJAX("users_customuser", "users_customuser", "id", users_customuserPassed, "2"); //delete users_customuser
 		
-					audioObject.done(function (data){
+					users_customuserObject.done(function (data){
 		
 						//console.log(data);
 		
@@ -194,17 +204,17 @@ echo $formv1->generateText('url', 'url', '', 'tooltip here');
 		
 							if (data == 1){
 		
-								alert ("audio deleted");
+								alert ("users_customuser deleted");
 								edit = 0;
-								audioPassed = null;
-								window.location.href = siteRoot + "scripts/forms/audioTable.php";
-								//go to audio list
+								users_customuserPassed = null;
+								window.location.href = siteRoot + "scripts/forms/users_customuserTable.php";
+								//go to users_customuser list
 		
 							}else {
 		
 							alert("Error, try again");
 		
-							enableFormInputs("audio");
+							enableFormInputs("users_customuser");
 		
 						    }
 		
@@ -220,24 +230,24 @@ echo $formv1->generateText('url', 'url', '', 'tooltip here');
 		
 			}
 		
-			function submitaudioForm (){
+			function submitusers_customuserForm (){
 		
 				//pushDataFromFormAJAX (form, table, identifierKey, identifier, updateType)
 		
 				if (edit == 0){
 		
-					var audioObject = pushDataFromFormAJAX("audio", "audio", "id", null, "0"); //insert new object
+					var users_customuserObject = pushDataFromFormAJAX("users_customuser", "users_customuser", "id", null, "0"); //insert new object
 		
-					audioObject.done(function (data){
+					users_customuserObject.done(function (data){
 		
 						//console.log(data);
 		
 						if (data){
 		
-							alert ("New audio no "+data+" created");
+							alert ("New users_customuser no "+data+" created");
 							edit = 1;
 							$("#id").text(data);
-							audioPassed = data;
+							users_customuserPassed = data;
 							fillForm(data);
 		
 		
@@ -254,9 +264,9 @@ echo $formv1->generateText('url', 'url', '', 'tooltip here');
 		
 				} else if (edit == 1){
 		
-					var audioObject = pushDataFromFormAJAX("audio", "audio", "id", audioPassed, "1"); //insert new object
+					var users_customuserObject = pushDataFromFormAJAX("users_customuser", "users_customuser", "id", users_customuserPassed, "1"); //insert new object
 		
-					audioObject.done(function (data){
+					users_customuserObject.done(function (data){
 		
 						//console.log(data);
 		
@@ -296,7 +306,7 @@ echo $formv1->generateText('url', 'url', '', 'tooltip here');
 		
 				if (edit == 1){
 		
-					fillForm(audioPassed);
+					fillForm(users_customuserPassed);
 		
 				}
 		
@@ -318,21 +328,21 @@ echo $formv1->generateText('url', 'url', '', 'tooltip here');
 					});
 		
 		
-				$("#content").on('click', '#submitaudio', (function(event) {
+				$("#content").on('click', '#submitusers_customuser', (function(event) {
 			        event.preventDefault();
-			        $('#audio').submit();
+			        $('#users_customuser').submit();
 		
 		
 			    }));
 		
-			    $("#content").on('click', '#deleteaudio', (function(event) {
+			    $("#content").on('click', '#deleteusers_customuser', (function(event) {
 			        event.preventDefault();
-			        deleteaudio();
+			        deleteusers_customuser();
 		
 		
 			    }));
 		
-				$("#audio").validate({
+				$("#users_customuser").validate({
 		
 			        invalidHandler: function(event, validator) {
 			            var errors = validator.numberOfInvalids();
@@ -348,16 +358,36 @@ echo $formv1->generateText('url', 'url', '', 'tooltip here');
 			            }
 			        },rules: {
 id: { required: true },   
-name: { required: true },   
-url: { required: true },   
+password: { required: true },   
+last_login: { required: true },   
+is_superuser: { required: true },   
+username: { required: true },   
+first_name: { required: true },   
+last_name: { required: true },   
+email: { required: true },   
+is_staff: { required: true },   
+is_active: { required: true },   
+date_joined: { required: true },   
+age: { required: true },   
+institution: { required: true },   
 },messages: {
 id: { required: 'message' },   
-name: { required: 'message' },   
-url: { required: 'message' },   
+password: { required: 'message' },   
+last_login: { required: 'message' },   
+is_superuser: { required: 'message' },   
+username: { required: 'message' },   
+first_name: { required: 'message' },   
+last_name: { required: 'message' },   
+email: { required: 'message' },   
+is_staff: { required: 'message' },   
+is_active: { required: 'message' },   
+date_joined: { required: 'message' },   
+age: { required: 'message' },   
+institution: { required: 'message' },   
 },
 			        submitHandler: function(form) {
 		
-			            submitaudioForm();
+			            submitusers_customuserForm();
 		
 			          	console.log("submitted form");
 		

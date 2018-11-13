@@ -116,28 +116,13 @@ $databaseIdentifier = 'id';
 $title = 'Chapter Form';
 $pageURLIdentifier = 'id';
 
-
-$datafields = array();
-
-$datafields[1] = array(
-	
-	'$databaseTable' => 'chapter',
-	'$databaseIdentifier' => 'id',
-	'$title' => 'Chapter Form',
-	'$pageURLIdentifier' => 'id',
-	
-	
-);
-
-print_r($datafields);
-
-
-
 ?>
 
 
 
 <?php
+
+function createForm($databaseTable, $databaseIdentifier, $title, $pageURLIdentifier) {
 
 $file_in = "
 
@@ -233,10 +218,10 @@ include(\$root . \"/includes/naviCreator.php\");
 			    <form id=\"$databaseTable\">
 			    <?php ";
 
-ob_start();
-$general->generateFormField($databaseTable);
-$file_in .= ob_get_contents();
-ob_end_clean();
+//ob_start();
+//$general->generateFormField($databaseTable);
+//$file_in .= ob_get_contents();
+//ob_end_clean();
 
 
 //echo $general->generateFormField($databaseTable);
@@ -551,7 +536,11 @@ $file_in .= "
 </body>
 </html>";
 
-print_r($file_in);
+return $file_in;
+
+}
+
+$returned = createForm('video', 'id', 'Video Form', 'id');
 print_r(createWritableFolder($root . "scripts/fileCreators/files"));
 
-SaveFile($root . "scripts/fileCreators/files/{$databaseTable}Form.php", $file_in);
+SaveFile($root . "scripts/fileCreators/files/{$databaseTable}Form.php", $returned);

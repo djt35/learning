@@ -41,7 +41,7 @@
 		
 		<html>
 		<head>
-		    <title>audio Form</title>
+		    <title>slideImages Form</title>
 		</head>
 		
 		<?php
@@ -60,7 +60,7 @@
 		
 			        <div class='row'>
 		                <div class='col-9'>
-		                    <h2 style="text-align:left;">audio Form</h2>
+		                    <h2 style="text-align:left;">slideImages Form</h2>
 		                </div>
 		
 		                <div id="messageBox" class='col-3 yellow-light narrow center'>
@@ -73,7 +73,7 @@
 		
 				        if ($id){
 		
-							$q = "SELECT  id  FROM  audio  WHERE  id  = $id";
+							$q = "SELECT  id  FROM  slideImages  WHERE  id  = $id";
 							if ($general->returnYesNoDBQuery($q) != 1){
 								echo "Passed id does not exist in the database";
 								exit();
@@ -86,12 +86,12 @@
 		
 			        <p>
 		
-					    <form id="audio">
+					    <form id="slideImages">
 					    <?php echo $formv1->generateText('id', 'id', '', 'tooltip here');
-echo $formv1->generateText('name', 'name', '', 'tooltip here');
-echo $formv1->generateText('url', 'url', '', 'tooltip here');
+echo $formv1->generateText('images_id', 'images_id', '', 'tooltip here');
+echo $formv1->generateText('slide_id', 'slide_id', '', 'tooltip here');
 ?>
-						    <button id="submitaudio">Submit</button>
+						    <button id="submitslideImages">Submit</button>
 		
 					    </form>
 		
@@ -105,9 +105,9 @@ echo $formv1->generateText('url', 'url', '', 'tooltip here');
 		<script>
 			var siteRoot = "http://localhost:90/dashboard/learning/";
 		
-			 audioPassed = $("#id").text();
+			 slideImagesPassed = $("#id").text();
 		
-			if ( audioPassed == ""){
+			if ( slideImagesPassed == ""){
 		
 				var edit = 0;
 		
@@ -123,15 +123,15 @@ echo $formv1->generateText('url', 'url', '', 'tooltip here');
 		
 			function fillForm (idPassed){
 		
-				disableFormInputs("audio");
+				disableFormInputs("slideImages");
 		
-				audioRequired = new Object;
+				slideImagesRequired = new Object;
 		
-				audioRequired = getNamesFormElements("audio");
+				slideImagesRequired = getNamesFormElements("slideImages");
 		
-				audioString = '`id`=\''+idPassed+'\'';
+				slideImagesString = '`id`=\''+idPassed+'\'';
 		
-				var selectorObject = getDataQuery ("audio", audioString, getNamesFormElements("audio"), 1);
+				var selectorObject = getDataQuery ("slideImages", slideImagesString, getNamesFormElements("slideImages"), 1);
 		
 				//console.log(selectorObject);
 		
@@ -150,17 +150,17 @@ echo $formv1->generateText('url', 'url', '', 'tooltip here');
 		
 				    });
 		
-				    enableFormInputs("audio");
+				    enableFormInputs("slideImages");
 		
 				});
 		
 				try {
 		
-					$("form#audio").find("button#deleteaudio").length();
+					$("form#slideImages").find("button#deleteslideImages").length();
 		
 				}catch(error){
 		
-					$("form#audio").find("button").after("<button id='deleteaudio'>Delete</button>");
+					$("form#slideImages").find("button").after("<button id='deleteslideImages'>Delete</button>");
 		
 				}
 		
@@ -169,24 +169,24 @@ echo $formv1->generateText('url', 'url', '', 'tooltip here');
 		
 			//delete behaviour
 		
-			function deleteaudio (){
+			function deleteslideImages (){
 		
-				//audioPassed is the current record, some security to check its also that in the id field
+				//slideImagesPassed is the current record, some security to check its also that in the id field
 		
-				if (audioPassed != $("#id").text()){
+				if (slideImagesPassed != $("#id").text()){
 		
 					return;
 		
 				}
 		
 		
-				if (confirm("Do you wish to delete this audio?")) {
+				if (confirm("Do you wish to delete this slideImages?")) {
 		
-					disableFormInputs("audio");
+					disableFormInputs("slideImages");
 		
-					var audioObject = pushDataFromFormAJAX("audio", "audio", "id", audioPassed, "2"); //delete audio
+					var slideImagesObject = pushDataFromFormAJAX("slideImages", "slideImages", "id", slideImagesPassed, "2"); //delete slideImages
 		
-					audioObject.done(function (data){
+					slideImagesObject.done(function (data){
 		
 						//console.log(data);
 		
@@ -194,17 +194,17 @@ echo $formv1->generateText('url', 'url', '', 'tooltip here');
 		
 							if (data == 1){
 		
-								alert ("audio deleted");
+								alert ("slideImages deleted");
 								edit = 0;
-								audioPassed = null;
-								window.location.href = siteRoot + "scripts/forms/audioTable.php";
-								//go to audio list
+								slideImagesPassed = null;
+								window.location.href = siteRoot + "scripts/forms/slideImagesTable.php";
+								//go to slideImages list
 		
 							}else {
 		
 							alert("Error, try again");
 		
-							enableFormInputs("audio");
+							enableFormInputs("slideImages");
 		
 						    }
 		
@@ -220,24 +220,24 @@ echo $formv1->generateText('url', 'url', '', 'tooltip here');
 		
 			}
 		
-			function submitaudioForm (){
+			function submitslideImagesForm (){
 		
 				//pushDataFromFormAJAX (form, table, identifierKey, identifier, updateType)
 		
 				if (edit == 0){
 		
-					var audioObject = pushDataFromFormAJAX("audio", "audio", "id", null, "0"); //insert new object
+					var slideImagesObject = pushDataFromFormAJAX("slideImages", "slideImages", "id", null, "0"); //insert new object
 		
-					audioObject.done(function (data){
+					slideImagesObject.done(function (data){
 		
 						//console.log(data);
 		
 						if (data){
 		
-							alert ("New audio no "+data+" created");
+							alert ("New slideImages no "+data+" created");
 							edit = 1;
 							$("#id").text(data);
-							audioPassed = data;
+							slideImagesPassed = data;
 							fillForm(data);
 		
 		
@@ -254,9 +254,9 @@ echo $formv1->generateText('url', 'url', '', 'tooltip here');
 		
 				} else if (edit == 1){
 		
-					var audioObject = pushDataFromFormAJAX("audio", "audio", "id", audioPassed, "1"); //insert new object
+					var slideImagesObject = pushDataFromFormAJAX("slideImages", "slideImages", "id", slideImagesPassed, "1"); //insert new object
 		
-					audioObject.done(function (data){
+					slideImagesObject.done(function (data){
 		
 						//console.log(data);
 		
@@ -296,7 +296,7 @@ echo $formv1->generateText('url', 'url', '', 'tooltip here');
 		
 				if (edit == 1){
 		
-					fillForm(audioPassed);
+					fillForm(slideImagesPassed);
 		
 				}
 		
@@ -318,21 +318,21 @@ echo $formv1->generateText('url', 'url', '', 'tooltip here');
 					});
 		
 		
-				$("#content").on('click', '#submitaudio', (function(event) {
+				$("#content").on('click', '#submitslideImages', (function(event) {
 			        event.preventDefault();
-			        $('#audio').submit();
+			        $('#slideImages').submit();
 		
 		
 			    }));
 		
-			    $("#content").on('click', '#deleteaudio', (function(event) {
+			    $("#content").on('click', '#deleteslideImages', (function(event) {
 			        event.preventDefault();
-			        deleteaudio();
+			        deleteslideImages();
 		
 		
 			    }));
 		
-				$("#audio").validate({
+				$("#slideImages").validate({
 		
 			        invalidHandler: function(event, validator) {
 			            var errors = validator.numberOfInvalids();
@@ -348,16 +348,16 @@ echo $formv1->generateText('url', 'url', '', 'tooltip here');
 			            }
 			        },rules: {
 id: { required: true },   
-name: { required: true },   
-url: { required: true },   
+images_id: { required: true },   
+slide_id: { required: true },   
 },messages: {
 id: { required: 'message' },   
-name: { required: 'message' },   
-url: { required: 'message' },   
+images_id: { required: 'message' },   
+slide_id: { required: 'message' },   
 },
 			        submitHandler: function(form) {
 		
-			            submitaudioForm();
+			            submitslideImagesForm();
 		
 			          	console.log("submitted form");
 		

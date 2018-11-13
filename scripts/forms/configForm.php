@@ -41,7 +41,7 @@
 		
 		<html>
 		<head>
-		    <title>audio Form</title>
+		    <title>config Form</title>
 		</head>
 		
 		<?php
@@ -60,7 +60,7 @@
 		
 			        <div class='row'>
 		                <div class='col-9'>
-		                    <h2 style="text-align:left;">audio Form</h2>
+		                    <h2 style="text-align:left;">config Form</h2>
 		                </div>
 		
 		                <div id="messageBox" class='col-3 yellow-light narrow center'>
@@ -73,7 +73,7 @@
 		
 				        if ($id){
 		
-							$q = "SELECT  id  FROM  audio  WHERE  id  = $id";
+							$q = "SELECT  id  FROM  config  WHERE  id  = $id";
 							if ($general->returnYesNoDBQuery($q) != 1){
 								echo "Passed id does not exist in the database";
 								exit();
@@ -86,12 +86,12 @@
 		
 			        <p>
 		
-					    <form id="audio">
+					    <form id="config">
 					    <?php echo $formv1->generateText('id', 'id', '', 'tooltip here');
-echo $formv1->generateText('name', 'name', '', 'tooltip here');
-echo $formv1->generateText('url', 'url', '', 'tooltip here');
+echo $formv1->generateText('siteActive', 'siteActive', '', 'tooltip here');
+echo $formv1->generateText('userid', 'userid', '', 'tooltip here');
 ?>
-						    <button id="submitaudio">Submit</button>
+						    <button id="submitconfig">Submit</button>
 		
 					    </form>
 		
@@ -105,9 +105,9 @@ echo $formv1->generateText('url', 'url', '', 'tooltip here');
 		<script>
 			var siteRoot = "http://localhost:90/dashboard/learning/";
 		
-			 audioPassed = $("#id").text();
+			 configPassed = $("#id").text();
 		
-			if ( audioPassed == ""){
+			if ( configPassed == ""){
 		
 				var edit = 0;
 		
@@ -123,15 +123,15 @@ echo $formv1->generateText('url', 'url', '', 'tooltip here');
 		
 			function fillForm (idPassed){
 		
-				disableFormInputs("audio");
+				disableFormInputs("config");
 		
-				audioRequired = new Object;
+				configRequired = new Object;
 		
-				audioRequired = getNamesFormElements("audio");
+				configRequired = getNamesFormElements("config");
 		
-				audioString = '`id`=\''+idPassed+'\'';
+				configString = '`id`=\''+idPassed+'\'';
 		
-				var selectorObject = getDataQuery ("audio", audioString, getNamesFormElements("audio"), 1);
+				var selectorObject = getDataQuery ("config", configString, getNamesFormElements("config"), 1);
 		
 				//console.log(selectorObject);
 		
@@ -150,17 +150,17 @@ echo $formv1->generateText('url', 'url', '', 'tooltip here');
 		
 				    });
 		
-				    enableFormInputs("audio");
+				    enableFormInputs("config");
 		
 				});
 		
 				try {
 		
-					$("form#audio").find("button#deleteaudio").length();
+					$("form#config").find("button#deleteconfig").length();
 		
 				}catch(error){
 		
-					$("form#audio").find("button").after("<button id='deleteaudio'>Delete</button>");
+					$("form#config").find("button").after("<button id='deleteconfig'>Delete</button>");
 		
 				}
 		
@@ -169,24 +169,24 @@ echo $formv1->generateText('url', 'url', '', 'tooltip here');
 		
 			//delete behaviour
 		
-			function deleteaudio (){
+			function deleteconfig (){
 		
-				//audioPassed is the current record, some security to check its also that in the id field
+				//configPassed is the current record, some security to check its also that in the id field
 		
-				if (audioPassed != $("#id").text()){
+				if (configPassed != $("#id").text()){
 		
 					return;
 		
 				}
 		
 		
-				if (confirm("Do you wish to delete this audio?")) {
+				if (confirm("Do you wish to delete this config?")) {
 		
-					disableFormInputs("audio");
+					disableFormInputs("config");
 		
-					var audioObject = pushDataFromFormAJAX("audio", "audio", "id", audioPassed, "2"); //delete audio
+					var configObject = pushDataFromFormAJAX("config", "config", "id", configPassed, "2"); //delete config
 		
-					audioObject.done(function (data){
+					configObject.done(function (data){
 		
 						//console.log(data);
 		
@@ -194,17 +194,17 @@ echo $formv1->generateText('url', 'url', '', 'tooltip here');
 		
 							if (data == 1){
 		
-								alert ("audio deleted");
+								alert ("config deleted");
 								edit = 0;
-								audioPassed = null;
-								window.location.href = siteRoot + "scripts/forms/audioTable.php";
-								//go to audio list
+								configPassed = null;
+								window.location.href = siteRoot + "scripts/forms/configTable.php";
+								//go to config list
 		
 							}else {
 		
 							alert("Error, try again");
 		
-							enableFormInputs("audio");
+							enableFormInputs("config");
 		
 						    }
 		
@@ -220,24 +220,24 @@ echo $formv1->generateText('url', 'url', '', 'tooltip here');
 		
 			}
 		
-			function submitaudioForm (){
+			function submitconfigForm (){
 		
 				//pushDataFromFormAJAX (form, table, identifierKey, identifier, updateType)
 		
 				if (edit == 0){
 		
-					var audioObject = pushDataFromFormAJAX("audio", "audio", "id", null, "0"); //insert new object
+					var configObject = pushDataFromFormAJAX("config", "config", "id", null, "0"); //insert new object
 		
-					audioObject.done(function (data){
+					configObject.done(function (data){
 		
 						//console.log(data);
 		
 						if (data){
 		
-							alert ("New audio no "+data+" created");
+							alert ("New config no "+data+" created");
 							edit = 1;
 							$("#id").text(data);
-							audioPassed = data;
+							configPassed = data;
 							fillForm(data);
 		
 		
@@ -254,9 +254,9 @@ echo $formv1->generateText('url', 'url', '', 'tooltip here');
 		
 				} else if (edit == 1){
 		
-					var audioObject = pushDataFromFormAJAX("audio", "audio", "id", audioPassed, "1"); //insert new object
+					var configObject = pushDataFromFormAJAX("config", "config", "id", configPassed, "1"); //insert new object
 		
-					audioObject.done(function (data){
+					configObject.done(function (data){
 		
 						//console.log(data);
 		
@@ -296,7 +296,7 @@ echo $formv1->generateText('url', 'url', '', 'tooltip here');
 		
 				if (edit == 1){
 		
-					fillForm(audioPassed);
+					fillForm(configPassed);
 		
 				}
 		
@@ -318,21 +318,21 @@ echo $formv1->generateText('url', 'url', '', 'tooltip here');
 					});
 		
 		
-				$("#content").on('click', '#submitaudio', (function(event) {
+				$("#content").on('click', '#submitconfig', (function(event) {
 			        event.preventDefault();
-			        $('#audio').submit();
+			        $('#config').submit();
 		
 		
 			    }));
 		
-			    $("#content").on('click', '#deleteaudio', (function(event) {
+			    $("#content").on('click', '#deleteconfig', (function(event) {
 			        event.preventDefault();
-			        deleteaudio();
+			        deleteconfig();
 		
 		
 			    }));
 		
-				$("#audio").validate({
+				$("#config").validate({
 		
 			        invalidHandler: function(event, validator) {
 			            var errors = validator.numberOfInvalids();
@@ -348,16 +348,16 @@ echo $formv1->generateText('url', 'url', '', 'tooltip here');
 			            }
 			        },rules: {
 id: { required: true },   
-name: { required: true },   
-url: { required: true },   
+siteActive: { required: true },   
+userid: { required: true },   
 },messages: {
 id: { required: 'message' },   
-name: { required: 'message' },   
-url: { required: 'message' },   
+siteActive: { required: 'message' },   
+userid: { required: 'message' },   
 },
 			        submitHandler: function(form) {
 		
-			            submitaudioForm();
+			            submitconfigForm();
 		
 			          	console.log("submitted form");
 		

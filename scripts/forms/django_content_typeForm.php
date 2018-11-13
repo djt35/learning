@@ -41,7 +41,7 @@
 		
 		<html>
 		<head>
-		    <title>audio Form</title>
+		    <title>django_content_type Form</title>
 		</head>
 		
 		<?php
@@ -60,7 +60,7 @@
 		
 			        <div class='row'>
 		                <div class='col-9'>
-		                    <h2 style="text-align:left;">audio Form</h2>
+		                    <h2 style="text-align:left;">django_content_type Form</h2>
 		                </div>
 		
 		                <div id="messageBox" class='col-3 yellow-light narrow center'>
@@ -73,7 +73,7 @@
 		
 				        if ($id){
 		
-							$q = "SELECT  id  FROM  audio  WHERE  id  = $id";
+							$q = "SELECT  id  FROM  django_content_type  WHERE  id  = $id";
 							if ($general->returnYesNoDBQuery($q) != 1){
 								echo "Passed id does not exist in the database";
 								exit();
@@ -86,12 +86,12 @@
 		
 			        <p>
 		
-					    <form id="audio">
+					    <form id="django_content_type">
 					    <?php echo $formv1->generateText('id', 'id', '', 'tooltip here');
-echo $formv1->generateText('name', 'name', '', 'tooltip here');
-echo $formv1->generateText('url', 'url', '', 'tooltip here');
+echo $formv1->generateText('app_label', 'app_label', '', 'tooltip here');
+echo $formv1->generateText('model', 'model', '', 'tooltip here');
 ?>
-						    <button id="submitaudio">Submit</button>
+						    <button id="submitdjango_content_type">Submit</button>
 		
 					    </form>
 		
@@ -105,9 +105,9 @@ echo $formv1->generateText('url', 'url', '', 'tooltip here');
 		<script>
 			var siteRoot = "http://localhost:90/dashboard/learning/";
 		
-			 audioPassed = $("#id").text();
+			 django_content_typePassed = $("#id").text();
 		
-			if ( audioPassed == ""){
+			if ( django_content_typePassed == ""){
 		
 				var edit = 0;
 		
@@ -123,15 +123,15 @@ echo $formv1->generateText('url', 'url', '', 'tooltip here');
 		
 			function fillForm (idPassed){
 		
-				disableFormInputs("audio");
+				disableFormInputs("django_content_type");
 		
-				audioRequired = new Object;
+				django_content_typeRequired = new Object;
 		
-				audioRequired = getNamesFormElements("audio");
+				django_content_typeRequired = getNamesFormElements("django_content_type");
 		
-				audioString = '`id`=\''+idPassed+'\'';
+				django_content_typeString = '`id`=\''+idPassed+'\'';
 		
-				var selectorObject = getDataQuery ("audio", audioString, getNamesFormElements("audio"), 1);
+				var selectorObject = getDataQuery ("django_content_type", django_content_typeString, getNamesFormElements("django_content_type"), 1);
 		
 				//console.log(selectorObject);
 		
@@ -150,17 +150,17 @@ echo $formv1->generateText('url', 'url', '', 'tooltip here');
 		
 				    });
 		
-				    enableFormInputs("audio");
+				    enableFormInputs("django_content_type");
 		
 				});
 		
 				try {
 		
-					$("form#audio").find("button#deleteaudio").length();
+					$("form#django_content_type").find("button#deletedjango_content_type").length();
 		
 				}catch(error){
 		
-					$("form#audio").find("button").after("<button id='deleteaudio'>Delete</button>");
+					$("form#django_content_type").find("button").after("<button id='deletedjango_content_type'>Delete</button>");
 		
 				}
 		
@@ -169,24 +169,24 @@ echo $formv1->generateText('url', 'url', '', 'tooltip here');
 		
 			//delete behaviour
 		
-			function deleteaudio (){
+			function deletedjango_content_type (){
 		
-				//audioPassed is the current record, some security to check its also that in the id field
+				//django_content_typePassed is the current record, some security to check its also that in the id field
 		
-				if (audioPassed != $("#id").text()){
+				if (django_content_typePassed != $("#id").text()){
 		
 					return;
 		
 				}
 		
 		
-				if (confirm("Do you wish to delete this audio?")) {
+				if (confirm("Do you wish to delete this django_content_type?")) {
 		
-					disableFormInputs("audio");
+					disableFormInputs("django_content_type");
 		
-					var audioObject = pushDataFromFormAJAX("audio", "audio", "id", audioPassed, "2"); //delete audio
+					var django_content_typeObject = pushDataFromFormAJAX("django_content_type", "django_content_type", "id", django_content_typePassed, "2"); //delete django_content_type
 		
-					audioObject.done(function (data){
+					django_content_typeObject.done(function (data){
 		
 						//console.log(data);
 		
@@ -194,17 +194,17 @@ echo $formv1->generateText('url', 'url', '', 'tooltip here');
 		
 							if (data == 1){
 		
-								alert ("audio deleted");
+								alert ("django_content_type deleted");
 								edit = 0;
-								audioPassed = null;
-								window.location.href = siteRoot + "scripts/forms/audioTable.php";
-								//go to audio list
+								django_content_typePassed = null;
+								window.location.href = siteRoot + "scripts/forms/django_content_typeTable.php";
+								//go to django_content_type list
 		
 							}else {
 		
 							alert("Error, try again");
 		
-							enableFormInputs("audio");
+							enableFormInputs("django_content_type");
 		
 						    }
 		
@@ -220,24 +220,24 @@ echo $formv1->generateText('url', 'url', '', 'tooltip here');
 		
 			}
 		
-			function submitaudioForm (){
+			function submitdjango_content_typeForm (){
 		
 				//pushDataFromFormAJAX (form, table, identifierKey, identifier, updateType)
 		
 				if (edit == 0){
 		
-					var audioObject = pushDataFromFormAJAX("audio", "audio", "id", null, "0"); //insert new object
+					var django_content_typeObject = pushDataFromFormAJAX("django_content_type", "django_content_type", "id", null, "0"); //insert new object
 		
-					audioObject.done(function (data){
+					django_content_typeObject.done(function (data){
 		
 						//console.log(data);
 		
 						if (data){
 		
-							alert ("New audio no "+data+" created");
+							alert ("New django_content_type no "+data+" created");
 							edit = 1;
 							$("#id").text(data);
-							audioPassed = data;
+							django_content_typePassed = data;
 							fillForm(data);
 		
 		
@@ -254,9 +254,9 @@ echo $formv1->generateText('url', 'url', '', 'tooltip here');
 		
 				} else if (edit == 1){
 		
-					var audioObject = pushDataFromFormAJAX("audio", "audio", "id", audioPassed, "1"); //insert new object
+					var django_content_typeObject = pushDataFromFormAJAX("django_content_type", "django_content_type", "id", django_content_typePassed, "1"); //insert new object
 		
-					audioObject.done(function (data){
+					django_content_typeObject.done(function (data){
 		
 						//console.log(data);
 		
@@ -296,7 +296,7 @@ echo $formv1->generateText('url', 'url', '', 'tooltip here');
 		
 				if (edit == 1){
 		
-					fillForm(audioPassed);
+					fillForm(django_content_typePassed);
 		
 				}
 		
@@ -318,21 +318,21 @@ echo $formv1->generateText('url', 'url', '', 'tooltip here');
 					});
 		
 		
-				$("#content").on('click', '#submitaudio', (function(event) {
+				$("#content").on('click', '#submitdjango_content_type', (function(event) {
 			        event.preventDefault();
-			        $('#audio').submit();
+			        $('#django_content_type').submit();
 		
 		
 			    }));
 		
-			    $("#content").on('click', '#deleteaudio', (function(event) {
+			    $("#content").on('click', '#deletedjango_content_type', (function(event) {
 			        event.preventDefault();
-			        deleteaudio();
+			        deletedjango_content_type();
 		
 		
 			    }));
 		
-				$("#audio").validate({
+				$("#django_content_type").validate({
 		
 			        invalidHandler: function(event, validator) {
 			            var errors = validator.numberOfInvalids();
@@ -348,16 +348,16 @@ echo $formv1->generateText('url', 'url', '', 'tooltip here');
 			            }
 			        },rules: {
 id: { required: true },   
-name: { required: true },   
-url: { required: true },   
+app_label: { required: true },   
+model: { required: true },   
 },messages: {
 id: { required: 'message' },   
-name: { required: 'message' },   
-url: { required: 'message' },   
+app_label: { required: 'message' },   
+model: { required: 'message' },   
 },
 			        submitHandler: function(form) {
 		
-			            submitaudioForm();
+			            submitdjango_content_typeForm();
 		
 			          	console.log("submitted form");
 		

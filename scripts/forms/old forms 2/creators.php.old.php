@@ -51,27 +51,6 @@ $page_title = 'User Editor';
 include($root . '/includes/header.php');
 include($root . '/includes/naviCreator.php');
 
-$columns = $formv1->getAllDatabaseTables();
-
-$datafields = array();
-
-$x=0;
-
-foreach ($columns as $key=>$value){
-	
-	if 	($table != $value['table']) {
-
-	
-		$table = $value['table'];
-		//$identifier = $value['name'];
-		
-		$datafields[$x] = array ('databaseTable' => $table); 
-		
-		$x++;
-	
-	}
-		
-} 
 
 
 
@@ -116,41 +95,65 @@ foreach ($columns as $key=>$value){
                 <div class="col-2"></div>
             </div>
 	        
-	        
-	        <?php
-	        foreach ($datafields as $key=>$value){
-		        
-		        $name = $value['databaseTable'];
-		        
-		       echo '
-		       
-		       <div class="row">
-                <div class="col-4"><b>'.$name.'</b></div>
+	         <div class="row">
+                <div class="col-4"><b>Video</b></div>
 
                 <div class="col-4 narrow">
-                    <p><a href=\''.$roothttp.'scripts/forms/'.$name.'Form.php\'>New</a></p>
+                    <p>New</p>
                 </div>
                 
                 <div class="col-4 narrow">
-                     <p><a href=\''.$roothttp.'scripts/forms/'.$name.'Table.php\'>Modify</a></p>                    
+                     <p><a href='<?php echo $roothttp.'scripts/forms/videoTable.php';?>'>Modify</a></p>                    
+                </div>
+
+
+                
+            </div>
+	        
+	        <div class="row">
+                <div class="col-4"><b>Tag</b></div>
+
+                <div class="col-4 narrow">
+                    <p>New</p>
+                </div>
+                
+                <div class="col-4 narrow">
+                    <p>Modify</p>
                 </div>
 
 
                 
             </div>
             
-            ';
-		        
-		          
-	        }
-	        
-	        
-	        
-	        
-	         
+            <div class="row">
+                <div class="col-4"><b>User</b></div>
+
+                <div class="col-4 narrow">
+                    <p><a href='<?php echo $roothttp.'/scripts/forms/userForm.php';?>'>New</a></p>
+                </div>
+                
+                <div class="col-4 narrow">
+                    <p><a href='<?php echo $roothttp.'/scripts/forms/userTable.php';?>'>Modify</a></p>
+                </div>
+
+
+                
+            </div>
             
-            ?>
-	        
+            <div class="row">
+                <div class="col-4"><b>Audio</b></div>
+
+                <div class="col-4 narrow">
+                    <p><a href='<?php echo $roothttp.'/scripts/forms/audioForm.php';?>'>New</a></p>
+                </div>
+                
+                <div class="col-4 narrow">
+                    <p><a href='<?php echo $roothttp.'/scripts/forms/audioTable.php';?>'>Modify</a></p>
+                </div>
+
+
+                
+            </div>
 	        		        
 		    <div class="row">
                 <div class="col-4"><b>Helpers</b></div>

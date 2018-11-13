@@ -41,7 +41,7 @@
 		
 		<html>
 		<head>
-		    <title>audio Form</title>
+		    <title>learningToolSlides Form</title>
 		</head>
 		
 		<?php
@@ -60,7 +60,7 @@
 		
 			        <div class='row'>
 		                <div class='col-9'>
-		                    <h2 style="text-align:left;">audio Form</h2>
+		                    <h2 style="text-align:left;">learningToolSlides Form</h2>
 		                </div>
 		
 		                <div id="messageBox" class='col-3 yellow-light narrow center'>
@@ -73,7 +73,7 @@
 		
 				        if ($id){
 		
-							$q = "SELECT  id  FROM  audio  WHERE  id  = $id";
+							$q = "SELECT  id  FROM  learningToolSlides  WHERE  id  = $id";
 							if ($general->returnYesNoDBQuery($q) != 1){
 								echo "Passed id does not exist in the database";
 								exit();
@@ -86,12 +86,13 @@
 		
 			        <p>
 		
-					    <form id="audio">
+					    <form id="learningToolSlides">
 					    <?php echo $formv1->generateText('id', 'id', '', 'tooltip here');
-echo $formv1->generateText('name', 'name', '', 'tooltip here');
-echo $formv1->generateText('url', 'url', '', 'tooltip here');
+echo $formv1->generateText('slideorder', 'slideorder', '', 'tooltip here');
+echo $formv1->generateText('slide_id', 'slide_id', '', 'tooltip here');
+echo $formv1->generateText('learningTool_id', 'learningTool_id', '', 'tooltip here');
 ?>
-						    <button id="submitaudio">Submit</button>
+						    <button id="submitlearningToolSlides">Submit</button>
 		
 					    </form>
 		
@@ -105,9 +106,9 @@ echo $formv1->generateText('url', 'url', '', 'tooltip here');
 		<script>
 			var siteRoot = "http://localhost:90/dashboard/learning/";
 		
-			 audioPassed = $("#id").text();
+			 learningToolSlidesPassed = $("#id").text();
 		
-			if ( audioPassed == ""){
+			if ( learningToolSlidesPassed == ""){
 		
 				var edit = 0;
 		
@@ -123,15 +124,15 @@ echo $formv1->generateText('url', 'url', '', 'tooltip here');
 		
 			function fillForm (idPassed){
 		
-				disableFormInputs("audio");
+				disableFormInputs("learningToolSlides");
 		
-				audioRequired = new Object;
+				learningToolSlidesRequired = new Object;
 		
-				audioRequired = getNamesFormElements("audio");
+				learningToolSlidesRequired = getNamesFormElements("learningToolSlides");
 		
-				audioString = '`id`=\''+idPassed+'\'';
+				learningToolSlidesString = '`id`=\''+idPassed+'\'';
 		
-				var selectorObject = getDataQuery ("audio", audioString, getNamesFormElements("audio"), 1);
+				var selectorObject = getDataQuery ("learningToolSlides", learningToolSlidesString, getNamesFormElements("learningToolSlides"), 1);
 		
 				//console.log(selectorObject);
 		
@@ -150,17 +151,17 @@ echo $formv1->generateText('url', 'url', '', 'tooltip here');
 		
 				    });
 		
-				    enableFormInputs("audio");
+				    enableFormInputs("learningToolSlides");
 		
 				});
 		
 				try {
 		
-					$("form#audio").find("button#deleteaudio").length();
+					$("form#learningToolSlides").find("button#deletelearningToolSlides").length();
 		
 				}catch(error){
 		
-					$("form#audio").find("button").after("<button id='deleteaudio'>Delete</button>");
+					$("form#learningToolSlides").find("button").after("<button id='deletelearningToolSlides'>Delete</button>");
 		
 				}
 		
@@ -169,24 +170,24 @@ echo $formv1->generateText('url', 'url', '', 'tooltip here');
 		
 			//delete behaviour
 		
-			function deleteaudio (){
+			function deletelearningToolSlides (){
 		
-				//audioPassed is the current record, some security to check its also that in the id field
+				//learningToolSlidesPassed is the current record, some security to check its also that in the id field
 		
-				if (audioPassed != $("#id").text()){
+				if (learningToolSlidesPassed != $("#id").text()){
 		
 					return;
 		
 				}
 		
 		
-				if (confirm("Do you wish to delete this audio?")) {
+				if (confirm("Do you wish to delete this learningToolSlides?")) {
 		
-					disableFormInputs("audio");
+					disableFormInputs("learningToolSlides");
 		
-					var audioObject = pushDataFromFormAJAX("audio", "audio", "id", audioPassed, "2"); //delete audio
+					var learningToolSlidesObject = pushDataFromFormAJAX("learningToolSlides", "learningToolSlides", "id", learningToolSlidesPassed, "2"); //delete learningToolSlides
 		
-					audioObject.done(function (data){
+					learningToolSlidesObject.done(function (data){
 		
 						//console.log(data);
 		
@@ -194,17 +195,17 @@ echo $formv1->generateText('url', 'url', '', 'tooltip here');
 		
 							if (data == 1){
 		
-								alert ("audio deleted");
+								alert ("learningToolSlides deleted");
 								edit = 0;
-								audioPassed = null;
-								window.location.href = siteRoot + "scripts/forms/audioTable.php";
-								//go to audio list
+								learningToolSlidesPassed = null;
+								window.location.href = siteRoot + "scripts/forms/learningToolSlidesTable.php";
+								//go to learningToolSlides list
 		
 							}else {
 		
 							alert("Error, try again");
 		
-							enableFormInputs("audio");
+							enableFormInputs("learningToolSlides");
 		
 						    }
 		
@@ -220,24 +221,24 @@ echo $formv1->generateText('url', 'url', '', 'tooltip here');
 		
 			}
 		
-			function submitaudioForm (){
+			function submitlearningToolSlidesForm (){
 		
 				//pushDataFromFormAJAX (form, table, identifierKey, identifier, updateType)
 		
 				if (edit == 0){
 		
-					var audioObject = pushDataFromFormAJAX("audio", "audio", "id", null, "0"); //insert new object
+					var learningToolSlidesObject = pushDataFromFormAJAX("learningToolSlides", "learningToolSlides", "id", null, "0"); //insert new object
 		
-					audioObject.done(function (data){
+					learningToolSlidesObject.done(function (data){
 		
 						//console.log(data);
 		
 						if (data){
 		
-							alert ("New audio no "+data+" created");
+							alert ("New learningToolSlides no "+data+" created");
 							edit = 1;
 							$("#id").text(data);
-							audioPassed = data;
+							learningToolSlidesPassed = data;
 							fillForm(data);
 		
 		
@@ -254,9 +255,9 @@ echo $formv1->generateText('url', 'url', '', 'tooltip here');
 		
 				} else if (edit == 1){
 		
-					var audioObject = pushDataFromFormAJAX("audio", "audio", "id", audioPassed, "1"); //insert new object
+					var learningToolSlidesObject = pushDataFromFormAJAX("learningToolSlides", "learningToolSlides", "id", learningToolSlidesPassed, "1"); //insert new object
 		
-					audioObject.done(function (data){
+					learningToolSlidesObject.done(function (data){
 		
 						//console.log(data);
 		
@@ -296,7 +297,7 @@ echo $formv1->generateText('url', 'url', '', 'tooltip here');
 		
 				if (edit == 1){
 		
-					fillForm(audioPassed);
+					fillForm(learningToolSlidesPassed);
 		
 				}
 		
@@ -318,21 +319,21 @@ echo $formv1->generateText('url', 'url', '', 'tooltip here');
 					});
 		
 		
-				$("#content").on('click', '#submitaudio', (function(event) {
+				$("#content").on('click', '#submitlearningToolSlides', (function(event) {
 			        event.preventDefault();
-			        $('#audio').submit();
+			        $('#learningToolSlides').submit();
 		
 		
 			    }));
 		
-			    $("#content").on('click', '#deleteaudio', (function(event) {
+			    $("#content").on('click', '#deletelearningToolSlides', (function(event) {
 			        event.preventDefault();
-			        deleteaudio();
+			        deletelearningToolSlides();
 		
 		
 			    }));
 		
-				$("#audio").validate({
+				$("#learningToolSlides").validate({
 		
 			        invalidHandler: function(event, validator) {
 			            var errors = validator.numberOfInvalids();
@@ -348,16 +349,18 @@ echo $formv1->generateText('url', 'url', '', 'tooltip here');
 			            }
 			        },rules: {
 id: { required: true },   
-name: { required: true },   
-url: { required: true },   
+slideorder: { required: true },   
+slide_id: { required: true },   
+learningTool_id: { required: true },   
 },messages: {
 id: { required: 'message' },   
-name: { required: 'message' },   
-url: { required: 'message' },   
+slideorder: { required: 'message' },   
+slide_id: { required: 'message' },   
+learningTool_id: { required: 'message' },   
 },
 			        submitHandler: function(form) {
 		
-			            submitaudioForm();
+			            submitlearningToolSlidesForm();
 		
 			          	console.log("submitted form");
 		

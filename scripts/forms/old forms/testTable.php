@@ -2,7 +2,7 @@
 
 <?php
 
-	require ('../headerCreator.php');	
+	require ('../../headerCreator.php');	
 
 
 $formv1 = new formGenerator;

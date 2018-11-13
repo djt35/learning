@@ -41,7 +41,7 @@
 		
 		<html>
 		<head>
-		    <title>audio Form</title>
+		    <title>users_customuser_user_permissions Form</title>
 		</head>
 		
 		<?php
@@ -60,7 +60,7 @@
 		
 			        <div class='row'>
 		                <div class='col-9'>
-		                    <h2 style="text-align:left;">audio Form</h2>
+		                    <h2 style="text-align:left;">users_customuser_user_permissions Form</h2>
 		                </div>
 		
 		                <div id="messageBox" class='col-3 yellow-light narrow center'>
@@ -73,7 +73,7 @@
 		
 				        if ($id){
 		
-							$q = "SELECT  id  FROM  audio  WHERE  id  = $id";
+							$q = "SELECT  id  FROM  users_customuser_user_permissions  WHERE  id  = $id";
 							if ($general->returnYesNoDBQuery($q) != 1){
 								echo "Passed id does not exist in the database";
 								exit();
@@ -86,12 +86,12 @@
 		
 			        <p>
 		
-					    <form id="audio">
+					    <form id="users_customuser_user_permissions">
 					    <?php echo $formv1->generateText('id', 'id', '', 'tooltip here');
-echo $formv1->generateText('name', 'name', '', 'tooltip here');
-echo $formv1->generateText('url', 'url', '', 'tooltip here');
+echo $formv1->generateText('customuser_id', 'customuser_id', '', 'tooltip here');
+echo $formv1->generateText('permission_id', 'permission_id', '', 'tooltip here');
 ?>
-						    <button id="submitaudio">Submit</button>
+						    <button id="submitusers_customuser_user_permissions">Submit</button>
 		
 					    </form>
 		
@@ -105,9 +105,9 @@ echo $formv1->generateText('url', 'url', '', 'tooltip here');
 		<script>
 			var siteRoot = "http://localhost:90/dashboard/learning/";
 		
-			 audioPassed = $("#id").text();
+			 users_customuser_user_permissionsPassed = $("#id").text();
 		
-			if ( audioPassed == ""){
+			if ( users_customuser_user_permissionsPassed == ""){
 		
 				var edit = 0;
 		
@@ -123,15 +123,15 @@ echo $formv1->generateText('url', 'url', '', 'tooltip here');
 		
 			function fillForm (idPassed){
 		
-				disableFormInputs("audio");
+				disableFormInputs("users_customuser_user_permissions");
 		
-				audioRequired = new Object;
+				users_customuser_user_permissionsRequired = new Object;
 		
-				audioRequired = getNamesFormElements("audio");
+				users_customuser_user_permissionsRequired = getNamesFormElements("users_customuser_user_permissions");
 		
-				audioString = '`id`=\''+idPassed+'\'';
+				users_customuser_user_permissionsString = '`id`=\''+idPassed+'\'';
 		
-				var selectorObject = getDataQuery ("audio", audioString, getNamesFormElements("audio"), 1);
+				var selectorObject = getDataQuery ("users_customuser_user_permissions", users_customuser_user_permissionsString, getNamesFormElements("users_customuser_user_permissions"), 1);
 		
 				//console.log(selectorObject);
 		
@@ -150,17 +150,17 @@ echo $formv1->generateText('url', 'url', '', 'tooltip here');
 		
 				    });
 		
-				    enableFormInputs("audio");
+				    enableFormInputs("users_customuser_user_permissions");
 		
 				});
 		
 				try {
 		
-					$("form#audio").find("button#deleteaudio").length();
+					$("form#users_customuser_user_permissions").find("button#deleteusers_customuser_user_permissions").length();
 		
 				}catch(error){
 		
-					$("form#audio").find("button").after("<button id='deleteaudio'>Delete</button>");
+					$("form#users_customuser_user_permissions").find("button").after("<button id='deleteusers_customuser_user_permissions'>Delete</button>");
 		
 				}
 		
@@ -169,24 +169,24 @@ echo $formv1->generateText('url', 'url', '', 'tooltip here');
 		
 			//delete behaviour
 		
-			function deleteaudio (){
+			function deleteusers_customuser_user_permissions (){
 		
-				//audioPassed is the current record, some security to check its also that in the id field
+				//users_customuser_user_permissionsPassed is the current record, some security to check its also that in the id field
 		
-				if (audioPassed != $("#id").text()){
+				if (users_customuser_user_permissionsPassed != $("#id").text()){
 		
 					return;
 		
 				}
 		
 		
-				if (confirm("Do you wish to delete this audio?")) {
+				if (confirm("Do you wish to delete this users_customuser_user_permissions?")) {
 		
-					disableFormInputs("audio");
+					disableFormInputs("users_customuser_user_permissions");
 		
-					var audioObject = pushDataFromFormAJAX("audio", "audio", "id", audioPassed, "2"); //delete audio
+					var users_customuser_user_permissionsObject = pushDataFromFormAJAX("users_customuser_user_permissions", "users_customuser_user_permissions", "id", users_customuser_user_permissionsPassed, "2"); //delete users_customuser_user_permissions
 		
-					audioObject.done(function (data){
+					users_customuser_user_permissionsObject.done(function (data){
 		
 						//console.log(data);
 		
@@ -194,17 +194,17 @@ echo $formv1->generateText('url', 'url', '', 'tooltip here');
 		
 							if (data == 1){
 		
-								alert ("audio deleted");
+								alert ("users_customuser_user_permissions deleted");
 								edit = 0;
-								audioPassed = null;
-								window.location.href = siteRoot + "scripts/forms/audioTable.php";
-								//go to audio list
+								users_customuser_user_permissionsPassed = null;
+								window.location.href = siteRoot + "scripts/forms/users_customuser_user_permissionsTable.php";
+								//go to users_customuser_user_permissions list
 		
 							}else {
 		
 							alert("Error, try again");
 		
-							enableFormInputs("audio");
+							enableFormInputs("users_customuser_user_permissions");
 		
 						    }
 		
@@ -220,24 +220,24 @@ echo $formv1->generateText('url', 'url', '', 'tooltip here');
 		
 			}
 		
-			function submitaudioForm (){
+			function submitusers_customuser_user_permissionsForm (){
 		
 				//pushDataFromFormAJAX (form, table, identifierKey, identifier, updateType)
 		
 				if (edit == 0){
 		
-					var audioObject = pushDataFromFormAJAX("audio", "audio", "id", null, "0"); //insert new object
+					var users_customuser_user_permissionsObject = pushDataFromFormAJAX("users_customuser_user_permissions", "users_customuser_user_permissions", "id", null, "0"); //insert new object
 		
-					audioObject.done(function (data){
+					users_customuser_user_permissionsObject.done(function (data){
 		
 						//console.log(data);
 		
 						if (data){
 		
-							alert ("New audio no "+data+" created");
+							alert ("New users_customuser_user_permissions no "+data+" created");
 							edit = 1;
 							$("#id").text(data);
-							audioPassed = data;
+							users_customuser_user_permissionsPassed = data;
 							fillForm(data);
 		
 		
@@ -254,9 +254,9 @@ echo $formv1->generateText('url', 'url', '', 'tooltip here');
 		
 				} else if (edit == 1){
 		
-					var audioObject = pushDataFromFormAJAX("audio", "audio", "id", audioPassed, "1"); //insert new object
+					var users_customuser_user_permissionsObject = pushDataFromFormAJAX("users_customuser_user_permissions", "users_customuser_user_permissions", "id", users_customuser_user_permissionsPassed, "1"); //insert new object
 		
-					audioObject.done(function (data){
+					users_customuser_user_permissionsObject.done(function (data){
 		
 						//console.log(data);
 		
@@ -296,7 +296,7 @@ echo $formv1->generateText('url', 'url', '', 'tooltip here');
 		
 				if (edit == 1){
 		
-					fillForm(audioPassed);
+					fillForm(users_customuser_user_permissionsPassed);
 		
 				}
 		
@@ -318,21 +318,21 @@ echo $formv1->generateText('url', 'url', '', 'tooltip here');
 					});
 		
 		
-				$("#content").on('click', '#submitaudio', (function(event) {
+				$("#content").on('click', '#submitusers_customuser_user_permissions', (function(event) {
 			        event.preventDefault();
-			        $('#audio').submit();
+			        $('#users_customuser_user_permissions').submit();
 		
 		
 			    }));
 		
-			    $("#content").on('click', '#deleteaudio', (function(event) {
+			    $("#content").on('click', '#deleteusers_customuser_user_permissions', (function(event) {
 			        event.preventDefault();
-			        deleteaudio();
+			        deleteusers_customuser_user_permissions();
 		
 		
 			    }));
 		
-				$("#audio").validate({
+				$("#users_customuser_user_permissions").validate({
 		
 			        invalidHandler: function(event, validator) {
 			            var errors = validator.numberOfInvalids();
@@ -348,16 +348,16 @@ echo $formv1->generateText('url', 'url', '', 'tooltip here');
 			            }
 			        },rules: {
 id: { required: true },   
-name: { required: true },   
-url: { required: true },   
+customuser_id: { required: true },   
+permission_id: { required: true },   
 },messages: {
 id: { required: 'message' },   
-name: { required: 'message' },   
-url: { required: 'message' },   
+customuser_id: { required: 'message' },   
+permission_id: { required: 'message' },   
 },
 			        submitHandler: function(form) {
 		
-			            submitaudioForm();
+			            submitusers_customuser_user_permissionsForm();
 		
 			          	console.log("submitted form");
 		

@@ -41,7 +41,7 @@
 		
 		<html>
 		<head>
-		    <title>audio Form</title>
+		    <title>questions Form</title>
 		</head>
 		
 		<?php
@@ -60,7 +60,7 @@
 		
 			        <div class='row'>
 		                <div class='col-9'>
-		                    <h2 style="text-align:left;">audio Form</h2>
+		                    <h2 style="text-align:left;">questions Form</h2>
 		                </div>
 		
 		                <div id="messageBox" class='col-3 yellow-light narrow center'>
@@ -73,7 +73,7 @@
 		
 				        if ($id){
 		
-							$q = "SELECT  id  FROM  audio  WHERE  id  = $id";
+							$q = "SELECT  id  FROM  questions  WHERE  id  = $id";
 							if ($general->returnYesNoDBQuery($q) != 1){
 								echo "Passed id does not exist in the database";
 								exit();
@@ -86,12 +86,17 @@
 		
 			        <p>
 		
-					    <form id="audio">
+					    <form id="questions">
 					    <?php echo $formv1->generateText('id', 'id', '', 'tooltip here');
-echo $formv1->generateText('name', 'name', '', 'tooltip here');
-echo $formv1->generateText('url', 'url', '', 'tooltip here');
+echo $formv1->generateText('text', 'text', '', 'tooltip here');
+echo $formv1->generateText('type', 'type', '', 'tooltip here');
+echo $formv1->generateText('choice1', 'choice1', '', 'tooltip here');
+echo $formv1->generateText('choice2', 'choice2', '', 'tooltip here');
+echo $formv1->generateText('choice 3', 'choice 3', '', 'tooltip here');
+echo $formv1->generateText('choice4', 'choice4', '', 'tooltip here');
+echo $formv1->generateText('choice5', 'choice5', '', 'tooltip here');
 ?>
-						    <button id="submitaudio">Submit</button>
+						    <button id="submitquestions">Submit</button>
 		
 					    </form>
 		
@@ -105,9 +110,9 @@ echo $formv1->generateText('url', 'url', '', 'tooltip here');
 		<script>
 			var siteRoot = "http://localhost:90/dashboard/learning/";
 		
-			 audioPassed = $("#id").text();
+			 questionsPassed = $("#id").text();
 		
-			if ( audioPassed == ""){
+			if ( questionsPassed == ""){
 		
 				var edit = 0;
 		
@@ -123,15 +128,15 @@ echo $formv1->generateText('url', 'url', '', 'tooltip here');
 		
 			function fillForm (idPassed){
 		
-				disableFormInputs("audio");
+				disableFormInputs("questions");
 		
-				audioRequired = new Object;
+				questionsRequired = new Object;
 		
-				audioRequired = getNamesFormElements("audio");
+				questionsRequired = getNamesFormElements("questions");
 		
-				audioString = '`id`=\''+idPassed+'\'';
+				questionsString = '`id`=\''+idPassed+'\'';
 		
-				var selectorObject = getDataQuery ("audio", audioString, getNamesFormElements("audio"), 1);
+				var selectorObject = getDataQuery ("questions", questionsString, getNamesFormElements("questions"), 1);
 		
 				//console.log(selectorObject);
 		
@@ -150,17 +155,17 @@ echo $formv1->generateText('url', 'url', '', 'tooltip here');
 		
 				    });
 		
-				    enableFormInputs("audio");
+				    enableFormInputs("questions");
 		
 				});
 		
 				try {
 		
-					$("form#audio").find("button#deleteaudio").length();
+					$("form#questions").find("button#deletequestions").length();
 		
 				}catch(error){
 		
-					$("form#audio").find("button").after("<button id='deleteaudio'>Delete</button>");
+					$("form#questions").find("button").after("<button id='deletequestions'>Delete</button>");
 		
 				}
 		
@@ -169,24 +174,24 @@ echo $formv1->generateText('url', 'url', '', 'tooltip here');
 		
 			//delete behaviour
 		
-			function deleteaudio (){
+			function deletequestions (){
 		
-				//audioPassed is the current record, some security to check its also that in the id field
+				//questionsPassed is the current record, some security to check its also that in the id field
 		
-				if (audioPassed != $("#id").text()){
+				if (questionsPassed != $("#id").text()){
 		
 					return;
 		
 				}
 		
 		
-				if (confirm("Do you wish to delete this audio?")) {
+				if (confirm("Do you wish to delete this questions?")) {
 		
-					disableFormInputs("audio");
+					disableFormInputs("questions");
 		
-					var audioObject = pushDataFromFormAJAX("audio", "audio", "id", audioPassed, "2"); //delete audio
+					var questionsObject = pushDataFromFormAJAX("questions", "questions", "id", questionsPassed, "2"); //delete questions
 		
-					audioObject.done(function (data){
+					questionsObject.done(function (data){
 		
 						//console.log(data);
 		
@@ -194,17 +199,17 @@ echo $formv1->generateText('url', 'url', '', 'tooltip here');
 		
 							if (data == 1){
 		
-								alert ("audio deleted");
+								alert ("questions deleted");
 								edit = 0;
-								audioPassed = null;
-								window.location.href = siteRoot + "scripts/forms/audioTable.php";
-								//go to audio list
+								questionsPassed = null;
+								window.location.href = siteRoot + "scripts/forms/questionsTable.php";
+								//go to questions list
 		
 							}else {
 		
 							alert("Error, try again");
 		
-							enableFormInputs("audio");
+							enableFormInputs("questions");
 		
 						    }
 		
@@ -220,24 +225,24 @@ echo $formv1->generateText('url', 'url', '', 'tooltip here');
 		
 			}
 		
-			function submitaudioForm (){
+			function submitquestionsForm (){
 		
 				//pushDataFromFormAJAX (form, table, identifierKey, identifier, updateType)
 		
 				if (edit == 0){
 		
-					var audioObject = pushDataFromFormAJAX("audio", "audio", "id", null, "0"); //insert new object
+					var questionsObject = pushDataFromFormAJAX("questions", "questions", "id", null, "0"); //insert new object
 		
-					audioObject.done(function (data){
+					questionsObject.done(function (data){
 		
 						//console.log(data);
 		
 						if (data){
 		
-							alert ("New audio no "+data+" created");
+							alert ("New questions no "+data+" created");
 							edit = 1;
 							$("#id").text(data);
-							audioPassed = data;
+							questionsPassed = data;
 							fillForm(data);
 		
 		
@@ -254,9 +259,9 @@ echo $formv1->generateText('url', 'url', '', 'tooltip here');
 		
 				} else if (edit == 1){
 		
-					var audioObject = pushDataFromFormAJAX("audio", "audio", "id", audioPassed, "1"); //insert new object
+					var questionsObject = pushDataFromFormAJAX("questions", "questions", "id", questionsPassed, "1"); //insert new object
 		
-					audioObject.done(function (data){
+					questionsObject.done(function (data){
 		
 						//console.log(data);
 		
@@ -296,7 +301,7 @@ echo $formv1->generateText('url', 'url', '', 'tooltip here');
 		
 				if (edit == 1){
 		
-					fillForm(audioPassed);
+					fillForm(questionsPassed);
 		
 				}
 		
@@ -318,21 +323,21 @@ echo $formv1->generateText('url', 'url', '', 'tooltip here');
 					});
 		
 		
-				$("#content").on('click', '#submitaudio', (function(event) {
+				$("#content").on('click', '#submitquestions', (function(event) {
 			        event.preventDefault();
-			        $('#audio').submit();
+			        $('#questions').submit();
 		
 		
 			    }));
 		
-			    $("#content").on('click', '#deleteaudio', (function(event) {
+			    $("#content").on('click', '#deletequestions', (function(event) {
 			        event.preventDefault();
-			        deleteaudio();
+			        deletequestions();
 		
 		
 			    }));
 		
-				$("#audio").validate({
+				$("#questions").validate({
 		
 			        invalidHandler: function(event, validator) {
 			            var errors = validator.numberOfInvalids();
@@ -348,16 +353,26 @@ echo $formv1->generateText('url', 'url', '', 'tooltip here');
 			            }
 			        },rules: {
 id: { required: true },   
-name: { required: true },   
-url: { required: true },   
+text: { required: true },   
+type: { required: true },   
+choice1: { required: true },   
+choice2: { required: true },   
+choice 3: { required: true },   
+choice4: { required: true },   
+choice5: { required: true },   
 },messages: {
 id: { required: 'message' },   
-name: { required: 'message' },   
-url: { required: 'message' },   
+text: { required: 'message' },   
+type: { required: 'message' },   
+choice1: { required: 'message' },   
+choice2: { required: 'message' },   
+choice 3: { required: 'message' },   
+choice4: { required: 'message' },   
+choice5: { required: 'message' },   
 },
 			        submitHandler: function(form) {
 		
-			            submitaudioForm();
+			            submitquestionsForm();
 		
 			          	console.log("submitted form");
 		

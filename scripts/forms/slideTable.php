@@ -17,7 +17,7 @@
 		
 		<html>
 		<head>
-		    <title>audio Table</title>
+		    <title>slide Table</title>
 		</head>
 		
 		<?php
@@ -36,7 +36,7 @@
 			        
 			        <div class='row'>
 		                <div class='col-9'>
-		                    <h2 style="text-align:left;">List of audio</h2>
+		                    <h2 style="text-align:left;">List of slide</h2>
 		                </div>
 		
 		                <div id="messageBox" class='col-3 yellow-light narrow center'>
@@ -48,7 +48,7 @@
 		                <div class='col-1'></div>
 		
 		                <div class='col-10 narrow' style='overflow-x: scroll;'>
-		                    <p><?php $general->makeTable("SELECT id from audio"); ?></p>
+		                    <p><?php $general->makeTable("SELECT id from slide"); ?></p>
 		                </div>
 		
 		                <div class='col-1'></div>
@@ -72,7 +72,7 @@
 					
 					//console.log(id);
 					
-					window.location.href = siteRoot + 'scripts/forms/audioForm.php?id=' + id;
+					window.location.href = siteRoot + 'scripts/forms/slideForm.php?id=' + id;
 		
 					
 				})

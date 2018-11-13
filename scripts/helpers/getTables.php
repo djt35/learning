@@ -92,7 +92,7 @@ if (isset($_GET['database'])){
 			    
 			    $columns = $formv1->getAllDatabaseTables();
 
-				//print_r($columns);
+				print_r($columns);
 				
 				echo '<table>';
 				

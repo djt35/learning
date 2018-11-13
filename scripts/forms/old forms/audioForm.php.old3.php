@@ -87,7 +87,7 @@
 			        <p>
 		
 					    <form id="audio">
-					    <?php echo $formv1->generateText('id', 'id', '', 'tooltip here');
+					    <?php //echo $formv1->generateText('id', 'id', '', 'tooltip here');
 echo $formv1->generateText('name', 'name', '', 'tooltip here');
 echo $formv1->generateText('url', 'url', '', 'tooltip here');
 ?>
@@ -347,11 +347,11 @@ echo $formv1->generateText('url', 'url', '', 'tooltip here');
 			                $('div.error').hide();
 			            }
 			        },rules: {
-id: { required: true },   
+//id: { required: true },   
 name: { required: true },   
 url: { required: true },   
 },messages: {
-id: { required: 'message' },   
+//id: { required: 'message' },   
 name: { required: 'message' },   
 url: { required: 'message' },   
 },
