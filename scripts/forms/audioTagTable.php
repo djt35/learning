@@ -40,7 +40,7 @@
 		                </div>
 		
 		                <div id="messageBox" class='col-3 yellow-light narrow center'>
-		                    <p></p>
+		                    <p><button id="newaudioTag" onclick="window.location.href = '<?php echo $roothttp;?>/scripts/forms/audioTagForm.php';">New audioTag</button></p>
 		                </div>
 		            </div>
 			        

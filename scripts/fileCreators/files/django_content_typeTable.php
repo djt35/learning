@@ -40,7 +40,7 @@
 		                </div>
 		
 		                <div id="messageBox" class='col-3 yellow-light narrow center'>
-		                    <p></p>
+		                    <p><button id="newdjango_content_type" onclick="window.location.href = '<?php echo $roothttp;?>/scripts/forms/django_content_typeForm.php';">New django_content_type</button></p>
 		                </div>
 		            </div>
 			        

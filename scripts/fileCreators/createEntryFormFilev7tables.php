@@ -657,7 +657,7 @@ SaveFile($root . "scripts/fileCreators/files/{$databaseTable}Form.php", $file_in
 		                </div>
 		
 		                <div id=\"messageBox\" class='col-3 yellow-light narrow center'>
-		                    <p></p>
+		                    <p><button id=\"new{$databaseTable}\" onclick=\"window.location.href = '<?php echo \$roothttp;?>/scripts/forms/{$databaseTable}Form.php';\">New {$databaseTable}</button></p>
 		                </div>
 		            </div>
 			        

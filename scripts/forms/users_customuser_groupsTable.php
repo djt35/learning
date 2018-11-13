@@ -40,7 +40,7 @@
 		                </div>
 		
 		                <div id="messageBox" class='col-3 yellow-light narrow center'>
-		                    <p></p>
+		                    <p><button id="newusers_customuser_groups" onclick="window.location.href = '<?php echo $roothttp;?>/scripts/forms/users_customuser_groupsForm.php';">New users_customuser_groups</button></p>
 		                </div>
 		            </div>
 			        

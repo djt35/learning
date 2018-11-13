@@ -40,7 +40,7 @@
 		                </div>
 		
 		                <div id="messageBox" class='col-3 yellow-light narrow center'>
-		                    <p></p>
+		                    <p><button id="newusers_customuser_user_permissions" onclick="window.location.href = '<?php echo $roothttp;?>/scripts/forms/users_customuser_user_permissionsForm.php';">New users_customuser_user_permissions</button></p>
 		                </div>
 		            </div>
 			        

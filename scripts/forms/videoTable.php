@@ -40,7 +40,7 @@
 		                </div>
 		
 		                <div id="messageBox" class='col-3 yellow-light narrow center'>
-		                    <p></p>
+		                    <p><button id="newvideo" onclick="window.location.href = '<?php echo $roothttp;?>/scripts/forms/videoForm.php';">New video</button></p>
 		                </div>
 		            </div>
 			        

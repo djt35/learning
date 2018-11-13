@@ -40,7 +40,7 @@
 		                </div>
 		
 		                <div id="messageBox" class='col-3 yellow-light narrow center'>
-		                    <p></p>
+		                    <p><button id="newconfig" onclick="window.location.href = '<?php echo $roothttp;?>/scripts/forms/configForm.php';">New config</button></p>
 		                </div>
 		            </div>
 			        

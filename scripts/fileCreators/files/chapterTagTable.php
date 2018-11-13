@@ -40,7 +40,7 @@
 		                </div>
 		
 		                <div id="messageBox" class='col-3 yellow-light narrow center'>
-		                    <p></p>
+		                    <p><button id="newchapterTag" onclick="window.location.href = '<?php echo $roothttp;?>/scripts/forms/chapterTagForm.php';">New chapterTag</button></p>
 		                </div>
 		            </div>
 			        

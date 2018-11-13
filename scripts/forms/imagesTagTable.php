@@ -40,7 +40,7 @@
 		                </div>
 		
 		                <div id="messageBox" class='col-3 yellow-light narrow center'>
-		                    <p></p>
+		                    <p><button id="newimagesTag" onclick="window.location.href = '<?php echo $roothttp;?>/scripts/forms/imagesTagForm.php';">New imagesTag</button></p>
 		                </div>
 		            </div>
 			        

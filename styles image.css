@@ -549,13 +549,12 @@ display: none;
 }
 
 .darkClass {
-    background-color: gainsboro;
-    filter:alpha(opacity=80); /* IE */
-    opacity: 0.8; /* Safari, Opera */
-    -moz-opacity:0.80; /* FireFox */
+    background-color: white;
+    filter:alpha(opacity=50); /* IE */
+    opacity: 0.5; /* Safari, Opera */
+    -moz-opacity:0.50; /* FireFox */
     z-index: 20;
-   min-height: 100vh;
-	 max-height: 100vh;
+    height: 120%;
     width: 100%;
     background-repeat:no-repeat;
     background-position:center;
@@ -565,5 +564,21 @@ display: none;
 	display: none;
 	overflow-y: auto;
 }
+
+.modal {
+    display: none;
+	position: fixed;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    background-color: ghostwhite;
+    text-align: center;
+    min-width: 160px;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+    padding: 20px;
+    z-index: 50;
+}
+
 
 
