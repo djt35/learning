@@ -1,14 +1,14 @@
 
 		
 		
-			<?php
-		
-			require ('/Applications/XAMPP/xamppfiles/htdocs/dashboard/learning/scripts/headerCreator.php');
-		
-			$formv1 = new formGenerator;
-			$general = new general;
-			$video = new video;
-			$tagCategories = new tagCategories;
+		<?php
+	
+		require ('/Applications/XAMPP/xamppfiles/htdocs/dashboard/learning/scripts/headerCreator.php');
+	
+		$formv1 = new formGenerator;
+		$general = new general;
+		$video = new video;
+		$tagCategories = new tagCategories;
 		
 		
 		
@@ -126,14 +126,14 @@
 					<div class='col-8'>
 					
 					
-					    <form id="images">
+					    <div id="images">
 					    <?php /*echo $formv1->generateText('url', 'url', '', 'tooltip here');
 echo $formv1->generateText('name', 'name', '', 'tooltip here');
 echo $formv1->generateText('type', 'type', '', 'tooltip here');*/
 ?>
 						   <!-- <button id="submitimages">Submit</button>-->
 		
-					    </form>
+					    </div>
 					</div>
 				    <div class='col-2'>
 					</div>    
@@ -158,7 +158,147 @@ echo $formv1->generateText('type', 'type', '', 'tooltip here');*/
 			}
 			
 			var files;
+			
+			var imageID;
+			
+			var singleTag;
+			
+			var images = new Object();
+			
+			var textAreas = new Object();
+			
+			var selects = new Object();
 
+
+			function fn60sec() {
+			   
+			   console.log('fired');
+			        
+			        //!get imageids
+			        
+			        var overallObject = new Object();
+			        
+			        x=0;
+				
+					$('#imagesTable').find('tr').find('td:eq(0)').each(function(){
+						
+						//console.log(this);
+						
+						var fileid = $(this).attr('id');
+						
+						images[x] = fileid;
+						
+						x++;
+						
+						
+					})	
+			        
+			        //get array of textareas
+			        
+			        x=0;
+				
+					$('#imagesTable').find('tr').find('td:eq(4)').find('textarea').each(function(){
+						
+						console.log(this);
+						
+						var textareaText = $(this).val();
+						
+						textAreas[x] = textareaText;
+						
+						x++;
+						
+						
+					})	
+					
+					x=0;
+			        
+			        $('#imagesTable').find('tr').find('td:eq(5)').find('select').each(function(){
+						
+						console.log(this);
+						
+						var selectValue = $(this).val();
+						
+						selects[x] = selectValue;
+						
+						x++;
+						
+						
+					})	
+					
+					console.dir(images);
+					console.dir(textAreas);
+					console.dir(selects);
+					
+					overallObject['images']= images;
+					overallObject['selects'] = selects;
+					overallObject['textAreas']= textAreas;
+					
+					console.dir(overallObject);
+					
+					
+					var tagsImagesObject = JSONDataQuery ('images', overallObject, 6); //update new object
+		
+					tagsImagesObject.done(function (data){
+		
+						console.log('tagsImagesObject = '+data);
+		
+						if (data){
+						
+						}
+						
+					})
+					
+					//table
+					//updateType 6 (not insert)
+					//array
+			        
+			        //get array of dropdowns
+			        
+			        //enter this in the field name
+			        
+			        /*
+			        
+			        imageID = $(cellClicked).closest('tr').find('td:eq(0)').attr('id');
+			        
+			        var text = $(this).val();
+		
+					var imagesObject = pushDataAJAX('images', 'id', imageID, 1, {'name':text}); //delete images
+		
+					imagesObject.done(function (data){
+		
+						console.log(data);
+		
+						if (data){
+		
+							if (data == 1){
+		
+								//alert ("tag connection deleted");
+								console.log('textarea data updated');
+								
+								//edit = 0;
+								//imagesPassed = null;
+								//window.location.href = siteRoot + "scripts/forms/imagesTable.php";
+								//go to images list
+		
+							}else {
+		
+								console.log('textarea data not updated');
+		
+							//enableFormInputs("images");
+		
+						    }
+		
+		
+		
+						}
+		
+		
+					});
+			   */
+			   
+			    // runs every 60 sec and runs on init.
+			}
+			setInterval(fn60sec, 60*1000);
 
 
 function addImageTagAll (event){
@@ -189,7 +329,8 @@ function uploadFiles(event) {
     event.preventDefault(); // Totally stop stuff happening
 
     // START A LOADING SPINNER HERE
-
+	
+	disableFormInputs("imageUpload");
     // Create a formdata object and add the files
     var data = new FormData();
     $.each(files, function(key, value) {
@@ -210,6 +351,7 @@ function uploadFiles(event) {
             if (typeof data.error === 'undefined') {
 
                 $('#images').html(data);
+               
                 
                 console.log(data);
                 //submitForm(event, data);
@@ -462,104 +604,523 @@ function uploadFiles(event) {
 				   
 			   }); 
 			   
-			   $('.content').on('click', '.file', function(){
+			   //!Add new tag to single image
+			   
+			   $('.content').on('click', '.addTag', function(){
 			
+				
+				event.preventDefault();
+				
 				var cellClicked = $(this);
 				
-				var lesionID = $(cellClicked).closest('tr').find('td:eq(0)').text();
+				imageID = $(cellClicked).closest('tr').find('td:eq(0)').attr('id');
 				
-				var studyID = $(cellClicked).closest('tr').find('td:eq(1)').text();
+				console.log('File id is'+imageID);
 				
+				singleTag = 1;
+					
 				$('.darkClass').show();
 				
-				request = $.ajax({
-			        url: siteRoot+"scripts/getReferrer.php",
-			        type: "get",
-			        data: '_k_patient='+studyID
-				    });
 				
-				request.done(function (response, textStatus, jqXHR){
-				        //console.log(response);
-				        
-				        try{
-				        
-				        	var returnedData = $.parseJSON(response);
-				        	}catch{
+		
+				var selectorObject = getDataQuery ('tagCategories', '', {'id':'id','Category Name':'tagCategoryName'}, 2);
+		
+				//console.log(selectorObject);
+		
+				selectorObject.done(function (data){
+		
+					//console.log(data);
+		
+					$('.modal').show();
 					        	
 					        	$('.modal').show();
+						        $('.modal').css('max-height', 800);
+						        $('.modal').css('max-width', 800);
+						        $('.modal').css('overflow', 'scroll');
+						        
+						       
+							        	
+								$('.modal').find('.modalContent').html('<h3>Choose Tag Category</h3>');
 					        	
-					        	$('.modal').find('.modalContent').html('<h3>Referrer Details</h3><p>The referrer for lesion'+lesionID+', patient '+studyID+' is not yet defined</p><br><br><p>Would you like to select the referrer now?</p><br><p><button class=\'selectReferrer\' onClick=\'selectReferrer("'+studyID+'")\'>Select Referrer</button></p>');
+					        	
+					        	$('.modal').find('.modalContent').append('<p>'+data+'</p>');
+					        	
+					        	$('.modal').find('.modalContent').append('<button id="newTagCategory">Add new tag category</button>');
 					        	
 					        	return;
-					        	
-				        	}
-				        
-				        if (returnedData.title == null){
-					        
-					        returnedData.title = 'Dr';
-					        
-					        
-				        }
-				        
-				        
-				        $('.modal').show();
-				
-				
-						$('.modal').find('.modalContent').html('<h3>Referrer Details</h3><p>The referrer for '+lesionID+', patient '+studyID+' is below</p><br><br>');
-						
-						$('.modal').find('.modalContent').append('<p>Name: '+returnedData.title+' '+returnedData.firstname+' '+returnedData.surname+' </p>');
-						
-						$('.modal').find('.modalContent').append('<p>Address: '+returnedData.address+'</p>');
-						
-						$('.modal').find('.modalContent').append('<p>Phone: '+returnedData.telephone+'</p>');
-
-						$('.modal').find('.modalContent').append('<p>Fax: '+returnedData.fax+'</p>');
-						
-						$('.modal').find('.modalContent').append('<p>Email: '+returnedData.email+'</p>');
-						
-						$('.modal').find('.modalContent').append('<p><button onclick=\'$(".modal, .darkClass").hide();selectReferrer("'+studyID+'")\'>Change Referrer</button></p>');
-
-
-
-						
-				        
-				   });
-				
-				request.fail(function (jqXHR, textStatus, errorThrown){
-				        
-				        console.log('ajax failed');
-				        $('.darkClass').hide();
-				        return;
-				        
-				        	    });
-				
-				request.always(function () {
-				        // Reenable the inputs
-				       
-				    });
 				    
-				
-				
-				
-				
-			
-			})
-			   
-			   
-			   
-			   
-			   
-			   
-			   
-			   
-			   
 		
-			    $("#content").on('click', '#deleteimages', (function(event) {
+				    
+					})
+				
+				})
+				
+				$('.modal').on('click', '.tagCategoriesrow', function(){
+			
+				event.preventDefault();
+				
+				var cellClicked = $(this);
+				
+				var tagCategoryID = $(cellClicked).closest('tr').find('td:eq(0)').text();
+				
+				//console.log('File id is'+fileID);
+					
+				$('.darkClass').show();
+				
+				
+		
+				var selectorObject = getDataQuery ('tags', 'tagCategories_id =\''+tagCategoryID+'\'', {'id':'id','Tag Name':'tagName'}, 2);
+		
+				//console.log(selectorObject);
+		
+				selectorObject.done(function (data){
+		
+					//console.log(data);
+		
+					$('.modal').show();
+					        	
+					        	$('.modal').show();
+						        $('.modal').css('max-height', 800);
+						        $('.modal').css('max-width', 800);
+						        $('.modal').css('overflow', 'scroll');
+						        
+						       
+							        	
+								$('.modal').find('.modalContent').html('<h3>Choose Tag</h3>');
+					        	
+					        	
+					        	$('.modal').find('.modalContent').append('<p>'+data+'</p>');
+					        	
+					        	$('.modal').find('.modalContent').append('<button id="newTag">Add new tag </button>');
+
+					        	
+					        	return;
+				    
+		
+				    
+					})
+				
+				})
+			   
+			    $('.modal').on('click', '.tagsrow', function(){
+				
+				//!commit the tag to the database
+				
+				event.preventDefault();
+				
+				var cellClicked = $(this);
+				
+				var tagID = $(cellClicked).closest('tr').find('td:eq(0)').text();
+				
+				//console.log('File id is'+fileID);
+					
+				$('.darkClass').show();
+				
+				//collect objects imageID, tagID and insert into imageTags
+				
+				//check connections do not already exist
+				
+				//query imagesTag for where images_id = imageID and tags_id = tagID
+				
+				//3 new tag for matching a row
+				
+				if (singleTag == 1){
+				
+				var selectorObject = getDataQuery ('imagesTag', '`images_id` = '+imageID+' and `tags_id` = '+tagID+'', {'0':'images_id', '1':'tags_id'}, 3);
+		
+				//console.log(selectorObject);
+				var alreadyExists;
+		
+				selectorObject.done(function (data){
+					
+					
+					
+					if (data){
+						
+						console.log('important data is'+data);
+						
+						if (data == 1){
+							
+							alert('This image tag combination already exists');
+							alreadyExists = 1;
+							$('.modal').hide();
+					
+							$('.darkClass').hide();
+							
+						}else{
+							
+							alreadyExists = 0;
+						}
+						
+					}
+					
+					if (alreadyExists == 0){
+				
+				var tagsImagesObject = pushDataAJAX ('imagesTag', 'id', '', 0, {'images_id':imageID, 'tags_id':tagID}); //insert new object
+		
+					tagsImagesObject.done(function (data){
+		
+						console.log('tagsImagesObject = '+data);
+		
+						if (data){
+		
+							if (isNormalInteger(data)){
+		
+								//alert ("Tag added");
+								
+								//add the tag to the table
+								
+								$('.file').find('td[id='+imageID+']').closest('tr').find('td:eq(3)').append('<button id="'+data+'" class="tagButton">'+$(cellClicked).closest('tr').find('td:eq(1)').text()+'</button>');
+								
+								$('.modal').hide();
+					
+								$('.darkClass').hide();
+								
+								return;
+								
+		
+							} else {
+		
+							alert("Error, try again");
+		
+						    }
+		
+		
+		
+						}
+		
+		
+					});
+					
+					}
+					
+			
+				})
+				
+				
+				}else if (singleTag == 0){
+					
+					//table, outputformat, array containing pairs to insert
+					
+					//combine the objects
+					
+					//fileList {0: 'id', 1: 'id2'} etc
+					
+					//tag same in each case tagID
+					
+					var tagImages = new Object();
+					
+					$.each(images, function(k,v){
+						
+						console.log(k);
+						console.log(v);
+						
+						tagImages[k] = {'images_id':v, 'tags_id':tagID};
+						
+						
+						
+					}) 
+					
+					console.dir(tagImages);
+					
+					//imageTag = {0 = Object {images_id : id, tags_id : tagID
+					
+					var selectorObject = JSONDataQuery ('imagesTag', tagImages, 4); //check these don't already exist
+		
+				//console.log(selectorObject);
+				var alreadyExists;
+		
+				selectorObject.done(function (data){
+					
+					
+					
+					if (data){
+						
+						console.log('important data is'+data);
+						
+						if (data == 1){
+							
+							alert('One of these images is already tagged with this tag, select individually');
+							alreadyExists = 1;
+							$('.modal').hide();
+					
+							$('.darkClass').hide();
+							
+						}else{
+							
+							alreadyExists = 0;
+						}
+						
+					}
+					
+					if (alreadyExists == 0){
+				
+				var tagsImagesObject = JSONDataQuery ('imagesTag', tagImages, 5); //insert new object
+		
+					tagsImagesObject.done(function (data){
+		
+						console.log('tagsImagesObject = '+data);
+		
+						if (data){
+		
+							if (data != 0){
+		
+								//alert ("Tag added");
+								
+								var returnedData = $.parseJSON(data);
+								
+								console.dir(returnedData);
+								
+								//add the tag to the table rows
+								
+								var xy = 0;
+								
+								$('#imagesTable').find('tr').find('td:eq(3)').each(function() {
+									
+									
+								$(this).append('<button id="'+returnedData[xy]+'" class="tagButton">'+$(cellClicked).closest('tr').find('td:eq(1)').text()+'</button>');
+								
+								xy++;
+									
+								})
+								
+								$('.modal').hide();
+					
+								$('.darkClass').hide();
+								
+								return;
+								
+		
+							} else {
+		
+							alert("Error, try again");
+		
+						    }
+		
+		
+		
+						}
+		
+		
+					});
+					
+					}
+					
+				})
+					
+				}
+								
+				})
+			   
+			   
+			   //!Add new tag to all images uploaded
+			   
+			   $('.content').on('click', '.addTagAll', function(){
+			
+				
+				event.preventDefault();
+				
+				var cellClicked = $(this);
+				
+				//get an array of the required image id's
+				
+				//var images = new Object();
+				
+				x=0;
+				
+				$('#imagesTable').find('tr').find('td:eq(0)').each(function(){
+					
+					//console.log(this);
+					
+					var fileid = $(this).attr('id');
+					
+					images[x] = fileid;
+					
+					x++;
+					
+					
+				})	
+				
+				singleTag = 0;
+					
+					
+				console.dir(images);
+					
+				$('.darkClass').show();
+				
+				
+		
+				var selectorObject = getDataQuery ('tagCategories', '', {'id':'id','Category Name':'tagCategoryName'}, 2);
+		
+				//console.log(selectorObject);
+		
+				selectorObject.done(function (data){
+		
+					//console.log(data);
+		
+					$('.modal').show();
+					        	
+					        	$('.modal').show();
+						        $('.modal').css('max-height', 800);
+						        $('.modal').css('max-width', 800);
+						        $('.modal').css('overflow', 'scroll');
+						        
+						       
+							        	
+								$('.modal').find('.modalContent').html('<h3>Choose Tag Category</h3>');
+					        	
+					        	
+					        	$('.modal').find('.modalContent').append('<p>'+data+'</p>');
+					        	
+					        	$('.modal').find('.modalContent').append('<button id="newTagCategory">Add new tag category</button>');
+					        	
+					        	return;
+				    
+		
+				    
+					})
+					
+				})
+			   
+			   
+			   
+			   
+			     $("#content").on('click', '#deleteimages', (function(event) {
 			        event.preventDefault();
 			        deleteimages();
 		
 		
 			    }));
+		
+			    $("#content").on('click', '.tagButton', (function(event) {
+			        
+			        var button = $(this);
+			        
+			        var tagImageid = $(this).attr('id');
+			        
+			       // console.log(tagImageid);
+			        
+			        if (confirm("Do you wish to delete this tag from the image?")) {
+		
+					//disableFormInputs("images");
+		
+					var imagesObject = pushDataAJAX('imagesTag', 'id', tagImageid, 2, ''); //delete images
+		
+					imagesObject.done(function (data){
+		
+						console.log(data);
+		
+						if (data){
+		
+							if (data == 1){
+		
+								//alert ("tag connection deleted");
+								$(button).remove();
+								
+								//edit = 0;
+								//imagesPassed = null;
+								//window.location.href = siteRoot + "scripts/forms/imagesTable.php";
+								//go to images list
+		
+							}else {
+		
+							alert("Error, try again");
+		
+							//enableFormInputs("images");
+		
+						    }
+		
+		
+		
+						}
+		
+		
+					});
+		
+				}
+		
+		
+			    }));
+			    
+			    $('.modal').on('click', '#newTagCategory', function(){
+				    
+				    $('.modal').hide();
+					
+					$('.darkClass').hide();
+					
+					PopupCenter(siteRoot + "scripts/forms/tagCategoriesForm.php", 'New Tag Category', 600, 700);
+					
+					//window.open(, "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,width=600,height=700");
+				    
+				    
+				    
+				})
+				
+				$('.modal').on('click', '#newTag', function(){
+				    
+				    $('.modal').hide();
+					
+					$('.darkClass').hide();
+					
+					PopupCenter(siteRoot + "scripts/forms/tagsForm.php", 'New Tag', 600, 700);
+
+					
+					//window.open(siteRoot + "scripts/forms/tagsForm.php", "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,width=600,height=700");
+				    
+				    
+				    
+				})
+				
+				$("#content").on('blur', '.name', (function() {
+			        
+			        console.log('fired');
+			        
+			        //!get imageid
+			        
+			        //enter this in the field name
+			        
+			        imageID = $(cellClicked).closest('tr').find('td:eq(0)').attr('id');
+			        
+			        var text = $(this).val();
+		
+					var imagesObject = pushDataAJAX('images', 'id', imageID, 1, {'name':text}); //delete images
+		
+					imagesObject.done(function (data){
+		
+						console.log(data);
+		
+						if (data){
+		
+							if (data == 1){
+		
+								//alert ("tag connection deleted");
+								console.log('textarea data updated');
+								
+								//edit = 0;
+								//imagesPassed = null;
+								//window.location.href = siteRoot + "scripts/forms/imagesTable.php";
+								//go to images list
+		
+							}else {
+		
+								console.log('textarea data not updated');
+		
+							//enableFormInputs("images");
+		
+						    }
+		
+		
+		
+						}
+		
+		
+					});
+		
+				
+		
+		
+			    }));
+				
 		
 				$("#images").validate({
 		

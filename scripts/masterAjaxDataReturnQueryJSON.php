@@ -64,30 +64,37 @@ function ne($v) {
 
 */
 
+$data = json_decode(file_get_contents('php://input'), true);
+
+//print_r($data);
 
 //check count of get variables
 
-if (count($_GET) > 0){
+if (count($data) > 0){
 
 
 
 
-	$data = $general->sanitiseGET($_GET);
+	//$data = $general->sanitiseGET($data);
 
-	foreach ($data as $key=>$value){
+	/*foreach ($data as $key=>$value){
 
 		$GLOBALS[$key] = $value;
 
-	}
+	}*/
 
 	//print_r($GLOBALS);
 	//print_r($data);
 
-	if (!isset($table)){
+	if (!isset($data['table'])){
 
 		echo 'Table key not set';
 		exit();
 
+	}else{
+		
+		$table = $data['table'];
+		
 	}
 
 	/*if (!isset($query)){
@@ -97,11 +104,16 @@ if (count($_GET) > 0){
 
 	}*/
 
-	if (!isset($outputFormat)){
+	if (!isset($data['outputFormat'])){
 
 		echo 'Output format key not set';
 		exit();
 
+	}else{
+		
+		$outputFormat = $data['outputFormat'];
+		//echo 'outputformat = ' + $outputFormat;
+		
 	}
 
 	if ($outputFormat == 1 || $outputFormat == 2 || $outputFormat == 3){
@@ -242,7 +254,7 @@ if (count($_GET) > 0){
 		
 		//$dataString2 = implode('` , `', $pfkeydataarray);
 		
-		print_r($data);
+		//print_r($data);
 		
 		//unset($data['pfkeyidarray']);
 		//unset($data['pfkeydataarray']);
@@ -261,6 +273,8 @@ if (count($_GET) > 0){
 		//
 		//
 		
+		$values = array();
+		
 		$errors=0;
 		
 		foreach ($data as $key=>$value)	{
@@ -274,16 +288,36 @@ if (count($_GET) > 0){
 			
 		}
 		
+		$i = 0;
+		$ilen = count( $keys );
+		
 		foreach ($data as $key=>$value) {
 			
-			foreach ($value as $k=>$v){
+			$y='';
+				
+				foreach ($keys as $k1=>$v1){
+				
+				$y .= '`' . $v1 . '` = ' .$value[$v1];
+				
+				if( ++$i != $ilen ){
+					
+					$y .= ' AND ';
+					
+				}
+				
+				}
+
+			
+			
 				
 				
-				$q = "SELECT `" . implode('` , `', $keys) . "` FROM `$table` WHERE `$k` = $v";
+				$q = "SELECT `" . implode('` , `', $keys) . "` FROM `$table` WHERE $y"; //only one key here!
+				
+				//echo $q;
 				
 				$result = $general->connection->RunQuery($q);
 				
-				if ($result->num_rows == 1){
+				if ($result->num_rows >= 1){
 					
 					$errors++;
 		
@@ -292,7 +326,7 @@ if (count($_GET) > 0){
 				
 				}
 				
-			}
+			
 			
 			
 			
@@ -309,6 +343,89 @@ if (count($_GET) > 0){
 		}
 
 
+	}
+	
+	if ($outputFormat == 5){
+		
+		unset($data['table']);
+		unset($data['outputFormat']);
+		
+		foreach($data as $key=>$value)
+		{
+			if(is_null($value) || $value == '' || $value == 'undefined')
+				unset($data[$key]);
+		}
+				
+		$errors=0;
+		
+		$values = array();
+		
+		$output = array();
+		
+		foreach ($data as $key=>$value)	{
+			
+			//get the keys once
+			
+			$keys = array();
+			
+			
+			$keys = array_keys($value);
+			
+			
+		}
+		
+		foreach ($data as $key=>$value) {
+				
+				$y=0;
+				
+				foreach ($keys as $k1=>$v1){
+				
+				$values[$y] = $value[$v1];
+				$y++;
+				
+				}
+			
+			$q = "INSERT INTO $table (`" . implode('` , `', $keys) . "`) VALUES (" . implode(' , ', $values) . " )";
+				
+				
+				
+				//echo $q;
+				
+				$result = $general->returnWithInsertID($q);
+				
+				if ($result){
+					
+					$output[] = $result;
+							
+				}else {
+					
+					$errors++;
+
+				
+				}
+				
+			
+			
+			
+			
+		}
+		
+		if ($errors == 0){
+			
+			//echo 0;
+			//print_r($output);
+			echo json_encode($output);
+			//actually encode a JSON of the insert IDs
+			
+		}else{
+			
+			echo 0;
+			//actually encode 0
+			
+		}
+		
+		
+		
 	}
 
 	//}else{

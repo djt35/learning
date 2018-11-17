@@ -109,7 +109,14 @@ if(isset($_FILES)){
 		//echo json_encode($finalFilenames);
 		//echo "</div>";
 
-		echo '<table id="imagesTable">';
+		echo '<table id="imagesTable" class="imageTable">';
+		echo '<tr>';
+			echo '<th></th>';
+			echo '<th></th>';
+			echo '<th>Tags</th>';
+			echo '<th>Description</th>';
+			echo '<th>Rank</th>';
+			echo '</tr>';
 		foreach ($filearray as $key=>$value){
 			
 			$insert = $value['id'];
@@ -119,13 +126,17 @@ if(isset($_FILES)){
 			echo '<tr class="file">';
 			echo "<td id='$insert' style='display:none;'>$file</td>";
 			echo "<td><img src='$roothttp/$file' style=\"width:128px;\"></td>";
-			echo "<td><button class='addTag' onclick='addImageTag(\'$insert\');'>Add Tag</button></td>";
+			echo "<td><button class='addTag'>Add Tag</button></td>";
+			echo "<td class='imageTag'></td>";
+			echo "<td class='imageDesc'><textarea name='imagename$insert' id='imagename$insert' class='name' rows='4' cols='30'></textarea></td>";
+			echo "<td class='imageRank'><select name='imagetype$insert' id='imagetype$insert' class='type'><option hidden selected></option><option value='1'>1</option><option value='2'>2</option><option value='3'>3</option><option value='4'>4</option><option value='5'>5</option></select></td>";
+
 			
 			echo '</tr>';
 		}
 		echo '</table>';
 		echo '<p>';
-		echo "<button class='addTag' onclick='addImageTagAll();'> Add tag to all images</button>";
+		echo "<button class='addTagAll'> Add tag to all images</button>";
 		echo '</p>';
 	}
 

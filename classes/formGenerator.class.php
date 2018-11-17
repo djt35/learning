@@ -25,10 +25,23 @@ Class formGenerator {
 		return $values;
 	}
 	
+	public function GetTagCategories(){
+		
+		
+		$tagCategories = array();
+		$result = $this->connection->RunQuery("SELECT id, tagCategoryName from `tagCategories`");
+			while($row = $result->fetch_array(MYSQLI_ASSOC)){
+				$desiredKey = $row['id'];
+				$desiredValue = $row['tagCategoryName'];
+				$tagCategories[$desiredKey] = $desiredValue;
+			}
+		return $tagCategories;
+	}
+	
 	public function generateSelect ($label, $id, $class, $options, $tooltip){
 		
 		$values = $this->GetValues($options);
-		echo "<div id='".$id."row' class='row'>";
+		//echo "<div id='".$id."row' class='row'>";
 		echo "<label for='$id' id='".$id."label' title='$tooltip'>$label&nbsp&nbsp</label>";
 	
 		echo "<select name='$id' id='$id' class='$class'>";
@@ -37,7 +50,22 @@ Class formGenerator {
 			echo "<option value='$key'>$value</option>";	
 		}
 		echo "</select><br>";
-		echo "</div>";	
+		//echo "</div>";	
+	}
+	
+	public function generateSelectTagCategories ($label, $id, $class, $tooltip){
+		
+		$values = $this->GetTagCategories();
+		//echo "<div id='".$id."row' class='row'>";
+		echo "<label for='$id' id='".$id."label' title='$tooltip'>$label&nbsp&nbsp</label>";
+	
+		echo "<select name='$id' id='$id' class='$class'>";
+		echo "<option hidden disabled selected>please select</option>";
+		foreach ($values as $key=>$value){
+			echo "<option value='$key'>$key - $value</option>";	
+		}
+		echo "</select><br>";
+		//echo "</div>";	
 	}
 	
 	
@@ -103,10 +131,10 @@ Class formGenerator {
 	
 	public function generateTextArea ($label, $id, $class, $tooltip){
 		
-		echo "<div id='".$id."row' class='row'>";
-		echo "<label for='$id' id='".$id."label' title='$tooltip'>$label&nbsp&nbsp</label>";
+		//echo "<div id='".$id."row' class='row'>";
+		//echo "<label for='$id' id='".$id."label' title='$tooltip'>$label&nbsp&nbsp</label>";
 		echo "<textarea name='$id' id='$id' class='$class' rows='4' cols='30'></textarea>";
-		echo "</div>";	
+		//echo "</div>";	
 		
 	}
 	

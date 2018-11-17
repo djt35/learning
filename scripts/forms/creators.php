@@ -151,6 +151,21 @@ foreach ($columns as $key=>$value){
             
             ?>
 	        
+	         <div class="row">
+                <div class="col-4"><b>Uploaders</b></div>
+
+                <div class="col-4 narrow">
+                    <p><a href='<?php echo $roothttp.'/scripts/forms/imagesUploadForm.php';?>'>Upload images</a></p>
+                </div>
+                
+                <div class="col-4 narrow">
+                    
+                </div>
+
+
+                
+            </div>   
+	        
 	        		        
 		    <div class="row">
                 <div class="col-4"><b>Helpers</b></div>

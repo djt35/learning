@@ -42,6 +42,37 @@ function getDataQuery (table, query, fieldsToGetObject, outputFormat){
 
 }
 
+function JSONDataQuery (table, dataObject, outputFormat){
+
+	
+	//uriQuery = encodeURI(query);
+	
+	dataObject.table = table;
+	
+	dataObject.outputFormat = outputFormat;
+	
+	//var datastring = 'table='+ table;
+	
+	//datastring = datastring + '&outputFormat=' + outputFormat;
+	
+	
+	//datastring = datastring + '&' + jQuery.param(fieldsToGetObject);
+	
+	console.log(JSON.stringify(dataObject));
+	
+	var datastring = JSON.stringify(dataObject);
+	
+	//console.log('Requested data was '+datastring);
+	
+	return $.ajax({
+		url: siteRoot + "scripts/masterAjaxDataReturnQueryJSON.php",
+		type: "POST",
+		contentType: "application/json",
+		data: datastring,
+	    });
+
+}
+
 /*
     request.done(function(response, textStatus, jqXHR) {
 
@@ -267,6 +298,43 @@ function pushDataFromFormAJAX (form, table, identifierKey, identifier, updateTyp
 	
 }
 
+function pushDataAJAX (table, identifierKey, identifier, updateType, datainputobject){
+	
+	//form is jquery array of form elements
+	//need to do the validation prior to this
+	//update types 
+	// update 0 INSERT INTO
+
+	// update 1 UPDATE
+
+	// update 2 DELETE
+	
+	
+	
+	//here provide the form elements as jquery array
+	
+	//update form elements to readable array
+	
+	var data = 'table=' + table + '&identifierKey=' + identifierKey + '&identifier=' + identifier + '&update=' + updateType + '&' + jQuery.param(datainputobject);
+	
+	//console.log(data);
+	
+	//disable form elements
+	
+	//pass this data to a standard ajax
+	
+	
+	return $.ajax({
+	        url: siteRoot + "scripts/masterAjaxDatabaseUpdateScript.php",
+	        type: "get",
+	        data: data
+	
+	    });
+
+	
+
+	
+}
 
 /*
 	
@@ -482,5 +550,29 @@ var waitForFinalEvent = (function () {
 	    timers[uniqueId] = setTimeout(callback, ms);
 	  };
 	})();	
+	
+	
+function isNormalInteger(str) {
+    var n = Math.floor(Number(str));
+    return n !== Infinity && String(n) === str && n >= 0;
+}
+
+function PopupCenter(url, title, w, h) {
+    // Fixes dual-screen position                         Most browsers      Firefox
+    var dualScreenLeft = window.screenLeft != undefined ? window.screenLeft : window.screenX;
+    var dualScreenTop = window.screenTop != undefined ? window.screenTop : window.screenY;
+
+    var width = window.innerWidth ? window.innerWidth : document.documentElement.clientWidth ? document.documentElement.clientWidth : screen.width;
+    var height = window.innerHeight ? window.innerHeight : document.documentElement.clientHeight ? document.documentElement.clientHeight : screen.height;
+
+    var left = ((width / 2) - (w / 2)) + dualScreenLeft;
+    var top = ((height / 2) - (h / 2)) + dualScreenTop;
+    var newWindow = window.open(url, title, 'scrollbars=yes, width=' + w + ', height=' + h + ', top=' + top + ', left=' + left);
+
+    // Puts focus on the newWindow
+    if (window.focus) {
+        newWindow.focus();
+    }
+}
 
 

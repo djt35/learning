@@ -88,7 +88,7 @@
 		
 					    <form id="tagCategories">
 					    <?php echo $formv1->generateText('tagCategoryName', 'tagCategoryName', '', 'tooltip here');
-echo $formv1->generateText('active', 'active', '', 'tooltip here');
+								echo $formv1->generateSelect('active', 'active', '', 'Yes_No', 'tooltip here');
 ?>
 						    <button id="submittagCategories">Submit</button>
 		
