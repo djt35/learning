@@ -136,7 +136,7 @@ if(isset($_FILES)){
 		}
 		echo '</table>';
 		echo '<p>';
-		echo "<button class='addTagAll'> Add tag to all images</button>;&nbsp;&nbsp;";
+		echo "<button class='addTagAll'> Add tag to all images</button>&nbsp;&nbsp;";
 		echo "<button class='save' onclick='fn60sec();'> Save data </button>";
 		echo '</p>';
 	}
