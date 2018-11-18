@@ -92,9 +92,9 @@ if (count($data) > 0){
 		exit();
 
 	}else{
-		
+
 		$table = $data['table'];
-		
+
 	}
 
 	/*if (!isset($query)){
@@ -110,10 +110,10 @@ if (count($data) > 0){
 		exit();
 
 	}else{
-		
+
 		$outputFormat = $data['outputFormat'];
 		//echo 'outputformat = ' + $outputFormat;
-		
+
 	}
 
 	if ($outputFormat == 1 || $outputFormat == 2 || $outputFormat == 3){
@@ -245,17 +245,17 @@ if (count($data) > 0){
 		unset($data['table']);
 		//unset($data['query']);
 		unset($data['outputFormat']);
-		
+
 		//parent/foreign key identifier array
-		
+
 		//$dataString = implode('` , `', $pfkeyidarray);
-		
+
 		//parent/foreign key data array
-		
+
 		//$dataString2 = implode('` , `', $pfkeydataarray);
-		
+
 		//print_r($data);
-		
+
 		//unset($data['pfkeyidarray']);
 		//unset($data['pfkeydataarray']);
 
@@ -265,168 +265,292 @@ if (count($data) > 0){
 			if(is_null($value) || $value == '' || $value == 'undefined')
 				unset($data[$key]);
 		}
-		
+
 		//remaining should be array of data pairs to check
-		
-		
+
+
 		//  Arry => 1 =>Array([images_id] => , [tags_id] => )
 		//
 		//
-		
+
 		$values = array();
-		
+
 		$errors=0;
-		
-		foreach ($data as $key=>$value)	{
-			
+
+		foreach ($data as $key=>$value) {
+
 			//get the keys once
-			
+
 			$keys = array();
-			
+
 			$keys = array_keys($value);
-			
-			
+
+
 		}
-		
+
 		$i = 0;
 		$ilen = count( $keys );
-		
+
 		foreach ($data as $key=>$value) {
-			
+
 			$y='';
-				
-				foreach ($keys as $k1=>$v1){
-				
+
+			foreach ($keys as $k1=>$v1){
+
 				$y .= '`' . $v1 . '` = ' .$value[$v1];
-				
+
 				if( ++$i != $ilen ){
-					
+
 					$y .= ' AND ';
-					
-				}
-				
+
 				}
 
-			
-			
-				
-				
-				$q = "SELECT `" . implode('` , `', $keys) . "` FROM `$table` WHERE $y"; //only one key here!
-				
-				//echo $q;
-				
-				$result = $general->connection->RunQuery($q);
-				
-				if ($result->num_rows >= 1){
-					
-					$errors++;
-		
-				}else {
-		
-				
-				}
-				
-			
-			
-			
-			
+			}
+
+
+
+
+
+			$q = "SELECT `" . implode('` , `', $keys) . "` FROM `$table` WHERE $y"; //only one key here!
+
+			//echo $q;
+
+			$result = $general->connection->RunQuery($q);
+
+			if ($result->num_rows >= 1){
+
+				$errors++;
+
+			}else {
+
+
+			}
+
+
+
+
+
 		}
-		
+
 		if ($errors == 0){
-			
+
 			echo 0;
-			
+
 		}else{
-			
+
 			echo 1;
-			
+
 		}
 
 
 	}
-	
+
 	if ($outputFormat == 5){
-		
+
 		unset($data['table']);
 		unset($data['outputFormat']);
-		
+
 		foreach($data as $key=>$value)
 		{
 			if(is_null($value) || $value == '' || $value == 'undefined')
 				unset($data[$key]);
 		}
-				
+
 		$errors=0;
-		
+
 		$values = array();
-		
+
 		$output = array();
-		
-		foreach ($data as $key=>$value)	{
-			
-			//get the keys once
-			
-			$keys = array();
-			
-			
-			$keys = array_keys($value);
-			
-			
-		}
-		
+
 		foreach ($data as $key=>$value) {
-				
-				$y=0;
-				
-				foreach ($keys as $k1=>$v1){
-				
+
+			//get the keys once
+
+			$keys = array();
+
+
+			$keys = array_keys($value);
+
+
+		}
+
+		$ilen = count( $keys );
+
+		foreach ($data as $key=>$value) {
+
+			$y=0;
+
+			foreach ($keys as $k1=>$v1){
+
 				$values[$y] = $value[$v1];
 				$y++;
-				
-				}
-			
-			$q = "INSERT INTO $table (`" . implode('` , `', $keys) . "`) VALUES (" . implode(' , ', $values) . " )";
-				
-				
-				
-				//echo $q;
-				
-				$result = $general->returnWithInsertID($q);
-				
-				if ($result){
-					
-					$output[] = $result;
-							
-				}else {
-					
-					$errors++;
 
-				
-				}
-				
-			
-			
-			
-			
+			}
+
+			$q = "INSERT INTO $table (`" . implode('` , `', $keys) . "`) VALUES (" . implode(' , ', $values) . " )";
+
+
+
+			//echo $q;
+
+			$result = $general->returnWithInsertID($q);
+
+			if ($result){
+
+				$output[] = $result;
+
+			}else {
+
+				$errors++;
+
+
+			}
+
+
+
+
+
 		}
-		
+
 		if ($errors == 0){
-			
+
 			//echo 0;
 			//print_r($output);
 			echo json_encode($output);
 			//actually encode a JSON of the insert IDs
-			
+
 		}else{
-			
+
 			echo 0;
 			//actually encode 0
-			
+
 		}
-		
-		
-		
+
+
+
 	}
+
+	if ($outputFormat == 6){  //update script same as above
+
+		unset($data['table']);
+		unset($data['outputFormat']);
+
+		//print_r($data);
+
+		foreach($data as $key=>$value)
+		{
+			if(is_null($value) || $value == '' || $value == 'undefined')
+				unset($data[$key]);
+		}
+
+		$errors=0;
+
+		$values = array();
+
+		$output = array();
+
+		$keys = array();
+
+		foreach ($data as $key=>$value) {
+
+
+			$keys[] = $key;
+			//get the keys once
+
+
+
+		}
+
+		$wherekey = $keys[0];
+
+		unset($keys[0]);
+
+
+		//print_r($keys);
+
+		$ilen = count( $keys );
+
+		// where id  $data[id][x]
+		// set field1 $data[field1][x]
+		// set field2 $data[field2][x]
+
+		//foreach ($data as $key=>$value) {
+
+
+		$y = count($data[$wherekey]);
+
+		for ($x = 0; $x < $y; $x++){
+
+			$q = "UPDATE $table SET ";
+
+			$i=0;
+
+			foreach ($keys as $k1=>$v1){
+
+				$q .= "`$v1` = '{$data[$v1][$x]} '";
+
+				if( ++$i != $ilen ){
+
+					$q .= ', ';
+
+				}
+
+
+			}
+
+			$q .= " WHERE `$wherekey` = {$data[$wherekey][$x]}";
+
+			//echo $q;
+
+			$result = $general->connection->RunQuery($q);
+
+			if ($result == 1){
+
+				//$output[] = $result;
+
+			}else {
+
+				$errors++;
+
+
+			}
+
+		}
+
+
+
+
+
+
+
+		//echo $q;
+
+
+
+
+
+
+
+		//}
+
+		if ($errors == 0){
+
+			//echo 0;
+			//print_r($output);
+			echo 1;
+			//actually encode a JSON of the insert IDs
+
+		}else{
+
+			echo 0;
+			//actually encode 0
+
+		}
+
+
+
+	}
+
 
 	//}else{
 
