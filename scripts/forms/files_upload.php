@@ -17,12 +17,28 @@ error_reporting(1);
 //var_dump($_FILES);
 // check files are set or not
 
+function generateRandomString($length = 8) {
+    $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    $charactersLength = strlen($characters);
+    $randomString = '';
+    for ($i = 0; $i < $length; $i++) {
+        $randomString .= $characters[rand(0, $charactersLength - 1)];
+    }
+    return $randomString;
+}
+
 $desired_dir=$root . "includes/images/";
 $desired_http_dir = $roothttp . "includes/images/";
 
 $filearray = array();
 
+
+
 if(isset($_FILES)){
+	
+	$r = "INSERT into `imageSet` (`name`) VALUES ('" . generateRandomString() . "')";
+					
+	$insertid2 = $general->returnWithInsertID($r);
 
 	$errors= array();
 	$desired_dir=$root . "includes/images/"; // replace with your directory name where you want to store images
@@ -54,6 +70,8 @@ if(isset($_FILES)){
 		$original_name = $actual_name;
 		$extension = pathinfo($file_name, PATHINFO_EXTENSION);
 		
+		
+		
 		$i = 1;
 		while(file_exists('tmp/'.$actual_name.".".$extension))
 		{           
@@ -84,7 +102,11 @@ if(isset($_FILES)){
 					
 					$filearray[$x] = array ('id' => $insertid, 'filename' => 'includes/images/' .$file_name);
 					
+					//use insert ID for insert into imagesGroup
+					
+					$s = "INSERT into `imageImageSet` (`image_id`,`imageSet_id`) VALUES ('$insertid','$insertid2')";
 					//echo "The file ".$file_name." has been uploaded";
+					$general->connection->RunQuery($s);
 					
 				}
 				
