@@ -6282,6 +6282,8 @@ class Lesion {
 
 
 	}
+	
+	
 
 	public function getLesionCentre ($lesionid){
 

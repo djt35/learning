@@ -92,7 +92,7 @@
 		
 				        if ($id){
 		
-							$q = "SELECT  id  FROM  images  WHERE  id  = $id";
+							$q = "SELECT  `id`  FROM  `imageSet`  WHERE  `id`  = $id";
 							if ($general->returnYesNoDBQuery($q) != 1){
 								echo "Passed id does not exist in the database";
 								exit();
@@ -110,7 +110,7 @@
 					
 					    <form id="imageUpload">
 					    
-					    <input name="files[]" type="file" multiple="multiple" accept=".jpg, .jpeg"/>
+					    <input name="files[]" type="file" multiple="multiple" accept=".jpg, .jpeg, .bmp"/>
 					    
 					    <button id="submitimagefiles">Submit</button>
 		
@@ -155,6 +155,10 @@ if (imagesPassed == "") {
 } else {
 
     var edit = 1;
+    
+    $('#imageUpload').hide();
+    
+    //constructEditTable;
 
 }
 
@@ -169,6 +173,189 @@ var images = new Object();
 var textAreas = new Object();
 
 var selects = new Object();
+
+
+function constructEditTable(idPassed){
+	
+	//imagesPassed, ajax the id to get a table in the format of the previous
+	
+	//get the images
+	
+	//get all the tags for the images
+	
+	
+	$('#imageUpload').hide();
+	
+    imagesRequired = new Object;
+
+    //imagesRequired = getNamesFormElements("images");  JSONStraightDataQuery (table, query, outputFormat)
+
+    imagesString = '`id`=\'' + idPassed + '\'';
+    
+    query = "SELECT a.`id`, b.`image_id`, c.`url`, c.`name`, c.`type` FROM `imageSet` as a INNER JOIN `imageImageSet` as b ON a.`id` = b.`imageSet_id` INNER JOIN `images` as c on b.`image_id` = c.`id` WHERE a.`id` = "+idPassed;
+
+    var selectorObject = JSONStraightDataQuery("imageSet", query, 7);
+
+    //console.log(selectorObject);
+
+    selectorObject.done(function(data) {
+
+        console.log(data);
+		
+		try{
+		
+        var formData = $.parseJSON(data);
+        
+        } catch (error) {
+	        
+	       console.log('No ajax data received'); 
+	        
+        }
+
+		var html = "<table id=\"imagesTable\" class=\"imageTable\">";
+		html += "<tr>";
+		html += '<th></th>';
+			html += '<th></th>';
+			html += '<th>Tags</th>';
+			html += '<th>Description</th>';
+			html += '<th>Rank</th>';
+			html += '</tr>';
+
+        $(formData).each(function(i, val) {
+            
+            var id = val.id;
+            var image_id = val.image_id;
+            var url = val.url;
+            var name = val.name;
+            var type = val.type;
+            
+            html += '<tr class="file">';
+			html += "<td id='"+image_id+"' style='display:none;'>$file</td>";
+			html += "<td><img src='"+siteRoot+"/"+url+"' style=\"width:128px;\"></td>";
+			html += "<td><button class='addTag'>Add Tag</button></td>";
+			html += "<td class='imageTag' id='tag"+image_id+"'></td>";
+			html += "<td class='imageDesc'><textarea name='imagename$insert' id='imagename"+image_id+"' class='name' rows='4' cols='30'></textarea></td>";
+			html += "<td class='imageRank'><select id='imagetype"+image_id+"' class='type'><option hidden selected></option><option value='1'>1</option><option value='2'>2</option><option value='3'>3</option><option value='4'>4</option><option value='5'>5</option></select></td>";
+			
+			html += '</tr>';
+
+
+        });
+        
+        html += '</table>';
+		html += '<p>';
+		html += "<button class='addTagAll'> Add tag to all images</button>&nbsp;&nbsp;";
+		html += "<button class='save' onclick='fn60sec();'> Save data </button>";
+		html += '</p>';
+
+        $("#messageBox").text("Editing images with imageSet id " + idPassed);
+        $("#images").html(html);
+        
+        $(formData).each(function(i, val) {
+            
+            var id = val.id;
+            var image_id = val.image_id;
+            var url = val.url;
+            var name = val.name;
+            var type = val.type;
+            console.log('Type for image id '+image_id+' is '+type);
+			
+		
+		$("#imagename"+image_id+"").val(name);
+		
+		$("#imagetype"+image_id).val(type);
+		
+		
+		
+		
+		});
+		
+				query = "SELECT b.`image_id`, c.`url`, c.`name`, c.`type`, e.`tagName`, d.`tags_id` FROM `imageSet` as a INNER JOIN `imageImageSet` as b ON a.`id` = b.`imageSet_id` INNER JOIN `images` as c on b.`image_id` = c.`id` INNER JOIN `imagesTag` as d ON c.`id` = d.`images_id` INNER JOIN `tags` as e ON d.`tags_id` = e.`id` WHERE a.`id` = "+idPassed;
+		
+		    var selectorObject = JSONStraightDataQuery("imageSet", query, 7);
+		
+		    //console.log(selectorObject);
+		
+		    selectorObject.done(function(data) {
+		
+		        console.log(data);
+				
+				try{
+				
+		        var formData = $.parseJSON(data);
+		        
+		        } catch (error) {
+			        
+			       console.log('No ajax data received'); 
+			        
+		        }
+		        
+		        $(formData).each(function(i, val) {
+            
+	            var id = val.id;
+	            var image_id = val.image_id;
+	            var tags_id = val.tags_id;
+	            var tagName = val.tagName;
+	            var type = val.type;
+
+	            
+	            $("#tag"+image_id+"").append('<button id="' + tags_id + '" class="tagButton">'+tagName+'</button>');
+				
+				
+				
+				});
+		        
+		        
+		        
+		    });
+
+		
+        //enableFormInputs("images");
+
+    });
+
+    /*try {
+
+        $("form#images").find("button#deleteimages").length();
+
+    } catch (error) {
+
+        $("form#images").find("button").after("<button id='deleteimages'>Delete</button>");
+
+    }*/
+	/*
+	echo '<table id="imagesTable" class="imageTable">';
+		echo '<tr>';
+			echo '<th></th>';
+			echo '<th></th>';
+			echo '<th>Tags</th>';
+			echo '<th>Description</th>';
+			echo '<th>Rank</th>';
+			echo '</tr>';
+		foreach ($filearray as $key=>$value){
+			
+			$insert = $value['id'];
+			$file = $value['filename'];
+			
+			
+			echo '<tr class="file">';
+			echo "<td id='$insert' style='display:none;'>$file</td>";
+			echo "<td><img src='$roothttp/$file' style=\"width:128px;\"></td>";
+			echo "<td><button class='addTag'>Add Tag</button></td>";
+			echo "<td class='imageTag'></td>";
+			echo "<td class='imageDesc'><textarea name='imagename$insert' id='imagename$insert' class='name' rows='4' cols='30'></textarea></td>";
+			echo "<td class='imageRank'><select name='imagetype$insert' id='imagetype$insert' class='type'><option hidden selected></option><option value='1'>1</option><option value='2'>2</option><option value='3'>3</option><option value='4'>4</option><option value='5'>5</option></select></td>";
+
+			
+			echo '</tr>';
+		}
+		echo '</table>';
+		echo '<p>';
+		echo "<button class='addTagAll'> Add tag to all images</button>&nbsp;&nbsp;";
+		echo "<button class='save' onclick='fn60sec();'> Save data </button>";
+		echo '</p>';*/
+	
+}
 
 
 function fn60sec() {
@@ -560,7 +747,7 @@ $(document).ready(function() {
 
     if (edit == 1) {
 
-        fillForm(imagesPassed);
+        constructEditTable(imagesPassed);
 
     } else {
 

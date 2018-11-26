@@ -55,9 +55,9 @@ if(isset($_FILES)){
 			$errors[]='File size must be less than 8 MB'; // change or remove it
 		}*/
 		
-		if($file_type != 'image/jpeg'){
-			$errors[]='Files must be jpeg'; // change or remove it
-		}
+		//if($file_type != 'image/jpeg'){
+		//	$errors[]='Files must be jpeg'; // change or remove it
+		//}
 		
 		$random = rand ( 99 , 99999 );
 		

@@ -90,6 +90,8 @@
 					    <?php echo $formv1->generateText('url', 'url', '', 'tooltip here');
 echo $formv1->generateText('name', 'name', '', 'tooltip here');
 echo $formv1->generateText('type', 'type', '', 'tooltip here');
+echo $formv1->generateText('created', 'created', '', 'tooltip here');
+echo $formv1->generateText('updated', 'updated', '', 'tooltip here');
 ?>
 						    <button id="submitimages">Submit</button>
 		
@@ -356,10 +358,14 @@ echo $formv1->generateText('type', 'type', '', 'tooltip here');
 url: { required: true },   
 name: { required: true },   
 type: { required: true },   
+created: { required: true },   
+updated: { required: true },   
 },messages: {
 url: { required: 'message' },   
 name: { required: 'message' },   
 type: { required: 'message' },   
+created: { required: 'message' },   
+updated: { required: 'message' },   
 },
 			        submitHandler: function(form) {
 		

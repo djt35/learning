@@ -30,6 +30,12 @@ p {
     /*border: 1px solid red;*/
 }
 
+.lslimage {
+	
+	width : 100%;
+	
+}
+
 .blue {
 	
 	background-color: #1e598f;
@@ -597,4 +603,9 @@ display: none;
     border: 1px solid #ddd;
     padding: 10px;
     text-align: center;
+}
+
+.caption{
+	font-size: 12px;
+	padding: 10px;	
 }

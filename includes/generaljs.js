@@ -73,6 +73,41 @@ function JSONDataQuery (table, dataObject, outputFormat){
 
 }
 
+function JSONStraightDataQuery (table, query, outputFormat){
+
+	
+	//uriQuery = encodeURI(query);
+	
+	var dataObject = new Object();
+	
+	dataObject.table = table;
+	
+	dataObject.outputFormat = outputFormat;
+	
+	dataObject.query = query;
+	
+	//var datastring = 'table='+ table;
+	
+	//datastring = datastring + '&outputFormat=' + outputFormat;
+	
+	
+	//datastring = datastring + '&' + jQuery.param(fieldsToGetObject);
+	
+	console.log(JSON.stringify(dataObject));
+	
+	var datastring = JSON.stringify(dataObject);
+	
+	//console.log('Requested data was '+datastring);
+	
+	return $.ajax({
+		url: siteRoot + "scripts/masterAjaxDataReturnQueryJSON.php",
+		type: "POST",
+		contentType: "application/json",
+		data: datastring,
+	    });
+
+}
+
 /*
     request.done(function(response, textStatus, jqXHR) {
 

@@ -550,7 +550,30 @@ if (count($data) > 0){
 
 
 	}
+	
+	if ($outputFormat == 7){
 
+		unset($data['table']);
+		unset($data['outputFormat']);
+
+		$q = $data['query'];
+		
+		//echo $q;
+		
+		$result = $general->connection->RunQuery($q);
+
+			while($row = $result->fetch_array(MYSQLI_ASSOC)){
+				$rows[] = array_map('utf8_encode', $row);
+			}
+
+
+			echo json_encode($rows);
+
+	
+
+
+
+	}
 
 	//}else{
 
