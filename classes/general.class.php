@@ -116,11 +116,10 @@ class general {
 
 	public function makeTable ($q){
 
-		//echo $q;
+		echo $q;
 
 		$result = $this->connection->RunQuery($q);
 
-		//print_r($result);
 
 		if ($result->num_rows > 0){
 
@@ -169,6 +168,11 @@ class general {
 
 			echo '</table>';
 
+		}else{
+			
+			echo '<p>Error</p>';
+			print_r($this->connection->conn);
+			
 		}
 
 	}
@@ -176,7 +180,7 @@ class general {
 	public function makeTableImages ($q, $roothttp){
 
 		//echo $q;
-
+		//$result = $this->connection->RunQuery('USE ESD');
 		$result = $this->connection->RunQuery($q);
 
 		//print_r($result);

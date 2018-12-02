@@ -574,6 +574,25 @@ if (count($data) > 0){
 
 
 	}
+	
+	if ($outputFormat == 8){
+
+		unset($data['table']);
+		unset($data['outputFormat']);
+
+		$q = $data['query'];
+		
+		//echo $q;
+		
+		$result = $general->returnYesNoDBQuery($q);
+
+		echo $result;
+
+	
+
+
+
+	}
 
 	//}else{
 
