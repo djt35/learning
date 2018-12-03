@@ -174,6 +174,9 @@ var textAreas = new Object();
 
 var selects = new Object();
 
+var selects2 = new Object();
+
+
 
 function constructEditTable(idPassed){
 	
@@ -192,7 +195,7 @@ function constructEditTable(idPassed){
 
     imagesString = '`id`=\'' + idPassed + '\'';
     
-    query = "SELECT a.`id`, b.`image_id`, c.`url`, c.`name`, c.`type` FROM `imageSet` as a INNER JOIN `imageImageSet` as b ON a.`id` = b.`imageSet_id` INNER JOIN `images` as c on b.`image_id` = c.`id` WHERE a.`id` = "+idPassed;
+    query = "SELECT a.`id`, b.`image_id`, c.`url`, c.`name`, c.`type`, c.`order` FROM `imageSet` as a INNER JOIN `imageImageSet` as b ON a.`id` = b.`imageSet_id` INNER JOIN `images` as c on b.`image_id` = c.`id` WHERE a.`id` = "+idPassed;
 
     var selectorObject = JSONStraightDataQuery("imageSet", query, 7);
 
@@ -219,6 +222,7 @@ function constructEditTable(idPassed){
 			html += '<th>Tags</th>';
 			html += '<th>Description</th>';
 			html += '<th>Rank</th>';
+			html += '<th>Display order</th>';
 			html += '</tr>';
 
         $(formData).each(function(i, val) {
@@ -235,9 +239,17 @@ function constructEditTable(idPassed){
 			html += "<td><button class='addTag'>Add Tag</button></td>";
 			html += "<td class='imageTag' id='tag"+image_id+"'></td>";
 			html += "<td class='imageDesc'><textarea name='imagename$insert' id='imagename"+image_id+"' class='name' rows='4' cols='30'></textarea></td>";
-			html += "<td class='imageRank'><select id='imagetype"+image_id+"' class='type'><option hidden selected></option><option value='1'>1</option><option value='2'>2</option><option value='3'>3</option><option value='4'>4</option><option value='5'>5</option></select></td>";
-			html += "<td class='deleteImage'>&#x2718;</td>";
+			html += "<td class='imageType'><select id='imagetype"+image_id+"' class='type'><option hidden selected></option><option value='1'>1</option><option value='2'>2</option><option value='3'>3</option><option value='4'>4</option><option value='5'>5</option></select></td>";
+			html += "<td><select name='imageorder"+image_id+"' id='imageorder"+image_id+"' class='order'><option hidden selected>";
 			
+			var i;
+			for (i = 1; i <= Object.keys(formData).length; i++) { 
+			    html += "<option value='"+i+"'>"+i+"</option>";
+			}
+			
+			
+			html += "</select></td>";
+			html += "<td class='deleteImage'>&#x2718;</td>";
 			html += '</tr>';
 
 
@@ -258,22 +270,26 @@ function constructEditTable(idPassed){
             var image_id = val.image_id;
             var url = val.url;
             var name = val.name;
-            var type = val.type;
+            var type = $.trim(val.type);
+            var order = $.trim(val.order);
             console.log('Type for image id '+image_id+' is '+type);
+            console.log('Order for image id '+image_id+' is '+order);
 			
 		
 		$("#imagename"+image_id+"").val(name);
 		
 		$("#imagetype"+image_id+" option[value='"+type+"']").attr('selected', 'selected');
 		
-		$('.content').find("#imagetype"+image_id+"").val(type);
+		$('#content').find("#imagetype"+image_id+"").val(type);
+		
+		$('#content').find("#imageorder"+image_id+"").val(order);
 		
 		
 		
 		
 		});
 		
-				query = "SELECT b.`image_id`, c.`url`, c.`name`, c.`type`, e.`tagName`, d.`tags_id` FROM `imageSet` as a INNER JOIN `imageImageSet` as b ON a.`id` = b.`imageSet_id` INNER JOIN `images` as c on b.`image_id` = c.`id` INNER JOIN `imagesTag` as d ON c.`id` = d.`images_id` INNER JOIN `tags` as e ON d.`tags_id` = e.`id` WHERE a.`id` = "+idPassed;
+				query = "SELECT b.`image_id`, c.`url`, c.`name`, c.`type`, e.`tagName`, d.`id` as imagesTagid, d.`tags_id` FROM `imageSet` as a INNER JOIN `imageImageSet` as b ON a.`id` = b.`imageSet_id` INNER JOIN `images` as c on b.`image_id` = c.`id` INNER JOIN `imagesTag` as d ON c.`id` = d.`images_id` INNER JOIN `tags` as e ON d.`tags_id` = e.`id` WHERE a.`id` = "+idPassed;
 		
 		    var selectorObject = JSONStraightDataQuery("imageSet", query, 7);
 		
@@ -298,17 +314,18 @@ function constructEditTable(idPassed){
 	            var id = val.id;
 	            var image_id = val.image_id;
 	            var tags_id = val.tags_id;
+	            var imagesTagid = val.imagesTagid;
 	            var tagName = val.tagName;
 	            var type = val.type;
 
 	            
-	            $("#tag"+image_id+"").append('<button id="' + tags_id + '" class="tagButton">'+tagName+'</button>');
+	            $("#tag"+image_id+"").append('<button id="' + imagesTagid + '" class="tagButton">'+tagName+'</button>');
 				
 				
 				
 				});
 		        
-		        
+		        updatePreValues ();
 		        
 		    });
 
@@ -437,7 +454,7 @@ function fn60sec() {
 
         var textareaText = $(this).val();
 
-        textAreas[x] = textareaText;
+        textAreas[x] = $.trim(textareaText);
 
         x++;
 
@@ -458,15 +475,33 @@ function fn60sec() {
 
 
     })
+    
+    x = 0;
+
+    $('#imagesTable').find('tr').find('td:eq(6)').find('select').each(function() {
+
+        console.log(this);
+
+        var selectValue = $(this).val();
+
+        selects2[x] = selectValue;
+
+        x++;
+
+
+    })
 
     console.dir(images);
     console.dir(textAreas);
     console.dir(selects);
+    console.dir(selects2);
+
 	
 	//these need the field names
 	
     overallObject['id'] = images;
     overallObject['type'] = selects;
+    overallObject['order'] = selects2;
     overallObject['name'] = textAreas;
 
     console.dir(overallObject);
@@ -717,6 +752,25 @@ function deleteimages() {
 
 }
 
+function updatePreValues (){
+	
+	
+	$('.order').each(function(){
+	
+		//console.log(this);
+	
+		$(this).data('pre', $(this).val());
+		
+		//var hello = $(this).data('pre');
+		
+		//console.log(hello);
+		
+	})
+	
+	
+	
+}
+
 function submitimagesForm() {
 
     //pushDataFromFormAJAX (form, table, identifierKey, identifier, updateType)
@@ -823,7 +877,15 @@ $(document).ready(function() {
 
         }, 100, 'Resize header');
     });
-
+    
+    /*
+    $(document).click(function(event) {
+	  //if you click on anything except the modal itself or the "open modal" link, close the modal
+	  if (!$(event.target).closest(".modal").length) {
+	    $(".content").find(".modal").removeClass("visible");
+	  }
+	});
+	*/
 
     $("#content").on('click', '#submitimages', (function(event) {
         event.preventDefault();
@@ -1268,7 +1330,7 @@ $(document).ready(function() {
 
         var tagImageid = $(this).attr('id');
 
-        // console.log(tagImageid);
+         console.log(tagImageid);
 
         if (confirm("Do you wish to delete this tag from the image?")) {
 
@@ -1336,6 +1398,49 @@ $(document).ready(function() {
 
 
         //window.open(siteRoot + "scripts/forms/tagsForm.php", "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,width=600,height=700");
+
+
+
+    })
+    
+    
+		
+	
+		
+
+    
+    $('#content').on('change', '.order', function() {
+
+        //prevents two of the same numbers in order
+        var before_change = $(this).data('pre');
+   
+        //get value of this order
+        
+        orderValue = $(this).val();  //new value of clicked select
+        
+        orderid = $(this).attr('id');
+        
+        $('.order').each(function(){
+	        
+	        if ($(this).attr('id') != orderid){
+		        
+		        
+		        if ($(this).val() == orderValue){
+			        
+			        $(this).val(before_change);
+			        
+			        $(this).data('pre', $(this).val());
+			        
+		        }
+		        
+	        }
+	        
+	        
+	        
+        })
+        
+        $(this).data('pre', $(this).val());
+       
 
 
 

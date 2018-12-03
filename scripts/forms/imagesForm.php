@@ -90,6 +90,8 @@
 					    <?php echo $formv1->generateText('url', 'url', '', 'tooltip here');
 echo $formv1->generateText('name', 'name', '', 'tooltip here');
 echo $formv1->generateText('type', 'type', '', 'tooltip here');
+echo $formv1->generateText('order', 'order', '', 'tooltip here');
+
 ?>
 						    <button id="submitimages">Submit</button>
 		
@@ -355,7 +357,8 @@ echo $formv1->generateText('type', 'type', '', 'tooltip here');
 			        },rules: {
 url: { required: true },   
 name: { required: true },   
-type: { required: true },   
+type: { required: true }, 
+order: {required: true }  
 },messages: {
 url: { required: 'message' },   
 name: { required: 'message' },   

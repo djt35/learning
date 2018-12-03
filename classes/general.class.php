@@ -199,7 +199,7 @@ class general {
 			echo '<tr>';
 
 			foreach ($data as $key=>$value){
-
+					echo '<th></th>';
 				foreach ($value as $k=>$v){
 					echo '<th>' . $k . '</th>';
 				}
@@ -216,13 +216,13 @@ class general {
 				
 				if ($id <> $v['id']){
 					echo '</tr>';
-					echo '<tr class="datarow">';
+					echo '<tr>';
 					$x = 0;
 					
 				}
 					
 				$id = $v['id'];
-				
+				$id = trim($id);
 
 				
 
@@ -231,7 +231,7 @@ class general {
 					
 
 					if ($key == 'url'){
-						echo '<td>';
+						echo '<td class="datarow">';
 						echo "<img class='lslimage' style='max-width:200px;' src='$roothttp$value'>";
 						echo '</td>';
 					}else{
@@ -239,6 +239,10 @@ class general {
 						if ($x==0){
 						
 						echo '<td>';
+						echo "<button class='deleteSet'>Delete</button>";
+						echo '</td>';
+						
+						echo '<td class="datarow">';
 						echo "$value";
 						echo '</td>';
 						
@@ -436,12 +440,12 @@ class general {
 		//echo 'centre passed was ' . $centreid;
 
 
-		$q = "SELECT a.`id` AS imageid, a.`url`, a.`name`, b.`id` AS tagid
+		$q = "SELECT a.`id` AS imageid, a.`url`, a.`name`, a.`order`, b.`id` AS tagid
 			  FROM `images` as a
 			  INNER JOIN `imagesTag` as c ON a.`id` = c.`images_id`
 			  INNER JOIN `tags` as b ON b.`id` = c.`tags_id`
 				WHERE b.`id` = $tagid
-				ORDER BY a.`id` ASC
+				ORDER BY a.`order` ASC
 				";
 
 		//modify this to only allow 8 picture groups in
@@ -591,6 +595,103 @@ class general {
 					echo "<div class='col-2'></div>";
 
 					} */
+
+
+
+
+
+			}echo "</div>";
+
+
+
+		}
+
+	}
+	
+	public function getTaggedImageSets ($tagid, $roothttp){
+
+		$q = "SELECT a.`id` as imageSetid, b.`image_id` as imageid, c.`url`, c.`name`, c.`type`, e.`tagName`, d.`tags_id` FROM `imageSet` as a INNER JOIN `imageImageSet` as b ON a.`id` = b.`imageSet_id` INNER JOIN `images` as c on b.`image_id` = c.`id` INNER JOIN `imagesTag` as d ON c.`id` = d.`images_id` INNER JOIN `tags` as e ON d.`tags_id` = e.`id` WHERE d.`tags_id` = $tagid ORDER BY imageSetid ASC, c.`order` ASC";
+
+		//modify this to only allow 8 picture groups in
+
+		$result = $this->connection->RunQuery($q);
+
+		//print_r($result);
+
+		if ($result->num_rows > 0){
+
+			$x = 1;
+			$y = 1;
+			$lesionid='';
+
+			echo "<div class='row'>";
+
+			while($row = $result->fetch_array(MYSQLI_ASSOC)){
+
+				/*if ($imageSetid == $row['imageSetid']){ //for imageset then reset the row somehow
+
+					//do for more images
+
+					$filename = $row['url'];
+					//$position = $row['position'];
+					$lesionid = $row['imageid'];
+					$name = $row['name'];
+
+
+
+					echo "<div class='col-1'>";
+
+					echo "<img id='$lesionid' class='lslimage zoom' src='$roothttp/$filename'>";
+
+					echo "</div>";
+
+					$x++;
+
+				}else{*/
+
+				//first time x=0
+
+				//if ($x==0){
+
+				//do initial include define x as 1
+				//$x=1;
+				if ($imageSetid){
+					if ($imageSetid != $row['imageSetid']){ //for imageset then reset the row somehow
+						
+						echo "</div>";
+						echo "<div class='row'>";
+						$x=1;
+						
+					}
+				}
+
+				$filename = $row['url'];
+				//$position = $row['position'];
+				$lesionid = $row['imageid'];
+				$imageSetid = $row['imageSetid'];
+				$name = $row['name'];
+
+				//echo "<div class='col-2' data='$x'><div class='description'>$name";
+				//echo "</div>";
+
+				//echo "</div>";
+				if($x % 4 == 0){echo "<div class='row'>";}
+
+				echo "<div data='$x' class='col-3'>";
+
+				echo "<img id='$lesionid' class='lslimage zoom' src='$roothttp/$filename'>";
+				//echo "<img id='$lesionid' class='lslimage zoom' src='https://www.acestudy.net/studyserver/$filename'>";
+				echo "<div class='caption'>$name</div>";
+				//echo "</div>";
+				echo "</div>";
+
+				if($x % 4 == 0){echo "</div>";}
+
+				$x++;
+
+				continue;
+
+
 
 
 

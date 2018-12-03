@@ -71,11 +71,62 @@ INNER JOIN `images` as c on b.`image_id` = c.`id`", $roothttp); ?></p>
 		
 				$(".content").on("click", ".datarow", function(){
 					
-					var id = $(this).find("td:first").text();
+					var id = $(this).closest('tr').find("td:eq(1)").text();
 					
 					//console.log(id);
 					
 					window.location.href = siteRoot + 'scripts/forms/imagesUploadForm.php?id=' + id;
+		
+					
+				})
+				
+				$(".content").on("click", ".deleteSet", function(){
+					
+					var id = $(this).closest('tr').find("td:eq(1)").text();
+					
+					var tr = $(this).closest('tr');
+					
+					//console.log(id);
+					
+					if (confirm("Do you wish to delete this imageSet [can't be undone]?")) {
+
+			            //disableFormInputs("images");
+			
+			            var imagesObject = pushDataAJAX('imageSet', 'id', id, 2, ''); //delete images
+			
+			            imagesObject.done(function(data) {
+			
+			                console.log(data);
+			
+			                if (data) {
+			
+			                    if (data == 1) {
+			
+			                        //alert ("tag connection deleted");
+			                        $(tr).hide();
+			
+			                        //edit = 0;
+			                        //imagesPassed = null;
+			                        //window.location.href = siteRoot + "scripts/forms/imagesTable.php";
+			                        //go to images list
+			
+			                    } else {
+			
+			                        alert("Error, try again");
+			
+			                        //enableFormInputs("images");
+			
+			                    }
+			
+			
+			
+			                }
+			
+			
+			            });
+			
+			        }
+
 		
 					
 				})

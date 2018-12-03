@@ -73,7 +73,7 @@ if (count($_GET) > 0){
 	}
 	
 	
-	$general->selectTenRandomImageSets($tagid, $roothttp);	
+	$general->getTaggedImageSets($tagid, $roothttp);	
 		
 	
 	

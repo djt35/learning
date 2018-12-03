@@ -277,6 +277,65 @@ Class formGenerator {
 	    
 	    
     }
+    
+    public function GetDisplaysold(){
+		
+		
+		$displays = array();
+		$result = $this->connection->RunQuery("SELECT a.`id` AS categoryid, a.`tagCategoryName`, b.`id` as tagid, b.`tagName` from `tagCategories` as a INNER JOIN `tags` as b on a.`id` = b.`tagCategories_id`");
+			while($row = $result->fetch_array(MYSQLI_ASSOC)){
+				$categoryid = $row['categoryid'];
+				$categoryname = $row['tagCategoryName'];
+				$tagid = $row['tagid'];
+				$tagname = $row['tagName'];
+				
+
+				$displays[$categoryname] = array($tagid => $tagname );
+			}
+		return $displays;
+	}
+	
+	public function GetDisplays(){
+		
+		
+		$displays = array();
+		$q = "SELECT a.`id` AS categoryid, a.`tagCategoryName`, b.`id` as tagid, b.`tagName` from `tagCategories` as a INNER JOIN `tags` as b on a.`id` = b.`tagCategories_id`";
+		$result = $this->connection->RunQuery($q);
+	   	    
+	    if ($result->num_rows > 0){
+					
+		
+				$columns = array();
+			
+				while($columns[] = $result->fetch_array(MYSQLI_ASSOC));
+
+			
+				
+			return $columns;	
+				
+			}else{
+				
+				echo 'query didn\t work';
+				return NULL;
+				
+			}
+	}
+	
+	public function GetTags(){
+		
+		
+		$displays = array();
+		$result = $this->connection->RunQuery("SELECT a.`id` AS categoryid, a.`tagCategoryName` from `tagCategories` as a");
+			while($row = $result->fetch_array(MYSQLI_ASSOC)){
+				$categoryid = $row['categoryid'];
+				$categoryname = $row['tagCategoryName'];
+				
+				
+
+				$displays[$categoryid] = $categoryname;
+			}
+		return $displays;
+	}
        
 	/**
 	 * @param Type: varchar(50)

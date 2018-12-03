@@ -138,7 +138,11 @@ if(isset($_FILES)){
 			echo '<th>Tags</th>';
 			echo '<th>Description</th>';
 			echo '<th>Rank</th>';
+			echo '<th>Display order</th>';
 			echo '</tr>';
+			
+		$filenumber = count($filearray);
+			
 		foreach ($filearray as $key=>$value){
 			
 			$insert = $value['id'];
@@ -151,7 +155,18 @@ if(isset($_FILES)){
 			echo "<td><button class='addTag'>Add Tag</button></td>";
 			echo "<td class='imageTag'></td>";
 			echo "<td class='imageDesc'><textarea name='imagename$insert' id='imagename$insert' class='name' rows='4' cols='30'></textarea></td>";
-			echo "<td class='imageRank'><select name='imagetype$insert' id='imagetype$insert' class='type'><option hidden selected></option><option value='1'>1</option><option value='2'>2</option><option value='3'>3</option><option value='4'>4</option><option value='5'>5</option></select></td>";
+			echo "<td class='imageType'><select name='imagetype$insert' id='imagetype$insert' class='type'><option hidden selected></option><option value='1'>1</option><option value='2'>2</option><option value='3'>3</option><option value='4'>4</option><option value='5'>5</option></select></td>";
+			echo "<td class='imageOrder'>";
+			echo "<select name='imageorder$insert' id='imageorder$insert' class='order'><option hidden selected>";
+			//code to produce a select with the correct number of boxes
+			
+			for ($x = 1; $x <= $filenumber; $x++){
+				
+				echo "<option value='$x'>$x</option>";
+				
+			}
+			echo "</select>";
+			echo "</td>";
 
 			
 			echo '</tr>';
