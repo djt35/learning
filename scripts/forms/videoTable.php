@@ -20,11 +20,12 @@
 		    <title>video Table</title>
 		</head>
 		
+	
 		<?php
 		include($root . "/scripts/logobar.php");
 		
 		include($root . "/includes/naviCreator.php");
-		?>
+		echo '<div class="navbar structure">Creators > Video > Table</div>';		?>
 		
 		
 		<body>
@@ -40,7 +41,7 @@
 		                </div>
 		
 		                <div id="messageBox" class='col-3 yellow-light narrow center'>
-		                    <p><button id="newvideo" onclick="window.location.href = '<?php echo $roothttp;?>/scripts/forms/videoForm.php';">New video</button></p>
+		                    <p><button id="newvideo" onclick="window.location.href = '<?php echo $roothttp;?>/scripts/forms/videoUploadForm.php';">New video</button></p>
 		                </div>
 		            </div>
 			        
@@ -48,7 +49,7 @@
 		                <div class='col-1'></div>
 		
 		                <div class='col-10 narrow' style='overflow-x: scroll;'>
-		                    <p><?php $general->makeTable("SELECT id from video"); ?></p>
+		                    <p><?php $general->makeTable("SELECT id, name, url, active, split, created, updated from video order by created asc"); ?></p>
 		                </div>
 		
 		                <div class='col-1'></div>
@@ -72,7 +73,7 @@
 					
 					//console.log(id);
 					
-					window.location.href = siteRoot + 'scripts/forms/videoForm.php?id=' + id;
+					window.location.href = siteRoot + 'scripts/forms/videoUploadForm.php?id=' + id;
 		
 					
 				})

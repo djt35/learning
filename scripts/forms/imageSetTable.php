@@ -51,7 +51,7 @@
 		                    <p><?php $general->makeTableImages("SELECT a.`id`, c.`url` 
 FROM `imageSet` as a 
 INNER JOIN `imageImageSet` as b ON a.`id` = b.`imageSet_id`
-INNER JOIN `images` as c on b.`image_id` = c.`id`", $roothttp); ?></p>
+INNER JOIN `images` as c on b.`image_id` = c.`id` GROUP BY a.`id` ORDER BY a.`id` asc", $roothttp); ?></p>
 		                </div>
 		
 		                <div class='col-1'></div>

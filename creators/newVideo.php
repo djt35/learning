@@ -90,13 +90,19 @@ include($root . '/includes/naviCreator.php');
 
 <body>
     <div id="content" class="content">
+	    
         <div class="responsiveContainer white">
+	        
             <div class="row">
+	            
                 <div class="col-9">
+	                
                     <h2 style='text-align:left;'>Add a video</h2>
 
                     <fieldset>
+	                    
                         <form id='videoEntryForm' style='text-align:left;'>
+	                        
                             <?php
 
                             echo $formv1->generateText('Name of video:', 'name', null, 'Name of video, max characters 200');

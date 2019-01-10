@@ -41,7 +41,7 @@
 		
 		<html>
 		<head>
-		    <title>Atlas of Endoscopic Imaging</title>
+		    <title>Video Chapter Form</title>
 		</head>
 		
 		<style>
@@ -99,7 +99,7 @@
 			
 			
 		</style>
-				
+		
 		<?php
 		include($root . "/scripts/logobar.php");
 		
@@ -135,39 +135,26 @@
 		
 			        <div class='row'>
 		                <div class='col-9'>
-		                    <h2 style="text-align:left;">Atlas of Endoscopic Imaging</h2>
+		                    <h2 style="text-align:left;">Video Chapter, Tag Form</h2>
 		                </div>
 		
 		                <div id="messageBox" class='col-3 yellow-light narrow center'>
-		                    <p>Image Atlas</p>
-		                    <p><button id="captionHide" class="modifiers">Toggle captions</button></p>
+		                    <p></p>
 		                </div>
 		            </div>
 		
 		
 			        <p><?php
 		
-				        /*if ($id){
+				        if ($id){
 		
-							$q = "SELECT  id  FROM  images  WHERE  id  = $id";
+							$q = "SELECT  `id`  FROM  `video`  WHERE  `id`  = $id";
 							if ($general->returnYesNoDBQuery($q) != 1){
 								echo "Passed id does not exist in the database";
 								exit();
 		
 							}
 						}
-						
-						
-						vhttps://codepen.io/matt-west/pen/jKnzG
-						
-						ajax to a json of select tags where tagscategory= atlas and xxxx
-						
-						
-						
-						
-						
-						
-						*/
 		
 		?></p>
 		
@@ -177,38 +164,30 @@
 					<div class='col-8'>
 					
 					
-					    <form id="inputTag">
+					    <form id="imageUpload">
 					    
-					    <input type="text" size="45" id="searchBox" class="startTyping" list="json-datalist" placeholder="Start typing an endoscopic diagnosis....">
-					    <button id="resetPage" class="modifiers">Reset</button>
-<datalist id="json-datalist"></datalist>
+					    <!--<input name="files[]" type="file" multiple="multiple" accept=".jpg, .jpeg, .bmp"/>-->
+					    
+					    <button id="submitimagefiles">Submit</button>
 		
 					    </form>
 					</div>
 				    <div class='col-2'>
 					</div>    
 				</div>
-			    
-			    <div class='row' id='imageTitle'>
-				    
-			    </div>
-			    
-			    <div id='imageDisplay'>
-				
-				
-				
-				
-				</div>
-			    
-				<!--<div class='row' id='imageDisplay'>
+			        
+				<div class='row'>
 					<div class='col-2'>
 					</div>
 					<div class='col-8'>
-				
+						<div id='videoDisplay'>
+							
+						</div>
+					
 					</div>
 				    <div class='col-2'>
 					</div>    
-				</div>-->
+				</div>
 		
 		        </div>
 		
@@ -217,15 +196,34 @@
 			
 var siteRoot = "http://localhost:90/dashboard/learning/";
 
-imagesPassed = $("#id").text();
+var imagesPassed = "";
 
-if (imagesPassed == "") {
+var videoDataDefined;
+
+var vimeoID;
+
+videoPassed = $("#id").text();
+
+if (videoPassed == "") {
 
     var edit = 0;
+    
+    videoDataDefined = 0;
 
 } else {
 
     var edit = 1;
+    
+    $('#imageUpload').hide();
+    
+    videoDataDefined = 1;
+    
+    
+    fillForm(videoPassed);
+    
+   
+    
+    //constructEditTable;
 
 }
 
@@ -241,46 +239,273 @@ var textAreas = new Object();
 
 var selects = new Object();
 
-getSearchboxTerms();
+var selects2 = new Object();
 
-
-function getSearchboxTerms (){
+function videoDisplay (url){
 	
-	var selectorObject = getDataQuery('tags', 'tagCategories_id = 39', {
-            'id': 'id',
-            'name': 'tagName'
-        }, 1);
-
-        //console.log(selectorObject);
-
-        selectorObject.done(function(data) {
-
-            console.log(data);
+	
+	
+        if (isNormalInteger(url) === true){
+        
+	        $('#videoDisplay').html("<div class='videoWrapper' style='text-align: centre'><iframe id='videoChapter' src='https://player.vimeo.com/video/"+url+"' width='700' height='504' frameborder='0' webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe></div>");
 			
-			var searchData = $.parseJSON(data);
+			$('#submitimagefiles').prop('disabled', true);
+			$('#video').prop('disabled', true);
+			$('#resetVideoSubmit').show();
+			$('#videoForm').show();
+			$('#url').val(url);
 			
-			console.dir(searchData);
 			
-			$.each(searchData, function(key, value) {
-				
-				var id = value['id'];
-				var name = value['tagName'];
-		        
-		       	$('#json-datalist').append('<option value="'+name+'" data-id="'+id+'"></option>');
-		        
-		        //data.append(key, value);
-		        
-		       
-		    
-		    });
+		
+		}else{
+			
+			
+			alert('Invalid vimeo id in record');
+			
+		}
+
+	
+	
+	
+}
+
+function constructEditTable(idPassed){
+	
+	//imagesPassed, ajax the id to get a table in the format of the previous
+	
+	//get the images
+	
+	//get all the tags for the images
+	
+	
+	$('#imageUpload').hide();
+	
+    imagesRequired = new Object;
+
+    //imagesRequired = getNamesFormElements("images");  JSONStraightDataQuery (table, query, outputFormat)
+
+    imagesString = '`id`=\'' + idPassed + '\'';
+    
+    query = "SELECT a.`id`, a.`split`, b.`name`, b.`timeFrom`, b.`timeTo`, b.`number`, b.`name` FROM `video` as a INNER JOIN `chapter` as b ON a.`id` = b.`video_id` WHERE a.`id` = "+idPassed;
+
+    var selectorObject = JSONStraightDataQuery("video", query, 7); //to here
+
+    //console.log(selectorObject);
+
+    selectorObject.done(function(data) {
+
+        console.log(data);
+		
+		try{
+		
+        var formData = $.parseJSON(data);
+        
+        } catch (error) {
+	        
+	       console.log('No ajax data received'); 
+	        
+        }
+
+		var html = "<table id=\"imagesTable\" class=\"imageTable\">";
+		html += "<tr>";
+		html += '<th></th>';
+			html += '<th></th>';
+			html += '<th>Tags</th>';
+			html += '<th>Description</th>';
+			html += '<th>Chapter Number</th>';
+			html += '</tr>';
+
+        $(formData).each(function(i, val) {
             
-            $('#searchBox').attr("placeholder","Start typing an endoscopic diagnosis...");
+            var id = val.id;
+            var image_id = val.image_id;
+            var url = val.url;
+            var name = val.name;
+            var type = val.type;  // to here
+            
+            html += '<tr class="file">';
+			html += "<td id='"+image_id+"' style='display:none;'>$file</td>";
+			html += "<td><img src='"+siteRoot+"/"+url+"' style=\"width:128px;\"></td>";
+			html += "<td><button class='addTag'>Add Tag</button></td>";
+			html += "<td class='imageTag' id='tag"+image_id+"'></td>";
+			html += "<td class='imageDesc'><textarea name='imagename$insert' id='imagename"+image_id+"' class='name' rows='4' cols='30'></textarea></td>";
+			html += "<td><select name='imageorder"+image_id+"' id='imageorder"+image_id+"' class='order'><option hidden selected>";
+			
+			var i;
+			for (i = 1; i <= Object.keys(formData).length; i++) { 
+			    html += "<option value='"+i+"'>"+i+"</option>";
+			}
+			
+			
+			html += "</select></td>";
+			html += "<td class='deleteImage'>&#x2718;</td>";
+			html += '</tr>';
 
 
+        });
+        
+        html += '</table>';
+		html += '<p>';
+		html += "<button class='addTagAll'> Add tag to all images</button>&nbsp;&nbsp;";
+		html += "<button class='save' onclick='fn60sec();'> Save data </button>";
+		html += '</p>';
 
-        })
+        $("#messageBox").text("Editing images with imageSet id " + idPassed);
+        $("#images").html(html);
+        
+        $(formData).each(function(i, val) {
+            
+            var id = val.id;
+            var image_id = val.image_id;
+            var url = val.url;
+            var name = val.name;
+            var type = $.trim(val.type);
+            var order = $.trim(val.order);
+            console.log('Type for image id '+image_id+' is '+type);
+            console.log('Order for image id '+image_id+' is '+order);
+			
+		
+		$("#imagename"+image_id+"").val(name);
+		
+		$("#imagetype"+image_id+" option[value='"+type+"']").attr('selected', 'selected');
+		
+		$('#content').find("#imagetype"+image_id+"").val(type);
+		
+		$('#content').find("#imageorder"+image_id+"").val(order);
+		
+		
+		
+		
+		});
+		
+				query = "SELECT b.`image_id`, c.`url`, c.`name`, c.`type`, e.`tagName`, d.`id` as imagesTagid, d.`tags_id` FROM `imageSet` as a INNER JOIN `imageImageSet` as b ON a.`id` = b.`imageSet_id` INNER JOIN `images` as c on b.`image_id` = c.`id` INNER JOIN `imagesTag` as d ON c.`id` = d.`images_id` INNER JOIN `tags` as e ON d.`tags_id` = e.`id` WHERE a.`id` = "+idPassed;
+		
+		    var selectorObject = JSONStraightDataQuery("imageSet", query, 7);
+		
+		    //console.log(selectorObject);
+		
+		    selectorObject.done(function(data) {
+		
+		        console.log(data);
+				
+				try{
+				
+		        var formData = $.parseJSON(data);
+		        
+		        } catch (error) {
+			        
+			       console.log('No ajax data received'); 
+			        
+		        }
+		        
+		        $(formData).each(function(i, val) {
+            
+	            var id = val.id;
+	            var image_id = val.image_id;
+	            var tags_id = val.tags_id;
+	            var imagesTagid = val.imagesTagid;
+	            var tagName = val.tagName;
+	            var type = val.type;
+
+	            
+	            $("#tag"+image_id+"").append('<button id="' + imagesTagid + '" class="tagButton">'+tagName+'</button>');
+				
+				
+				
+				});
+		        
+		        updatePreValues ();
+		        
+		    });
+
+		
+        //enableFormInputs("images");
+
+    });
+
+    /*try {
+
+        $("form#images").find("button#deleteimages").length();
+
+    } catch (error) {
+
+        $("form#images").find("button").after("<button id='deleteimages'>Delete</button>");
+
+    }*/
+	/*
+	echo '<table id="imagesTable" class="imageTable">';
+		echo '<tr>';
+			echo '<th></th>';
+			echo '<th></th>';
+			echo '<th>Tags</th>';
+			echo '<th>Description</th>';
+			echo '<th>Rank</th>';
+			echo '</tr>';
+		foreach ($filearray as $key=>$value){
+			
+			$insert = $value['id'];
+			$file = $value['filename'];
+			
+			
+			echo '<tr class="file">';
+			echo "<td id='$insert' style='display:none;'>$file</td>";
+			echo "<td><img src='$roothttp/$file' style=\"width:128px;\"></td>";
+			echo "<td><button class='addTag'>Add Tag</button></td>";
+			echo "<td class='imageTag'></td>";
+			echo "<td class='imageDesc'><textarea name='imagename$insert' id='imagename$insert' class='name' rows='4' cols='30'></textarea></td>";
+			echo "<td class='imageRank'><select name='imagetype$insert' id='imagetype$insert' class='type'><option hidden selected></option><option value='1'>1</option><option value='2'>2</option><option value='3'>3</option><option value='4'>4</option><option value='5'>5</option></select></td>";
+
+			
+			echo '</tr>';
+		}
+		echo '</table>';
+		echo '<p>';
+		echo "<button class='addTagAll'> Add tag to all images</button>&nbsp;&nbsp;";
+		echo "<button class='save' onclick='fn60sec();'> Save data </button>";
+		echo '</p>';*/
+	
+}
+
+function deleteImage(imageRowClicked){
 	
 	
+	//get the image id
+	
+	console.log(imageRowClicked);
+	
+	var imageID = $(imageRowClicked).closest('tr').find('td:eq(0)').attr('id');
+	
+	
+	query = "DELETE FROM `images` WHERE `id` = "+imageID+"";
+	
+	
+    var selectorObject = JSONStraightDataQuery("images", query, 8);
+
+    //console.log(selectorObject);
+
+    selectorObject.done(function(data) {
+
+        console.log(data);
+		
+		if (data){
+			
+			
+			if (data == 1){
+				
+				console.log('now remove the table row');
+				
+				$(imageRowClicked).closest('tr').hide();
+				
+			}else{
+				
+				alert('Row not deleted');
+				
+			}
+			
+		}
+
+	
+	});
 	
 }
 
@@ -318,7 +543,7 @@ function fn60sec() {
 
         var textareaText = $(this).val();
 
-        textAreas[x] = textareaText;
+        textAreas[x] = $.trim(textareaText);
 
         x++;
 
@@ -339,15 +564,33 @@ function fn60sec() {
 
 
     })
+    
+    x = 0;
+
+    $('#imagesTable').find('tr').find('td:eq(6)').find('select').each(function() {
+
+        console.log(this);
+
+        var selectValue = $(this).val();
+
+        selects2[x] = selectValue;
+
+        x++;
+
+
+    })
 
     console.dir(images);
     console.dir(textAreas);
     console.dir(selects);
+    console.dir(selects2);
+
 	
 	//these need the field names
 	
     overallObject['id'] = images;
     overallObject['type'] = selects;
+    overallObject['order'] = selects2;
     overallObject['name'] = textAreas;
 
     console.dir(overallObject);
@@ -422,7 +665,7 @@ function fn60sec() {
 
     // runs every 60 sec and runs on init.
 }
-//setInterval(fn60sec, 60 * 1000);
+setInterval(fn60sec, 60 * 1000);
 
 
 function addImageTagAll(event) {
@@ -598,6 +841,25 @@ function deleteimages() {
 
 }
 
+function updatePreValues (){
+	
+	
+	$('.order').each(function(){
+	
+		//console.log(this);
+	
+		$(this).data('pre', $(this).val());
+		
+		//var hello = $(this).data('pre');
+		
+		//console.log(hello);
+		
+	})
+	
+	
+	
+}
+
 function submitimagesForm() {
 
     //pushDataFromFormAJAX (form, table, identifierKey, identifier, updateType)
@@ -672,13 +934,16 @@ function submitimagesForm() {
 
 $(document).ready(function() {
 
-    
+    if (edit == 1) {
 
-    
-    
-    
-    $('#searchBox').attr("placeholder","Loading options...");
+        //constructEditTable(imagesPassed);
+        $("#messageBox").text("Editing Video "+videoPassed);
 
+    } else {
+
+        $("#messageBox").text("New Video Entry");
+
+    }
 
     $('input[type=file]').on('change', prepareUpload);
 
@@ -702,7 +967,15 @@ $(document).ready(function() {
 
         }, 100, 'Resize header');
     });
-
+    
+    /*
+    $(document).click(function(event) {
+	  //if you click on anything except the modal itself or the "open modal" link, close the modal
+	  if (!$(event.target).closest(".modal").length) {
+	    $(".content").find(".modal").removeClass("visible");
+	  }
+	});
+	*/
 
     $("#content").on('click', '#submitimages', (function(event) {
         event.preventDefault();
@@ -1127,6 +1400,19 @@ $(document).ready(function() {
 
 
     }));
+    
+    $("#content").on('click', '.deleteImage', (function(event) {
+	    
+	    
+        event.preventDefault();
+        
+        if (confirm("Do you wish to delete this image?")) {
+	        deleteImage($(this));
+		}
+        
+        
+        
+    }));
 
     $("#content").on('click', '.tagButton', (function(event) {
 
@@ -1134,7 +1420,7 @@ $(document).ready(function() {
 
         var tagImageid = $(this).attr('id');
 
-        // console.log(tagImageid);
+         console.log(tagImageid);
 
         if (confirm("Do you wish to delete this tag from the image?")) {
 
@@ -1177,39 +1463,6 @@ $(document).ready(function() {
 
 
     }));
-    
-    $("#content").on('change', '#searchBox', (function(event) {
-
-        var value = $(this).val();
-		var option = $('#json-datalist').find("[value='" + value + "']").attr('data-id');
-		
-		
-		  console.log('Tag to look for images is '+option);	
-		  
-		  //tagid
-		  
-		  request = $.ajax({
-	        url: siteRoot + "scripts/getImages.php",
-	        type: "get",
-	        data: 'tagid='+option,
-	
-		   });
-		   
-		   request.done(function(data){
-			   
-			   if (data){
-			   
-			    $('#imageTitle').html('<h3 style="text-align:left;">'+value+'</h3>');
-			   	$('#imageDisplay').html(data);
-			   
-			   }
-			   
-		   });
-	
-		  
-        
- 
-    }));
 
     $('.modal').on('click', '#newTagCategory', function() {
 
@@ -1240,28 +1493,44 @@ $(document).ready(function() {
 
     })
     
-    $('.content').on('click', '#captionHide', function() {
-
-        $('.caption').toggle();
-
-        
-
-
-        //window.open(siteRoot + "scripts/forms/tagsForm.php", "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,width=600,height=700");
-
-
-
-    })
     
-    $('.content').on('click', '#resetPage', function(event) {
-		event.preventDefault();
-        $('#imageTitle').html('');
-		$('#imageDisplay').html('');
-		$('#searchBox').val('');
+		
+	
+		
+
+    
+    $('#content').on('change', '.order', function() {
+
+        //prevents two of the same numbers in order
+        var before_change = $(this).data('pre');
+   
+        //get value of this order
         
-
-
-        //window.open(siteRoot + "scripts/forms/tagsForm.php", "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,width=600,height=700");
+        orderValue = $(this).val();  //new value of clicked select
+        
+        orderid = $(this).attr('id');
+        
+        $('.order').each(function(){
+	        
+	        if ($(this).attr('id') != orderid){
+		        
+		        
+		        if ($(this).val() == orderValue){
+			        
+			        $(this).val(before_change);
+			        
+			        $(this).data('pre', $(this).val());
+			        
+		        }
+		        
+	        }
+	        
+	        
+	        
+        })
+        
+        $(this).data('pre', $(this).val());
+       
 
 
 

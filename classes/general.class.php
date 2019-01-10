@@ -116,7 +116,7 @@ class general {
 
 	public function makeTable ($q){
 
-		echo $q;
+		//echo $q;
 
 		$result = $this->connection->RunQuery($q);
 
