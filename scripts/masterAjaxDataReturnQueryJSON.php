@@ -575,6 +575,73 @@ if (count($data) > 0){
 
 	}
 	
+	if ($outputFormat == 9){
+
+		$table = $data['table'];
+		unset($data['outputFormat']);
+
+		if ($data['query'] == 'newChapterRow'){
+			
+			$q = "INSERT INTO chapter set video_id = $table";
+			
+			
+			$result = $general->returnWithInsertID($q);
+
+			echo $result;
+		
+		
+		
+		
+		}
+		
+		if ($data['query'] == 'deleteChapter'){
+			
+			$q = "DELETE FROM chapter where id = $table";
+			
+			
+			$result = $general->returnYesNoDBQuery($q);
+
+			echo $result;
+		
+		
+		
+		
+		} if ($data['query'] == 'selectChapterSet'){
+			
+			//get chapter set with tags
+			
+			
+			$q = "SELECT a.`id`, a.`split`, b.`id` as `chapterid`, b.`name`, b.`timeFrom`, b.`timeTo`, b.`number`, b.`name` AS `chaptername`, c.`id` AS `chapterTagid`, d.`tagName` FROM `video` as a INNER JOIN `chapter` as b ON a.`id` = b.`video_id` INNER JOIN `chapterTag` as c ON b.`id` = c.`chapter_id` INNER JOIN `tags` as d ON d.`id` = c.`tags_id` WHERE a.`id` = " . $table;
+			
+			//$q = "SELECT b.`image_id`, c.`url`, c.`name`, c.`type`, e.`tagName`, d.`id` as imagesTagid, d.`tags_id` FROM `imageSet` as a INNER JOIN `imageImageSet` as b ON a.`id` = b.`imageSet_id` INNER JOIN `images` as c on b.`image_id` = c.`id` INNER JOIN `imagesTag` as d ON c.`id` = d.`images_id` INNER JOIN `tags` as e ON d.`tags_id` = e.`id` WHERE a.`id` = "+idPassed;
+			
+			
+			$result = $general->connection->RunQuery($q);
+
+			while($row = $result->fetch_array(MYSQLI_ASSOC)){
+				$rows[] = array_map('utf8_encode', $row);
+			}
+
+
+			echo json_encode($rows);
+		
+		
+		
+		
+		}
+		
+		//echo $q;
+		
+		//returnWithInsertID($q)
+		
+		
+
+	
+
+
+
+	}
+	
 	if ($outputFormat == 8){
 
 		unset($data['table']);

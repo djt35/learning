@@ -59,7 +59,7 @@
 		include($root . "/scripts/logobar.php");
 		
 		include($root . "/includes/naviCreator.php");
-		echo '<div class="navbar structure">Creators > <a href="'.$roothttp.'/scripts/forms/videoTable.php">Video</a> > Edit</div>';
+		//echo '<div class="navbar structure">Creators > <a href="'.$roothttp.'/scripts/forms/videoTable.php">Video</a> > Edit</div>';
 		?>
 		
 		<div id="loading">
@@ -107,6 +107,7 @@
 							$q = "SELECT  `id`  FROM  `video`  WHERE  `id`  = $id";
 							if ($general->returnYesNoDBQuery($q) != 1){
 								echo "Passed id does not exist in the database";
+								
 								exit();
 		
 							}

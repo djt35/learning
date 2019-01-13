@@ -42,6 +42,28 @@ class general {
 
 	}
 
+	public function getVimeoID ($id) {
+		
+		$q = "SELECT  `id`, `url`  FROM  `video`  WHERE  `id`  = $id";
+		
+		$result = $this->connection->RunQuery($q);
+		
+		if ($result){
+		
+			while($row = $result->fetch_array(MYSQLI_ASSOC)){
+				
+				$vimeoid = $row['url'];
+				
+	
+			}
+		
+		}
+		
+		
+		return  $vimeoid;
+		
+	}
+	
 	public function returnYesNoDBQuery ($q){
 
 

@@ -61,11 +61,31 @@
 		    </div>
 		<script>
 			var siteRoot = "http://localhost:90/dashboard/learning/";
+			
+			//after loading find tr, fast last td, insert td with edit chapter set for this video
 		
 				
 			$(document).ready(function() {
 		
 				$("#dataTable").find("tr");
+				
+				$("#dataTable").find("tr").each(function(){
+					
+					var id = $(this).find("td:first").text();
+					
+					var split = $(this).find("td:eq(4)").text();
+					
+					split = split.trim();
+					
+					if (split == 1){
+					
+					
+				
+					$(this).find("td:last").after('<td><a href=\''+ siteRoot + 'scripts/forms/videoChapterForm.php?id=' + id+'\'>Edit Chapters</a></td>');
+					
+					}
+				
+				});
 		
 				$(".content").on("click", ".datarow", function(){
 					

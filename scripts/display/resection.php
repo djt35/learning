@@ -41,14 +41,8 @@
 		
 		<html>
 		<head>
-		    <title>Video Chapter Form</title>
-		</head>	  
-		
-		
-		<script src=<?php echo $roothttp . "/dist/jquery.vimeo.api.min.js"?>></script>
-
-		
-		
+		    <title>Atlas of Endoscopic Resection</title>
+		</head>
 		
 		<style>
 			
@@ -101,39 +95,11 @@
 				
 			}
 			
-			table{
-				
-				border-collapse: collapse;
-				
-			}
-			
-			#images {
-				
-				overflow-x: scroll;
-				
-			}
-			/*
-			.imageTable td, .imageTable th {
-			    color: white;
-			    padding: 10px;
-			    text-align: center;
-			    
-			    border-color: rgba(255, 255, 255, 0.3);
-			}
-			
-			input[type="text"], select, textarea {
-
-			  background-color : #000000; 
-			  color : white;
-			  border-color: rgba(255, 255, 255, 0.17);
-			
-			}*/
-			
 			
 			
 			
 		</style>
-		
+				
 		<?php
 		include($root . "/scripts/logobar.php");
 		
@@ -162,8 +128,6 @@
 		<body>
 		
 			<div id="id" style="display:none;"><?php if ($id){echo $id;}?></div>
-			
-			
 		
 		    <div id='content' class='content'>
 		
@@ -171,74 +135,80 @@
 		
 			        <div class='row'>
 		                <div class='col-9'>
-		                    <h2 style="text-align:left;">Video Chapter, Tag Form</h2>
+		                    <h2 style="text-align:left;">Atlas of Endoscopic Resection</h2>
 		                </div>
 		
 		                <div id="messageBox" class='col-3 yellow-light narrow center'>
-		                    <p></p>
+		                    <p>Image Atlas</p>
+		                    <p><button id="captionHide" class="modifiers">Toggle captions</button></p>
 		                </div>
 		            </div>
 		
 		
 			        <p><?php
 		
-				        if ($id){
+				        /*if ($id){
 		
-							$q = "SELECT  `id`  FROM  `video`  WHERE  `id`  = $id";
+							$q = "SELECT  id  FROM  images  WHERE  id  = $id";
 							if ($general->returnYesNoDBQuery($q) != 1){
 								echo "Passed id does not exist in the database";
-								echo '</div></div>';
-								include($root ."/includes/footer.html");
 								exit();
 		
 							}
-						}else {
-							
-							echo "This page requires the id of a video existing in the database to be passed";
-							echo '</div></div>';
-							include($root ."/includes/footer.html");
-							exit();
-							
 						}
+						
+						
+						vhttps://codepen.io/matt-west/pen/jKnzG
+						
+						ajax to a json of select tags where tagscategory= atlas and xxxx
+						
+						
+						
+						
+						
+						
+						*/
 		
 		?></p>
 		
-			<div id="vimeoid" style="display:none;"><?php echo $general->getVimeoID($id);?></div>
-		
-				
-			        
 				<div class='row'>
 					<div class='col-2'>
 					</div>
 					<div class='col-8'>
-						<div id='videoDisplay'>
-							
-						</div>
 					
+					
+					    <form id="inputTag">
+					    
+					    <input type="text" size="45" id="searchBox" class="startTyping" list="json-datalist" placeholder="Start typing an endoscopic diagnosis....">
+					    <button id="resetPage" class="modifiers">Reset</button>
+<datalist id="json-datalist"></datalist>
+		
+					    </form>
 					</div>
 				    <div class='col-2'>
 					</div>    
 				</div>
+			    
+			    <div class='row' id='imageTitle'>
+				    
+			    </div>
+			    
+			    <div id='imageDisplay'>
 				
-				<div class='row'>
-					<div class='col-1'>
-					</div>
-					<div class='col-10'>
-					
-						<div id='images' class='standardBack'>
-							
-						</div>
-					    <!--<<form id="imageUpload">
-					    
-					    input name="files[]" type="file" multiple="multiple" accept=".jpg, .jpeg, .bmp"/>-->
-					    
-					    <!--<button id="submitimagefiles">Submit</button>
-		
-					    </form>-->
-					</div>
-				    <div class='col-1'>
-					</div>    
+				
+				
+				
 				</div>
+			    
+				<!--<div class='row' id='imageDisplay'>
+					<div class='col-2'>
+					</div>
+					<div class='col-8'>
+				
+					</div>
+				    <div class='col-2'>
+					</div>    
+				</div>-->
 		
 		        </div>
 		
@@ -247,36 +217,15 @@
 			
 var siteRoot = "http://localhost:90/dashboard/learning/";
 
-var imagesPassed = "";
+imagesPassed = $("#id").text();
 
-var videoDataDefined;
-
-var vimeoID;
-
-vimeoID = $("#vimeoid").text();
-
-videoPassed = $("#id").text();
-
-if (videoPassed == "") {
+if (imagesPassed == "") {
 
     var edit = 0;
-    
-    videoDataDefined = 0;
 
 } else {
 
     var edit = 1;
-    
-    //$('#imageUpload').hide();
-    
-    videoDataDefined = 1;
-    
-    
-    videoDisplay(vimeoID);
-    
-   
-    
-    //constructEditTable;
 
 }
 
@@ -292,322 +241,46 @@ var textAreas = new Object();
 
 var selects = new Object();
 
-var selects2 = new Object();
+getSearchboxTerms();
 
-var selects3 = new Object();
 
-function videoDisplay (url){
+function getSearchboxTerms (){
 	
-	
-	
-        if (isNormalInteger(url) === true){
-        
-	        $('#videoDisplay').html("<div class='videoWrapper' style='text-align: centre'><iframe id='videoChapter' src='https://player.vimeo.com/video/"+url+"' width='400' height='288' frameborder='0' webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe></div>");
-			
-			$('#submitimagefiles').prop('disabled', true);
-			$('#video').prop('disabled', true);
-			$('#resetVideoSubmit').show();
-			$('#videoForm').show();
-			$('#url').val(url);
-			
-			
-		
-		}else{
-			
-			
-			alert('Invalid vimeo id in record');
-			
-		}
+	var selectorObject = getDataQuery('tags', 'tagCategories_id = 40', {
+            'id': 'id',
+            'name': 'tagName'
+        }, 1);
 
-	
-	
-	
-}
+        //console.log(selectorObject);
 
-function constructEditTable(idPassed){
-	
-	//imagesPassed, ajax the id to get a table in the format of the previous
-	
-	//get the images
-	
-	//get all the tags for the images
-	
-	
-	//$('#imageUpload').hide();
-	
-    imagesRequired = new Object;
+        selectorObject.done(function(data) {
 
-    //imagesRequired = getNamesFormElements("images");  JSONStraightDataQuery (table, query, outputFormat)
-
-    imagesString = '`id`=\'' + idPassed + '\'';
-    
-    query = "SELECT a.`id`, a.`split`, b.`id` as `chapterid`, b.`name`, b.`timeFrom`, b.`timeTo`, b.`number`, b.`name` AS `chaptername` FROM `video` as a INNER JOIN `chapter` as b ON a.`id` = b.`video_id` WHERE a.`id` = "+idPassed;
-
-    var selectorObject = JSONStraightDataQuery("video", query, 7); //to here
-
-    //console.log(selectorObject);
-
-    selectorObject.done(function(data) {
-
-        console.log(data);
-		
-		try{
-		
-        var formData = $.parseJSON(data);
-        
-        } catch (error) {
-	        
-	       console.log ('caught');
-	       	        
-        }
-        
-        if (formData == null){
-	        
-	        $("#images").html('<p>No chapter yet defined for this video</p><br><button id="newChapter" type="button" onclick="newChapterRow();"	>New Chapter</button>');
-	        return;
-	        
-        }
-
-		var html = "<table id=\"imagesTable\" class=\"imageTable\">";
-		html += "<tr>";
-					html += '<th>Chapter Number</th>';
-			html += '<th>Time from:</th>';
-			html += '<th>Time to:</th>';
-			html += '<th>Description</th>';
-			html += '<th></th>';
-			html += '<th>Tags</th>';
-			html += '<th></th>';
-			html += '</tr>';
+            console.log(data);
 			
-		
-
-        $(formData).each(function(i, val) { //FOR EACH EXISTING CHAPTER
-            
-            var id = val.id;
-            var chapterid = val.chapterid;
-            var number = val.number;
-            var timeFrom = val.timeFrom;
-            var timeTo = val.timeTo; 
-            var name = val.chaptername;
-            
-            
-            
-             // to here
-            
-            html += '<tr class="file" id="chapter'+chapterid+'">';
-			html += "<td id='"+chapterid+"' style='display:none;'></td>";
-			//html += "<td><img src='"+siteRoot+"/"+url+"' style=\"width:128px;\"></td>";
+			var searchData = $.parseJSON(data);
 			
+			console.dir(searchData);
 			
-			html += "<td><select name='chapternumber"+chapterid+"' id='chapternumber"+chapterid+"' class='order'><option hidden selected>";
-			
-			var i;
-			for (i = 1; i <= Object.keys(formData).length; i++) { 
-			    html += "<option value='"+i+"'>"+i+"</option>";
-			}
-			
-			
-			html += "</select></td>";
-			
-			
-			
-			
-			html += "<td><input id='chaptertimefrom"+chapterid+"' type='text'></input><br><button type='button' onclick='getVideoTime("+chapterid+", 0)'> + video time</button><br><button type='button' class='jumpToTime'>seek video</button></td>";
-			html += "<td><input id='chaptertimeto"+chapterid+"' type='text'><br><button type='button' onclick='getVideoTime("+chapterid+", 1)'> + video time</button></input><br><button type='button' class='jumpToTime'>seek video</button></td>";
-			html += "<td class='chapterDesc'><textarea name='chaptername$insert' id='chaptername"+chapterid+"' class='name' rows='2' cols='70'></textarea></td>";
-			
-			html += "<td><button class='addTag'>Add Tag</button></td>";
-			html += "<td class='chapterTag' id='tag"+chapterid+"'></td>";
-
-			//html += "<td><select name='imageorder"+image_id+"' id='imageorder"+image_id+"' class='order'><option hidden selected>";
-			/*
-			var i;
-			for (i = 1; i <= Object.keys(formData).length; i++) { 
-			    html += "<option value='"+i+"'>"+i+"</option>";
-			}
-			
-			
-			html += "</select></td>";
-			*/
-			html += "<td class='deleteImage'>&#x2718;</td>";
-			html += '</tr>';
-
-
-        });
-        
-        html += '</table>';
-		html += '<p>';
-		html += '<button id="newChapter" type="button" onclick="newChapterRow();">New Chapter</button>&nbsp;&nbsp;';
-		html += "<button class='addTagAll'> Add tag to all images</button>&nbsp;&nbsp;";
-		html += "<button class='save' onclick='fn60sec();'> Save data </button>";
-		html += '</p>';
-
-        $("#messageBox").text("Editing video with video id " + idPassed);
-        $("#images").html(html);
-        
-        $(formData).each(function(i, val) {
-            
-            var id = val.id;
-            var chapterid = val.chapterid;
-            var number = $.trim(val.number);
-            console.log('chapter number is '+number);
-            var timeFrom = val.timeFrom;
-            var timeTo = val.timeTo; 
-            var name = val.chaptername;
-            //var order = $.trim(val.order);
-            //console.log('Type for image id '+image_id+' is '+type);
-            //console.log('Order for image id '+image_id+' is '+order);
-			
-		
-		$("#chaptername"+chapterid+"").val(name);
-		
-		//$("#chapternumber"+chapterid+"").val(number);
-		
-		$("#chaptertimefrom"+chapterid+"").val(timeFrom);
-		
-		$("#chaptertimeto"+chapterid+"").val(timeTo);
-		
-		//$("#imagetype"+image_id+" option[value='"+type+"']").attr('selected', 'selected');
-		
-		//$('#content').find("#chaptertimeto"+chapterid+"").val(timeTo);
-		
-		//$('#content').find("#chapternumber"+chapterid+"").val(number);
-		
-		$('#content').find("#chapternumber"+chapterid+" option[value='"+number+"']").attr('selected', 'selected');
-		
-		
-		
-		
-		});
-		
-				//query = "SELECT b.`image_id`, c.`url`, c.`name`, c.`type`, e.`tagName`, d.`id` as imagesTagid, d.`tags_id` FROM `imageSet` as a INNER JOIN `imageImageSet` as b ON a.`id` = b.`imageSet_id` INNER JOIN `images` as c on b.`image_id` = c.`id` INNER JOIN `imagesTag` as d ON c.`id` = d.`images_id` INNER JOIN `tags` as e ON d.`tags_id` = e.`id` WHERE a.`id` = "+idPassed;
-		
-		    var selectorObject = JSONStraightDataQuery(idPassed, "selectChapterSet", 9);
-		
-		    //console.log(selectorObject);
-		
-		    selectorObject.done(function(data) {
-		
-		        console.log(data);
+			$.each(searchData, function(key, value) {
 				
-				try{
-				
-		        var formData = $.parseJSON(data);
+				var id = value['id'];
+				var name = value['tagName'];
 		        
-		        } catch (error) {
-			        
-			       console.log('No ajax data received'); 
-			        
-		        }
+		       	$('#json-datalist').append('<option value="'+name+'" data-id="'+id+'"></option>');
 		        
-		        $(formData).each(function(i, val) {
-            
-	            var id = val.id;
-	            var image_id = val.chapterid;
-	            var tags_id = val.tags_id;
-	            var imagesTagid = val.chapterTagid;
-	            var tagName = val.tagName;
-	            var type = val.type;
-
-	            
-	            $("#tag"+image_id+"").append('<button id="' + imagesTagid + '" class="tagButton">'+tagName+'</button>');
-				
-				
-				
-				});
+		        //data.append(key, value);
 		        
-		        updatePreValues ();
-		        
+		       
+		    
 		    });
+            
+            $('#searchBox').attr("placeholder","Start typing an endoscopic diagnosis...");
 
-		
-        //enableFormInputs("images");
 
-    });
 
-    /*try {
-
-        $("form#images").find("button#deleteimages").length();
-
-    } catch (error) {
-
-        $("form#images").find("button").after("<button id='deleteimages'>Delete</button>");
-
-    }*/
-	/*
-	echo '<table id="imagesTable" class="imageTable">';
-		echo '<tr>';
-			echo '<th></th>';
-			echo '<th></th>';
-			echo '<th>Tags</th>';
-			echo '<th>Description</th>';
-			echo '<th>Rank</th>';
-			echo '</tr>';
-		foreach ($filearray as $key=>$value){
-			
-			$insert = $value['id'];
-			$file = $value['filename'];
-			
-			
-			echo '<tr class="file">';
-			echo "<td id='$insert' style='display:none;'>$file</td>";
-			echo "<td><img src='$roothttp/$file' style=\"width:128px;\"></td>";
-			echo "<td><button class='addTag'>Add Tag</button></td>";
-			echo "<td class='imageTag'></td>";
-			echo "<td class='imageDesc'><textarea name='imagename$insert' id='imagename$insert' class='name' rows='4' cols='30'></textarea></td>";
-			echo "<td class='imageRank'><select name='imagetype$insert' id='imagetype$insert' class='type'><option hidden selected></option><option value='1'>1</option><option value='2'>2</option><option value='3'>3</option><option value='4'>4</option><option value='5'>5</option></select></td>";
-
-			
-			echo '</tr>';
-		}
-		echo '</table>';
-		echo '<p>';
-		echo "<button class='addTagAll'> Add tag to all images</button>&nbsp;&nbsp;";
-		echo "<button class='save' onclick='fn60sec();'> Save data </button>";
-		echo '</p>';*/
-	
-}
-
-function deleteImage(imageRowClicked){
+        })
 	
 	
-	//get the image id
-	
-	console.log(imageRowClicked);
-	
-	var imageID = $(imageRowClicked).closest('tr').find('td:eq(0)').attr('id');
-	
-	
-	//query = "DELETE FROM `images` WHERE `id` = "+imageID+"";
-	
-	
-    var selectorObject = JSONStraightDataQuery(imageID, 'deleteChapter', 9);
-
-    //console.log(selectorObject);
-
-    selectorObject.done(function(data) {
-
-        console.log(data);
-		
-		if (data){
-			
-			
-			if (data == 1){
-				
-				//console.log('now remove the table row');
-				
-				$(imageRowClicked).closest('tr').hide();
-				
-			}else{
-				
-				alert('Chapter not deleted');
-				
-			}
-			
-		}
-
-	
-	});
 	
 }
 
@@ -617,11 +290,6 @@ function fn60sec() {
     console.log('fired');
 
     //!get imageids
-    
-    //number
-    //name
-    //timeFrom
-    //timeTo
 
     var overallObject = new Object();
 
@@ -650,7 +318,7 @@ function fn60sec() {
 
         var textareaText = $(this).val();
 
-        textAreas[x] = $.trim(textareaText);
+        textAreas[x] = textareaText;
 
         x++;
 
@@ -659,7 +327,7 @@ function fn60sec() {
 
     x = 0;
 
-    $('#imagesTable').find('tr').find('td:eq(1)').find('select').each(function() {
+    $('#imagesTable').find('tr').find('td:eq(5)').find('select').each(function() {
 
         console.log(this);
 
@@ -671,56 +339,21 @@ function fn60sec() {
 
 
     })
-    
-    x = 0;
-
-    $('#imagesTable').find('tr').find('td:eq(2)').find('input').each(function() {
-
-        console.log(this);
-
-        var selectValue = $(this).val();
-
-        selects2[x] = selectValue;
-
-        x++;
-
-
-    })
-    
-    x = 0;
-
-    $('#imagesTable').find('tr').find('td:eq(3)').find('input').each(function() {
-
-        console.log(this);
-
-        var selectValue = $(this).val();
-
-        selects3[x] = selectValue;
-
-        x++;
-
-
-    })
 
     console.dir(images);
     console.dir(textAreas);
     console.dir(selects);
-    console.dir(selects2);
-    console.dir(selects3);
-
 	
 	//these need the field names
 	
     overallObject['id'] = images;
-    overallObject['number'] = selects;
-    overallObject['timeFrom'] = selects2;
-    overallObject['timeTo'] = selects3;
+    overallObject['type'] = selects;
     overallObject['name'] = textAreas;
 
     console.dir(overallObject);
 
 
-    var tagsImagesObject = JSONDataQuery('chapter', overallObject, 6); //update new object
+    var tagsImagesObject = JSONDataQuery('images', overallObject, 6); //update new object
 
     tagsImagesObject.done(function(data) {
 
@@ -789,7 +422,6 @@ function fn60sec() {
 
     // runs every 60 sec and runs on init.
 }
-//!reenable to start timed save
 //setInterval(fn60sec, 60 * 1000);
 
 
@@ -806,100 +438,6 @@ function addImageTagAll(event) {
 
     //display keys below
 
-}
-
-function newChapterRow (){
-	
-	//video id
-	
-	query = 'newChapterRow';
-	
-	var selectorObject = JSONStraightDataQuery(videoPassed, query, 9);
-	
-	//insert into command for database
-	
-	selectorObject.done(function(data) {
-		
-			console.log(data);
-		
-			var html = '<tr class="file" id="chapter'+data+'">';
-			html += "<td id='"+data+"' style='display:none;'></td>";
-			//html += "<td><img src='"+siteRoot+"/"+url+"' style=\"width:128px;\"></td>";
-			
-			
-			html += "<td><select name='chapternumber"+data+"' id='chapternumber"+data+"' class='order'><option hidden selected>";
-			
-			var i;
-			var notrs = $('#imagesTable').find('tr').length;
-			for (i = 1; i <= notrs; i++) {  //actually count no of trs
-			    html += "<option value='"+i+"'>"+i+"</option>";
-			}
-			
-			
-			html += "</select></td>";
-			
-			
-			
-			
-			html += "<td><input id='chaptertimefrom"+data+"' type='text'></input><br><button type='button' onclick='getVideoTime("+data+", 0)'> + video time</button><br><button type='button' class='jumpToTime'>seek video</button></td>";
-			html += "<td><input id='chaptertimeto"+data+"' type='text'><br><button type='button' onclick='getVideoTime("+data+", 1)'> + video time</button></input><br><button type='button' class='jumpToTime'>seek video</button></td>";
-			html += "<td class='chapterDesc'><textarea name='chaptername$insert' id='chaptername"+data+"' class='name' rows='2' cols='70'></textarea></td>";
-			
-			html += "<td><button class='addTag'>Add Tag</button></td>";
-			html += "<td class='chapterTag' id='tag"+data+"'></td>";
-
-			//html += "<td><select name='imageorder"+image_id+"' id='imageorder"+image_id+"' class='order'><option hidden selected>";
-			/*
-			var i;
-			for (i = 1; i <= Object.keys(formData).length; i++) { 
-			    html += "<option value='"+i+"'>"+i+"</option>";
-			}
-			
-			
-			html += "</select></td>";
-			*/
-			html += "<td class='deleteImage'>&#x2718;</td>";
-			html += '</tr>';
-			
-			var tablePresent = $('#imagesTable').find('tr').length;
-			
-			if (tablePresent > 0){
-			
-				$('#imagesTable').find('tr').last().after(html);
-				
-				$('#content').find("#chapternumber"+data+" option[value='"+notrs+"']").attr('selected', 'selected');
-				
-			} else {
-				
-				var html2 = "<table id=\"imagesTable\" class=\"imageTable\">";
-				html2 += "<tr>";
-				html2 += '<th>Chapter Number</th>';
-				html2 += '<th>Time from:</th>';
-				html2 += '<th>Time to:</th>';
-				html2 += '<th>Description</th>';
-				html2 += '<th></th>';
-				html2 += '<th>Tags</th>';
-				html2 += '<th></th>';
-				html2 += '</tr>';
-				html2 += '</table>';
-				
-				
-				$("#images").html(html2);
-				
-				$('#imagesTable').find('tr').last().after(html);
-				
-				$('#content').find("#chapternumber"+data+" option[value='"+notrs+"']").attr('selected', 'selected');
-				
-				
-			}
-		
-	})
-	
-	//use the insert id to 
-	
-	
-	
-	
 }
 
 
@@ -1060,25 +598,6 @@ function deleteimages() {
 
 }
 
-function updatePreValues (){
-	
-	
-	$('.order').each(function(){
-	
-		//console.log(this);
-	
-		$(this).data('pre', $(this).val());
-		
-		//var hello = $(this).data('pre');
-		
-		//console.log(hello);
-		
-	})
-	
-	
-	
-}
-
 function submitimagesForm() {
 
     //pushDataFromFormAJAX (form, table, identifierKey, identifier, updateType)
@@ -1151,58 +670,14 @@ function submitimagesForm() {
 
 }
 
-//!video seek functions
-
-function getVideoTime(chapterid, type){
-	
-	$("#videoChapter").vimeo("getCurrentTime", function(data){
-			
-				//$('#videoTime').html("<p class='p-2'>Current time is "+data+" seconds</p>");
-				
-				if (type == 0) {//from
-				
-					$('#chaptertimefrom'+chapterid).val(data);
-					
-				} else if (type == 1) {//from
-				
-					$('#chaptertimeto'+chapterid).val(data);
-				} 
-				
-				console.log( "Current time", data ); 
-			})
-	
-	
-	
-	
-	
-}
-
-function jumpToTime (time){
-	
-	
-				$("#videoChapter").vimeo("seekTo", time);
-
-}
-
 $(document).ready(function() {
 
-    if (edit == 1) {
-
-        constructEditTable(videoPassed);
-        $("#messageBox").text("Editing Video "+videoPassed);
-
-    } else {
-
-        $("#messageBox").text("New Video Entry");
-
-    }
     
-    //!modify navbar to include page specific links
-    
-    var navBarEntry = '<div class="dropdown"><button class="dropbtn yellow">Video Creators</button><div class="dropdown-content"><a href="' + siteRoot + 'scripts/forms/videoUploadForm.php">New Video</a><hr><a href="' + siteRoot + 'scripts/forms/videoTable.php">Video Table</a></div></div>';
-    
-    $('.navbar').find('.dropdown:eq(0)').after(navBarEntry);
 
+    
+    
+    
+    $('#searchBox').attr("placeholder","Loading options...");
 
 
     $('input[type=file]').on('change', prepareUpload);
@@ -1227,15 +702,7 @@ $(document).ready(function() {
 
         }, 100, 'Resize header');
     });
-    
-    /*
-    $(document).click(function(event) {
-	  //if you click on anything except the modal itself or the "open modal" link, close the modal
-	  if (!$(event.target).closest(".modal").length) {
-	    $(".content").find(".modal").removeClass("visible");
-	  }
-	});
-	*/
+
 
     $("#content").on('click', '#submitimages', (function(event) {
         event.preventDefault();
@@ -1266,7 +733,7 @@ $(document).ready(function() {
 
         imageID = $(cellClicked).closest('tr').find('td:eq(0)').attr('id');
 
-        console.log('Chapter id is' + imageID);
+        console.log('File id is' + imageID);
 
         singleTag = 1;
 
@@ -1383,8 +850,8 @@ $(document).ready(function() {
 
         if (singleTag == 1) {
 
-            var selectorObject = getDataQuery('chapterTag', '`chapter_id` = ' + imageID + ' and `tags_id` = ' + tagID + '', {
-                '0': 'chapter_id',
+            var selectorObject = getDataQuery('imagesTag', '`images_id` = ' + imageID + ' and `tags_id` = ' + tagID + '', {
+                '0': 'images_id',
                 '1': 'tags_id'
             }, 3);
 
@@ -1416,8 +883,8 @@ $(document).ready(function() {
 
                 if (alreadyExists == 0) {
 
-                    var tagsImagesObject = pushDataAJAX('chapterTag', 'id', '', 0, {
-                        'chapter_id': imageID,
+                    var tagsImagesObject = pushDataAJAX('imagesTag', 'id', '', 0, {
+                        'images_id': imageID,
                         'tags_id': tagID
                     }); //insert new object
 
@@ -1433,7 +900,7 @@ $(document).ready(function() {
 
                                 //add the tag to the table
 
-                                $('.file').find('td[id=' + imageID + ']').closest('tr').find('td:eq(6)').append('<button id="' + data + '" class="tagButton">' + $(cellClicked).closest('tr').find('td:eq(1)').text() + '</button>');
+                                $('.file').find('td[id=' + imageID + ']').closest('tr').find('td:eq(3)').append('<button id="' + data + '" class="tagButton">' + $(cellClicked).closest('tr').find('td:eq(1)').text() + '</button>');
 
                                 $('.modal').hide();
 
@@ -1479,7 +946,7 @@ $(document).ready(function() {
                 console.log(v);
 
                 tagImages[k] = {
-                    'chapter_id': v,
+                    'images_id': v,
                     'tags_id': tagID
                 };
 
@@ -1491,7 +958,7 @@ $(document).ready(function() {
 
             //imageTag = {0 = Object {images_id : id, tags_id : tagID
 
-            var selectorObject = JSONDataQuery('chapterTag', tagImages, 4); //check these don't already exist
+            var selectorObject = JSONDataQuery('imagesTag', tagImages, 4); //check these don't already exist
 
             //console.log(selectorObject);
             var alreadyExists;
@@ -1506,7 +973,7 @@ $(document).ready(function() {
 
                     if (data == 1) {
 
-                        alert('One of these chapters is already tagged with this tag, select individually');
+                        alert('One of these images is already tagged with this tag, select individually');
                         alreadyExists = 1;
                         $('.modal').hide();
 
@@ -1521,7 +988,7 @@ $(document).ready(function() {
 
                 if (alreadyExists == 0) {
 
-                    var tagsImagesObject = JSONDataQuery('chapterTag', tagImages, 5); //insert new object
+                    var tagsImagesObject = JSONDataQuery('imagesTag', tagImages, 5); //insert new object
 
                     tagsImagesObject.done(function(data) {
 
@@ -1541,7 +1008,7 @@ $(document).ready(function() {
 
                                 var xy = 0;
 
-                                $('#imagesTable').find('tr').find('td:eq(6)').each(function() {
+                                $('#imagesTable').find('tr').find('td:eq(3)').each(function() {
 
 
                                     $(this).append('<button id="' + returnedData[xy] + '" class="tagButton">' + $(cellClicked).closest('tr').find('td:eq(1)').text() + '</button>');
@@ -1654,19 +1121,11 @@ $(document).ready(function() {
 
 
 
-   
-    
-    $("#content").on('click', '.deleteImage', (function(event) {
-	    
-	    
+    $("#content").on('click', '#deleteimages', (function(event) {
         event.preventDefault();
-        
-        if (confirm("Do you wish to delete this chapter?")) {
-	        deleteImage($(this));
-		}
-        
-        
-        
+        deleteimages();
+
+
     }));
 
     $("#content").on('click', '.tagButton', (function(event) {
@@ -1675,13 +1134,13 @@ $(document).ready(function() {
 
         var tagImageid = $(this).attr('id');
 
-         console.log(tagImageid);
+        // console.log(tagImageid);
 
         if (confirm("Do you wish to delete this tag from the image?")) {
 
             //disableFormInputs("images");
 
-            var imagesObject = pushDataAJAX('chapterTag', 'id', tagImageid, 2, ''); //delete images
+            var imagesObject = pushDataAJAX('imagesTag', 'id', tagImageid, 2, ''); //delete images
 
             imagesObject.done(function(data) {
 
@@ -1701,7 +1160,7 @@ $(document).ready(function() {
 
                     } else {
 
-                        alert("Error, tag not deleted. Try again");
+                        alert("Error, try again");
 
                         //enableFormInputs("images");
 
@@ -1717,6 +1176,39 @@ $(document).ready(function() {
         }
 
 
+    }));
+    
+    $("#content").on('change', '#searchBox', (function(event) {
+
+        var value = $(this).val();
+		var option = $('#json-datalist').find("[value='" + value + "']").attr('data-id');
+		
+		
+		  console.log('Tag to look for images is '+option);	
+		  
+		  //tagid
+		  
+		  request = $.ajax({
+	        url: siteRoot + "scripts/getImages.php",
+	        type: "get",
+	        data: 'tagid='+option,
+	
+		   });
+		   
+		   request.done(function(data){
+			   
+			   if (data){
+			   
+			    $('#imageTitle').html('<h3 style="text-align:left;">'+value+'</h3>');
+			   	$('#imageDisplay').html(data);
+			   
+			   }
+			   
+		   });
+	
+		  
+        
+ 
     }));
 
     $('.modal').on('click', '#newTagCategory', function() {
@@ -1748,120 +1240,35 @@ $(document).ready(function() {
 
     })
     
-    
-		
-	
-		
+    $('.content').on('click', '#captionHide', function() {
 
-    
-    $('#content').on('change', '.order', function() {
+        $('.caption').toggle();
 
-        //prevents two of the same numbers in order
-        var before_change = $(this).data('pre');
-   
-        //get value of this order
         
-        orderValue = $(this).val();  //new value of clicked select
-        
-        orderid = $(this).attr('id');
-        
-        $('.order').each(function(){
-	        
-	        if ($(this).attr('id') != orderid){
-		        
-		        
-		        if ($(this).val() == orderValue){
-			        
-			        $(this).val(before_change);
-			        
-			        $(this).data('pre', $(this).val());
-			        
-		        }
-		        
-	        }
-	        
-	        
-	        
-        })
-        
-        $(this).data('pre', $(this).val());
-       
+
+
+        //window.open(siteRoot + "scripts/forms/tagsForm.php", "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,width=600,height=700");
 
 
 
     })
     
-    //!functions for video timings
-    
-    $('.content').on("focusout", "#endTime", (function(event) {    
-		 		
-				//event.preventDefault();
-				
-				// get the endTime just entered by the user
-				
-				var time = $(this).val();
-				
-				//find the chapter row
-				
-				var chapterRow = $(this).parent().parent();
-				
-				//get the next row
+    $('.content').on('click', '#resetPage', function(event) {
+		event.preventDefault();
+        $('#imageTitle').html('');
+		$('#imageDisplay').html('');
+		$('#searchBox').val('');
+        
 
-				var targetChapterRow = $(chapterRow).next();
-				
-				//find the target box startTime within the next row
-				
-				var targetBox = $(targetChapterRow).find('.startTime');
-				
-				
-				//on the next row insert the same time in the first box
-				
-				$(targetBox).val(time);
-				
-		
-	
-		}));
+
+        //window.open(siteRoot + "scripts/forms/tagsForm.php", "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,width=600,height=700");
+
+
+
+    })
 
     
-		$('#getCurrentVideoChapterTime').on('click', function(event){
-			
-			event.preventDefault();
-			$("#videoChapter").vimeo("getCurrentTime", function(data){
-			
-				$('#videoTime').html("<p class='p-2'>Current time is "+data+" seconds</p>");
-				
-				$focussed.val(data);
-				
-				console.log( "Current time", data ); 
-			})
-			
-			
-		})
-		
-		$('.content').on("click", ".jumpToTime", (function(event) {    
-		 		
-				//event.preventDefault();
-				var tagRow = $(this).parent().find('input').val();
-				//var tagRow = $(this).parent().find(':input').val();
-				jumpToTime(tagRow);
-				console.log(tagRow);
-		
-	
-		}));
-		
-				
-		function seekVideo(tagRow){
-			 
-			 
-			 
-			 
-			 var startTime = $(tagRow).find('input[name="startTime"]').val();
-			 console.log(startTime);
-			 
-			 jumpToTime(startTime, '#videoTag');
-			 
-			 
-		 }
+
 
     
 

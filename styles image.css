@@ -43,6 +43,21 @@ p {
 	
 }
 
+.gentBlue {
+	
+	background-color: #2670DD;
+	color: white;
+	
+	
+}
+
+.standardBack {
+	
+	background-color: ghostwhite;
+	color: black;
+	
+}
+
 .whiteborder {
 	
 	border: 1px solid white;
