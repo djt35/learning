@@ -1044,6 +1044,10 @@ $(document).ready(function() {
         $("#messageBox").text("New Video Entry");
 
     }
+    
+    var navBarEntry = '<div class="dropdown"><button class="dropbtn activeButton">Video Creators</button><div class="dropdown-content"><a href="' + siteRoot + 'scripts/forms/videoUploadForm.php">New Video</a><hr><a href="' + siteRoot + 'scripts/forms/videoTable.php">Video Table</a></div></div>';
+    
+    $('.navbar').find('a:eq(1)').after(navBarEntry);
 
     $('input[type=file]').on('change', prepareUpload);
 

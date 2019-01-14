@@ -64,6 +64,57 @@ class general {
 		
 	}
 	
+	public function getVideoTitle ($id) {
+		
+		$q = "SELECT  `id`, `name`  FROM  `video`  WHERE  `id`  = $id";
+		
+		$result = $this->connection->RunQuery($q);
+		
+		if ($result){
+		
+			while($row = $result->fetch_array(MYSQLI_ASSOC)){
+				
+				$vimeoid = $row['name'];
+				
+	
+			}
+		
+		}
+		
+		
+		return  $vimeoid;
+		
+	}
+	
+	public function getChapterSelector ($id) {
+		
+		$q = "SELECT a.`id`, a.`split`, b.`id` as `chapterid`, b.`timeFrom`, b.`timeTo`, b.`number`, b.`name` AS `chaptername` FROM `video` as a INNER JOIN `chapter` as b ON a.`id` = b.`video_id` WHERE a.`id` = $id";
+		
+		$result = $this->connection->RunQuery($q);
+		
+		if ($result){
+		
+			$html = "<br><select id='chapterSelectorVideo{$id}' class='chapterSelector' style='width:100%;'>";
+		
+			while($row = $result->fetch_array(MYSQLI_ASSOC)){
+				
+				$chapterid = $row['chapterid'];
+				$name = $row['chaptername'];
+				$number = $row['number'];
+				
+				$html .= "<option value='{$chapterid}'>{$number} - {$name}</option>";
+	
+			}
+			
+			$html .= "</select>";
+		
+		}
+		
+		
+		return  $html;
+		
+	}
+	
 	public function returnYesNoDBQuery ($q){
 
 

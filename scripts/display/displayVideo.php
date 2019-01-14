@@ -2,6 +2,9 @@
 		
 		
 		<?php
+			
+			//further to do; add description to chapter table
+			//fix ability yo skip
 	
 		require ('/Applications/XAMPP/xamppfiles/htdocs/dashboard/learning/scripts/headerCreator.php');
 	
@@ -176,15 +179,7 @@
 		
 		        <div class='responsiveContainer white'>
 		
-			        <div class='row'>
-		                <div class='col-9'>
-		                    <h2 style="text-align:left;">Video Chapter, Tag Form</h2>
-		                </div>
-		
-		                <div id="messageBox" class='col-3 yellow-light narrow center'>
-		                    <p></p>
-		                </div>
-		            </div>
+			        
 		
 		
 			        <p><?php
@@ -210,20 +205,45 @@
 		
 		?></p>
 		
+		<div class='row'>
+		                <div class='col-9'>
+		                    <h2 id="pageTitle" style="text-align:left;"><?php echo $general->getVideoTitle($id)?></h2>
+		                    <p id="tagsDisplay"style="text-align: left;">Ideas in this video</p>
+		                </div>
+		                <div class='col-3 yellow-light center'>
+						<div id='chapterSelector'>
+							<?php echo 'Select Chapter : ' . $general->getChapterSelector($id)?>
+						</div>
+						<div id='chapterSelectorMessage'></div>
+					
+					</div>  
+		
+		                
+		            </div>
+		
 			<div id="vimeoid" style="display:none;"><?php echo $general->getVimeoID($id);?></div>
 		
 				
+
 			        
 				<div class='row'>
-					<div class='col-2'>
-					</div>
-					<div class='col-8'>
+					
+					<div class='col-9'>
 						<div id='videoDisplay'>
 							
 						</div>
 					
 					</div>
-				    <div class='col-2'>
+					 
+				    <div class='col-3 black whiteborder center' style="height:60%;">
+					    
+					    <div id='chapterInfo'>
+						    
+						    <p id='chapterHeading'><b>Chapter 1</b></p>
+						    <p id='chapterBody'>Information regarding the snare placement etc.</p>
+						   
+							
+						</div>
 					</div>    
 				</div>
 				
@@ -532,47 +552,7 @@ function constructEditTable(idPassed){
 
     });
 
-    /*try {
-
-        $("form#images").find("button#deleteimages").length();
-
-    } catch (error) {
-
-        $("form#images").find("button").after("<button id='deleteimages'>Delete</button>");
-
-    }*/
-	/*
-	echo '<table id="imagesTable" class="imageTable">';
-		echo '<tr>';
-			echo '<th></th>';
-			echo '<th></th>';
-			echo '<th>Tags</th>';
-			echo '<th>Description</th>';
-			echo '<th>Rank</th>';
-			echo '</tr>';
-		foreach ($filearray as $key=>$value){
-			
-			$insert = $value['id'];
-			$file = $value['filename'];
-			
-			
-			echo '<tr class="file">';
-			echo "<td id='$insert' style='display:none;'>$file</td>";
-			echo "<td><img src='$roothttp/$file' style=\"width:128px;\"></td>";
-			echo "<td><button class='addTag'>Add Tag</button></td>";
-			echo "<td class='imageTag'></td>";
-			echo "<td class='imageDesc'><textarea name='imagename$insert' id='imagename$insert' class='name' rows='4' cols='30'></textarea></td>";
-			echo "<td class='imageRank'><select name='imagetype$insert' id='imagetype$insert' class='type'><option hidden selected></option><option value='1'>1</option><option value='2'>2</option><option value='3'>3</option><option value='4'>4</option><option value='5'>5</option></select></td>";
-
-			
-			echo '</tr>';
-		}
-		echo '</table>';
-		echo '<p>';
-		echo "<button class='addTagAll'> Add tag to all images</button>&nbsp;&nbsp;";
-		echo "<button class='save' onclick='fn60sec();'> Save data </button>";
-		echo '</p>';*/
-	
+    	
 }
 
 function deleteImage(imageRowClicked){
@@ -617,6 +597,16 @@ function deleteImage(imageRowClicked){
 	});
 	
 }
+
+
+function updateSelectwithClickedTag (){
+	
+	
+	
+	
+	
+}
+
 
 
 function fn60sec() {
@@ -1176,7 +1166,7 @@ function getVideoTime(chapterid, type){
 				} 
 				
 				console.log( "Current time", data ); 
-			})
+	})
 	
 	
 	
@@ -1188,14 +1178,80 @@ function jumpToTime (time){
 	
 	
 				$("#videoChapter").vimeo("seekTo", time);
+				$("#videoChapter").vimeo("play");
 
+}
+
+function getVideoTags (videoPassed){
+	
+	
+	//event.preventDefault();
+				//check videopassed is integer
+				if (isNormalInteger(videoPassed) === true){
+				
+						//get the video start time for this option
+						
+						var imagesObject = JSONStraightDataQuery(videoPassed, 'getTags', 9); 
+		
+				            imagesObject.done(function(data) {
+				
+				                console.log(data);
+				
+				                if (data) {
+				
+				                    if (data) {
+				
+				                        //do the tag thing foreach data
+				                        
+				                        console.log(data);
+		
+										try{
+										
+								        var formData = $.parseJSON(data);
+								        
+								        } catch (error) {
+									        
+									       console.log ('caught');
+									       	        
+								        }
+				                        
+				                        	$(formData).each(function(i, val) {
+					                        	
+					                        	var id = val.id;
+												var tagName = val.tagName;
+					                        	
+					                        	$('#tagsDisplay').append('<button id="tag' + id + '" class="tagButton">' + tagName + '</button>');
+					                        	
+					                        })
+				                        //
+				                        
+				                        		
+				                    } else {
+				
+				                        alert("Error, try again");
+				
+				                        //enableFormInputs("images");
+				
+				                    }
+				
+				
+				
+				                }
+				
+				
+				            });
+					
+					}
+	
+	
+	
 }
 
 $(document).ready(function() {
 
     if (edit == 1) {
 
-        constructEditTable(videoPassed);
+        //constructEditTable(videoPassed);
         $("#messageBox").text("Editing Video "+videoPassed);
 
     } else {
@@ -1206,11 +1262,11 @@ $(document).ready(function() {
     
     //!modify navbar to include page specific links
     
-    var navBarEntry = '<div class="dropdown"><button class="dropbtn activeButton">Video Creators</button><div class="dropdown-content"><a href="' + siteRoot + 'scripts/forms/videoUploadForm.php">New Video</a><hr><a href="' + siteRoot + 'scripts/forms/videoTable.php">Video Table</a></div></div>';
+    var navBarEntry = '<div class="dropdown"><button class="dropbtn activeButton">Video Atlas</button><div class="dropdown-content"><a href="' + siteRoot + 'scripts/display/displayVideo.php">All Videos</a><hr></div></div>';
     
     $('.navbar').find('a:eq(1)').after(navBarEntry);
 
-
+	getVideoTags(videoPassed);
 
     $('input[type=file]').on('change', prepareUpload);
 
@@ -1675,54 +1731,132 @@ $(document).ready(function() {
         
         
     }));
+    
+    
 
     $("#content").on('click', '.tagButton', (function(event) {
 
         var button = $(this);
 
         var tagImageid = $(this).attr('id');
+        
+        var tagName = $(this).text();
 
-         console.log(tagImageid);
+         //console.log(tagImageid);
 
-        if (confirm("Do you wish to delete this tag from the image?")) {
+        //remove other tags
+	
+		//var tagImageid1 = tagImageid.replace('tag', '');
+		
+		console.log(tagImageid);
+		
+		/*$(".tagButton").each(function(){
+			
+			var id = $(this).attr('id');
+			
+			console.log(id);
+			
+			if (id == tagImageid){
+				
+				$(button).show();
+				
+				
+			}else {
+				
+				$(button).hide();
+				
+			}
+			
+			
+			
+			
+			
+		})*/
+		
+		var chapterObject = new Object();
+		
+		var tagImageid1 = tagImageid.replace('tag', '');
+		
+		chapterObject = {
+            'id': videoPassed,
+            'tagid': tagImageid1,
+        };
+		
+		var imagesObject = JSONStraightDataQuery(chapterObject, 'getChapterSelector', 9); 
 
-            //disableFormInputs("images");
+		            imagesObject.done(function(data) {
+		
+		                console.log(data);
+		
+		                if (data) {
+				
+				                    if (data) {
+				
+				                        //do the tag thing foreach data
+				                        
+				                        console.log(data);
+		
+										try{
+										
+								        var formData = $.parseJSON(data);
+								        
+								        } catch (error) {
+									        
+									       console.log ('caught');
+									       	        
+								        }
+				                        
+				                        var html = "Select Chapter : <select id='chapterSelectorVideo' class='chapterSelector' style='width:100%;'>";
+				                        html += "<option value hidden selected></option>";
+				                        
+				                        	$(formData).each(function(i, val) {
+					                        	
+					                        	var chapterid = val.chapterid;
+												var name = val.chaptername;
+												var number = val.number;
+												//var tagName = val.tagName;
+					                        	
+					                        	html += "<option value='"+chapterid+"'>"+number+" - "+name+"</option>";
+					                        	
+					                        	
+					                        })
+				                      
+		
+			
+			
+										html += "</select>";
+				                        
+				                        $('#chapterSelector').html(html);
+				                        
+				                        $('#chapterSelectorMessage').html('<p class="small">Showing chapters tagged '+tagName);
+				                        
+				                        $(".chapterSelector").fadeIn(100).fadeOut(100).fadeIn(100).fadeOut(100).fadeIn(100);
+				                        		
+				                    } else {
+				
+				                        alert("Error, try again");
+				
+				                        //enableFormInputs("images");
+				
+				                    }
+				
+				
+				
+				                }
+		
+		
+		});
+		
+		//hide all selectors that do not contain this tag
+		
+		//getChapterSelector
+	
+	
+	//flash the select box
+	
+	
 
-            var imagesObject = pushDataAJAX('chapterTag', 'id', tagImageid, 2, ''); //delete images
-
-            imagesObject.done(function(data) {
-
-                console.log(data);
-
-                if (data) {
-
-                    if (data == 1) {
-
-                        //alert ("tag connection deleted");
-                        $(button).remove();
-
-                        //edit = 0;
-                        //imagesPassed = null;
-                        //window.location.href = siteRoot + "scripts/forms/imagesTable.php";
-                        //go to images list
-
-                    } else {
-
-                        alert("Error, tag not deleted. Try again");
-
-                        //enableFormInputs("images");
-
-                    }
-
-
-
-                }
-
-
-            });
-
-        }
-
+	
 
     }));
 
@@ -1828,7 +1962,27 @@ $(document).ready(function() {
 		
 	
 		}));
-
+		$("#videoChapter").on("playProgress", function(event, data){
+	    console.log( data );
+	    
+	    	if (data.seconds > 20){
+		    	
+		    	$('#chapterInfo').html('<p><b>Chapter 2</b></p><p>Information regarding the snare placement etc.</p><p>Information regarding the snare placement etc.</p>');
+		    	
+		    	
+	    	}
+	    	
+	    	//create a function
+	    	
+	    	//gets dataobject including text, chapter number, timefrom and time to
+	    	
+	    	//somehow compare the object to the data.seconds and display correct chapter
+	    	
+	    	//serach array of chapter times
+	    	
+	    	//first > match display this chapter data
+	    
+		});
     
 		$('#getCurrentVideoChapterTime').on('click', function(event){
 			
@@ -1857,18 +2011,55 @@ $(document).ready(function() {
 		}));
 		
 				
-		function seekVideo(tagRow){
-			 
-			 
-			 
-			 
-			 var startTime = $(tagRow).find('input[name="startTime"]').val();
-			 console.log(startTime);
-			 
-			 jumpToTime(startTime, '#videoTag');
-			 
-			 
-		 }
+		//!display NEW STUFF
+		
+		//!video
+		
+		$('.content').on("change", ".chapterSelector", (function(event) {    
+		 		
+				//event.preventDefault();
+				
+				console.log('changed');
+				
+				var option = $(this).val();
+				
+				//get the video start time for this option
+				
+				var imagesObject = JSONStraightDataQuery(option, 'getTime', 9); 
+
+		            imagesObject.done(function(data) {
+		
+		                console.log(data);
+		
+		                if (data) {
+		
+		                    if (data) {
+		
+		                        jumpToTime(data);
+		                        		
+		                    } else {
+		
+		                        alert("Error, try again");
+		
+		                        //enableFormInputs("images");
+		
+		                    }
+		
+		
+		
+		                }
+		
+		
+		            });
+
+				
+				
+				//console.log(tagRow);
+		
+	
+		}));
+
+		
 
     
 

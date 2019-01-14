@@ -205,6 +205,13 @@ strong {
 	
 }
 
+.activeButton{
+				
+				background-color: #fcdd85 !important;
+				color: black !important;
+				
+			}
+
 .navbar a {
     float: left;
     font-size: 16px;
@@ -299,6 +306,13 @@ body {
 	overflow-x: scroll;
 	
 
+}
+
+.small {
+	
+	padding: 2px;
+	font-size: small;
+	
 }
 
 .structure{

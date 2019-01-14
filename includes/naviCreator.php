@@ -26,7 +26,7 @@ new users;
 echo '<div class="navbar">
   <a href="' . $roothttp . 'index.php?p=home">Home</a>
   <a href="' . $roothttp . 'scripts/forms/creators.php">Creator Menu</a>';
-echo '  
+/*echo '  
 
 
   
@@ -41,9 +41,9 @@ echo '
 	  	  
 	       
     </div>
-  </div>
+  </div>';
   
-  <div class="dropdown">
+echo  '<div class="dropdown">
     <button class="dropbtn">Learning Tool 
       
     </button>
@@ -53,7 +53,7 @@ echo '
   </div>
   
   
-  ';
+  ';*/
 
 
 
