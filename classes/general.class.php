@@ -115,6 +115,33 @@ class general {
 		
 	}
 	
+	public function getVideoAndChapterData ($id) {
+		
+		$q = "SELECT a.`id`, a.`split`, b.`id` as `chapterid`, b.`timeFrom`, b.`timeTo`, b.`number`, b.`name` AS `chaptername` FROM `video` as a INNER JOIN `chapter` as b ON a.`id` = b.`video_id` WHERE a.`id` = $id";
+		
+		$result = $this->connection->RunQuery($q);
+		
+		if ($result){
+		
+			
+			while($row = $result->fetch_array(MYSQLI_ASSOC)){
+				$rows[] = array_map('utf8_encode', $row);
+			}
+
+			return json_encode($rows);
+			
+	
+			}
+			
+			
+		
+	}
+		
+		
+		
+		
+	
+	
 	public function returnYesNoDBQuery ($q){
 
 

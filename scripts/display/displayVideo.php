@@ -222,7 +222,8 @@
 		            </div>
 		
 			<div id="vimeoid" style="display:none;"><?php echo $general->getVimeoID($id);?></div>
-		
+			
+			<div id="videoChapterData" style="display:none;"><?php echo $general->getVideoAndChapterData($id);?></div>
 				
 
 			        
@@ -239,8 +240,8 @@
 					    
 					    <div id='chapterInfo'>
 						    
-						    <p id='chapterHeading'><b>Chapter 1</b></p>
-						    <p id='chapterBody'>Information regarding the snare placement etc.</p>
+						    <p id='chapterHeading'><b>Chapter information will appear here during the video</b></p>
+						    <p id='chapterBody'><p>Start the video playing from the player to the left.</p>  <p>Once the video is playing skip the video to the desired chapter above or click the tag buttons in the top left to filter chapters to specific topics.</p>  <p>The chapter box above will then update to show only the chapters related to these tags.</p></p> 
 						   
 							
 						</div>
@@ -305,6 +306,18 @@ if (videoPassed == "") {
     
     //constructEditTable;
 
+}
+
+try{
+
+var videoChapterDataText = $("#videoChapterData").text();
+
+var videoChapterData = $.parseJSON(videoChapterDataText);
+
+}catch(err){
+	
+	console.log('No video data received');
+	
 }
 
 var files;
@@ -1806,7 +1819,7 @@ $(document).ready(function() {
 									       	        
 								        }
 				                        
-				                        var html = "Select Chapter : <select id='chapterSelectorVideo' class='chapterSelector' style='width:100%;'>";
+				                        var html = "<p>Select Chapter : </p><select id='chapterSelectorVideo' class='chapterSelector' style='width:100%;'>";
 				                        html += "<option value hidden selected></option>";
 				                        
 				                        	$(formData).each(function(i, val) {
@@ -1828,7 +1841,7 @@ $(document).ready(function() {
 				                        
 				                        $('#chapterSelector').html(html);
 				                        
-				                        $('#chapterSelectorMessage').html('<p class="small">Showing chapters tagged '+tagName);
+				                        $('#chapterSelectorMessage').html('<p class="small">Showing chapters tagged '+tagName.toLowerCase());
 				                        
 				                        $(".chapterSelector").fadeIn(100).fadeOut(100).fadeIn(100).fadeOut(100).fadeIn(100);
 				                        		
@@ -1965,12 +1978,21 @@ $(document).ready(function() {
 		$("#videoChapter").on("playProgress", function(event, data){
 	    console.log( data );
 	    
-	    	if (data.seconds > 20){
+	    	$(videoChapterData).each(function(i, val) {
 		    	
-		    	$('#chapterInfo').html('<p><b>Chapter 2</b></p><p>Information regarding the snare placement etc.</p><p>Information regarding the snare placement etc.</p>');
+		    	if ((data.seconds >= val.timeFrom) && (data.seconds <= val.timeTo)){
+			    	
+			    	$('#chapterInfo').html('<p><b>Chapter '+val.number+'</b></p><p>'+val.chaptername+'</p>');
+			    	
+			    	$('#content').find("#chapterSelectorVideo"+val.id+" option[value='"+val.chapterid+"']").attr('selected', 'selected');
+			    	
+			    	//$('.chapterSelector').val('')
+			    	
+			    }		    	
 		    	
-		    	
-	    	}
+			})
+	    
+	    	
 	    	
 	    	//create a function
 	    	
