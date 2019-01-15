@@ -52,13 +52,6 @@
 				background-color: black;
 				
 				
-				
-			}
-			
-			.content {
-				
-				max-height:none;
-				
 			}
 			
 			.navbar, .dropbtn, .dropdown .dropbtn, .navbar a, .dropdown, .dropdown-content {
@@ -95,12 +88,6 @@
 				
 			}
 			
-			[class*="col-"] {
-			    float: left;
-			    padding: 15px;
-			    /*border: 1px solid red;*/
-			}
-			
 			
 			
 			
@@ -134,9 +121,6 @@
 		<body>
 		
 			<div id="id" style="display:none;"><?php if ($id){echo $id;}?></div>
-			
-			<div id="images" style="display:none;"><?php ?></div>
-
 		
 		    <div id='content' class='content'>
 		
@@ -145,7 +129,6 @@
 			        <div class='row'>
 		                <div class='col-9'>
 		                    <h2 style="text-align:left;">Endoscopic Image Atlas</h2>
-		                    <p>Filter by grouping tag [make this code same at top of all pages, allow the tag types to filter by, procedure type as starting point], add link to access individual tag pages</p>
 		                </div>
 		
 		                <div id="messageBox" class='col-3 yellow-light narrow center'>
@@ -187,7 +170,13 @@
 					<div class='col-8'>
 					
 					
+					    <form id="inputTag">
 					    
+					    <input type="text" size="45" id="searchBox" class="startTyping" list="json-datalist" placeholder="Start typing an endoscopic diagnosis....">
+					    <button id="resetPage" class="modifiers">Reset</button>
+<datalist id="json-datalist"></datalist>
+		
+					    </form>
 					</div>
 				    <div class='col-2'>
 					</div>    
@@ -199,7 +188,7 @@
 			    
 			    <div id='imageDisplay'>
 				
-				<?php echo $general->getAllTagsInCategoryWithHighestRatedImages('38', $roothttp);?>
+				
 				
 				
 				</div>
@@ -286,31 +275,6 @@ function getSearchboxTerms (){
 	
 	
 	
-}
-
-//!new 
-
-function getAllImages () {
-
-
- request = $.ajax({
-	        url: siteRoot + "scripts/getImages.php",
-	        type: "get",
-	        data: 'tagid='+option,
-	
-		   });
-		   
-		   request.done(function(data){
-			   
-			   if (data){
-			   
-			    $('#imageTitle').html('<h3 style="text-align:left;">'+value+'</h3>');
-			   	$('#imageDisplay').html(data);
-			   
-			   }
-			   
-		   });
-
 }
 
 

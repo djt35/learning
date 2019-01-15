@@ -31,7 +31,7 @@ echo '<div class="navbar">
   				<a href="">Browse images</a><hr>
   				<a href="' . $roothttp . 'scripts/display/atlas.php">Atlas of endoscopy</a><hr>
   				<a href="' . $roothttp . 'scripts/display/imaging.php">Atlas of endoscopic imaging</a><hr>
-  				<a href="' . $roothttp . 'scripts/display/imaging.php">Atlas of endoscopic resection</a>
+  				<a href="' . $roothttp . 'scripts/display/resection.php">Atlas of endoscopic resection</a>
   				
   			</div>
   		</div>';

@@ -1240,7 +1240,7 @@ $(document).ready(function() {
     
     var navBarEntry = '<div class="dropdown"><button class="dropbtn activeButton">Video Creators</button><div class="dropdown-content"><a href="' + siteRoot + 'scripts/forms/videoUploadForm.php">New Video</a><hr><a href="' + siteRoot + 'scripts/forms/videoTable.php">Video Table</a></div></div>';
     
-    $('.navbar').find('a:eq(1)').after(navBarEntry);
+    $('.navbar').find('a:eq(2)').after(navBarEntry);
 
 
 

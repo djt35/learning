@@ -147,7 +147,7 @@
 		<?php
 		include($root . "/scripts/logobar.php");
 		
-		include($root . "/includes/naviCreator.php");
+		include($root . "/includes/naviv1.php");
 		?>
 		
 		<div id="loading">
@@ -1281,7 +1281,7 @@ $(document).ready(function() {
     
     var navBarEntry = '<div class="dropdown"><button class="dropbtn activeButton">Video Atlas</button><div class="dropdown-content"><a href="' + siteRoot + 'scripts/display/displayVideo.php">All Videos</a><hr></div></div>';
     
-    $('.navbar').find('a:eq(1)').after(navBarEntry);
+    //$('.navbar').find('a:eq(1)').after(navBarEntry);
 
 	getVideoTags(videoPassed);
 
