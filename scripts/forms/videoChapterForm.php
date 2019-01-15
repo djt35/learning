@@ -228,9 +228,9 @@
 				</div>
 				
 				<div class='row'>
-					<div class='col-1'>
-					</div>
-					<div class='col-10'>
+					<!--<div class='col-1'>
+					</div>-->
+					<div class='col-12'>
 					
 						<div id='images' class='standardBack'>
 							
@@ -243,8 +243,8 @@
 		
 					    </form>-->
 					</div>
-				    <div class='col-1'>
-					</div>    
+				    <!--<div class='col-1'>
+					</div>-->    
 				</div>
 		
 		        </div>
@@ -297,6 +297,8 @@ var images = new Object();
 
 var textAreas = new Object();
 
+var textAreas2 = new Object();
+
 var selects = new Object();
 
 var selects2 = new Object();
@@ -348,7 +350,7 @@ function constructEditTable(idPassed){
 
     imagesString = '`id`=\'' + idPassed + '\'';
     
-    query = "SELECT a.`id`, a.`split`, b.`id` as `chapterid`, b.`name`, b.`timeFrom`, b.`timeTo`, b.`number`, b.`name` AS `chaptername` FROM `video` as a INNER JOIN `chapter` as b ON a.`id` = b.`video_id` WHERE a.`id` = "+idPassed;
+    query = "SELECT a.`id`, a.`split`, b.`id` as `chapterid`, b.`name`, b.`timeFrom`, b.`timeTo`, b.`number`, b.`name` AS `chaptername`, b.`description` FROM `video` as a INNER JOIN `chapter` as b ON a.`id` = b.`video_id` WHERE a.`id` = "+idPassed;
 
     var selectorObject = JSONStraightDataQuery("video", query, 7); //to here
 
@@ -380,6 +382,7 @@ function constructEditTable(idPassed){
 					html += '<th>Chapter Number</th>';
 			html += '<th>Time from:</th>';
 			html += '<th>Time to:</th>';
+			html += '<th>Name</th>';
 			html += '<th>Description</th>';
 			html += '<th></th>';
 			html += '<th>Tags</th>';
@@ -396,6 +399,8 @@ function constructEditTable(idPassed){
             var timeFrom = val.timeFrom;
             var timeTo = val.timeTo; 
             var name = val.chaptername;
+            var description = val.description;
+            console.log('Description is ' + val.description);
             
             
             
@@ -421,7 +426,10 @@ function constructEditTable(idPassed){
 			
 			html += "<td><input id='chaptertimefrom"+chapterid+"' type='text'></input><br><button type='button' onclick='getVideoTime("+chapterid+", 0)'> + video time</button><br><button type='button' class='jumpToTime'>seek video</button></td>";
 			html += "<td><input id='chaptertimeto"+chapterid+"' type='text'><br><button type='button' onclick='getVideoTime("+chapterid+", 1)'> + video time</button></input><br><button type='button' class='jumpToTime'>seek video</button></td>";
-			html += "<td class='chapterDesc'><textarea name='chaptername$insert' id='chaptername"+chapterid+"' class='name' rows='2' cols='70'></textarea></td>";
+			
+			html += "<td class='chapterDesc'><input id='chaptername"+chapterid+"'></input></td>";
+			
+			html += "<td class='chapterDesc'><textarea id='chapterdescription"+chapterid+"' class='name' rows='2' cols='70'></textarea></td>";
 			
 			html += "<td><button class='addTag'>Add Tag</button></td>";
 			html += "<td class='chapterTag' id='tag"+chapterid+"'></td>";
@@ -461,12 +469,15 @@ function constructEditTable(idPassed){
             var timeFrom = val.timeFrom;
             var timeTo = val.timeTo; 
             var name = val.chaptername;
+            var description = val.description;
             //var order = $.trim(val.order);
             //console.log('Type for image id '+image_id+' is '+type);
             //console.log('Order for image id '+image_id+' is '+order);
 			
 		
 		$("#chaptername"+chapterid+"").val(name);
+		
+		$("#chapterdescription"+chapterid+"").val(description);
 		
 		//$("#chapternumber"+chapterid+"").val(number);
 		
@@ -651,11 +662,28 @@ function fn60sec() {
 
     x = 0;
 
-    $('#imagesTable').find('tr').find('td:eq(4)').find('textarea').each(function() {
+    $('#imagesTable').find('tr').find('td:eq(4)').find('input').each(function() {
 
         console.log(this);
 
+        var textareaText2 = $(this).val();
+
+        textAreas2[x] = $.trim(textareaText2);
+
+        x++;
+
+
+    })
+    
+     x = 0;
+
+    $('#imagesTable').find('tr').find('td:eq(5)').find('textarea').each(function() {
+
+        
+
         var textareaText = $(this).val();
+        
+        console.log(textareaText);
 
         textAreas[x] = $.trim(textareaText);
 
@@ -687,7 +715,7 @@ function fn60sec() {
 
         var selectValue = $(this).val();
 
-        selects2[x] = selectValue;
+        selects2[x] = $.trim(selectValue);
 
         x++;
 
@@ -702,7 +730,7 @@ function fn60sec() {
 
         var selectValue = $(this).val();
 
-        selects3[x] = selectValue;
+        selects3[x] = $.trim(selectValue);
 
         x++;
 
@@ -722,7 +750,8 @@ function fn60sec() {
     overallObject['number'] = selects;
     overallObject['timeFrom'] = selects2;
     overallObject['timeTo'] = selects3;
-    overallObject['name'] = textAreas;
+    overallObject['name'] = textAreas2;
+    overallObject['description'] = textAreas;
 
     console.dir(overallObject);
 
@@ -850,7 +879,10 @@ function newChapterRow (){
 			
 			html += "<td><input id='chaptertimefrom"+data+"' type='text'></input><br><button type='button' onclick='getVideoTime("+data+", 0)'> + video time</button><br><button type='button' class='jumpToTime'>seek video</button></td>";
 			html += "<td><input id='chaptertimeto"+data+"' type='text'><br><button type='button' onclick='getVideoTime("+data+", 1)'> + video time</button></input><br><button type='button' class='jumpToTime'>seek video</button></td>";
-			html += "<td class='chapterDesc'><textarea name='chaptername$insert' id='chaptername"+data+"' class='name' rows='2' cols='70'></textarea></td>";
+			
+			html += "<td class='chapterDesc'><input id='chapterdescription"+data+"'></input></td>";
+			
+			html += "<td class='chapterDesc'><textarea name='chaptername' id='chaptername"+data+"' class='name' rows='2' cols='70'></textarea></td>";
 			
 			html += "<td><button class='addTag'>Add Tag</button></td>";
 			html += "<td class='chapterTag' id='tag"+data+"'></td>";

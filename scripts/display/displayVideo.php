@@ -242,9 +242,13 @@
 						    
 						    <p id='chapterHeading'><b>Chapter information will appear here during the video</b></p>
 						    <p id='chapterBody'><p>Start the video playing from the player to the left.</p>  <p>Once the video is playing skip the video to the desired chapter above or click the tag buttons in the top left to filter chapters to specific topics.</p>  <p>The chapter box above will then update to show only the chapters related to these tags.</p></p> 
+						    
+						    
 						   
 							
 						</div>
+						
+						<div id='buttons'></div>
 					</div>    
 				</div>
 				
@@ -1976,13 +1980,37 @@ $(document).ready(function() {
 	
 		}));
 		$("#videoChapter").on("playProgress", function(event, data){
-	    console.log( data );
+	    //console.log( data );
 	    
 	    	$(videoChapterData).each(function(i, val) {
 		    	
 		    	if ((data.seconds >= val.timeFrom) && (data.seconds <= val.timeTo)){
 			    	
-			    	$('#chapterInfo').html('<p><b>Chapter '+val.number+'</b></p><p>'+val.chaptername+'</p>');
+			    	var tagName = val.tagName;
+			    	
+			    	//$('#buttons').html('');
+			    	
+			    	$('#chapterInfo').html('<p><b>Chapter '+val.number+'</b></p><p>'+val.chaptername+'</p><br><p>'+val.description+'</p>');
+			    	
+			    	/*
+			    	
+			    	console.log('tagid is' +val.tagid);
+			    	
+			    	console.log('tagName is' +val.tagName);
+			    	
+			    	
+			    	
+			    	if ($('#buttons').find('#'+val.tagid+'').length == 0){
+			    	
+			    	console.log('no button');
+			    	
+			    	var button = '<button type = "button" id="' + val.tagid + '" class="tagButton">' + tagName + '</button>';
+			    	
+			    	console.log(button);
+			    	
+			    	$('#buttons').append('<button id="' + val.tagid + '" class="tagButton">' + tagName + '</button>');
+			    	
+			    	}*/
 			    	
 			    	$('#content').find("#chapterSelectorVideo"+val.id+" option[value='"+val.chapterid+"']").attr('selected', 'selected');
 			    	
