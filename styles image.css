@@ -706,7 +706,7 @@ display: none;
 }
 
 .tagButton {
-    background-color: #1c84cf; /* blue */
+    background-color: #2670DD; /* blue */
     border: none;
     color: white;
     padding: 5px;
@@ -715,6 +715,33 @@ display: none;
     text-decoration: none;
     display: inline-block;
     font-size: 16px;
+}
+
+.blueButton {
+    background-color: #2670DD; /* blue */
+    border: none;
+    color: white;
+    padding: 5px;
+    margin: 7px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+}
+
+
+.greenButton {
+	background-color: #4CAF50; /* blue */
+    border: none;
+    color: white;
+    padding: 5px;
+    margin: 7px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+	
+	
 }
 
 
@@ -748,8 +775,17 @@ display: none;
     float: none;
     padding-top: 3%;
     padding-bottom: 3%;
+    padding-left: 2%;
+    padding-right: 2%;
     width: 100%;
     /*border: 1px solid red;*/
+	}
+	
+	h3{
+		
+		padding-left: 2%;
+    padding-right: 2%;
+		
 	}
 	
 	holder, .content, footer, #menu, .navbar {
@@ -765,19 +801,21 @@ display: none;
     }
     
     #menu {
-        font-size: 6vw;
+        
     } 
     
     .navbar .dropbtn {
         
-        font-size: 8px;
+        /*! How to remove mobile problem with non centring*/	
+         float: none;
+         display: inline-block;
          padding: 5px 6px;
         
     }
     
     .navbar a {
         
-        font-size: 8px;
+        
          padding: 5px 6px;
     }
     

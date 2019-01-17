@@ -722,7 +722,7 @@ class general {
 			$x = 1;
 			$y = 1;
 			$lesionid='';
-
+			echo "<hr>";
 			echo "<div class='row tagSet'>";
 
 
@@ -731,8 +731,9 @@ class general {
 				
 				if ($tagName){
 					if ($tagName != $row['tagName']){ //for imageset then reset the row somehow
-						echo "<hr>";
+						
 						echo "</div>";
+						echo "<hr>";
 						echo "<div class='row tagSet'>";
 						//echo "<h3 style='text-align:left;'>$tagName</h3>";
 						$x=1;
@@ -746,6 +747,7 @@ class general {
 				$imageSetid = $row['imageSetid'];
 				$name = $row['name'];
 				$tagName = $row['tagName'];
+				$tags_id = $row['tags_id'];
 				
 					//get all the tags for this tag with their category
 					//does this show all tags for a specific image
@@ -755,13 +757,13 @@ class general {
 				//echo "</div>";
 
 				//echo "</div>";
-				if ($x == 1){echo "<h3 style='text-align:left;'>$tagName</h3>";}
+				if ($x == 1){echo "<div class='responsiveContainer'><div class='row'><div class='col-9'><h3 style='text-align:left; cursor:pointer;' id='tag{$tags_id}' class='tagLink'>$tagName</h3></div><div class='col-3'><button type='button' class='blueButton pubMedSearch'>Search PubMed</button></div></div></div>";}
 				
 				if($x % 4 == 0){echo "<div class='row'>";  }
 				
 				echo "<div data='$x' class='col-3'>";
 
-				echo "<img id='$lesionid' class='lslimage zoom' src='$roothttp/$filename'>";
+				echo "<img id='$lesionid' data='imageSet{$imageSetid}' class='lslimage zoom' src='$roothttp/$filename'>";
 				//echo "<img id='$lesionid' class='lslimage zoom' src='https://www.acestudy.net/studyserver/$filename'>";
 				echo "<div class='caption'>$name</div>";
 				//echo "</div>";

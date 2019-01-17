@@ -153,54 +153,27 @@
 			        <div class='row'>
 		                <div class='col-9'>
 		                    <h2 style="text-align:left;">Endoscopic Image Atlas</h2>
-		                    <p>Filter by grouping tag [make this code same at top of all pages, allow the tag types to filter by, procedure type as starting point], add link to access individual tag pages.  Also add pubmed link to each link.</p>
-		                    <div id='procedureTagsDisplay'></div>
+		                    <p style='text-align:left;'>Use the buttons below to filter the images.  Clicking a heading will take you to all images tagged with that diagnosis.  Clicking an image will take you to the set of images from which that image is taken.  You can access PubMed records for this tag from the individual image row.  [Filter by grouping tag [make this code same at top of all pages, allow the tag types to filter by, procedure type as starting point], add link to access individual tag pages.  Also add pubmed link to each link.]</p>
+		                    <div id='procedureTagsDisplay' class='responsiveContainer' style='text-align:left;'>
+			                    <div class='col-9'>
+			                    
+			                    Procedural tags: 
+			                    
+			                   
+			                    </div>
+			                    <div id='resetButtonDiv' class='col-3'>
+			                    </div>
+		                    </div>
 		                </div>
 		
-		                <div id="messageBox" class='col-3 yellow-light narrow center'>
-		                    <p>Image Atlas</p>
+		                <div id="messageBox" class='col-3 yellow-light veryNarrow center'>
+		                    
 		                    <p><button id="captionHide" class="modifiers">Toggle captions</button></p>
 		                </div>
 		            </div>
 		
 		
-			        <p><?php
-		
-				        /*if ($id){
-		
-							$q = "SELECT  id  FROM  images  WHERE  id  = $id";
-							if ($general->returnYesNoDBQuery($q) != 1){
-								echo "Passed id does not exist in the database";
-								exit();
-		
-							}
-						}
-						
-						
-						vhttps://codepen.io/matt-west/pen/jKnzG
-						
-						ajax to a json of select tags where tagscategory= atlas and xxxx
-						
-						
-						
-						
-						
-						
-						*/
-		
-		?></p>
-		
-				<div class='row'>
-					<div class='col-2'>
-					</div>
-					<div class='col-8'>
-					
-					
-					    
-					</div>
-				    <div class='col-2'>
-					</div>    
-				</div>
+			        
 			    
 			    <div class='row' id='imageTitle'>
 				    
@@ -316,7 +289,7 @@ function insertProcedureTags () {
         
        	html = '<button id="' + tagid + '" class="tagButton">'+tagName+'</button>';
        	
-       	$('#procedureTagsDisplay').append(html);
+       	$('#procedureTagsDisplay').find('div').first().append(html);
        	
        	//console.log(html);
         
@@ -790,11 +763,17 @@ $(document).ready(function() {
     
     
     //!new
+    
+	//!start of filter tag buttons code    
     //!detect click on tag button and filter the below
     
     $('.tagButton').on('click', function(){
 	    
 	    //get the tag id
+	    
+	    $(this).removeClass('tagbutton').addClass('greenButton');
+	    
+	    $(this).siblings().removeClass('greenButton').addClass('tagButton');
 	    
 	    var tagid = $(this).attr('id');
 	    
@@ -828,6 +807,10 @@ $(document).ready(function() {
 		
 		$('.tagSet').show();
 		
+		$('.tagSet').prev().show();
+		
+		//$(tagSet).closest('hr').show()
+		
 		$('.tagSet').each(function(){
 			
 			var tagSet = $(this);
@@ -842,20 +825,93 @@ $(document).ready(function() {
 				
 				$(tagSet).hide();
 				
+				$(tagSet).prev().hide();
+				
 			} else {
 				
 				console.log('images');
 				
 				$(tagSet).show();
 				
+				//$(tagSet).closest('hr').show()
+				
 			}
 			
 			
 		})
 	    
+	     // add a reset tag underneath the last tag row
+	     
+	     html = '<div style="text-align:left;"><button class="resetTags greenButton">'+'Show All'+'</button></div>';
+	     
+	     if ($('#resetButtonDiv').find('.resetTags').length == 0){
+		     
+		      $('#resetButtonDiv').append(html);
+		     
+	     }
+	     
+	    
 	    
 	    
     })
+    
+    //reset tags button
+    
+    $('.content').on('click', '.resetTags', function() {
+	    
+	    
+	    $('.tagSet').show();
+		
+		$('.tagSet').prev().show();
+		
+		$('.lslimage').show()
+	
+		//var hello = $(this).parent().parent().prev().children();
+		
+		//console.log(hello);
+	
+		$(this).parent().parent().prev().children().removeClass('greenButton').addClass('tagButton');
+		
+		$(this).remove();
+	    
+	    
+	})
+	
+	//take to the individual tag display page
+	
+	$('.tagLink').on('click', function (){
+		
+		var tagid = $(this).attr('id');
+		
+		tagid = tagid.slice(3);
+		
+		window.location.href = siteRoot + "scripts/display/atlasTag.php?id="+tagid;
+		
+		
+		
+		
+	})
+	
+	$('.pubMedSearch').on('click', function (){
+		
+		
+		//get the tag name
+		
+		var searchTerm = $(this).parent().prev().find('h3').html();
+		
+		console.log(searchTerm);
+		
+		PopupCenter("https://www.ncbi.nlm.nih.gov/pubmed?term="+searchTerm, 'PubMed Search (endoWiki)', 600, 700);
+
+		
+		
+		
+		
+	})
+    
+   
+    
+    
 
     //!Add new tag to single image
 
@@ -1380,7 +1436,24 @@ $(document).ready(function() {
     $('.content').on('click', '#captionHide', function() {
 
         $('.caption').toggle();
-
+		
+		if ($(this).text() == 'Toggle captions'){
+			
+			$(this).text('Captions shown');
+			
+		}
+		
+		if ($(this).text() == 'Captions shown'){
+			
+			$(this).text('Captions hidden');
+			
+		} else if ($(this).text() == 'Captions hidden'){
+			
+			$(this).text('Captions shown');
+			
+		}
+		
+		//$(this).text('Captions shown');
         
 
 
