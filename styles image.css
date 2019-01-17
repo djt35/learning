@@ -33,6 +33,20 @@ p {
 .col-11 {width: 91.66%;}
 .col-12 {width: 100.0%;}
 
+.slim-col-1 {width: 8.33%;}
+.slim-col-2 {width: 16.66%;}
+.slim-col-3 {width: 25.0%;}
+.slim-col-4 {width: 33.3%;}
+.slim-col-5 {width: 41.66%;}
+.slim-col-6 {width: 50.0%;}
+.slim-col-7 {width: 58.33%;}
+.slim-col-8 {width: 66.66%;}
+.slim-col-9 {width: 74.0%;}
+.slim-col-10 {width: 83.33%;}
+.slim-col-11 {width: 91.66%;}
+.slim-col-12 {width: 100.0%;}
+
+
 /*
 
 .col-1 {width: 8.2%;}
@@ -69,6 +83,12 @@ p {
 [class*="col-"] {
     float: left;
     padding: 5px;
+    /*border: 1px solid red;*/
+}
+
+[class*="slim-col-"] {
+    float: left;
+    padding: 0.5px;
     /*border: 1px solid red;*/
 }
 
@@ -180,6 +200,12 @@ strong {
 	padding-top:3px;
 	padding-bottom:3px;
 	
+}
+
+.row::after {
+    content: "";
+    clear: both;
+    display: table;
 }
 
 .row::after {
@@ -383,8 +409,8 @@ body {
 
 	.row {
 		
-		margin-bottom: 3;
-		margin-top: 3;
+		/*margin-bottom: 3;
+		margin-top: 3;*/
 	}
 
 	button {
@@ -725,4 +751,58 @@ display: none;
     width: 100%;
     /*border: 1px solid red;*/
 	}
+	
+	holder, .content, footer, #menu, .navbar {
+    width:100%;
+    
+    padding: 2px;
+   
+    
+  }
+    body {
+        margin: 0;
+        padding: 0;
+    }
+    
+    #menu {
+        font-size: 6vw;
+    } 
+    
+    .navbar .dropbtn {
+        
+        font-size: 8px;
+         padding: 5px 6px;
+        
+    }
+    
+    .navbar a {
+        
+        font-size: 8px;
+         padding: 5px 6px;
+    }
+    
+    .content {
+        
+        font-size: 18px;
+        overflow-x: hidden;
+        padding: 0px;
+        margin: 0px;
+        
+    }
+    
+    button, footer {
+        
+        font-size: 8px;
+        
+    }
 }
+
+.show {
+  display: block;
+}
+
+
+
+
+
+

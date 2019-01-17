@@ -45,6 +45,32 @@ if (!isset($_SESSION['user_id'])) {
 
 <script src="<?php echo $roothttp . 'includes/generaljs.js'; ?>" type="text/javascript"></script>
 
+<script>
+	
+	
+	/* When the user clicks on the button, 
+toggle between hiding and showing the dropdown content */
+
+
+
+
+/*function myFunction() {
+  console.log('clicked on dropdown')
+  document.getElementById("myDropdown").classList.toggle("show");
+}
+
+// Close the dropdown if the user clicks outside of it
+window.onclick = function(e) {
+  if (!e.target.matches('.dropbtn')) {
+  var myDropdown = document.getElementById("myDropdown");
+    if (myDropdown.classList.contains('show')) {
+      myDropdown.classList.remove('show');
+    }
+  }
+}*/
+	
+</script>
+
 
 
 <?php echo '<script src="' . $roothttp . 'includes/jquery.validate.js"></script>';

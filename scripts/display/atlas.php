@@ -101,6 +101,12 @@
 			    /*border: 1px solid red;*/
 			}
 			
+			[class*="slim-col-"] {
+			    float: left;
+			    padding: 1px;
+			    /*border: 1px solid red;*/
+			}
+			
 			
 			
 			
@@ -136,6 +142,8 @@
 			<div id="id" style="display:none;"><?php if ($id){echo $id;}?></div>
 			
 			<div id="images" style="display:none;"><?php ?></div>
+			
+			<?php echo $general->getImageIdsProcedure(); //gets data for tagCategories and imageids?>
 
 		
 		    <div id='content' class='content'>
@@ -145,7 +153,8 @@
 			        <div class='row'>
 		                <div class='col-9'>
 		                    <h2 style="text-align:left;">Endoscopic Image Atlas</h2>
-		                    <p>Filter by grouping tag [make this code same at top of all pages, allow the tag types to filter by, procedure type as starting point], add link to access individual tag pages</p>
+		                    <p>Filter by grouping tag [make this code same at top of all pages, allow the tag types to filter by, procedure type as starting point], add link to access individual tag pages.  Also add pubmed link to each link.</p>
+		                    <div id='procedureTagsDisplay'></div>
 		                </div>
 		
 		                <div id="messageBox" class='col-3 yellow-light narrow center'>
@@ -289,6 +298,34 @@ function getSearchboxTerms (){
 }
 
 //!new 
+
+//get all procedure tags and insert at the top of the document
+
+function insertProcedureTags () {
+	
+	var data = $('#procedureTags').text();
+	
+	var formData = $.parseJSON(data);
+	
+	
+	
+	$.each(formData, function(key, value) {
+				
+		var tagid = value['tagid'];
+		var tagName = value['tagName'];
+        
+       	html = '<button id="' + tagid + '" class="tagButton">'+tagName+'</button>';
+       	
+       	$('#procedureTagsDisplay').append(html);
+       	
+       	//console.log(html);
+        
+        //data.append(key, value);
+		    
+	});
+	
+	
+}
 
 function getAllImages () {
 
@@ -703,13 +740,13 @@ $(document).ready(function() {
 
     
 
+    insertProcedureTags();
     
     
-    
-    $('#searchBox').attr("placeholder","Loading options...");
+    //$('#searchBox').attr("placeholder","Loading options...");
 
 
-    $('input[type=file]').on('change', prepareUpload);
+    //$('input[type=file]').on('change', prepareUpload);
 
     $('#loading').bind('ajaxStart', function() {
         $(this).show();
@@ -750,6 +787,75 @@ $(document).ready(function() {
         }
 
     });
+    
+    
+    //!new
+    //!detect click on tag button and filter the below
+    
+    $('.tagButton').on('click', function(){
+	    
+	    //get the tag id
+	    
+	    var tagid = $(this).attr('id');
+	    
+	    //get the array of images with their procedure tags
+	    
+	    var data = $('#imageMatchProcedure').text();
+	
+		var formData = $.parseJSON(data);
+		
+		
+		
+		$.each(formData, function(key, value) {
+			
+			var tagidInner = value['tagid'];
+			var tagName = value['tagName'];
+			var imageid = value['imageid'];
+			
+			if (tagid == tagidInner){
+				
+				$('#'+imageid).show();
+				
+			}else{
+				
+				$('#'+imageid).hide();
+				
+			}
+			
+			
+			
+		})
+		
+		$('.tagSet').show();
+		
+		$('.tagSet').each(function(){
+			
+			var tagSet = $(this);
+			
+			console.dir(this);
+			
+			console.log('img length = ' + $(this).find('img:visible').length);
+			
+			if ($(this).find('img:visible').length == 0){
+				
+				console.log('no images');
+				
+				$(tagSet).hide();
+				
+			} else {
+				
+				console.log('images');
+				
+				$(tagSet).show();
+				
+			}
+			
+			
+		})
+	    
+	    
+	    
+    })
 
     //!Add new tag to single image
 
@@ -1157,7 +1263,7 @@ $(document).ready(function() {
 
     }));
 
-    $("#content").on('click', '.tagButton', (function(event) {
+    /*$("#content").on('click', '.tagButton', (function(event) {
 
         var button = $(this);
 
@@ -1206,6 +1312,8 @@ $(document).ready(function() {
 
 
     }));
+    
+    */
     
     $("#content").on('change', '#searchBox', (function(event) {
 
@@ -1295,6 +1403,19 @@ $(document).ready(function() {
 
 
     })
+    
+    //! allows opening of navbar with click
+    
+    $('.dropbtn').on('click', function(){
+	
+		//console.dir(this);
+		
+		
+		
+		$(this).parent().find('.dropdown-content').toggle();
+	
+	
+	})
 
     
 

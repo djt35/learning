@@ -723,7 +723,7 @@ class general {
 			$y = 1;
 			$lesionid='';
 
-			echo "<div class='row'>";
+			echo "<div class='row tagSet'>";
 
 
 			while($row = $result->fetch_array(MYSQLI_ASSOC)){
@@ -731,10 +731,9 @@ class general {
 				
 				if ($tagName){
 					if ($tagName != $row['tagName']){ //for imageset then reset the row somehow
-						
-						echo "</div>";
 						echo "<hr>";
-						echo "<div class='row'>";
+						echo "</div>";
+						echo "<div class='row tagSet'>";
 						//echo "<h3 style='text-align:left;'>$tagName</h3>";
 						$x=1;
 						
@@ -747,6 +746,10 @@ class general {
 				$imageSetid = $row['imageSetid'];
 				$name = $row['name'];
 				$tagName = $row['tagName'];
+				
+					//get all the tags for this tag with their category
+					//does this show all tags for a specific image
+					
 
 				//echo "<div class='col-2' data='$x'><div class='description'>$name";
 				//echo "</div>";
@@ -781,6 +784,59 @@ class general {
 		}
 		
 	}
+	
+	//filter the above function query to get the image ids for each tagCategory
+	
+	public function getImageIdsProcedure () {
+		
+		//get the tags within the procedure category
+		
+		
+		$q = "SELECT e.`tagName`, e.`id` as `tagid` FROM `imageSet` as a INNER JOIN `imageImageSet` as b ON a.`id` = b.`imageSet_id` INNER JOIN `images` as c on b.`image_id` = c.`id` INNER JOIN `imagesTag` as d ON c.`id` = d.`images_id` INNER JOIN `tags` as e ON d.`tags_id` = e.`id` INNER JOIN `tagCategories` as f on f.`id` = e.`tagCategories_id` WHERE f.`id` = 36 AND c.`type` = 1 GROUP BY `tagName` ORDER BY e.`tagName` ASC, b.`imageSet_id` ASC, c.`order` ASC";
+		
+		$result = $this->connection->RunQuery($q);
+
+		//print_r($result);
+
+		if ($result->num_rows > 0){
+			
+			while($row = $result->fetch_array(MYSQLI_ASSOC)){
+				
+				
+				$rows[] = array_map('utf8_encode', $row);
+			
+			}
+
+			echo '<div id="procedureTags" style="display:none;">' . json_encode($rows) . '</div>';
+
+			
+		}
+		
+		//gets image ids of each tag within this category
+		
+		$q = "SELECT b.`image_id` as `imageid`, e.`tagName`, e.`id` as `tagid` FROM `imageSet` as a INNER JOIN `imageImageSet` as b ON a.`id` = b.`imageSet_id` INNER JOIN `images` as c on b.`image_id` = c.`id` INNER JOIN `imagesTag` as d ON c.`id` = d.`images_id` INNER JOIN `tags` as e ON d.`tags_id` = e.`id` INNER JOIN `tagCategories` as f on f.`id` = e.`tagCategories_id` WHERE f.`id` = 36 AND c.`type` = 1 ORDER BY e.`tagName` ASC, b.`imageSet_id` ASC, c.`order` ASC";
+
+		$result = $this->connection->RunQuery($q);
+
+		//print_r($result);
+
+		if ($result->num_rows > 0){
+			
+			while($row = $result->fetch_array(MYSQLI_ASSOC)){
+				
+				
+				$rows[] = array_map('utf8_encode', $row);
+			
+			}
+
+			echo '<div id="imageMatchProcedure" style="display:none;">' . json_encode($rows) . '</div>';
+
+			
+		}
+
+
+	}
+	
 	
 	
 	public function getTaggedImageSets ($tagid, $roothttp){
