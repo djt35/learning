@@ -2,7 +2,7 @@
 * {
 	
 	box-sizing: border-box;
-	
+	font-family: "Open Sans", sans-serif;
 }
 
 p {
@@ -137,8 +137,8 @@ p {
 
 .red {
 	
-	background-color: #e62c45;
-	color: white;
+	background-color: #e62c45 !important;
+	color: white !important;
 	
 }
 
@@ -178,7 +178,8 @@ strong {
 
 .veryNarrow {
 	
-	padding : 1px !important;
+	padding-top : 1px !important;
+	padding-bottom : 1px !important;
 	
 }
 
@@ -266,6 +267,37 @@ strong {
 	padding-right: 20px;
     padding-left: 20px;
 	color:white;
+
+
+	
+}
+
+.navbar-green {
+    overflow: hidden;
+    background-color: #4CAF50 !important; 
+	margin: 0 auto;
+	width: 90%;
+	background-color: #205690;
+	padding-right: 20px;
+    padding-left: 20px;
+	color:white;
+
+
+	
+}
+
+
+
+.navbar-black {
+    overflow: hidden;
+    background-color: black !important; 
+	margin: 0 auto;
+	width: 90%;
+	background-color: #205690;
+	padding-right: 20px;
+    padding-left: 20px;
+    padding-top: 0px !important;
+	color:white !important;
 
 
 	
@@ -729,6 +761,19 @@ display: none;
     font-size: 16px;
 }
 
+
+
+.redButton {
+    background-color: #e62c45; /* blue */
+    border: none;
+    color: white;
+    padding: 5px;
+    margin: 7px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+}
 
 .greenButton {
 	background-color: #4CAF50; /* blue */

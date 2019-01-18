@@ -228,7 +228,113 @@
 					
 					<div class='col-9'>
 						
-							<img class='cover' src='<?php echo $roothttp . 'includes/images/indexArt/atrophic1.png';?>'>
+						<div class='responsiveContainer'>
+							
+							<div class = 'row'>
+						
+								<div class='col-3'>
+									
+									<img class='cover' src='<?php echo $roothttp . 'includes/images/image6828.jpg';?>'>
+									
+									
+								</div>
+								
+								<div class='col-3'>
+									
+									<img class='cover' src='<?php echo $roothttp . 'includes/images/image6828.jpg';?>'>
+									
+									
+								</div>
+								
+								<div class='col-3'>
+									
+									
+									<img class='cover' src='<?php echo $roothttp . 'includes/images/image6828.jpg';?>'>
+									
+								</div>
+								
+								<div class='col-3'>
+									
+									
+									<img class='cover' src='<?php echo $roothttp . 'includes/images/image6828.jpg';?>'>
+									
+								</div>
+								
+							
+							
+							</div>	
+							
+							<div class = 'row'>
+						
+								<div class='col-3'>
+									
+									<img class='cover' src='<?php echo $roothttp . 'includes/images/image6828.jpg';?>'>
+									
+									
+								</div>
+								
+								<div class='col-3'>
+									
+									<img class='cover' src='<?php echo $roothttp . 'includes/images/image6828.jpg';?>'>
+									
+									
+								</div>
+								
+								<div class='col-3'>
+									
+									
+									<img class='cover' src='<?php echo $roothttp . 'includes/images/image6828.jpg';?>'>
+									
+								</div>
+								
+								<div class='col-3'>
+									
+									
+									<img class='cover' src='<?php echo $roothttp . 'includes/images/image6828.jpg';?>'>
+									
+								</div>
+								
+							
+							
+							</div>	
+							
+							<div class = 'row'>
+						
+								<div class='col-3'>
+									
+									<img class='cover' src='<?php echo $roothttp . 'includes/images/image6828.jpg';?>'>
+									
+									
+								</div>
+								
+								<div class='col-3'>
+									
+									<img class='cover' src='<?php echo $roothttp . 'includes/images/image6828.jpg';?>'>
+									
+									
+								</div>
+								
+								<div class='col-3'>
+									
+									
+									<img class='cover' src='<?php echo $roothttp . 'includes/images/image6828.jpg';?>'>
+									
+								</div>
+								
+								<div class='col-3'>
+									
+									
+									<img class='cover' src='<?php echo $roothttp . 'includes/images/image6828.jpg';?>'>
+									
+								</div>
+								
+							
+							
+							</div>																											
+						
+														
+							
+						</div>	
 						
 					</div>
 					

@@ -116,6 +116,8 @@
 		include($root . "/scripts/logobar.php");
 		
 		include($root . "/includes/naviv1.php");
+		
+		include($root . "/includes/naviTag.php");
 		?>
 		
 		<div id="loading">
@@ -147,14 +149,56 @@
 
 		
 		    <div id='content' class='content'>
+			    
+			    <?php
+		
+				       if ($id){
+		
+							$q = "SELECT  id, tagName  FROM  tags  WHERE  id  = $id";
+							if ($general->returnYesNoDBQuery($q) != 1){
+								echo "Passed id does not exist in the database";
+								exit();
+		
+							}else{
+								
+								$result = $general->connection->RunQuery($q);
+								
+								if ($result->num_rows > 0){
+			
+									while($row = $result->fetch_array(MYSQLI_ASSOC)){
+										
+										
+										$tagName = $row['tagName'];
+									
+									}
+						
+									echo '<div id="tagName" style="display:none;">' . $tagName . '</div>';
+
+			
+								}	
+								
+							}
+						}
+						
+					
+						
+						
+						
+						
+						
+						
+						
+		
+		?>
+
 		
 		        <div class='responsiveContainer white'>
 		
 			        <div class='row'>
 		                <div class='col-9'>
-		                    <h2 style="text-align:left;">Endoscopic Image Atlas</h2>
-		                    <p style='text-align:left;'>Use the buttons below to filter the images.  Clicking a heading will take you to all images tagged with that diagnosis.  Clicking an image will take you to the set of images from which that image is taken.  You can access PubMed records for thistag from the individual image row.  [Filter by grouping tag [make this code same at top of all pages, allow the tag types to filter by, procedure type as starting point], add link to access individual tag pages.  Also add pubmed link to each link.]</p>
-		                    <div id='procedureTagsDisplay' class='responsiveContainer' style='text-align:left;'>
+		                    <h2 style="text-align:left;"><?php echo $tagName;?></h2>
+		                    <p style='text-align:left;'></p>
+		                    <!--<div id='procedureTagsDisplay' class='responsiveContainer' style='text-align:left;'>
 			                    <div class='col-9'>
 			                    
 			                    Procedural tags: 
@@ -163,7 +207,7 @@
 			                    </div>
 			                    <div id='resetButtonDiv' class='col-3'>
 			                    </div>
-		                    </div>
+		                    </div>-->
 		                </div>
 		
 		                <div id="messageBox" class='col-3 yellow-light veryNarrow center'>
@@ -173,15 +217,14 @@
 		            </div>
 		
 		
-			        
-			    
+			        			    
 			    <div class='row' id='imageTitle'>
 				    
 			    </div>
 			    
 			    <div id='imageDisplay'>
 				
-				<?php echo $general->getAllTagsInCategoryWithHighestRatedImages('38', $roothttp);?>
+				<?php echo $general->getTaggedImageSetsv2($id, $roothttp);?>
 				
 				
 				</div>
@@ -226,6 +269,27 @@ var images = new Object();
 var textAreas = new Object();
 
 var selects = new Object();
+
+
+//!atlasTag specific functions
+
+function getSecondBarName(){
+	
+	var tagName = $('#tagName').text();
+	
+	$('#naviTagName').html('<p style="text-align:right;">Showing images matching '+tagName.toLowerCase()+'</p>');
+	
+	
+	
+}
+
+function getSecondBarButton(){
+	
+	$('#naviTagLeft').html('<button type="button" class="redButton veryNarrow" id="back" onclick="window.location.href = siteRoot + \'scripts/display/atlas.php\';"><--Back</p>');
+	
+	
+	
+}
 
 getSearchboxTerms();
 
@@ -764,6 +828,12 @@ $(document).ready(function() {
     
     //!new
     
+    //!load the buttons for the second navi bar
+    
+    //getSecondBarName();
+    
+    getSecondBarButton();
+    
 	//!start of filter tag buttons code    
     //!detect click on tag button and filter the below
     
@@ -926,20 +996,7 @@ $(document).ready(function() {
 		
 	})
 	
-	$('.content').on('click', '.lslimage', function(){
-		
-		
-		var searchTerm = $(this).attr('data');
-		
-		console.log(searchTerm);
-		
-		searchTerm = searchTerm.slice(8);
-		
-		window.location.href = siteRoot + "scripts/display/atlasImageSet.php?id="+searchTerm;
-		
-		
-		
-	})
+	
    
     
     

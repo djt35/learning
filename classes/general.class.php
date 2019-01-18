@@ -43,105 +43,105 @@ class general {
 	}
 
 	public function getVimeoID ($id) {
-		
+
 		$q = "SELECT  `id`, `url`  FROM  `video`  WHERE  `id`  = $id";
-		
+
 		$result = $this->connection->RunQuery($q);
-		
+
 		if ($result){
-		
+
 			while($row = $result->fetch_array(MYSQLI_ASSOC)){
-				
+
 				$vimeoid = $row['url'];
-				
-	
+
+
 			}
-		
+
 		}
-		
-		
+
+
 		return  $vimeoid;
-		
+
 	}
-	
+
 	public function getVideoTitle ($id) {
-		
+
 		$q = "SELECT  `id`, `name`  FROM  `video`  WHERE  `id`  = $id";
-		
+
 		$result = $this->connection->RunQuery($q);
-		
+
 		if ($result){
-		
+
 			while($row = $result->fetch_array(MYSQLI_ASSOC)){
-				
+
 				$vimeoid = $row['name'];
-				
-	
+
+
 			}
-		
+
 		}
-		
-		
+
+
 		return  $vimeoid;
-		
+
 	}
-	
+
 	public function getChapterSelector ($id) {
-		
+
 		$q = "SELECT a.`id`, a.`split`, b.`id` as `chapterid`, b.`timeFrom`, b.`timeTo`, b.`number`, b.`name` AS `chaptername` FROM `video` as a INNER JOIN `chapter` as b ON a.`id` = b.`video_id` WHERE a.`id` = $id";
-		
+
 		$result = $this->connection->RunQuery($q);
-		
+
 		if ($result){
-		
+
 			$html = "<br><select id='chapterSelectorVideo{$id}' class='chapterSelector' style='width:100%;'>";
-		
+
 			while($row = $result->fetch_array(MYSQLI_ASSOC)){
-				
+
 				$chapterid = $row['chapterid'];
 				$name = $row['chaptername'];
 				$number = $row['number'];
-				
+
 				$html .= "<option value='{$chapterid}'>{$number} - {$name}</option>";
-	
+
 			}
-			
+
 			$html .= "</select>";
-		
+
 		}
-		
-		
+
+
 		return  $html;
-		
+
 	}
-	
+
 	public function getVideoAndChapterData ($id) {
-		
+
 		$q = "SELECT a.`id`, a.`split`, b.`id` as `chapterid`, b.`timeFrom`, b.`timeTo`, b.`number`, b.`name` AS `chaptername`, b.`description`, d.`id` as `tagid`, d.`tagName` FROM `video` as a INNER JOIN `chapter` as b ON a.`id` = b.`video_id` INNER JOIN `chapterTag` as c ON b.`id` = c.`chapter_id` INNER JOIN `tags` as d ON d.`id` = c.`tags_id` WHERE a.`id` = $id";
-		
+
 		$result = $this->connection->RunQuery($q);
-		
+
 		if ($result){
-		
-			
+
+
 			while($row = $result->fetch_array(MYSQLI_ASSOC)){
 				$rows[] = array_map('utf8_encode', $row);
 			}
 
 			return json_encode($rows);
-			
-	
-			}
-			
-			
-		
+
+
+		}
+
+
+
 	}
-		
-		
-		
-		
-	
-	
+
+
+
+
+
+
 	public function returnYesNoDBQuery ($q){
 
 
@@ -269,10 +269,10 @@ class general {
 			echo '</table>';
 
 		}else{
-			
+
 			echo '<p>Error</p>';
 			print_r($this->connection->conn);
-			
+
 		}
 
 	}
@@ -299,7 +299,7 @@ class general {
 			echo '<tr>';
 
 			foreach ($data as $key=>$value){
-					echo '<th></th>';
+				echo '<th></th>';
 				foreach ($value as $k=>$v){
 					echo '<th>' . $k . '</th>';
 				}
@@ -309,43 +309,43 @@ class general {
 
 			//echo '<th></th>';
 			echo '</tr>';
-			
+
 			$x = 0;
-			
+
 			foreach ($data as $k=>$v){
-				
+
 				if ($id <> $v['id']){
 					echo '</tr>';
 					echo '<tr>';
 					$x = 0;
-					
+
 				}
-					
+
 				$id = $v['id'];
 				$id = trim($id);
 
-				
+
 
 				foreach($v as $key=>$value){
 
-					
+
 
 					if ($key == 'url'){
 						echo '<td class="datarow">';
 						echo "<img class='lslimage' style='max-width:200px;' src='$roothttp$value'>";
 						echo '</td>';
 					}else{
-						
+
 						if ($x==0){
-						
-						echo '<td>';
-						echo "<button class='deleteSet'>Delete</button>";
-						echo '</td>';
-						
-						echo '<td class="datarow">';
-						echo "$value";
-						echo '</td>';
-						
+
+							echo '<td>';
+							echo "<button class='deleteSet'>Delete</button>";
+							echo '</td>';
+
+							echo '<td class="datarow">';
+							echo "$value";
+							echo '</td>';
+
 						}
 
 					}
@@ -355,7 +355,7 @@ class general {
 
 				}
 
-				
+
 
 
 			}
@@ -707,18 +707,18 @@ class general {
 		}
 
 	}
-	
+
 	public function getAllTagsInCategoryWithHighestRatedImages ($tagCategoriesid, $roothttp) {
-		
-		
+
+
 		//shows highest rated (1) images from each tag category
-		
+
 		$q = "SELECT a.`id` as `imageSetid`, b.`image_id` as `imageid`, c.`url`, c.`name`, c.`order`, c.`type`, e.`tagName`, d.`tags_id` FROM `imageSet` as a INNER JOIN `imageImageSet` as b ON a.`id` = b.`imageSet_id` INNER JOIN `images` as c on b.`image_id` = c.`id` INNER JOIN `imagesTag` as d ON c.`id` = d.`images_id` INNER JOIN `tags` as e ON d.`tags_id` = e.`id` INNER JOIN `tagCategories` as f on f.`id` = e.`tagCategories_id` WHERE f.`id` = $tagCategoriesid AND c.`type` = 1 ORDER BY e.`tagName` ASC, `imageSetid` ASC, c.`order` ASC";
-		
+
 		$result = $this->connection->RunQuery($q);
-		
+
 		if ($result->num_rows > 0){
-			
+
 			$x = 1;
 			$y = 1;
 			$lesionid='';
@@ -728,16 +728,16 @@ class general {
 
 			while($row = $result->fetch_array(MYSQLI_ASSOC)){
 
-				
+
 				if ($tagName){
 					if ($tagName != $row['tagName']){ //for imageset then reset the row somehow
-						
+
 						echo "</div>";
 						echo "<hr>";
 						echo "<div class='row tagSet'>";
 						//echo "<h3 style='text-align:left;'>$tagName</h3>";
 						$x=1;
-						
+
 					}
 				}
 
@@ -748,19 +748,19 @@ class general {
 				$name = $row['name'];
 				$tagName = $row['tagName'];
 				$tags_id = $row['tags_id'];
-				
-					//get all the tags for this tag with their category
-					//does this show all tags for a specific image
-					
+
+				//get all the tags for this tag with their category
+				//does this show all tags for a specific image
+
 
 				//echo "<div class='col-2' data='$x'><div class='description'>$name";
 				//echo "</div>";
 
 				//echo "</div>";
-				if ($x == 1){echo "<div class='responsiveContainer'><div class='row'><div class='col-9'><h3 style='text-align:left; cursor:pointer;' id='tag{$tags_id}' class='tagLink'>$tagName</h3></div><div class='col-3'><button type='button' class='blueButton pubMedSearch'>Search PubMed</button></div></div></div>";}
-				
+				if ($x == 1){echo "<div class='responsiveContainer'><div class='row'><div class='col-8'><h3 style='text-align:left; cursor:pointer;' id='tag{$tags_id}' class='tagLink'>$tagName</h3></div><div class='col-2'><button type='button' class='blueButton uptodateSearch'>Search UpToDate</button></div><div class='col-2'><button type='button' class='blueButton pubMedSearch'>Search PubMed</button></div></div></div>";}
+
 				if($x % 4 == 0){echo "<div class='row'>";  }
-				
+
 				echo "<div data='$x' class='col-3'>";
 
 				echo "<img id='$lesionid' data='imageSet{$imageSetid}' class='lslimage zoom' src='$roothttp/$filename'>";
@@ -784,38 +784,38 @@ class general {
 			}echo "</div>";
 
 		}
-		
+
 	}
-	
+
 	//filter the above function query to get the image ids for each tagCategory
-	
+
 	public function getImageIdsProcedure () {
-		
+
 		//get the tags within the procedure category
-		
-		
+
+
 		$q = "SELECT e.`tagName`, e.`id` as `tagid` FROM `imageSet` as a INNER JOIN `imageImageSet` as b ON a.`id` = b.`imageSet_id` INNER JOIN `images` as c on b.`image_id` = c.`id` INNER JOIN `imagesTag` as d ON c.`id` = d.`images_id` INNER JOIN `tags` as e ON d.`tags_id` = e.`id` INNER JOIN `tagCategories` as f on f.`id` = e.`tagCategories_id` WHERE f.`id` = 36 AND c.`type` = 1 GROUP BY `tagName` ORDER BY e.`tagName` ASC, b.`imageSet_id` ASC, c.`order` ASC";
-		
+
 		$result = $this->connection->RunQuery($q);
 
 		//print_r($result);
 
 		if ($result->num_rows > 0){
-			
+
 			while($row = $result->fetch_array(MYSQLI_ASSOC)){
-				
-				
+
+
 				$rows[] = array_map('utf8_encode', $row);
-			
+
 			}
 
 			echo '<div id="procedureTags" style="display:none;">' . json_encode($rows) . '</div>';
 
-			
+
 		}
-		
+
 		//gets image ids of each tag within this category
-		
+
 		$q = "SELECT b.`image_id` as `imageid`, e.`tagName`, e.`id` as `tagid` FROM `imageSet` as a INNER JOIN `imageImageSet` as b ON a.`id` = b.`imageSet_id` INNER JOIN `images` as c on b.`image_id` = c.`id` INNER JOIN `imagesTag` as d ON c.`id` = d.`images_id` INNER JOIN `tags` as e ON d.`tags_id` = e.`id` INNER JOIN `tagCategories` as f on f.`id` = e.`tagCategories_id` WHERE f.`id` = 36 AND c.`type` = 1 ORDER BY e.`tagName` ASC, b.`imageSet_id` ASC, c.`order` ASC";
 
 		$result = $this->connection->RunQuery($q);
@@ -823,24 +823,24 @@ class general {
 		//print_r($result);
 
 		if ($result->num_rows > 0){
-			
+
 			while($row = $result->fetch_array(MYSQLI_ASSOC)){
-				
-				
+
+
 				$rows[] = array_map('utf8_encode', $row);
-			
+
 			}
 
 			echo '<div id="imageMatchProcedure" style="display:none;">' . json_encode($rows) . '</div>';
 
-			
+
 		}
 
 
 	}
-	
-	
-	
+
+
+
 	public function getTaggedImageSets ($tagid, $roothttp){
 
 		$q = "SELECT a.`id` as imageSetid, b.`image_id` as imageid, c.`url`, c.`name`, c.`type`, e.`tagName`, d.`tags_id` FROM `imageSet` as a INNER JOIN `imageImageSet` as b ON a.`id` = b.`imageSet_id` INNER JOIN `images` as c on b.`image_id` = c.`id` INNER JOIN `imagesTag` as d ON c.`id` = d.`images_id` INNER JOIN `tags` as e ON d.`tags_id` = e.`id` WHERE d.`tags_id` = $tagid ORDER BY imageSetid ASC, c.`order` ASC";
@@ -861,14 +861,14 @@ class general {
 
 			while($row = $result->fetch_array(MYSQLI_ASSOC)){
 
-				
+
 				if ($imageSetid){
 					if ($imageSetid != $row['imageSetid']){ //for imageset then reset the row somehow
-						
+
 						echo "</div>";
 						echo "<div class='row'>";
 						$x=1;
-						
+
 					}
 				}
 
@@ -912,7 +912,219 @@ class general {
 
 	}
 
+	public function getTaggedImageSetsv2 ($tagid, $roothttp) {
 
+
+		//shows all images from each tag
+		
+		//prints only one set of search buttons
+		
+		//no hrs
+		
+		//currently sorted by imageSET
+
+		//$q = "SELECT a.`id` as `imageSetid`, b.`image_id` as `imageid`, c.`url`, c.`name`, c.`order`, c.`type`, e.`tagName`, d.`tags_id` FROM `imageSet` as a INNER JOIN `imageImageSet` as b ON a.`id` = b.`imageSet_id` INNER JOIN `images` as c on b.`image_id` = c.`id` INNER JOIN `imagesTag` as d ON c.`id` = d.`images_id` INNER JOIN `tags` as e ON d.`tags_id` = e.`id` INNER JOIN `tagCategories` as f on f.`id` = e.`tagCategories_id` WHERE f.`id` = $tagCategoriesid AND c.`type` = 1 ORDER BY e.`tagName` ASC, `imageSetid` ASC, c.`order` ASC";
+
+		$q = "SELECT a.`id` as imageSetid, b.`image_id` as imageid, c.`url`, c.`name`, c.`type`, e.`tagName`, d.`tags_id` FROM `imageSet` as a INNER JOIN `imageImageSet` as b ON a.`id` = b.`imageSet_id` INNER JOIN `images` as c on b.`image_id` = c.`id` INNER JOIN `imagesTag` as d ON c.`id` = d.`images_id` INNER JOIN `tags` as e ON d.`tags_id` = e.`id` WHERE d.`tags_id` = $tagid ORDER BY imageSetid ASC, c.`order` ASC";
+
+
+
+		$result = $this->connection->RunQuery($q);
+
+		if ($result->num_rows > 0){
+
+			$x = 1;
+			$y = 1;
+			$lesionid='';
+			echo "<hr>";
+			echo "<div class='row tagSet'>";
+
+
+			while($row = $result->fetch_array(MYSQLI_ASSOC)){
+
+				/* sort by tagset
+				if ($tagName){
+					if ($tagName != $row['tagName']){ //for imageset then reset the row somehow
+
+						echo "</div>";
+						echo "<hr>";
+						echo "<div class='row tagSet'>";
+						//echo "<h3 style='text-align:left;'>$tagName</h3>";
+						$x=1;
+
+					}
+				}
+				
+				*/
+				if ($imageSetid){
+					if ($imageSetid != $row['imageSetid']){ //for imageset then reset the row somehow
+
+						echo "</div>";
+						echo "<hr>";
+						echo "<div class='row tagSet'>";
+						//echo "<h3 style='text-align:left;'>$tagName</h3>";
+						$x=1;
+
+					}
+				}
+				
+
+				$filename = $row['url'];
+				//$position = $row['position'];
+				$lesionid = $row['imageid'];
+				$imageSetid = $row['imageSetid'];
+				$name = $row['name'];
+				$tagName = $row['tagName'];
+				$tags_id = $row['tags_id'];
+
+				//get all the tags for this tag with their category
+				//does this show all tags for a specific image
+
+
+				//echo "<div class='col-2' data='$x'><div class='description'>$name";
+				//echo "</div>";
+
+				//echo "</div>";
+				
+				//removed from below line <h3 style='text-align:left; cursor:pointer;' id='tag{$tags_id}' class='tagLink'>$tagName</h3>
+				
+				
+				if ($y == 1){echo "<div class='responsiveContainer'><div class='row'><div class='col-8'></div><div class='col-2'><button type='button' class='blueButton uptodateSearch'>Search UpToDate</button></div><div class='col-2'><button type='button' class='blueButton pubMedSearch'>Search PubMed</button></div></div></div>"; $y=2;}
+
+				if($x % 4 == 0){echo "<div class='row'>";  }
+
+				echo "<div data='$x' class='col-3'>";
+
+				echo "<img id='$lesionid' data='imageSet{$imageSetid}' class='lslimage zoom' src='$roothttp/$filename'>";
+				//echo "<img id='$lesionid' class='lslimage zoom' src='https://www.acestudy.net/studyserver/$filename'>";
+				echo "<div class='caption'>$name</div>";
+				//echo "</div>";
+				echo "</div>";
+
+				if($x % 4 == 0){echo "</div>";}
+
+				$x++;
+
+				continue;
+
+
+
+
+
+
+
+			}echo "</div>";
+
+		}
+
+	}
+	
+	public function getTaggedImageSetsv3 ($imageSetid, $roothttp) {
+
+
+		//shows all images from each tag
+		
+		//prints only one set of search buttons
+		
+		//no hrs
+		
+		//currently sorted by imageSET
+
+		//$q = "SELECT a.`id` as `imageSetid`, b.`image_id` as `imageid`, c.`url`, c.`name`, c.`order`, c.`type`, e.`tagName`, d.`tags_id` FROM `imageSet` as a INNER JOIN `imageImageSet` as b ON a.`id` = b.`imageSet_id` INNER JOIN `images` as c on b.`image_id` = c.`id` INNER JOIN `imagesTag` as d ON c.`id` = d.`images_id` INNER JOIN `tags` as e ON d.`tags_id` = e.`id` INNER JOIN `tagCategories` as f on f.`id` = e.`tagCategories_id` WHERE f.`id` = $tagCategoriesid AND c.`type` = 1 ORDER BY e.`tagName` ASC, `imageSetid` ASC, c.`order` ASC";
+
+		$q = "SELECT a.`id` as imageSetid, b.`image_id` as imageid, c.`url` FROM `imageSet` as a INNER JOIN `imageImageSet` as b ON a.`id` = b.`imageSet_id` INNER JOIN `images` as c on b.`image_id` = c.`id` WHERE a.`id` = $imageSetid ORDER BY c.`order` ASC";
+
+
+
+		$result = $this->connection->RunQuery($q);
+
+		if ($result->num_rows > 0){
+
+			$x = 1;
+			$y = 1;
+			$lesionid='';
+			echo "<hr>";
+			echo "<div class='row tagSet'>";
+
+
+			while($row = $result->fetch_array(MYSQLI_ASSOC)){
+
+				/* sort by tagset
+				if ($tagName){
+					if ($tagName != $row['tagName']){ //for imageset then reset the row somehow
+
+						echo "</div>";
+						echo "<hr>";
+						echo "<div class='row tagSet'>";
+						//echo "<h3 style='text-align:left;'>$tagName</h3>";
+						$x=1;
+
+					}
+				}
+				
+				*/
+				if ($imageSetid){
+					if ($imageSetid != $row['imageSetid']){ //for imageset then reset the row somehow
+
+						echo "</div>";
+						echo "<hr>";
+						echo "<div class='row tagSet'>";
+						//echo "<h3 style='text-align:left;'>$tagName</h3>";
+						$x=1;
+
+					}
+				}
+				
+
+				$filename = $row['url'];
+				//$position = $row['position'];
+				$lesionid = $row['imageid'];
+				$imageSetid = $row['imageSetid'];
+				$name = $row['name'];
+				$tagName = $row['tagName'];
+				$tags_id = $row['tags_id'];
+
+				//get all the tags for this tag with their category
+				//does this show all tags for a specific image
+
+
+				//echo "<div class='col-2' data='$x'><div class='description'>$name";
+				//echo "</div>";
+
+				//echo "</div>";
+				
+				//removed from below line <h3 style='text-align:left; cursor:pointer;' id='tag{$tags_id}' class='tagLink'>$tagName</h3>
+				
+				
+				if ($y == 1){echo "<div class='responsiveContainer'><div class='row'><div class='col-8'></div><div class='col-2'><button type='button' class='blueButton uptodateSearch'>Search UpToDate</button></div><div class='col-2'><button type='button' class='blueButton pubMedSearch'>Search PubMed</button></div></div></div>"; $y=2;}
+
+				if($x % 4 == 0){echo "<div class='row'>";  }
+
+				echo "<div data='$x' class='col-3'>";
+
+				echo "<img id='$lesionid' data='imageSet{$imageSetid}' class='lslimage zoom' src='$roothttp/$filename'>";
+				//echo "<img id='$lesionid' class='lslimage zoom' src='https://www.acestudy.net/studyserver/$filename'>";
+				echo "<div class='caption'>$name</div>";
+				//echo "</div>";
+				echo "</div>";
+
+				if($x % 4 == 0){echo "</div>";}
+
+				$x++;
+
+				continue;
+
+
+
+
+
+
+
+			}echo "</div>";
+
+		}
+
+	}
 
 }
 
