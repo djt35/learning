@@ -195,7 +195,7 @@ function constructEditTable(idPassed){
 
     imagesString = '`id`=\'' + idPassed + '\'';
     
-    query = "SELECT a.`id`, a.`name` as `imageSetname`, a.`type` as `imageSetTitle`, a.`author`, b.`image_id`, c.`url`, c.`name`, c.`type`, c.`order` FROM `imageSet` as a INNER JOIN `imageImageSet` as b ON a.`id` = b.`imageSet_id` INNER JOIN `images` as c on b.`image_id` = c.`id` WHERE a.`id` = "+idPassed;
+    query = "SELECT a.`id`, b.`image_id`, c.`url`, c.`name`, c.`type`, c.`order` FROM `imageSet` as a INNER JOIN `imageImageSet` as b ON a.`id` = b.`imageSet_id` INNER JOIN `images` as c on b.`image_id` = c.`id` WHERE a.`id` = "+idPassed;
 
     var selectorObject = JSONStraightDataQuery("imageSet", query, 7);
 
@@ -214,11 +214,8 @@ function constructEditTable(idPassed){
 	       console.log('No ajax data received'); 
 	        
         }
-		
-		var html = "Title of this image set : <input id='imageSetTitle'></input><br>";
-		html += "Author of this image set : {select here for author}<br>";
-		 html += "Overall description for these images : <br><textarea name='imageSetname' id='imageSetname' class='name' rows='4' cols='100'></textarea>";
-		html += "<table id=\"imagesTable\" class=\"imageTable\">";
+
+		var html = "<table id=\"imagesTable\" class=\"imageTable\">";
 		html += "<tr>";
 		html += '<th></th>';
 			html += '<th></th>';
@@ -275,8 +272,6 @@ function constructEditTable(idPassed){
             var name = val.name;
             var type = $.trim(val.type);
             var order = $.trim(val.order);
-            var imageSetname = val.imageSetname;
-            var description = val.imageSetTitle;
             console.log('Type for image id '+image_id+' is '+type);
             console.log('Order for image id '+image_id+' is '+order);
 			
@@ -289,11 +284,6 @@ function constructEditTable(idPassed){
 		
 		$('#content').find("#imageorder"+image_id+"").val(order);
 		
-		$('#content').find("#imageSetname").val(imageSetname);
-		
-		$('#content').find("#imageSetTitle").val(description);
-		
-		//author needs implementing here
 		
 		
 		
@@ -522,36 +512,17 @@ function fn60sec() {
     tagsImagesObject.done(function(data) {
 
         console.log('tagsImagesObject = ' + data);
-        
-        var imageSetDescription = $('#imageSetname').val();
-        
-        var imageSetTitle = $('#imageSetTitle').val();
 
-        
-        var imageSetObject = pushDataAJAX('imageSet', 'id', imagesPassed, 1, {
-                        'name': imageSetDescription,
-                        'type': imageSetTitle,
-                        'author' : 'not yet implemented',
-                        
-                    }); 
-        
-        imageSetObject.done(function(data) {
-        
-        
-        
-
-		        if (data) {
-			        
-			        if (data == 1){
-				        
-				        $('#messageBox').html('Saved at '+ new Date().toLocaleTimeString('en-GB', { hour: "numeric", 
-		                                             minute: "numeric"})).fadeOut(100).fadeIn(100).fadeOut(100).fadeIn(100);;
-				        
-			        }
-		
-		        }
+        if (data) {
+	        
+	        if (data == 1){
 		        
-		})
+		        $('#messageBox').html('Saved at '+ new Date().toLocaleTimeString('en-GB', { hour: "numeric", 
+                                             minute: "numeric"})).fadeOut(100).fadeIn(100).fadeOut(100).fadeIn(100);;
+		        
+	        }
+
+        }
 
     })
 

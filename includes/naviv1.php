@@ -41,7 +41,7 @@ echo '<div class="navbar responsiveContainer">
 			  
 			  echo '<div class="dropdown"><button class="dropbtn">Video&#9660;</button>
 			  			<div class="dropdown-content">
-			  				<a href="">Browse video</a><hr>
+			  				<a href="' . $roothttp . 'scripts/display/atlasVideo.php">Browse video</a><hr>
 			  				<a href="' . $roothttp . 'scripts/display/displayVideo.php?id=50">Watch specific video</a><hr>
 			  				<a href="">Suggest new video for inclusion</a>
 			  			</div>

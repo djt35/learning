@@ -560,6 +560,8 @@ if (count($data) > 0){
 		
 		//echo $q;
 		
+		//check query against known queries
+		
 		$result = $general->connection->RunQuery($q);
 
 			while($row = $result->fetch_array(MYSQLI_ASSOC)){

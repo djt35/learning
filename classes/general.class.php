@@ -1125,6 +1125,150 @@ class general {
 		}
 
 	}
+	
+	
+	//!video atlas functions
+	
+	//!--VIDEO --get all videos
+	
+	public function getAllVideos ($tagCategoriesid, $roothttp) {
+
+		//shows all videos in the tagCategory
+		
+		$q = "SELECT a.`id`, a.`url` FROM `video` as a INNER JOIN `chapter` as b ON a.`id` = b.`video_id` INNER JOIN `chapterTag` as c ON b.`id` = c.`chapter_id` INNER JOIN `tags` as d ON d.`id` = c.`tags_id` INNER JOIN `tagCategories` as e on e.`id` = d.`tagCategories_id` WHERE e.`id` = $tagCategoriesid ORDER BY d.`tagName` ASC";
+		
+		echo $q;
+		
+		//shows highest rated (1) images from each tag category
+
+		//$q = "SELECT a.`id` as `imageSetid`, b.`image_id` as `imageid`, c.`url`, c.`name`, c.`order`, c.`type`, e.`tagName`, d.`tags_id` FROM `imageSet` as a INNER JOIN `imageImageSet` as b ON a.`id` = b.`imageSet_id` INNER JOIN `images` as c on b.`image_id` = c.`id` INNER JOIN `imagesTag` as d ON c.`id` = d.`images_id` INNER JOIN `tags` as e ON d.`tags_id` = e.`id` INNER JOIN `tagCategories` as f on f.`id` = e.`tagCategories_id` WHERE f.`id` = $tagCategoriesid AND c.`type` = 1 ORDER BY e.`tagName` ASC, `imageSetid` ASC, c.`order` ASC";
+
+		$result = $this->connection->RunQuery($q);
+
+		if ($result->num_rows > 0){
+
+			$x = 1;
+			$y = 1;
+			$lesionid='';
+			echo "<hr>";
+			echo "<div class='row tagSet'>";
+
+
+			while($row = $result->fetch_array(MYSQLI_ASSOC)){
+
+
+				if ($tagName){
+					if ($tagName != $row['tagName']){ //for imageset then reset the row somehow
+
+						echo "</div>";
+						echo "<hr>";
+						echo "<div class='row tagSet'>";
+						//echo "<h3 style='text-align:left;'>$tagName</h3>";
+						$x=1;
+
+					}
+				}
+
+				$filename = $row['url'];
+				//$position = $row['position'];
+				$lesionid = $row['imageid'];
+				$imageSetid = $row['imageSetid'];
+				$name = $row['name'];
+				$tagName = $row['tagName'];
+				$tags_id = $row['tags_id'];
+
+				//get all the tags for this tag with their category
+				//does this show all tags for a specific image
+
+
+				//echo "<div class='col-2' data='$x'><div class='description'>$name";
+				//echo "</div>";
+
+				//echo "</div>";
+				if ($x == 1){echo "<div class='responsiveContainer'><div class='row'><div class='col-8'><h3 style='text-align:left; cursor:pointer;' id='tag{$tags_id}' class='tagLink'>$tagName</h3></div><div class='col-2'><button type='button' class='blueButton uptodateSearch'>Search UpToDate</button></div><div class='col-2'><button type='button' class='blueButton pubMedSearch'>Search PubMed</button></div></div></div>";}
+
+				if($x % 4 == 0){echo "<div class='row'>";  }
+
+				echo "<div data='$x' class='col-3'>";
+
+				echo "<img id='$lesionid' data='imageSet{$imageSetid}' class='lslimage zoom' src='$roothttp/$filename'>";
+				//echo "<img id='$lesionid' class='lslimage zoom' src='https://www.acestudy.net/studyserver/$filename'>";
+				echo "<div class='caption'>$name</div>";
+				//echo "</div>";
+				echo "</div>";
+
+				if($x % 4 == 0){echo "</div>";}
+
+				$x++;
+
+				continue;
+
+
+
+
+
+
+
+			}echo "</div>";
+
+		}
+
+	}
+	
+	//filter the above function query to get the video ids for each tagCategory
+
+	public function getVideoIdsProcedure () {
+
+		//get the tags within the procedure category
+
+		$q = "SELECT d.`id` as `tagid`, d.`tagName` FROM `video` as a INNER JOIN `chapter` as b ON a.`id` = b.`video_id` INNER JOIN `chapterTag` as c ON b.`id` = c.`chapter_id` INNER JOIN `tags` as d ON d.`id` = c.`tags_id` INNER JOIN `tagCategories` as e on e.`id` = d.`tagCategories_id` WHERE e.`id` = 36 GROUP BY `tagName` ORDER BY d.`tagName` ASC";
+		
+		//$q = "SELECT e.`tagName`, e.`id` as `tagid` FROM `imageSet` as a INNER JOIN `imageImageSet` as b ON a.`id` = b.`imageSet_id` INNER JOIN `images` as c on b.`image_id` = c.`id` INNER JOIN `imagesTag` as d ON c.`id` = d.`images_id` INNER JOIN `tags` as e ON d.`tags_id` = e.`id` INNER JOIN `tagCategories` as f on f.`id` = e.`tagCategories_id` WHERE f.`id` = 36 AND c.`type` = 1 GROUP BY `tagName` ORDER BY e.`tagName` ASC, b.`imageSet_id` ASC, c.`order` ASC";
+
+		$result = $this->connection->RunQuery($q);
+
+		//print_r($result);
+
+		if ($result->num_rows > 0){
+
+			while($row = $result->fetch_array(MYSQLI_ASSOC)){
+
+
+				$rows[] = array_map('utf8_encode', $row);
+
+			}
+
+			echo '<div id="procedureTags" style="display:none;">' . json_encode($rows) . '</div>';
+
+
+		}
+
+		//gets video ids of each tag within this category
+
+		$q = "SELECT a.`id` as `videoid`, d.`tagName`, d.`id` as `tagid` FROM `video` as a INNER JOIN `chapter` as b ON a.`id` = b.`video_id` INNER JOIN `chapterTag` as c ON b.`id` = c.`chapter_id` INNER JOIN `tags` as d ON d.`id` = c.`tags_id` INNER JOIN `tagCategories` as e on e.`id` = d.`tagCategories_id` WHERE e.`id` = 36 ORDER BY d.`tagName` ASC";
+		
+		//$q = "SELECT b.`image_id` as `imageid`, e.`tagName`, e.`id` as `tagid` FROM `imageSet` as a INNER JOIN `imageImageSet` as b ON a.`id` = b.`imageSet_id` INNER JOIN `images` as c on b.`image_id` = c.`id` INNER JOIN `imagesTag` as d ON c.`id` = d.`images_id` INNER JOIN `tags` as e ON d.`tags_id` = e.`id` INNER JOIN `tagCategories` as f on f.`id` = e.`tagCategories_id` WHERE f.`id` = 36 AND c.`type` = 1 ORDER BY e.`tagName` ASC, b.`imageSet_id` ASC, c.`order` ASC";
+
+		$result = $this->connection->RunQuery($q);
+
+		//print_r($result);
+
+		if ($result->num_rows > 0){
+
+			while($row = $result->fetch_array(MYSQLI_ASSOC)){
+
+
+				$rows[] = array_map('utf8_encode', $row);
+
+			}
+
+			echo '<div id="imageMatchProcedure" style="display:none;">' . json_encode($rows) . '</div>';
+
+
+		}
+
+
+	}
 
 }
 
