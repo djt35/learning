@@ -149,7 +149,7 @@ function getAllVideos ($tagCategoriesid) {
 
 	//$client = new Vimeo($vimeo_client_id, $vimeo_client_secret, $vimeo_token);
 
-	$q = "SELECT a.`id`, a.`url`, a.`name`, a.`author`, a.`description`, a.`thumbnail`, DATE_FORMAT(a.`created`, '%M %d %Y') as created, d.`tagName`, d.`id` as `tags_id` FROM `video` as a INNER JOIN `chapter` as b ON a.`id` = b.`video_id` INNER JOIN `chapterTag` as c ON b.`id` = c.`chapter_id` INNER JOIN `tags` as d ON d.`id` = c.`tags_id` INNER JOIN `tagCategories` as e on e.`id` = d.`tagCategories_id` WHERE e.`id` = $tagCategoriesid GROUP BY a.`id` ORDER BY d.`tagName` ASC";
+	$q = "SELECT `id`, `url`, `name`, `author`, `description`, DATE_FORMAT(`created`, '%M %d %Y') as created FROM `video`";
 
 	//echo $q;
 
@@ -162,27 +162,11 @@ function getAllVideos ($tagCategoriesid) {
 
 	if ($result->num_rows > 0){
 
-		$x = 1;
-		$y = 1;
-		$lesionid='';
-		echo "<hr>";
-		echo "<div class='row tagSet'>";
+		
 
 
 		while($row = $result->fetch_array(MYSQLI_ASSOC)){
 
-
-			if ($tagName){
-				if ($tagName != $row['tagName']){ //for imageset then reset the row somehow
-
-					echo "</div>";
-					echo "<hr>";
-					echo "<div class='row tagSet'>";
-					//echo "<h3 style='text-align:left;'>$tagName</h3>";
-					$x=1;
-
-				}
-			}
 
 			$filename = $row['url'];
 			//$position = $row['position'];
@@ -194,7 +178,6 @@ function getAllVideos ($tagCategoriesid) {
 			$description = $row['description'];
 			$author = $row['author'];
 			$created = $row['created'];
-			$thumbnail = $row['thumbnail'];
 
 			//get all the tags for this tag with their category
 			//does this show all tags for a specific image
@@ -204,59 +187,36 @@ function getAllVideos ($tagCategoriesid) {
 			//echo "</div>";
 
 			//echo "</div>";
-			if ($x == 1){echo "<div class='responsiveContainer'><div class='row'><div class='col-8'><h3 style='text-align:left; cursor:pointer;' id='tag{$tags_id}' class='tagLink'>$tagName</h3></div><div class='col-2'></div></div></div>";}
 			
-			//removed above <button type='button' class='blueButton uptodateSearch'>Search UpToDate</button></div><div class='col-2'><button type='button' class='blueButton pubMedSearch'>Search PubMed</button>
 
-			if($x % 3 == 0){echo "<div class='row'>";  }
+			$response = $client->request('/videos/' . $filename);
 
-			echo "<div data='$x' class='col-4' style='border-right: 2px solid gray; border-left: 2px solid gray;'>";
+			$urlThumbnail = $response['body']['pictures']['sizes'][4]['link'];
+			
+			echo $urlThumbnail;
+			
+			$q1 = "UPDATE `video` SET `thumbnail` = '$urlThumbnail' WHERE `id` = '$lesionid'";
+			
+			echo $q1;
+			
+			$result1 = $db->RunQueryDebug($q1);
+			
+			if ($result1->num_rows == 1){
+				
+				echo 'Video id ' . $lesionid . 'thumbnail updated';
+				
+			}
+			
+			//thumbnail link = $urlThumbnail
 
-			echo "<div class='row'>";
-
-			echo "<div class='col-12'>";
-
-			//$response = $client->request('/videos/' . $filename);
-
-			//$urlThumbnail = $response['body']['pictures']['sizes'][4]['link'];
-
-			echo "<img id='$lesionid' data='imageSet{$imageSetid}' class='lslimage zoom' src='$thumbnail' style='border-style: solid; border-width: 2px; border-color:gray;'>";
-			//echo "<img id='$lesionid' class='lslimage zoom' src='https://www.acestudy.net/studyserver/$filename'>";
-			//echo "<div class='caption'>$name</div>";
-			//echo "</div>";
-			echo "</div>";
-
-			echo "</div>";
-
-			echo "<div class='row veryNarrow'>";
-
-			echo "<div class='col-12 veryNarrow'>";
-
-			echo "<b>" . $name . "</b>";
-
-			echo '<p style="font-size : 13px;">'.$description.'</p>';
-			echo '<p style="font-size : 13px; text-align:right;">Author : '.$user->getUserName($author).' | Created : '.$created.'</p>';
-			//echo '<p style="font-size : 13px; text-align:right;"></p>';
-
-			echo "</div>";
-
-			echo "</div>";
-
-			echo "</div>";
-
-			if($x % 3 == 0){echo "</div>";}
-
-			$x++;
-
-			continue;
+			
 
 
 
 
 
 
-
-		}echo "</div>";
+		}
 
 	}
 

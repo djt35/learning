@@ -9,6 +9,7 @@
 		$general = new general;
 		$video = new video;
 		$tagCategories = new tagCategories;
+		$user = new users;
 		
 		
 		
@@ -151,8 +152,14 @@
 					
 					echo $formv1->generateText('Name', 'name', '', 'name of video');
 					echo $formv1->generateText('vimeo id', 'url', '', 'vimeo id');
+					echo $formv1->generateTextAreav2('Description', 'description', '', 'description');
+					//generate textarea for description
+					//author as dropdown of users
+					//print_r($user->getUsers());
+					echo $formv1->generateSelectCustom('Author', 'author', '', $user->getUsers(), 'select the author from the list of users');
 					echo $formv1->generateSelectCustom('Active on site?', 'active', '', array(0=>'No', 1=>'Yes'), 'is the video to be active on the learning site?');
 					echo $formv1->generateSelectCustom('Split into chapters?', 'split', '', array(0=>'No', 1=>'Yes'), 'should the video be split into chapters or available as is');
+					//duration and thumbnail to be added separately
 						
 						
 						

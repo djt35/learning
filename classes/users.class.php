@@ -528,6 +528,62 @@ return $result; 	}
 		
 		
 	}
+	
+	public function getUsers (){
+		
+		$q = "SELECT `user_id`, `firstname`, `surname` FROM `users`";
+
+		//echo $q;
+
+		$result = $this->connection->RunQuery($q);
+
+		if ($result->num_rows > 0){
+
+			$users = array();
+
+			while($row = $result->fetch_array(MYSQLI_ASSOC)){
+				
+				$id = $row['user_id'];
+				$firstname = $row['firstname'];
+				$surname = $row['surname'];
+				
+				$users[$id] = $firstname . ' ' . $surname;
+				
+				
+			}
+		
+			return $users;
+		}
+	}
+	
+	public function getUserName ($id){
+		
+		$q = "SELECT `firstname`, `surname` FROM `users` WHERE `user_id` = $id";
+
+		//echo $q;
+
+		$result = $this->connection->RunQuery($q);
+
+		if ($result->num_rows == 1){
+
+			
+			while($row = $result->fetch_array(MYSQLI_ASSOC)){
+				
+				$firstname = $row['firstname'];
+				$surname = $row['surname'];
+				
+				$user = $firstname . ' ' . $surname;
+				
+				
+			}
+		
+			return $user;
+		}else{
+			
+			return null;
+		}
+	}
+	
 
     /**
      * Close mysql connection
