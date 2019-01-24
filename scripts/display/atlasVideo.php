@@ -977,6 +977,8 @@ $(document).ready(function() {
 	    $(this).siblings().removeClass('greenButton').addClass('tagButton');
 
 	    var tagid = $(this).attr('id');
+	    
+	    console.log(tagid);
 
 	    //get the array of images with their procedure tags
 
@@ -990,11 +992,13 @@ $(document).ready(function() {
 
 			var tagidInner = value['tagid'];
 			var tagName = value['tagName'];
-			var imageid = value['imageid'];
+			var imageid = value['videoid'];
 
 			if (tagid == tagidInner){
 
 				$('#'+imageid).show();
+				
+				console.log(imageid + 'should be shown');
 
 			}else{
 
