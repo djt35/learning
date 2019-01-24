@@ -2,6 +2,13 @@
 
 require_once 'DataBaseMysql.class.php';
 
+
+
+//spl_autoload_unregister ('class_loader');
+		
+		//require('/Applications/XAMPP/xamppfiles/htdocs/dashboard/learning/scripts/autoload.php');
+		//use Vimeo\Vimeo;
+
 class general {
 
 
@@ -1129,13 +1136,27 @@ class general {
 	
 	//!video atlas functions
 	
+	
+	public function getVimeoThumb($id)
+	{
+	$vimeo = unserialize(file_get_contents("http://vimeo.com/api/v2/video/$id.php"));
+	print_r($vimeo);
+	//echo $small = $vimeo[0]['thumbnail_small'];
+	//echo $medium = $vimeo[0]['thumbnail_medium'];
+	return $vimeo[0]['thumbnail_large'];
+	}
+
+
+	
 	//!--VIDEO --get all videos
 	
 	public function getAllVideos ($tagCategoriesid, $roothttp) {
 
 		//shows all videos in the tagCategory
 		
-		$q = "SELECT a.`id`, a.`url` FROM `video` as a INNER JOIN `chapter` as b ON a.`id` = b.`video_id` INNER JOIN `chapterTag` as c ON b.`id` = c.`chapter_id` INNER JOIN `tags` as d ON d.`id` = c.`tags_id` INNER JOIN `tagCategories` as e on e.`id` = d.`tagCategories_id` WHERE e.`id` = $tagCategoriesid ORDER BY d.`tagName` ASC";
+		//$client = new Vimeo($vimeo_client_id, $vimeo_client_secret, $vimeo_token);
+		
+		$q = "SELECT a.`id`, a.`url`, d.`tagName`, d.`id` as `tags_id` FROM `video` as a INNER JOIN `chapter` as b ON a.`id` = b.`video_id` INNER JOIN `chapterTag` as c ON b.`id` = c.`chapter_id` INNER JOIN `tags` as d ON d.`id` = c.`tags_id` INNER JOIN `tagCategories` as e on e.`id` = d.`tagCategories_id` WHERE e.`id` = $tagCategoriesid GROUP BY a.`id` ORDER BY d.`tagName` ASC";
 		
 		echo $q;
 		
@@ -1171,8 +1192,8 @@ class general {
 
 				$filename = $row['url'];
 				//$position = $row['position'];
-				$lesionid = $row['imageid'];
-				$imageSetid = $row['imageSetid'];
+				$lesionid = $row['id'];
+				$imageSetid = $row['imageSetid']; //implement later for videoset
 				$name = $row['name'];
 				$tagName = $row['tagName'];
 				$tags_id = $row['tags_id'];
@@ -1191,7 +1212,9 @@ class general {
 
 				echo "<div data='$x' class='col-3'>";
 
-				echo "<img id='$lesionid' data='imageSet{$imageSetid}' class='lslimage zoom' src='$roothttp/$filename'>";
+				$urlThumbnail = $this->getVimeoThumb($filename);
+				
+				echo "<img id='$lesionid' data='imageSet{$imageSetid}' class='lslimage zoom' src='$urlThumbnail'>";
 				//echo "<img id='$lesionid' class='lslimage zoom' src='https://www.acestudy.net/studyserver/$filename'>";
 				echo "<div class='caption'>$name</div>";
 				//echo "</div>";

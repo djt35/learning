@@ -9,6 +9,8 @@
 		$general = new general;
 		$video = new video;
 		$tagCategories = new tagCategories;
+		$db = new DataBaseMysql;
+		
 		
 		
 		
@@ -116,6 +118,196 @@
 		include($root . "/scripts/logobar.php");
 		
 		include($root . "/includes/naviv1.php");
+		
+		spl_autoload_unregister ('class_loader');
+		
+		require($root . '/scripts/autoload.php');
+		use Vimeo\Vimeo;
+		// Get this from your account
+		$vimeo_client_id = '47b9e04f8014da6dc06bbd4b5879d2f3dff2fc1c';
+		$vimeo_client_secret = '+7btjhyrrfEaZpAfLX81+pPrxOYlIS9A2d5Jj27GU7JyprVjwBGHK0+LE/XS0++3Ai060tT4msKZa4LbOQFOwOANa8JWqvz6D4k7XXFi4g8vEoBrH6Oh3RwQlaZUZCuP';
+		
+		// This has to be generated on your site, plugin or theme
+		$vimeo_token = 'cc33c4732d5f31ff9b681b23591bd95d';
+		error_reporting(-1);
+		
+		$client = new Vimeo($vimeo_client_id, $vimeo_client_secret, $vimeo_token);
+		
+		
+		
+		
+		//spl_autoload_register ('class_loader');
+		
+		function getAllVideos ($tagCategoriesid) {
+
+		global $db;
+		global $client;
+		
+		//shows all videos in the tagCategory
+		
+		//$client = new Vimeo($vimeo_client_id, $vimeo_client_secret, $vimeo_token);
+		
+		$q = "SELECT a.`id`, a.`url`, a.`name`, d.`tagName`, d.`id` as `tags_id` FROM `video` as a INNER JOIN `chapter` as b ON a.`id` = b.`video_id` INNER JOIN `chapterTag` as c ON b.`id` = c.`chapter_id` INNER JOIN `tags` as d ON d.`id` = c.`tags_id` INNER JOIN `tagCategories` as e on e.`id` = d.`tagCategories_id` WHERE e.`id` = $tagCategoriesid GROUP BY a.`id` ORDER BY d.`tagName` ASC";
+		
+		//echo $q;
+		
+		//shows highest rated (1) images from each tag category
+
+		//$q = "SELECT a.`id` as `imageSetid`, b.`image_id` as `imageid`, c.`url`, c.`name`, c.`order`, c.`type`, e.`tagName`, d.`tags_id` FROM `imageSet` as a INNER JOIN `imageImageSet` as b ON a.`id` = b.`imageSet_id` INNER JOIN `images` as c on b.`image_id` = c.`id` INNER JOIN `imagesTag` as d ON c.`id` = d.`images_id` INNER JOIN `tags` as e ON d.`tags_id` = e.`id` INNER JOIN `tagCategories` as f on f.`id` = e.`tagCategories_id` WHERE f.`id` = $tagCategoriesid AND c.`type` = 1 ORDER BY e.`tagName` ASC, `imageSetid` ASC, c.`order` ASC";
+		//var_dump($db->connection->RunQuery("hello"));
+
+		$result = $db->RunQueryDebug($q);
+
+		if ($result->num_rows > 0){
+
+			$x = 1;
+			$y = 1;
+			$lesionid='';
+			echo "<hr>";
+			echo "<div class='row tagSet'>";
+
+
+			while($row = $result->fetch_array(MYSQLI_ASSOC)){
+
+
+				if ($tagName){
+					if ($tagName != $row['tagName']){ //for imageset then reset the row somehow
+
+						echo "</div>";
+						echo "<hr>";
+						echo "<div class='row tagSet'>";
+						//echo "<h3 style='text-align:left;'>$tagName</h3>";
+						$x=1;
+
+					}
+				}
+
+				$filename = $row['url'];
+				//$position = $row['position'];
+				$lesionid = $row['id'];
+				$imageSetid = $row['imageSetid']; //implement later for videoset
+				$name = $row['name'];
+				$tagName = $row['tagName'];
+				$tags_id = $row['tags_id'];
+
+				//get all the tags for this tag with their category
+				//does this show all tags for a specific image
+
+
+				//echo "<div class='col-2' data='$x'><div class='description'>$name";
+				//echo "</div>";
+
+				//echo "</div>";
+				if ($x == 1){echo "<div class='responsiveContainer'><div class='row'><div class='col-8'><h3 style='text-align:left; cursor:pointer;' id='tag{$tags_id}' class='tagLink'>$tagName</h3></div><div class='col-2'><button type='button' class='blueButton uptodateSearch'>Search UpToDate</button></div><div class='col-2'><button type='button' class='blueButton pubMedSearch'>Search PubMed</button></div></div></div>";}
+
+				if($x % 3 == 0){echo "<div class='row'>";  }
+
+				echo "<div data='$x' class='col-4' style='border-style: solid;
+  border-width: 2px; border-color:gray;'>";
+				
+				echo "<div class='row'>"; 
+				
+				echo "<div class='col-12'>";
+				
+				$response = $client->request('/videos/' . $filename);
+
+				$urlThumbnail = $response['body']['pictures']['sizes'][4]['link'];
+				
+				echo "<img id='$lesionid' data='imageSet{$imageSetid}' class='lslimage zoom' src='$urlThumbnail'>";
+				//echo "<img id='$lesionid' class='lslimage zoom' src='https://www.acestudy.net/studyserver/$filename'>";
+				//echo "<div class='caption'>$name</div>";
+				//echo "</div>";
+				echo "</div>";
+				
+				echo "</div>";
+				
+				echo "<div class='row'>";
+				
+				echo "<div class='col-12'>";
+				
+				echo $name;
+				
+				echo '<p>Put author. Put duration. Put other Tags here. Not white border. Other style. Lose up to date buttons. Back button on video page when referred from this page...</p>';
+				
+				echo "</div>";
+				
+				echo "</div>";
+				
+				echo "</div>";
+
+				if($x % 3 == 0){echo "</div>";}
+
+				$x++;
+
+				continue;
+
+
+
+
+
+
+
+			}echo "</div>";
+
+		}
+
+	}
+		
+		$uri = '/videos/259042119';
+		
+		$video_id = '259042119';
+
+		//php
+
+
+		
+		
+		/*
+		try {
+		  */  
+		    /*$client->request($uri . '/privacy/domains/http://example.com', 'PUT');
+			$client->request($uri, array(
+			  'privacy' => array(
+			    'embed' => 'whitelist'
+			  )
+			), 'PATCH');
+			
+			echo $uri . ' will only be embeddable on "http://example.com".';*/
+		    
+		    //$result = $client->request('/videos/' . $video_id);
+		    
+		    //print_r($result);
+		    //$response = $client->request('/tutorial', array(), 'GET');
+		
+		/*
+		} catch (Exception $e) {
+		    echo 'Caught exception: ',  $e->getMessage(), "\n";
+		}*/
+		
+		
+		
+		//print_r($response);
+		
+		
+		//$vimeo = new Vimeo( $vimeo_client_id, $vimeo_client_secret );
+		
+		//$vimeo->setToken( $vimeo_token );
+		
+		//$result = $client->request('/videos/' . $video_id);
+		
+		//print_r($result);
+		
+		// Video width and height
+		//$video_w = $result['body']['width'];
+		//$video_h = $result['body']['height'];
+		
+		// Data for thumbnail with index 1
+		//$thumb_data = $result['body']['pictures']['sizes'][4]['link'];
+		//print_r($thumb_data);
+		
+		// This is your thumbnail URL
+		//$thumb_url = $thumb_data['link'];
+		
 		?>
 		
 		<div id="loading">
@@ -181,7 +373,7 @@
 			    
 			    <div id='imageDisplay'>
 				
-				<?php echo $general->getAllVideos('38', $roothttp);?>
+				<?php echo getAllVideos('40');?>
 				
 				
 				</div>
@@ -929,13 +1121,13 @@ $(document).ready(function() {
 	$('.content').on('click', '.lslimage', function(){
 		
 		
-		var searchTerm = $(this).attr('data');
+		var searchTerm = $(this).attr('id');
 		
 		console.log(searchTerm);
 		
-		searchTerm = searchTerm.slice(8);
+		//searchTerm = searchTerm.slice(8);
 		
-		window.location.href = siteRoot + "scripts/display/atlasImageSet.php?id="+searchTerm;
+		window.location.href = siteRoot + "scripts/display/displayVideo.php?id="+searchTerm;
 		
 		
 		

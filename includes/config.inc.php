@@ -54,7 +54,7 @@ if ($local) {
     
     function class_loader($class) {
 		
-			require($_SERVER['DOCUMENT_ROOT'].'/earning/classes/'.$class.'.class.php');
+			require($_SERVER['DOCUMENT_ROOT'].'/learning/classes/'.$class.'.class.php');
 		 	
 		}
 	
