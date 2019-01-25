@@ -2027,7 +2027,7 @@ $(document).ready(function() {
 			    	console.log(stripped);
 
 			    	
-			    	$('#chapterHeading').html("<p style='text-align:left;'><b>Chapter "+val.number+"</b></p><p style='text-align:left;'>"+val.chaptername+"</p><br><p style='text-align:left;'>"+stripped+"</p>");
+			    	$('#chapterHeading').html("<p style='text-align:left;'><b>Chapter "+val.number+"</b></p><p style='text-align:left;'><b>"+val.chaptername+"</b></p><br><p style='text-align:justify;'>"+stripped+"</p>");
 			    	
 			    	/*
 			    	
