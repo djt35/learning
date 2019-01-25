@@ -5,8 +5,10 @@
 			
 			//further to do; add description to chapter table
 			//fix ability yo skip
-	
-		require ('/Applications/XAMPP/xamppfiles/htdocs/dashboard/learning/scripts/headerCreator.php');
+		
+		
+		
+		require ($_SERVER['DOCUMENT_ROOT'].'/dashboard/learning/scripts/headerIndex.php'); //set this at login in session
 	
 		$formv1 = new formGenerator;
 		$general = new general;

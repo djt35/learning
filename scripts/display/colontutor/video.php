@@ -1,155 +1,353 @@
 
-		
-		
+
+
 		<?php
-	
-		require ('/Applications/XAMPP/xamppfiles/htdocs/dashboard/learning/scripts/headerCreator.php');
-	
-		$formv1 = new formGenerator;
-		$general = new general;
-		$video = new video;
-		$tagCategories = new tagCategories;
-		$user = new users;
-		
-		if ($user->getUserAccessLevel($_SESSION['user_id']) > 2){
-	
-			redirect_login($location);
-	
-	
-		}
-		
-		foreach ($_GET as $k=>$v){
-		
-			$sanitised = $general->sanitiseInput($v);
-			$_GET[$k] = $sanitised;
-		
-		
-		}
-		
-		if (isset($_GET["id"]) && is_numeric($_GET["id"])){
-			$id = $_GET["id"];
-		
-		}else{
-		
-			$id = null;
-		
-		}
-		
-		
-		
-		//TERMINATE THE SCRIPT IF NOT A SUPERUSER
-		
-		
-		
-		// Page content
-		?>
+
+require ('/Applications/XAMPP/xamppfiles/htdocs/dashboard/learning/scripts/headerCreator.php');
+
+$formv1 = new formGenerator;
+$general = new general;
+$video = new video;
+$tagCategories = new tagCategories;
+$db = new DataBaseMysql;
+$user = new users;
+
+
+
+
+foreach ($_GET as $k=>$v){
+
+	$sanitised = $general->sanitiseInput($v);
+	$_GET[$k] = $sanitised;
+
+
+}
+
+if (isset($_GET["id"]) && is_numeric($_GET["id"])){
+	$id = $_GET["id"];
+
+}else{
+
+	$id = null;
+
+}
+
+
+
+//TERMINATE THE SCRIPT IF NOT A SUPERUSER
+
+
+
+// Page content
+?>
 		<!DOCTYPE html PUBLIC '-//W3C//DTD HTML 4.01//EN'>
-		
+
 		<html>
 		<head>
-		    <title>images Form</title>
+		    <title>Colonoscopy Tutor</title>
 		</head>
-		
+
+		<style>
+
+			.content, #menu, .responsiveContainer {
+
+				color: white;
+				background-color: black;
+
+
+
+			}
+
+			.content {
+
+				max-height:none;
+
+			}
+
+			.navbar, .dropbtn, .dropdown .dropbtn, .navbar a, .dropdown, .dropdown-content {
+
+				background-color: #2670DD;
+
+			}
+
+			footer {
+
+				color: white;
+				background-color: black;
+
+			}
+
+			.startTyping {
+
+				font-size: large;
+
+
+			}
+
+			.modifiers {
+
+				background-color: #2670DD; /* Blue UZ */
+			    border: none;
+			    color: white;
+			    padding: 5px 10px;
+			    text-align: center;
+			    text-decoration: none;
+			    display: inline-block;
+			    font-size: 16px;
+
+
+			}
+
+			[class*="col-"] {
+			    float: left;
+			    padding: 15px;
+			    /*border: 1px solid red;*/
+			}
+
+			[class*="slim-col-"] {
+			    float: left;
+			    padding: 1px;
+			    /*border: 1px solid red;*/
+			}
+
+
+
+
+		</style>
+
 		<?php
-		include($root . "/scripts/logobar.php");
-		
-		include($root . "/includes/naviv1.php");
-		?>
-		
-		<div id="loading">
-	
-		</div>
-		
-		<div class="darkClass">
-		
-		</div>
-		
-		<div class="modal" style="display:none;">
+include($root . "/scripts/logobar.php");
+
+include($root . "/includes/naviv1.php");
+
+spl_autoload_unregister('class_loader');
+
+require($root . '/scripts/autoload.php');
+use Vimeo\Vimeo;
+// Get this from your account
+$vimeo_client_id = '47b9e04f8014da6dc06bbd4b5879d2f3dff2fc1c';
+$vimeo_client_secret = '+7btjhyrrfEaZpAfLX81+pPrxOYlIS9A2d5Jj27GU7JyprVjwBGHK0+LE/XS0++3Ai060tT4msKZa4LbOQFOwOANa8JWqvz6D4k7XXFi4g8vEoBrH6Oh3RwQlaZUZCuP';
+
+// This has to be generated on your site, plugin or theme
+$vimeo_token = 'cc33c4732d5f31ff9b681b23591bd95d';
+error_reporting(-1);
+
+$client = new Vimeo($vimeo_client_id, $vimeo_client_secret, $vimeo_token);
+
+
+
+
+//spl_autoload_register ('class_loader');
+
+function getAllVideos ($tagCategoriesid) {
+
+	global $db;
+	global $client;
+	global $user;
+
+	//shows all videos in the tagCategory
+
+	//$client = new Vimeo($vimeo_client_id, $vimeo_client_secret, $vimeo_token);
+
+	$q = "SELECT a.`id`, a.`url`, a.`name`, a.`author`, a.`description`, a.`thumbnail`, DATE_FORMAT(a.`created`, '%M %d %Y') as created, d.`tagName`, d.`id` as `tags_id` FROM `video` as a INNER JOIN `chapter` as b ON a.`id` = b.`video_id` INNER JOIN `chapterTag` as c ON b.`id` = c.`chapter_id` INNER JOIN `tags` as d ON d.`id` = c.`tags_id` INNER JOIN `tagCategories` as e on e.`id` = d.`tagCategories_id` WHERE e.`id` = $tagCategoriesid GROUP BY a.`id` ORDER BY d.`tagName` ASC";
+
+	//echo $q;
+
+	//shows highest rated (1) images from each tag category
+
+	//$q = "SELECT a.`id` as `imageSetid`, b.`image_id` as `imageid`, c.`url`, c.`name`, c.`order`, c.`type`, e.`tagName`, d.`tags_id` FROM `imageSet` as a INNER JOIN `imageImageSet` as b ON a.`id` = b.`imageSet_id` INNER JOIN `images` as c on b.`image_id` = c.`id` INNER JOIN `imagesTag` as d ON c.`id` = d.`images_id` INNER JOIN `tags` as e ON d.`tags_id` = e.`id` INNER JOIN `tagCategories` as f on f.`id` = e.`tagCategories_id` WHERE f.`id` = $tagCategoriesid AND c.`type` = 1 ORDER BY e.`tagName` ASC, `imageSetid` ASC, c.`order` ASC";
+	//var_dump($db->connection->RunQuery("hello"));
+
+	$result = $db->RunQueryDebug($q);
+
+	if ($result->num_rows > 0){
+
+		$x = 1;
+		$y = 1;
+		$lesionid='';
+		echo "<hr>";
+		echo "<div class='row tagSet'>";
+
+
+		while($row = $result->fetch_array(MYSQLI_ASSOC)){
+
+
+			if ($tagName){
+				if ($tagName != $row['tagName']){ //for imageset then reset the row somehow
+
+					echo "</div>";
+					echo "<hr>";
+					echo "<div class='row tagSet'>";
+					//echo "<h3 style='text-align:left;'>$tagName</h3>";
+					$x=1;
+
+				}
+			}
+
+			$filename = $row['url'];
+			//$position = $row['position'];
+			$lesionid = $row['id'];
+			$imageSetid = $row['imageSetid']; //implement later for videoset
+			$name = $row['name'];
+			$tagName = $row['tagName'];
+			$tags_id = $row['tags_id'];
+			$description = $row['description'];
+			$author = $row['author'];
+			$created = $row['created'];
+			$thumbnail = $row['thumbnail'];
+
+			//get all the tags for this tag with their category
+			//does this show all tags for a specific image
+
+
+			//echo "<div class='col-2' data='$x'><div class='description'>$name";
+			//echo "</div>";
+
+			//echo "</div>";
+			if ($x == 1){echo "<div class='responsiveContainer'><div class='row'><div class='col-8'><h3 style='text-align:left; cursor:pointer;' id='tag{$tags_id}' class='tagLink'>$tagName</h3></div><div class='col-2'></div></div></div>";}
 			
+			//removed above <button type='button' class='blueButton uptodateSearch'>Search UpToDate</button></div><div class='col-2'><button type='button' class='blueButton pubMedSearch'>Search PubMed</button>
+
+			if($x % 3 == 0){echo "<div class='row'>";  }
+
+			echo "<div data='$x' class='col-4' style='border-right: 2px solid gray; border-left: 2px solid gray;'>";
+
+			echo "<div class='row'>";
+
+			echo "<div class='col-12'>";
+
+			//$response = $client->request('/videos/' . $filename);
+
+			//$urlThumbnail = $response['body']['pictures']['sizes'][4]['link'];
+
+			echo "<img id='$lesionid' data='imageSet{$imageSetid}' class='lslimage zoom' src='$thumbnail' style='border-style: solid; border-width: 2px; border-color:gray;'>";
+			//echo "<img id='$lesionid' class='lslimage zoom' src='https://www.acestudy.net/studyserver/$filename'>";
+			//echo "<div class='caption'>$name</div>";
+			//echo "</div>";
+			echo "</div>";
+
+			echo "</div>";
+
+			echo "<div class='row veryNarrow'>";
+
+			echo "<div class='col-12 veryNarrow'>";
+
+			echo "<b>" . $name . "</b>";
+
+			echo '<p style="font-size : 13px;">'.$description.'</p>';
+			echo '<p style="font-size : 13px; text-align:right;">Author : '.$user->getUserName($author).' | Created : '.$created.'</p>';
+			//echo '<p style="font-size : 13px; text-align:right;"></p>';
+
+			echo "</div>";
+
+			echo "</div>";
+
+			echo "</div>";
+
+			if($x % 3 == 0){echo "</div>";}
+
+			$x++;
+
+			continue;
+
+
+
+
+
+
+
+		}echo "</div>";
+
+	}
+
+}
+
+
+?>
+
+		<div id="loading">
+
+		</div>
+
+		<div class="darkClass">
+
+		</div>
+
+		<div class="modal" style="display:none;">
+
 			<div class='modalContent'>
-				
+
 			</div>
 			<div class='modalClose'>
 				<p><br><button onclick="$('.modal, .darkClass').hide();">Close this window</button></p>
 			</div>
-			
+
 		</div>
-		
+
 		<body>
-		
+
 			<div id="id" style="display:none;"><?php if ($id){echo $id;}?></div>
-		
+
+			<div id="images" style="display:none;"><?php ?></div>
+
+			<?php echo $general->getVideoIdsAnderValAll(); //gets data for tagCategories and imageids?>
+
+
 		    <div id='content' class='content'>
-		
+
 		        <div class='responsiveContainer white'>
-		
+
 			        <div class='row'>
 		                <div class='col-9'>
-		                    <h2 style="text-align:left;">Images Upload Form</h2>
+		                    <h2 style="text-align:left;">Colonoscopy Tutor</h2>
+		                    <p style='text-align:left;'>Use the buttons below to filter the videos.  Clicking a video will take you to it.  Groups of videos and how to integrate</p>
+		                    <div id='procedureTagsDisplay' class='responsiveContainer' style='text-align:left;'>
+			                    <div class='col-9'>
+
+			                    Filter by tag (click):
+
+
+			                    </div>
+			                    <div id='resetButtonDiv' class='col-3'>
+			                    </div>
+		                    </div>
 		                </div>
-		
-		                <div id="messageBox" class='col-3 yellow-light narrow center'>
-		                    <p></p>
-		                </div>
+
+		                <!--<div id="messageBox" class='col-3 yellow-light veryNarrow center'>
+
+		                    <p><button id="captionHide" class="modifiers">Toggle captions</button></p>
+		                </div>-->
 		            </div>
-		
-		
-			        <p><?php
-		
-				        if ($id){
-		
-							$q = "SELECT  `id`  FROM  `imageSet`  WHERE  `id`  = $id";
-							if ($general->returnYesNoDBQuery($q) != 1){
-								echo "Passed id does not exist in the database";
-								exit();
-		
-							}
-						}
-		
-		?></p>
-		
-				<div class='row'>
+
+
+
+
+			    <div class='row' id='imageTitle'>
+
+			    </div>
+
+			    <div id='imageDisplay'>
+
+				<?php echo getAllVideos('41');?>
+
+
+				</div>
+
+				<!--<div class='row' id='imageDisplay'>
 					<div class='col-2'>
 					</div>
 					<div class='col-8'>
-					
-					
-					    <form id="imageUpload">
-					    
-					    <input name="files[]" type="file" multiple="multiple" accept=".jpg, .jpeg, .bmp"/>
-					    
-					    <button id="submitimagefiles">Submit</button>
-		
-					    </form>
+
 					</div>
 				    <div class='col-2'>
-					</div>    
-				</div>
-			        
-				<div class='row'>
-					<div class='col-2'>
 					</div>
-					<div class='col-8'>
-					
-					
-					    <div id="images">
-					    <?php /*echo $formv1->generateText('url', 'url', '', 'tooltip here');
-echo $formv1->generateText('name', 'name', '', 'tooltip here');
-echo $formv1->generateText('type', 'type', '', 'tooltip here');*/
-?>
-						   <!-- <button id="submitimages">Submit</button>-->
-		
-					    </div>
-					</div>
-				    <div class='col-2'>
-					</div>    
-				</div>
-		
+				</div>-->
+
 		        </div>
-		
+
 		    </div>
 		<script>
-			
+
 var siteRoot = "http://localhost:90/dashboard/learning/";
 
 imagesPassed = $("#id").text();
@@ -161,10 +359,6 @@ if (imagesPassed == "") {
 } else {
 
     var edit = 1;
-    
-    $('#imageUpload').hide();
-    
-    //constructEditTable;
 
 }
 
@@ -180,260 +374,100 @@ var textAreas = new Object();
 
 var selects = new Object();
 
-var selects2 = new Object();
+getSearchboxTerms();
+
+
+function getSearchboxTerms (){
+
+	var selectorObject = getDataQuery('tags', 'tagCategories_id = 38', {
+            'id': 'id',
+            'name': 'tagName'
+        }, 1);
+
+        //console.log(selectorObject);
+
+        selectorObject.done(function(data) {
+
+            console.log(data);
+
+			var searchData = $.parseJSON(data);
+
+			console.dir(searchData);
+
+			$.each(searchData, function(key, value) {
+
+				var id = value['id'];
+				var name = value['tagName'];
+
+		       	$('#json-datalist').append('<option value="'+name+'" data-id="'+id+'"></option>');
+
+		        //data.append(key, value);
 
 
 
-function constructEditTable(idPassed){
-	
-	//imagesPassed, ajax the id to get a table in the format of the previous
-	
-	//get the images
-	
-	//get all the tags for the images
-	
-	
-	$('#imageUpload').hide();
-	
-    imagesRequired = new Object;
-
-    //imagesRequired = getNamesFormElements("images");  JSONStraightDataQuery (table, query, outputFormat)
-
-    imagesString = '`id`=\'' + idPassed + '\'';
-    
-    query = "SELECT a.`id`, a.`name` as `imageSetname`, a.`type` as `imageSetTitle`, a.`author`, b.`image_id`, c.`url`, c.`name`, c.`type`, c.`order` FROM `imageSet` as a INNER JOIN `imageImageSet` as b ON a.`id` = b.`imageSet_id` INNER JOIN `images` as c on b.`image_id` = c.`id` WHERE a.`id` = "+idPassed;
-
-    var selectorObject = JSONStraightDataQuery("imageSet", query, 7);
-
-    //console.log(selectorObject);
-
-    selectorObject.done(function(data) {
-
-        console.log(data);
-		
-		try{
-		
-        var formData = $.parseJSON(data);
-        
-        } catch (error) {
-	        
-	       console.log('No ajax data received'); 
-	        
-        }
-		
-		var html = "Title of this image set : <input id='imageSetTitle'></input><br>";
-		html += "Author of this image set : {select here for author}<br>";
-		 html += "Overall description for these images : <br><textarea name='imageSetname' id='imageSetname' class='name' rows='4' cols='100'></textarea>";
-		html += "<table id=\"imagesTable\" class=\"imageTable\">";
-		html += "<tr>";
-		html += '<th></th>';
-			html += '<th></th>';
-			html += '<th>Tags</th>';
-			html += '<th>Description</th>';
-			html += '<th>Rank</th>';
-			html += '<th>Display order</th>';
-			html += '</tr>';
-
-        $(formData).each(function(i, val) {
-            
-            var id = val.id;
-            var image_id = val.image_id;
-            var url = val.url;
-            var name = val.name;
-            var type = val.type;
-            
-            html += '<tr class="file">';
-			html += "<td id='"+image_id+"' style='display:none;'>$file</td>";
-			html += "<td><img src='"+siteRoot+"/"+url+"' style=\"width:128px;\"></td>";
-			html += "<td><button class='addTag'>Add Tag</button></td>";
-			html += "<td class='imageTag' id='tag"+image_id+"'></td>";
-			html += "<td class='imageDesc'><textarea name='imagename$insert' id='imagename"+image_id+"' class='name' rows='4' cols='30'></textarea></td>";
-			html += "<td class='imageType'><select id='imagetype"+image_id+"' class='type'><option hidden selected></option><option value='1'>1</option><option value='2'>2</option><option value='3'>3</option><option value='4'>4</option><option value='5'>5</option></select></td>";
-			html += "<td><select name='imageorder"+image_id+"' id='imageorder"+image_id+"' class='order'><option hidden selected>";
-			
-			var i;
-			for (i = 1; i <= Object.keys(formData).length; i++) { 
-			    html += "<option value='"+i+"'>"+i+"</option>";
-			}
-			
-			
-			html += "</select></td>";
-			html += "<td class='deleteImage'>&#x2718;</td>";
-			html += '</tr>';
-
-
-        });
-        
-        html += '</table>';
-		html += '<p>';
-		html += "<button class='addTagAll'> Add tag to all images</button>&nbsp;&nbsp;";
-		html += "<button class='save' onclick='fn60sec();'> Save data </button>";
-		html += '</p>';
-
-        $("#messageBox").text("Editing images with imageSet id " + idPassed);
-        $("#images").html(html);
-        
-        $(formData).each(function(i, val) {
-            
-            var id = val.id;
-            var image_id = val.image_id;
-            var url = val.url;
-            var name = val.name;
-            var type = $.trim(val.type);
-            var order = $.trim(val.order);
-            var imageSetname = val.imageSetname;
-            var description = val.imageSetTitle;
-            console.log('Type for image id '+image_id+' is '+type);
-            console.log('Order for image id '+image_id+' is '+order);
-			
-		
-		$("#imagename"+image_id+"").val(name);
-		
-		$("#imagetype"+image_id+" option[value='"+type+"']").attr('selected', 'selected');
-		
-		$('#content').find("#imagetype"+image_id+"").val(type);
-		
-		$('#content').find("#imageorder"+image_id+"").val(order);
-		
-		$('#content').find("#imageSetname").val(imageSetname);
-		
-		$('#content').find("#imageSetTitle").val(description);
-		
-		//author needs implementing here
-		
-		
-		
-		});
-		
-				query = "SELECT b.`image_id`, c.`url`, c.`name`, c.`type`, e.`tagName`, d.`id` as imagesTagid, d.`tags_id` FROM `imageSet` as a INNER JOIN `imageImageSet` as b ON a.`id` = b.`imageSet_id` INNER JOIN `images` as c on b.`image_id` = c.`id` INNER JOIN `imagesTag` as d ON c.`id` = d.`images_id` INNER JOIN `tags` as e ON d.`tags_id` = e.`id` WHERE a.`id` = "+idPassed;
-		
-		    var selectorObject = JSONStraightDataQuery("imageSet", query, 7);
-		
-		    //console.log(selectorObject);
-		
-		    selectorObject.done(function(data) {
-		
-		        console.log(data);
-				
-				try{
-				
-		        var formData = $.parseJSON(data);
-		        
-		        } catch (error) {
-			        
-			       console.log('No ajax data received'); 
-			        
-		        }
-		        
-		        $(formData).each(function(i, val) {
-            
-	            var id = val.id;
-	            var image_id = val.image_id;
-	            var tags_id = val.tags_id;
-	            var imagesTagid = val.imagesTagid;
-	            var tagName = val.tagName;
-	            var type = val.type;
-
-	            
-	            $("#tag"+image_id+"").append('<button id="' + imagesTagid + '" class="tagButton">'+tagName+'</button>');
-				
-				
-				
-				});
-		        
-		        updatePreValues ();
-		        
 		    });
 
-		
-        //enableFormInputs("images");
+            $('#searchBox').attr("placeholder","Start typing an endoscopic diagnosis...");
 
-    });
 
-    /*try {
 
-        $("form#images").find("button#deleteimages").length();
+        })
 
-    } catch (error) {
 
-        $("form#images").find("button").after("<button id='deleteimages'>Delete</button>");
 
-    }*/
-	/*
-	echo '<table id="imagesTable" class="imageTable">';
-		echo '<tr>';
-			echo '<th></th>';
-			echo '<th></th>';
-			echo '<th>Tags</th>';
-			echo '<th>Description</th>';
-			echo '<th>Rank</th>';
-			echo '</tr>';
-		foreach ($filearray as $key=>$value){
-			
-			$insert = $value['id'];
-			$file = $value['filename'];
-			
-			
-			echo '<tr class="file">';
-			echo "<td id='$insert' style='display:none;'>$file</td>";
-			echo "<td><img src='$roothttp/$file' style=\"width:128px;\"></td>";
-			echo "<td><button class='addTag'>Add Tag</button></td>";
-			echo "<td class='imageTag'></td>";
-			echo "<td class='imageDesc'><textarea name='imagename$insert' id='imagename$insert' class='name' rows='4' cols='30'></textarea></td>";
-			echo "<td class='imageRank'><select name='imagetype$insert' id='imagetype$insert' class='type'><option hidden selected></option><option value='1'>1</option><option value='2'>2</option><option value='3'>3</option><option value='4'>4</option><option value='5'>5</option></select></td>";
-
-			
-			echo '</tr>';
-		}
-		echo '</table>';
-		echo '<p>';
-		echo "<button class='addTagAll'> Add tag to all images</button>&nbsp;&nbsp;";
-		echo "<button class='save' onclick='fn60sec();'> Save data </button>";
-		echo '</p>';*/
-	
 }
 
-function deleteImage(imageRowClicked){
-	
-	
-	//get the image id
-	
-	console.log(imageRowClicked);
-	
-	var imageID = $(imageRowClicked).closest('tr').find('td:eq(0)').attr('id');
-	
-	
-	query = "DELETE FROM `images` WHERE `id` = "+imageID+"";
-	
-	
-    var selectorObject = JSONStraightDataQuery("images", query, 8);
+//!new
 
-    //console.log(selectorObject);
+//get all procedure tags and insert at the top of the document
 
-    selectorObject.done(function(data) {
+function insertProcedureTags () {
 
-        console.log(data);
-		
-		if (data){
-			
-			
-			if (data == 1){
-				
-				console.log('now remove the table row');
-				
-				$(imageRowClicked).closest('tr').hide();
-				
-			}else{
-				
-				alert('Row not deleted');
-				
-			}
-			
-		}
+	var data = $('#procedureTags').text();
 
-	
+	var formData = $.parseJSON(data);
+
+
+
+	$.each(formData, function(key, value) {
+
+		var tagid = value['tagid'];
+		var tagName = value['tagName'];
+
+       	html = '<button id="' + tagid + '" class="tagButton">'+tagName+'</button>';
+
+       	$('#procedureTagsDisplay').find('div').first().append(html);
+
+       	//console.log(html);
+
+        //data.append(key, value);
+
 	});
-	
+
+
+}
+
+function getAllImages () {
+
+
+ request = $.ajax({
+	        url: siteRoot + "scripts/getImages.php",
+	        type: "get",
+	        data: 'tagid='+option,
+
+		   });
+
+		   request.done(function(data){
+
+			   if (data){
+
+			    $('#imageTitle').html('<h3 style="text-align:left;">'+value+'</h3>');
+			   	$('#imageDisplay').html(data);
+
+			   }
+
+		   });
+
 }
 
 
@@ -470,7 +504,7 @@ function fn60sec() {
 
         var textareaText = $(this).val();
 
-        textAreas[x] = $.trim(textareaText);
+        textAreas[x] = textareaText;
 
         x++;
 
@@ -491,33 +525,15 @@ function fn60sec() {
 
 
     })
-    
-    x = 0;
-
-    $('#imagesTable').find('tr').find('td:eq(6)').find('select').each(function() {
-
-        console.log(this);
-
-        var selectValue = $(this).val();
-
-        selects2[x] = selectValue;
-
-        x++;
-
-
-    })
 
     console.dir(images);
     console.dir(textAreas);
     console.dir(selects);
-    console.dir(selects2);
 
-	
 	//these need the field names
-	
+
     overallObject['id'] = images;
     overallObject['type'] = selects;
-    overallObject['order'] = selects2;
     overallObject['name'] = textAreas;
 
     console.dir(overallObject);
@@ -528,36 +544,17 @@ function fn60sec() {
     tagsImagesObject.done(function(data) {
 
         console.log('tagsImagesObject = ' + data);
-        
-        var imageSetDescription = $('#imageSetname').val();
-        
-        var imageSetTitle = $('#imageSetTitle').val();
 
-        
-        var imageSetObject = pushDataAJAX('imageSet', 'id', imagesPassed, 1, {
-                        'name': imageSetDescription,
-                        'type': imageSetTitle,
-                        'author' : 'not yet implemented',
-                        
-                    }); 
-        
-        imageSetObject.done(function(data) {
-        
-        
-        
+        if (data) {
 
-		        if (data) {
-			        
-			        if (data == 1){
-				        
-				        $('#messageBox').html('Saved at '+ new Date().toLocaleTimeString('en-GB', { hour: "numeric", 
-		                                             minute: "numeric"})).fadeOut(100).fadeIn(100).fadeOut(100).fadeIn(100);;
-				        
-			        }
-		
-		        }
-		        
-		})
+	        if (data == 1){
+
+		        $('#messageBox').html('Saved at '+ new Date().toLocaleTimeString('en-GB', { hour: "numeric",
+                                             minute: "numeric"})).fadeOut(100).fadeIn(100).fadeOut(100).fadeIn(100);;
+
+	        }
+
+        }
 
     })
 
@@ -570,48 +567,48 @@ function fn60sec() {
     //enter this in the field name
 
     /*
-			        
+
 			        imageID = $(cellClicked).closest('tr').find('td:eq(0)').attr('id');
-			        
+
 			        var text = $(this).val();
-		
+
 					var imagesObject = pushDataAJAX('images', 'id', imageID, 1, {'name':text}); //delete images
-		
+
 					imagesObject.done(function (data){
-		
+
 						console.log(data);
-		
+
 						if (data){
-		
+
 							if (data == 1){
-		
+
 								//alert ("tag connection deleted");
 								console.log('textarea data updated');
-								
+
 								//edit = 0;
 								//imagesPassed = null;
 								//window.location.href = siteRoot + "scripts/forms/imagesTable.php";
 								//go to images list
-		
+
 							}else {
-		
+
 								console.log('textarea data not updated');
-		
+
 							//enableFormInputs("images");
-		
+
 						    }
-		
-		
-		
+
+
+
 						}
-		
-		
+
+
 					});
 			   */
 
     // runs every 60 sec and runs on init.
 }
-setInterval(fn60sec, 60 * 1000);
+//setInterval(fn60sec, 60 * 1000);
 
 
 function addImageTagAll(event) {
@@ -623,7 +620,7 @@ function addImageTagAll(event) {
 
     //once tag selected, come back and insert required keys
 
-    //collect the data needed for the tag table	
+    //collect the data needed for the tag table
 
     //display keys below
 
@@ -787,25 +784,6 @@ function deleteimages() {
 
 }
 
-function updatePreValues (){
-	
-	
-	$('.order').each(function(){
-	
-		//console.log(this);
-	
-		$(this).data('pre', $(this).val());
-		
-		//var hello = $(this).data('pre');
-		
-		//console.log(hello);
-		
-	})
-	
-	
-	
-}
-
 function submitimagesForm() {
 
     //pushDataFromFormAJAX (form, table, identifierKey, identifier, updateType)
@@ -880,17 +858,15 @@ function submitimagesForm() {
 
 $(document).ready(function() {
 
-    if (edit == 1) {
 
-        constructEditTable(imagesPassed);
 
-    } else {
+    insertProcedureTags();
 
-        $("#messageBox").text("New images");
 
-    }
+    //$('#searchBox').attr("placeholder","Loading options...");
 
-    $('input[type=file]').on('change', prepareUpload);
+
+    //$('input[type=file]').on('change', prepareUpload);
 
     $('#loading').bind('ajaxStart', function() {
         $(this).show();
@@ -912,19 +888,7 @@ $(document).ready(function() {
 
         }, 100, 'Resize header');
     });
-    
-    /*
-    $(document).click(function(event) {
-	  //if you click on anything except the modal itself or the "open modal" link, close the modal
-	  if (!$(event.target).closest(".modal").length) {
-	    $(".content").find(".modal").removeClass("visible");
-	  }
-	});
-	*/
-	
-	var navBarEntry = '<div class="dropdown"><button class="dropbtn activeButton">Image Creators&#9660;</button><div class="dropdown-content"><a href="' + siteRoot + 'scripts/forms/imagesUploadForm.php">New Image Entry</a><hr><a href="' + siteRoot + 'scripts/forms/imageSetTable.php">Images Table</a></div></div>';
-    
-    $('.navbar').find('.dropdown:eq(3)').after(navBarEntry);
+
 
     $("#content").on('click', '#submitimages', (function(event) {
         event.preventDefault();
@@ -943,6 +907,193 @@ $(document).ready(function() {
         }
 
     });
+
+
+    //!new
+
+	//!start of filter tag buttons code
+    //!detect click on tag button and filter the below
+
+    $('.tagButton').on('click', function(){
+
+	    //get the tag id
+
+	    $(this).removeClass('tagbutton').addClass('greenButton');
+
+	    $(this).siblings().removeClass('greenButton').addClass('tagButton');
+
+	    var tagid = $(this).attr('id');
+	    
+	    console.log(tagid);
+
+	    //get the array of images with their procedure tags
+
+	    var data = $('#imageMatchProcedure').text();
+
+		var formData = $.parseJSON(data);
+
+
+
+		$.each(formData, function(key, value) {
+
+			var tagidInner = value['tagid'];
+			var tagName = value['tagName'];
+			var imageid = value['videoid'];
+
+			if (tagid == tagidInner){
+
+				$('#'+imageid).show();
+				
+				console.log(imageid + 'should be shown');
+
+			}else{
+
+				$('#'+imageid).hide();
+
+			}
+
+
+
+		})
+
+		$('.tagSet').show();
+
+		$('.tagSet').prev().show();
+
+		//$(tagSet).closest('hr').show()
+
+		$('.tagSet').each(function(){
+
+			var tagSet = $(this);
+
+			console.dir(this);
+
+			console.log('img length = ' + $(this).find('img:visible').length);
+
+			if ($(this).find('img:visible').length == 0){
+
+				console.log('no images');
+
+				$(tagSet).hide();
+
+				$(tagSet).prev().hide();
+
+			} else {
+
+				console.log('images');
+
+				$(tagSet).show();
+
+				//$(tagSet).closest('hr').show()
+
+			}
+
+
+		})
+
+	     // add a reset tag underneath the last tag row
+
+	     html = '<div style="text-align:left;"><button class="resetTags greenButton">'+'Show All'+'</button></div>';
+
+	     if ($('#resetButtonDiv').find('.resetTags').length == 0){
+
+		      $('#resetButtonDiv').append(html);
+
+	     }
+
+
+
+
+    })
+
+    //reset tags button
+
+    $('.content').on('click', '.resetTags', function() {
+
+
+	    $('.tagSet').show();
+
+		$('.tagSet').prev().show();
+
+		$('.lslimage').show()
+
+		//var hello = $(this).parent().parent().prev().children();
+
+		//console.log(hello);
+
+		$(this).parent().parent().prev().children().removeClass('greenButton').addClass('tagButton');
+
+		$(this).remove();
+
+
+	})
+
+	//take to the individual tag display page
+
+	/*$('.tagLink').on('click', function (){
+
+		var tagid = $(this).attr('id');
+
+		tagid = tagid.slice(3);
+
+		window.location.href = siteRoot + "scripts/display/atlasTag.php?id="+tagid;
+
+
+
+
+	})*/
+
+	$('.pubMedSearch').on('click', function (){
+
+
+		//get the tag name
+
+		var searchTerm = $(this).parent().prev().prev().find('h3').html();
+
+		console.log(searchTerm);
+
+		PopupCenter("https://www.ncbi.nlm.nih.gov/pubmed?term="+searchTerm, 'PubMed Search (endoWiki)', 600, 700);
+
+
+
+
+
+	})
+
+    $('.uptodateSearch').on('click', function (){
+
+
+		//get the tag name
+
+		var searchTerm = $(this).parent().prev().find('h3').html();
+
+		console.log(searchTerm);
+
+		PopupCenter("https://www.uptodate.com/contents/search?search="+searchTerm, 'UpToDate Search (endoWiki)', 600, 700);
+
+
+
+
+
+	})
+
+	$('.content').on('click', '.lslimage', function(){
+
+
+		var searchTerm = $(this).attr('id');
+
+		console.log(searchTerm);
+
+		//searchTerm = searchTerm.slice(8);
+
+		window.location.href = siteRoot + "scripts/display/displayVideo.php?id="+searchTerm;
+
+
+
+	})
+
+
+
 
     //!Add new tag to single image
 
@@ -1349,27 +1500,14 @@ $(document).ready(function() {
 
 
     }));
-    
-    $("#content").on('click', '.deleteImage', (function(event) {
-	    
-	    
-        event.preventDefault();
-        
-        if (confirm("Do you wish to delete this image?")) {
-	        deleteImage($(this));
-		}
-        
-        
-        
-    }));
 
-    $("#content").on('click', '.tagButton', (function(event) {
+    /*$("#content").on('click', '.tagButton', (function(event) {
 
         var button = $(this);
 
         var tagImageid = $(this).attr('id');
 
-         console.log(tagImageid);
+        // console.log(tagImageid);
 
         if (confirm("Do you wish to delete this tag from the image?")) {
 
@@ -1413,6 +1551,41 @@ $(document).ready(function() {
 
     }));
 
+    */
+
+    $("#content").on('change', '#searchBox', (function(event) {
+
+        var value = $(this).val();
+		var option = $('#json-datalist').find("[value='" + value + "']").attr('data-id');
+
+
+		  console.log('Tag to look for images is '+option);
+
+		  //tagid
+
+		  request = $.ajax({
+	        url: siteRoot + "scripts/getImages.php",
+	        type: "get",
+	        data: 'tagid='+option,
+
+		   });
+
+		   request.done(function(data){
+
+			   if (data){
+
+			    $('#imageTitle').html('<h3 style="text-align:left;">'+value+'</h3>');
+			   	$('#imageDisplay').html(data);
+
+			   }
+
+		   });
+
+
+
+
+    }));
+
     $('.modal').on('click', '#newTagCategory', function() {
 
         $('.modal').hide();
@@ -1441,65 +1614,79 @@ $(document).ready(function() {
 
 
     })
-    
-    
-		
-	
-		
 
-    
-    $('#content').on('change', '.order', function() {
+    $('.content').on('click', '#captionHide', function() {
 
-        //prevents two of the same numbers in order
-        var before_change = $(this).data('pre');
-   
-        //get value of this order
-        
-        orderValue = $(this).val();  //new value of clicked select
-        
-        orderid = $(this).attr('id');
-        
-        $('.order').each(function(){
-	        
-	        if ($(this).attr('id') != orderid){
-		        
-		        
-		        if ($(this).val() == orderValue){
-			        
-			        $(this).val(before_change);
-			        
-			        $(this).data('pre', $(this).val());
-			        
-		        }
-		        
-	        }
-	        
-	        
-	        
-        })
-        
-        $(this).data('pre', $(this).val());
-       
+        $('.caption').toggle();
+
+		if ($(this).text() == 'Toggle captions'){
+
+			$(this).text('Captions shown');
+
+		}
+
+		if ($(this).text() == 'Captions shown'){
+
+			$(this).text('Captions hidden');
+
+		} else if ($(this).text() == 'Captions hidden'){
+
+			$(this).text('Captions shown');
+
+		}
+
+		//$(this).text('Captions shown');
+
+
+
+        //window.open(siteRoot + "scripts/forms/tagsForm.php", "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,width=600,height=700");
 
 
 
     })
 
-    
+    $('.content').on('click', '#resetPage', function(event) {
+		event.preventDefault();
+        $('#imageTitle').html('');
+		$('#imageDisplay').html('');
+		$('#searchBox').val('');
 
 
-    
 
-})		
+        //window.open(siteRoot + "scripts/forms/tagsForm.php", "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,width=600,height=700");
+
+
+
+    })
+
+    //! allows opening of navbar with click
+
+    $('.dropbtn').on('click', function(){
+
+		//console.dir(this);
+
+
+
+		$(this).parent().find('.dropdown-content').toggle();
+
+
+	})
+
+
+
+
+
+
+})
 			</script>
 		<?php
-		
-		    // Include the footer file to complete the template:
-		    include($root ."/includes/footer.html");
-		
-		
-		
-		
-		    ?>
+
+// Include the footer file to complete the template:
+include($root ."/includes/footer.html");
+
+
+
+
+?>
 		</body>
 		</html>

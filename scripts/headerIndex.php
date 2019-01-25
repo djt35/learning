@@ -1,5 +1,8 @@
 <?php
 
+
+session_start();
+
 $host = substr($_SERVER['HTTP_HOST'], 0, 5);
 if (in_array($host, array('local', '127.0', '192.1'))) {
     $local = TRUE;
@@ -19,15 +22,8 @@ if ($local){
     require($_SERVER['DOCUMENT_ROOT'].'/learning/includes/config.inc.php');
 
 }
-$location = $roothttp . 'index.php';
 
-session_start();
-if (!isset($_SESSION['user_id'])) {
 
-    // Need the functions:
-    require ($root . 'includes/login_functions.php');
-    redirect_login($location);
-}
 
 //echo $root;
 

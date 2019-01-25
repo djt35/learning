@@ -144,7 +144,7 @@
 		<?php
 		include($root . "/scripts/logobar.php");
 		
-		include($root . "/includes/naviCreator.php");
+		include($root . "/includes/naviv1.php");
 		?>
 		
 		<div id="loading">
@@ -1240,7 +1240,7 @@ $(document).ready(function() {
     
     var navBarEntry = '<div class="dropdown"><button class="dropbtn activeButton">Video Creators</button><div class="dropdown-content"><a href="' + siteRoot + 'scripts/forms/videoUploadForm.php">New Video</a><hr><a href="' + siteRoot + 'scripts/forms/videoTable.php">Video Table</a></div></div>';
     
-    $('.navbar').find('a:eq(2)').after(navBarEntry);
+    $('.navbar').find('.dropdown:eq(3)').after(navBarEntry);
 
 
 

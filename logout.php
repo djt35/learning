@@ -1,11 +1,6 @@
 
-    
-</div>
-</header>
-   
-<div class="content">
 
-   <?php // Unset all of the session variables.
+<?php // Unset all of the session variables.
 $_SESSION = array();
 
 // If it's desired to kill the session, also delete the session cookie.
@@ -20,14 +15,13 @@ if (ini_get("session.use_cookies")) {
 
 // Finally, destroy the session.
 session_destroy();
- 
-	header ("Location: elearn.php");
-        exit ();
+
+echo '1';
+
+exit ();
 	
     ?>
     
-<h1>Logged Out!</h1>
- <p>You are now logged out!</p>
-    </div>
+
 
 

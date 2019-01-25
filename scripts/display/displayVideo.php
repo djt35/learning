@@ -224,7 +224,8 @@
 			<div id="vimeoid" style="display:none;"><?php echo $general->getVimeoID($id);?></div>
 			
 			<div id="videoChapterData" style="display:none;"><?php echo $general->getVideoAndChapterData($id);?></div>
-				
+			
+			<div id="videoData" style="display:none;"><?php echo $general->getVideoData($id);?></div>
 
 			        
 				<div class='row'>
@@ -239,9 +240,14 @@
 				    <div class='col-3 black whiteborder center' style="height:60%;">
 					    
 					    <div id='chapterInfo'>
+						    <div id='titleBar' class = 'gentBlue' style='padding:3px;'>
+						    <p id='videoTitle'><b></b></p>
 						    
-						    <p id='chapterHeading'><b>Chapter information will appear here during the video</b></p>
-						    <p id='chapterBody'><p>Start the video playing from the player to the left.</p>  <p>Once the video is playing skip the video to the desired chapter above or click the tag buttons in the top left to filter chapters to specific topics.</p>  <p>The chapter box above will then update to show only the chapters related to these tags.</p></p> 
+						    <p id='videoDescription'></p>
+						    <p id='videoAuthor' style='font-size:12px;'><b></b></p>
+						    </div>
+						    <p id='chapterHeading' style='padding:8px;padding-top:15px;'>Chapter information will appear here during the video</p>
+						    
 						    
 						    
 						   
@@ -317,6 +323,18 @@ try{
 var videoChapterDataText = $("#videoChapterData").text();
 
 var videoChapterData = $.parseJSON(videoChapterDataText);
+
+}catch(err){
+	
+	console.log('No video chapter data received');
+	
+}
+
+try{
+
+var videoDataText = $("#videoData").text();
+
+var videoData = $.parseJSON(videoDataText);
 
 }catch(err){
 	
@@ -1979,6 +1997,18 @@ $(document).ready(function() {
 		
 	
 		}));
+		
+		$(videoData).each(function(i, val) {
+			
+			$('#videoTitle').html('<p class="veryNarrow" style="font-size:20px;"><b>'+val.name+'</b></p>');
+			
+			$('#videoDescription').html('<p>'+val.description+'</p>');
+			
+			$('#videoAuthor').html('<p>Author : '+val.author+'</p>');
+			
+		})
+
+		
 		$("#videoChapter").on("playProgress", function(event, data){
 	    //console.log( data );
 	    
@@ -1990,7 +2020,14 @@ $(document).ready(function() {
 			    	
 			    	//$('#buttons').html('');
 			    	
-			    	$('#chapterInfo').html('<p><b>Chapter '+val.number+'</b></p><p>'+val.chaptername+'</p><br><p>'+val.description+'</p>');
+			    	var description = val.description;
+			    	
+			    	var stripped = description.replace(/\n/g, '<br><br>');
+			    	
+			    	console.log(stripped);
+
+			    	
+			    	$('#chapterHeading').html("<p style='text-align:left;'><b>Chapter "+val.number+"</b></p><p style='text-align:left;'>"+val.chaptername+"</p><br><p style='text-align:left;'>"+stripped+"</p>");
 			    	
 			    	/*
 			    	

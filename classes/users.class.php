@@ -9,6 +9,15 @@
  * License: Restricted 
  * 
  */
+ 
+ //user access levels
+ 
+ //1 superuser
+ //2 creator [backend] and can access all
+ //3 non creator but can access all
+ //4 standard user, needs to purchase extra content
+ 
+ 
 require_once 'DataBaseMysql.class.php';
 
 Class users {
@@ -529,6 +538,36 @@ return $result; 	}
 		
 	}
 	
+	public function getUserAccessLevel ($userid) {
+		
+		$q = "SELECT `access_level` FROM `users` WHERE `user_id` = $userid";
+
+		//echo $q;
+
+		$result = $this->connection->RunQuery($q);
+
+		if ($result->num_rows == 1){
+			
+			while($row = $result->fetch_array(MYSQLI_ASSOC)){
+
+				$accesslevel = $row['access_level'];
+				
+				
+	
+			}
+			
+			return $accesslevel;
+			
+		}else{
+			
+			return FALSE;	
+		
+		}
+		
+		
+		
+	}
+	
 	public function getUsers (){
 		
 		$q = "SELECT `user_id`, `firstname`, `surname` FROM `users`";
@@ -538,6 +577,7 @@ return $result; 	}
 		$result = $this->connection->RunQuery($q);
 
 		if ($result->num_rows > 0){
+			
 
 			$users = array();
 

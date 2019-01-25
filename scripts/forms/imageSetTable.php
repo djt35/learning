@@ -9,6 +9,14 @@
 		$general = new general;
 		$video = new video;
 		$tagCategories = new tagCategories;
+		$user = new users;
+		
+		if ($user->getUserAccessLevel($_SESSION['user_id']) > 2){
+	
+			redirect_login($location);
+	
+	
+		}
 		
 		
 		
@@ -23,7 +31,7 @@
 		<?php
 		include($root . "/scripts/logobar.php");
 		
-		include($root . "/includes/naviCreator.php");
+		include($root . "/includes/naviv1.php");
 		?>
 		
 		
@@ -79,6 +87,10 @@ INNER JOIN `images` as c on b.`image_id` = c.`id` GROUP BY a.`id` ORDER BY a.`id
 		
 					
 				})
+				
+				var navBarEntry = '<div class="dropdown"><button class="dropbtn activeButton">Image Creators&#9660;</button><div class="dropdown-content"><a href="' + siteRoot + 'scripts/forms/imagesUploadForm.php">New Image Entry</a><hr><a href="' + siteRoot + 'scripts/forms/imageSetTable.php">Images Table</a></div></div>';
+    
+    $('.navbar').find('.dropdown:eq(3)').after(navBarEntry);
 				
 				$(".content").on("click", ".deleteSet", function(){
 					

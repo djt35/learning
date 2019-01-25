@@ -1,4 +1,5 @@
 <?php
+session_start();
 
 $host = substr($_SERVER['HTTP_HOST'], 0, 5);
 if (in_array($host, array('local', '127.0', '192.1'))) {
@@ -20,13 +21,13 @@ if ($local){
 
 }
 
-new users;
+$user = new users;
 
 
 echo '<div class="navbar responsiveContainer">
 
   <div class="row">
-  	<div class="slim-col-9">
+  	<div class="slim-col-10">
 			  <a href="' . $roothttp . 'index.php">Home</a>';
 			  
 			  echo '<div class="dropdown"><button class="dropbtn">Image&#9660;</button>
@@ -47,11 +48,40 @@ echo '<div class="navbar responsiveContainer">
 			  			</div>
 			  		</div>';
 			  		
+			  echo '<div class="dropdown"><button class="dropbtn">Colonoscopy Tutor&#9660;</button>
+			  			<div class="dropdown-content">
+			  				<a href="' . $roothttp . 'scripts/display/colontutor/video.php">Videos</a>
+			  							  				
+			  			</div>
+			  		</div>';
+			  		
 			   echo '<div class="dropdown"><button class="dropbtn">Learning Tool&#9660;</button>
 			  			<div class="dropdown-content">
 			  				<a href="">Coming soon</a>
 			  			</div>
 			  		</div>';
+			  		
+			  //echo $user->getUserAccessLevel($_SESSION['user_id']);	
+			  
+			  if ($user->getUserAccessLevel($_SESSION['user_id']) == 1 || $user->getUserAccessLevel($_SESSION['user_id']) == 2){
+				  echo '<div class="dropdown"><button class="dropbtn">Creator&#9660;</button>
+			  			<div class="dropdown-content">
+			  				<a href="'. $roothttp . 'scripts/forms/creatormenu.php">Main Creator Menu</a>
+			  			</div>
+			  		</div>';
+				  
+				  };
+			  		
+			  if ($user->getUserAccessLevel($_SESSION['user_id']) == 1){
+				  echo '<div class="dropdown"><button class="dropbtn">Superuser&#9660;</button>
+			  			<div class="dropdown-content">
+			  				<a href="'. $roothttp . 'scripts/forms/creators.php">Superuser Creator Menu</a>
+			  			</div>
+			  		</div>';
+				  
+				  };
+				  
+				  
 			  
 			  
 			  
@@ -76,7 +106,7 @@ echo '<div class="navbar responsiveContainer">
 			
 			';
 
-	echo '<div class="slim-col-3">';
+	echo '<div class="slim-col-2">';
 
 			echo "<div id='userDisplay' style='float:right;'>";
 				 $firstname =  $_SESSION['firstname'];
@@ -86,7 +116,7 @@ echo '<div class="navbar responsiveContainer">
 					 echo '<div class="dropdown"><button class="dropbtn">Logged in&#9660;</button>
 					 
 					 <div class="dropdown-content" id="myDropdown">
-			  				<a href="">Logout</a>
+			  				<a class="logout">Logout</a>
 			  				
 			  				
 			  			</div>
@@ -95,7 +125,7 @@ echo '<div class="navbar responsiveContainer">
 					 </div>';
 				 }else{
 					 
-					 echo '<div class="dropdown"><button class="dropbtn" id="login">Login</button></div>';
+					 echo '<div class="dropdown"><button class="dropbtn login">Login</button></div>';
 				 }
 			 echo '</div>';
 				 

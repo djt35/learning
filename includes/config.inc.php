@@ -50,7 +50,7 @@ if ($local) {
 
     define('BASE_URI', $_SERVER['DOCUMENT_ROOT'].'/testing/anderval/');
     define('BASE_URL', 'http://www.acestudy.net/');
-    define('DB', '../../mysqli_connect_elearn.php');
+    define('DB', $_SERVER['DOCUMENT_ROOT'].'/mysqli_connect_elearn.php');
     
     function class_loader($class) {
 		

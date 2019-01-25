@@ -9,8 +9,15 @@
 		$general = new general;
 		$video = new video;
 		$tagCategories = new tagCategories;
-		
-		
+		$user = new users;
+
+		if ($user->getUserAccessLevel($_SESSION['user_id']) > 2){
+	
+			redirect_login($location);
+	
+	
+		}
+
 		
 		?>
 		<!DOCTYPE html PUBLIC '-//W3C//DTD HTML 4.01//EN'>
@@ -24,7 +31,7 @@
 		<?php
 		include($root . "/scripts/logobar.php");
 		
-		include($root . "/includes/naviCreator.php");
+		include($root . "/includes/naviv1.php");
 		//echo '<div class="navbar structure">Creators > Video > Table</div>';		?>
 		
 		
@@ -67,9 +74,9 @@
 				
 			$(document).ready(function() {
 				
-				var navBarEntry = '<div class="dropdown"><button class="dropbtn activeButton">Video Creators</button><div class="dropdown-content"><a href="' + siteRoot + 'scripts/forms/videoUploadForm.php">New Video</a><hr><a href="' + siteRoot + 'scripts/forms/videoTable.php">Video Table</a></div></div>';
+				var navBarEntry = '<div class="dropdown"><button class="dropbtn activeButton">Video Creators&#9660;</button><div class="dropdown-content"><a href="' + siteRoot + 'scripts/forms/videoUploadForm.php">New Video</a><hr><a href="' + siteRoot + 'scripts/forms/videoTable.php">Video Table</a></div></div>';
     
-    $('.navbar').find('a:eq(1)').after(navBarEntry);
+    $('.navbar').find('.dropdown:eq(3)').after(navBarEntry);
 		
 				$("#dataTable").find("tr");
 				

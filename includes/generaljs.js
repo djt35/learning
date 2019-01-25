@@ -610,4 +610,173 @@ function PopupCenter(url, title, w, h) {
     }
 }
 
+function logout(){
+	
+	request = $.ajax({
+	        url: siteRoot + "logout.php",
+	        type: "get",
+	        data: '',
 
+		   });
+
+	request.done(function(data){
+
+			   window.location.href = siteRoot + "index.php";
+
+		   });
+	
+	
+}
+
+function showLoginModal(){
+	
+    $('.modal').show();
+    $('.darkClass').show();
+    $('.modal').css('max-height', 800);
+    $('.modal').css('max-width', 800);
+    $('.modal').css('overflow', 'scroll');
+
+
+
+    $('.modal').find('.modalContent').html('<h3>Login to EndoWiki</h3>');
+
+
+    $('.modal').find('.modalContent').append('<form id="login" method="post"><p>Username: <input type="text" name="username" size="30" maxlength="80"></p><p> Password: <input type="password" name="password" size="30" maxlength="80"<p><br><button id="submitLogin" style="margin-right:5px;margin-left:5px;padding-left:8px;padding-right:8px;margin-bottom:8px;margin-top:8px;">Submit</button></p></form>');
+    //$('.modal').find('.modalContent').append('<p>Username: <input type="text" name="email" size="30" maxlength="80"></p>');
+   // $('.modal').find('.modalContent').append('></p>');
+    //$('.modal').find('.modalContent').append('<p><br><button id="submitLogin" style="margin-right:5px;margin-left:5px;padding-left:8px;padding-right:8px;margin-bottom:8px;">Submit</button></p>');
+    //$('.modal').find('.modalContent').append('</form>');
+    
+    $('.modal').find('.modalContent').append('<div class="errorTxt" style="font-size:12px;"></div>');
+
+    $('.modal').find('.modalContent').append('<br><button id="signUp" style="margin-right:5px;margin-left:5px;padding-left:8px;padding-right:8px;">Sign Up</button><button id="forgot" style="margin-right:5px;margin-left:5px;padding-left:8px;padding-right:8px;">Forgot Password</button>');
+
+    $("#login").validate({
+
+    invalidHandler: function(event, validator) {
+        var errors = validator.numberOfInvalids();
+        console.log("there were " + errors + "errors");
+        if (errors) {
+            var message = errors == 1 ?
+                "You missed 1 field. It has been highlighted" :
+                "You missed " + errors + " fields. They have been highlighted";
+            $('div.error span').html(message);
+            $('div.error').show();
+        } else {
+            $('div.error').hide();
+        }
+    },
+    rules: {
+        username: {
+            required: true
+        },
+        password: {
+            required: true
+        },
+        
+    },
+    messages: {
+        username: {
+            required: 'please enter your username'
+        },
+        password: {
+            required: 'please enter your password'
+        },
+            },
+            
+    errorElement : 'div',
+    errorLabelContainer: '.errorTxt',
+    submitHandler: function(form) {
+
+        login();
+
+        console.log("submitted form");
+
+
+
+    }
+	})
+    
+    return;
+
+	
+	
+	
+	
+}
+
+
+function login(){
+	
+	//validate both boxes filled
+	//check the login against the databse as per the elearn script
+	//reload the page for logged in
+	
+	request = $.ajax({
+	        url: siteRoot + "/scripts/login.php",
+	        type: "POST",
+	        data: $('#login').serialize(),
+
+		   });
+
+	request.done(function(data){
+			   
+			   console.log(data);
+			   
+			   if (data == 1){
+					
+					   
+				  $('.modal').find('.errorTxt').show().text('Successful Login');
+				   setTimeout(
+				   function() 
+				   { window.location.reload();  }, 1000);
+
+				   
+			   }else {
+				   
+				   $('.modal').find('.errorTxt').show().html('Unsuccessful Login, try again');
+				   setTimeout(
+				   function() 
+				   {  $('.modal').find('.errorTxt').hide();  }, 2000);
+			   }
+			   
+			   //alert(data);
+			   
+		   });
+	
+	
+}
+
+$(document).ready(function() {
+
+	$('#userDisplay').on('click', '.logout', function(e){
+		
+		e.preventDefault(); 
+		logout();
+		return false; 
+		
+	} );
+	
+	$('#userDisplay').on('click', '.login', function(e){
+		
+		e.preventDefault(); 
+		showLoginModal();
+		return false; 
+		
+	} );
+	
+	$('.modalContent').on('click', '#submitLogin', function(e){
+		
+		$('#login').submit();
+		return false; 
+		
+		
+	})
+	
+	//!login validation
+	
+	
+	
+	
+
+})

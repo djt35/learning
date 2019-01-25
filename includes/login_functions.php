@@ -46,18 +46,18 @@ if ($local){
             $errors = array();
         
             //email address is present;
-            if (empty($_POST['email'])) {
+            if (empty($_POST['username'])) {
                 $errors[]='Please enter a valid email address';
             } else {
-                $e = mysqli_real_escape_string($dbc, trim($_POST['email']));
+                $e = mysqli_real_escape_string($dbc, trim($_POST['username']));
             }
         
             //password;
-            if (empty($_POST['pass'])) {
+            if (empty($_POST['password'])) {
                 $errors[]='Please enter a password';
             } else {
 				$salt = 'westmead';
-                $password = mysqli_real_escape_string($dbc, trim($_POST['pass']));
+                $password = mysqli_real_escape_string($dbc, trim($_POST['password']));
 				$p = hash_password($password, $salt);
             }
         

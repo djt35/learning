@@ -12,6 +12,12 @@
 		$user = new users;
 		
 		
+		if ($user->getUserAccessLevel($_SESSION['user_id']) > 2){
+	
+			redirect_login($location);
+	
+	
+		}
 		
 		foreach ($_GET as $k=>$v){
 		
@@ -59,7 +65,7 @@
 		<?php
 		include($root . "/scripts/logobar.php");
 		
-		include($root . "/includes/naviCreator.php");
+		include($root . "/includes/naviv1.php");
 		//echo '<div class="navbar structure">Creators > <a href="'.$roothttp.'/scripts/forms/videoTable.php">Video</a> > Edit</div>';
 		?>
 		
@@ -1052,9 +1058,9 @@ $(document).ready(function() {
 
     }
     
-    var navBarEntry = '<div class="dropdown"><button class="dropbtn activeButton">Video Creators</button><div class="dropdown-content"><a href="' + siteRoot + 'scripts/forms/videoUploadForm.php">New Video</a><hr><a href="' + siteRoot + 'scripts/forms/videoTable.php">Video Table</a></div></div>';
+    var navBarEntry = '<div class="dropdown"><button class="dropbtn activeButton">Video Creators&#9660;</button><div class="dropdown-content"><a href="' + siteRoot + 'scripts/forms/videoUploadForm.php">New Video</a><hr><a href="' + siteRoot + 'scripts/forms/videoTable.php">Video Table</a></div></div>';
     
-    $('.navbar').find('a:eq(1)').after(navBarEntry);
+    $('.navbar').find('.dropdown:eq(3)').after(navBarEntry);
 
     $('input[type=file]').on('change', prepareUpload);
 

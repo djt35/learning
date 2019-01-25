@@ -9,7 +9,7 @@
 		$tagCategories = new tagCategories;
 		$user = new users;
 
-		if ($user->getUserAccessLevel($_SESSION['user_id']) > 1){
+		if ($user->getUserAccessLevel($_SESSION['user_id']) > 2){
 	
 			redirect_login($location);
 	
@@ -23,7 +23,7 @@
 
 //!change title
 
-$page_title = 'Superuser Creator Menu';
+$page_title = 'Creator Menu';
 
 // Include the header file:
 include($root . "/scripts/logobar.php");
@@ -77,12 +77,12 @@ foreach ($columns as $key=>$value){
 	        
 	        <div class="row">
                 <div class="col-9">
-                    <h2 style='text-align:left;'>Superuser Creator Menu</h2>
+                    <h2 style='text-align:left;'>Creator Menu</h2>
                 </div>
 
-                <div id='messageBox' class="col-3 yellow-light narrow center">
+                <!--<div id='messageBox' class="col-3 yellow-light narrow center">
                     <p></p>
-                </div>
+                </div>-->
             </div>
 
             <div class="row">
@@ -96,45 +96,12 @@ foreach ($columns as $key=>$value){
             </div>
 	        
 	        
-	        <?php
-	        foreach ($datafields as $key=>$value){
-		        
-		        $name = $value['databaseTable'];
-		        
-		       echo '
-		       
-		       <div class="row">
-                <div class="col-4"><b>'.$name.'</b></div>
-
-                <div class="col-4 narrow">
-                    <p><a href=\''.$roothttp.'scripts/forms/'.$name.'Form.php\'>New</a></p>
-                </div>
-                
-                <div class="col-4 narrow">
-                     <p><a href=\''.$roothttp.'scripts/forms/'.$name.'Table.php\'>Modify</a></p>                    
-                </div>
-
-
-                
-            </div>
-            
-            ';
-		        
-		          
-	        }
-	        
-	        
-	        
-	        
-	         
-            
-            ?>
-	        
+	        	        
 	         <div class="row">
-                <div class="col-4"><b>Uploaders</b></div>
+                <div class="col-4"><b>Images</b></div>
 
                 <div class="col-4 narrow">
-                    <p><a href='<?php echo $roothttp.'/scripts/forms/imagesUploadForm.php';?>'>Upload images</a></p>
+                    <p><a href='<?php echo $roothttp.'/scripts/forms/imagesUploadForm.php';?>'>Upload new images</a></p>
                 </div>
                 
                 <div class="col-4 narrow">
@@ -144,22 +111,55 @@ foreach ($columns as $key=>$value){
 
                 
             </div>   
+            
+             <div class="row">
+                <div class="col-4"><b></b></div>
+
+                <div class="col-4 narrow">
+                    <p><a href='<?php echo $roothttp.'/scripts/forms/imageSetTable.php';?>'>Modify existing images</a></p>
+                </div>
+                
+                <div class="col-4 narrow">
+                    
+                </div>
+
+
+                
+            </div>  
+            
+             <div class="row">
+                <div class="col-4"><b>Videos</b></div>
+
+                <div class="col-4 narrow">
+                    <p><a href='<?php echo $roothttp.'/scripts/forms/videoUploadForm.php';?>'>Register new Vimeo video</a></p>
+                </div>
+                
+                <div class="col-4 narrow">
+                   
+
+                </div>
+
+
+                
+            </div>   
+            
+             <div class="row">
+                <div class="col-4"><b></b></div>
+
+                <div class="col-4 narrow">
+                    <p><a href='<?php echo $roothttp.'/scripts/forms/videoTable.php';?>'>View and add chapters and tags to existing videos</a></p>
+                </div>
+                
+                <div class="col-4 narrow">
+                    
+                </div>
+
+
+                
+            </div>  
 	        
 	        		        
-		    <div class="row">
-                <div class="col-4"><b>Helpers</b></div>
-
-                <div class="col-4 narrow">
-                    <p><a href='<?php echo $roothttp.'/scripts/helpers/getTables.php';?>'>All tables in database</a></p>
-                </div>
-                
-                <div class="col-4 narrow">
-                    <p><a href='<?php echo $roothttp.'/scripts/helpers/createFormHtml.php';?>'>Generate code for particular table</a></p>
-                </div>
-
-
-                
-            </div>    
+		      
 	        
         </div>
         
