@@ -130,7 +130,10 @@ if(isset($_FILES)){
 		//echo "<div id=\"finalFilenames\" style=\"display:none;>\"";
 		//echo json_encode($finalFilenames);
 		//echo "</div>";
-
+		echo "<div id='imageSetID' style='display:none;'>$insertid2</div>'";
+		echo "Title of this image set : <input id='imageSetTitle'></input><br>";
+		//echo "Author of this image set : {select here for author}<br>";
+		echo "Overall description for these images : <br><textarea name='imageSetname' id='imageSetname' class='name' rows='4' cols='100'></textarea>";
 		echo '<table id="imagesTable" class="imageTable">';
 		echo '<tr>';
 			echo '<th></th>';
@@ -142,6 +145,7 @@ if(isset($_FILES)){
 			echo '</tr>';
 			
 		$filenumber = count($filearray);
+		$xy = 1;
 			
 		foreach ($filearray as $key=>$value){
 			
@@ -162,14 +166,25 @@ if(isset($_FILES)){
 			
 			for ($x = 1; $x <= $filenumber; $x++){
 				
-				echo "<option value='$x'>$x</option>";
+				if ($x == $xy){
+					
+					echo "<option value='$x' selected='selected'>$x</option>";
+					
+				}else{
+				
+				
+					echo "<option value='$x'>$x</option>";
+					
+				}
 				
 			}
 			echo "</select>";
 			echo "</td>";
+			echo "<td class='deleteImage'>&#x2718;</td>";;
 
 			
 			echo '</tr>';
+			$xy++;
 		}
 		echo '</table>';
 		echo '<p>';

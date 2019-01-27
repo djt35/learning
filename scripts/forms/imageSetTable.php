@@ -56,10 +56,10 @@
 		                <div class='col-1'></div>
 		
 		                <div class='col-10 narrow' style='overflow-x: scroll;'>
-		                    <p><?php $general->makeTableImages("SELECT a.`id`, c.`url` 
+		                    <p><?php $general->makeTableImagesv2("SELECT a.`type`, a.`author`, a.`id`, c.`url`, a.`created`, a.`updated` 
 FROM `imageSet` as a 
 INNER JOIN `imageImageSet` as b ON a.`id` = b.`imageSet_id`
-INNER JOIN `images` as c on b.`image_id` = c.`id` GROUP BY a.`id` ORDER BY a.`id` asc", $roothttp); ?></p>
+INNER JOIN `images` as c on b.`image_id` = c.`id` GROUP BY a.`id` ORDER BY a.`id` desc", $roothttp); ?></p>
 		                </div>
 		
 		                <div class='col-1'></div>
@@ -79,7 +79,7 @@ INNER JOIN `images` as c on b.`image_id` = c.`id` GROUP BY a.`id` ORDER BY a.`id
 		
 				$(".content").on("click", ".datarow", function(){
 					
-					var id = $(this).closest('tr').find("td:eq(1)").text();
+					var id = $(this).closest('tr').find("td:eq(2)").text();
 					
 					//console.log(id);
 					
@@ -94,7 +94,7 @@ INNER JOIN `images` as c on b.`image_id` = c.`id` GROUP BY a.`id` ORDER BY a.`id
 				
 				$(".content").on("click", ".deleteSet", function(){
 					
-					var id = $(this).closest('tr').find("td:eq(1)").text();
+					var id = $(this).closest('tr').find("td:eq(2)").text();
 					
 					var tr = $(this).closest('tr');
 					

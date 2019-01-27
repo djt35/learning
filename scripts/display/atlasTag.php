@@ -967,7 +967,7 @@ $(document).ready(function() {
 		
 		//get the tag name
 		
-		var searchTerm = $(this).parent().prev().prev().find('h3').html();
+		var searchTerm = $(this).parent().prev().prev().children().find('.imageSetTitle').text();
 		
 		console.log(searchTerm);
 		
@@ -984,7 +984,7 @@ $(document).ready(function() {
 		
 		//get the tag name
 		
-		var searchTerm = $(this).parent().prev().find('h3').html();
+		var searchTerm = $(this).parent().prev().children().find('.imageSetTitle').text();
 		
 		console.log(searchTerm);
 		
@@ -1524,6 +1524,8 @@ $(document).ready(function() {
     $('.content').on('click', '#captionHide', function() {
 
         $('.caption').toggle();
+        
+        $('.describer').toggle();
 		
 		if ($(this).text() == 'Toggle captions'){
 			

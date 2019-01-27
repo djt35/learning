@@ -397,7 +397,7 @@ class general {
 
 					if ($key == 'url'){
 						echo '<td class="datarow">';
-						echo "<img class='lslimage' style='max-width:200px;' src='$roothttp$value'>";
+						echo "<img class='lslimage' style='max-width:50px;' src='$roothttp$value'>";
 						echo '</td>';
 					}else{
 
@@ -412,6 +412,99 @@ class general {
 							echo '</td>';
 
 						}
+
+					}
+
+					$x++;
+
+
+				}
+
+
+
+
+			}
+
+
+
+			echo '</table>';
+
+		}
+
+	}
+	
+	public function makeTableImagesv2 ($q, $roothttp){
+
+		//echo $q;
+		//$result = $this->connection->RunQuery('USE ESD');
+		$result = $this->connection->RunQuery($q);
+
+		//print_r($result);
+
+		if ($result->num_rows > 0){
+
+
+			$data = array();
+			
+			echo '<table id="dataTable">';
+			
+			echo '<tr>';
+
+			while($data[] = $result->fetch_array(MYSQLI_ASSOC));
+			
+			foreach ($data as $key=>$value){
+				//echo '<th></th>';
+				foreach ($value as $k=>$v){
+					echo '<th>' . $k . '</th>';
+				}
+				echo '<th></th>';
+
+				break;
+			}
+
+			//echo '<th></th>';
+			echo '</tr>';
+
+			$x = 0;
+
+			foreach ($data as $k=>$v){
+
+				if ($id) {	
+					if ($id <> $v['id']){
+						echo '<td>';
+								echo "<button class='deleteSet'>Delete</button>";
+								echo '</td>';
+						
+						echo '</tr>';
+						echo '<tr>';
+						$x = 0;
+	
+					}
+					
+				}
+
+				$id = $v['id'];
+				$id = trim($id);
+
+
+
+				foreach($v as $key=>$value){
+
+
+
+					if ($key == 'url'){
+						echo '<td class="datarow">';
+						echo "<img class='lslimage' style='max-width:100px;' src='$roothttp$value'>";
+						echo '</td>';
+					}else{
+
+						
+						
+						echo '<td class="datarow">';
+							echo trim($value);
+							echo '</td>';
+						
+						
 
 					}
 
@@ -986,11 +1079,11 @@ class general {
 		
 		//no hrs
 		
-		//currently sorted by imageSET
+		//currently sorted by imageSET  $imageSetDescription = $row['imageSetDescription'];
 
 		//$q = "SELECT a.`id` as `imageSetid`, b.`image_id` as `imageid`, c.`url`, c.`name`, c.`order`, c.`type`, e.`tagName`, d.`tags_id` FROM `imageSet` as a INNER JOIN `imageImageSet` as b ON a.`id` = b.`imageSet_id` INNER JOIN `images` as c on b.`image_id` = c.`id` INNER JOIN `imagesTag` as d ON c.`id` = d.`images_id` INNER JOIN `tags` as e ON d.`tags_id` = e.`id` INNER JOIN `tagCategories` as f on f.`id` = e.`tagCategories_id` WHERE f.`id` = $tagCategoriesid AND c.`type` = 1 ORDER BY e.`tagName` ASC, `imageSetid` ASC, c.`order` ASC";
 
-		$q = "SELECT a.`id` as imageSetid, b.`image_id` as imageid, c.`url`, c.`name`, c.`type`, e.`tagName`, d.`tags_id` FROM `imageSet` as a INNER JOIN `imageImageSet` as b ON a.`id` = b.`imageSet_id` INNER JOIN `images` as c on b.`image_id` = c.`id` INNER JOIN `imagesTag` as d ON c.`id` = d.`images_id` INNER JOIN `tags` as e ON d.`tags_id` = e.`id` WHERE d.`tags_id` = $tagid ORDER BY imageSetid ASC, c.`order` ASC";
+		$q = "SELECT a.`id` as imageSetid, a.`name` as imageSetDescription, a.`type` as imageSetType, b.`image_id` as imageid, c.`url`, c.`name`, c.`type`, e.`tagName`, d.`tags_id` FROM `imageSet` as a INNER JOIN `imageImageSet` as b ON a.`id` = b.`imageSet_id` INNER JOIN `images` as c on b.`image_id` = c.`id` INNER JOIN `imagesTag` as d ON c.`id` = d.`images_id` INNER JOIN `tags` as e ON d.`tags_id` = e.`id` WHERE d.`tags_id` = $tagid ORDER BY imageSetid ASC, c.`order` ASC";
 
 
 
@@ -1021,6 +1114,10 @@ class general {
 				}
 				
 				*/
+				
+				$imageSetDescription = $row['imageSetDescription'];
+				$imageSetType = $row['imageSetType'];
+
 				if ($imageSetid){
 					if ($imageSetid != $row['imageSetid']){ //for imageset then reset the row somehow
 
@@ -1028,6 +1125,7 @@ class general {
 						echo "<hr>";
 						echo "<div class='row tagSet'>";
 						//echo "<h3 style='text-align:left;'>$tagName</h3>";
+						echo "<div class='row describer'><div class='col-8'><div class='row'><div class='col-12 imageSetTitle' style='text-align:left;font-size:20px;'><b>$imageSetType</b></div></div><div class='row'><div class='col-12' style='text-align:left;'>$imageSetDescription</div></div></div><div class='col-2'><button type='button' class='blueButton uptodateSearch'>Search UpToDate</button></div><div class='col-2'><button type='button' class='blueButton pubMedSearch'>Search PubMed</button></div></div></div>";
 						$x=1;
 
 					}
@@ -1041,7 +1139,7 @@ class general {
 				$name = $row['name'];
 				$tagName = $row['tagName'];
 				$tags_id = $row['tags_id'];
-
+				
 				//get all the tags for this tag with their category
 				//does this show all tags for a specific image
 
@@ -1054,7 +1152,7 @@ class general {
 				//removed from below line <h3 style='text-align:left; cursor:pointer;' id='tag{$tags_id}' class='tagLink'>$tagName</h3>
 				
 				
-				if ($y == 1){echo "<div class='responsiveContainer'><div class='row'><div class='col-8'></div><div class='col-2'><button type='button' class='blueButton uptodateSearch'>Search UpToDate</button></div><div class='col-2'><button type='button' class='blueButton pubMedSearch'>Search PubMed</button></div></div></div>"; $y=2;}
+				if ($y == 1){echo "<div class='responsiveContainer'><div class='row describer'><div class='col-8' style='text-align:left;'><div class='row'><div class='col-12 imageSetTitle'  style='text-align:left;font-size:20px;'><b>$imageSetType</b></div></div><div class='row'><div class='col-12' style='text-align:left;'>$imageSetDescription</div></div></div><div class='col-2'><button type='button' class='blueButton uptodateSearch'>Search UpToDate</button></div><div class='col-2'><button type='button' class='blueButton pubMedSearch'>Search PubMed</button></div></div></div>"; $y=2;}
 
 				if($x % 4 == 0){echo "<div class='row'>";  }
 
@@ -1097,7 +1195,7 @@ class general {
 
 		//$q = "SELECT a.`id` as `imageSetid`, b.`image_id` as `imageid`, c.`url`, c.`name`, c.`order`, c.`type`, e.`tagName`, d.`tags_id` FROM `imageSet` as a INNER JOIN `imageImageSet` as b ON a.`id` = b.`imageSet_id` INNER JOIN `images` as c on b.`image_id` = c.`id` INNER JOIN `imagesTag` as d ON c.`id` = d.`images_id` INNER JOIN `tags` as e ON d.`tags_id` = e.`id` INNER JOIN `tagCategories` as f on f.`id` = e.`tagCategories_id` WHERE f.`id` = $tagCategoriesid AND c.`type` = 1 ORDER BY e.`tagName` ASC, `imageSetid` ASC, c.`order` ASC";
 
-		$q = "SELECT a.`id` as imageSetid, b.`image_id` as imageid, c.`url` FROM `imageSet` as a INNER JOIN `imageImageSet` as b ON a.`id` = b.`imageSet_id` INNER JOIN `images` as c on b.`image_id` = c.`id` WHERE a.`id` = $imageSetid ORDER BY c.`order` ASC";
+		$q = "SELECT a.`id` as imageSetid, a.`name` as imageSetDescription, b.`image_id` as imageid, c.`url`, c.`name` FROM `imageSet` as a INNER JOIN `imageImageSet` as b ON a.`id` = b.`imageSet_id` INNER JOIN `images` as c on b.`image_id` = c.`id` WHERE a.`id` = $imageSetid ORDER BY c.`order` ASC";
 
 
 
@@ -1148,6 +1246,7 @@ class general {
 				$name = $row['name'];
 				$tagName = $row['tagName'];
 				$tags_id = $row['tags_id'];
+				$imageSetDescription = $row['imageSetDescription'];
 
 				//get all the tags for this tag with their category
 				//does this show all tags for a specific image
@@ -1161,9 +1260,9 @@ class general {
 				//removed from below line <h3 style='text-align:left; cursor:pointer;' id='tag{$tags_id}' class='tagLink'>$tagName</h3>
 				
 				
-				if ($y == 1){echo "<div class='responsiveContainer'><div class='row'><div class='col-8'></div><div class='col-2'><button type='button' class='blueButton uptodateSearch'>Search UpToDate</button></div><div class='col-2'><button type='button' class='blueButton pubMedSearch'>Search PubMed</button></div></div></div>"; $y=2;}
+				if ($y == 1){echo "<div class='responsiveContainer'><div class='row describer'><div class='col-8'></div><div class='col-2'><button type='button' class='blueButton uptodateSearch'>Search UpToDate</button></div><div class='col-2'><button type='button' class='blueButton pubMedSearch'>Search PubMed</button></div></div><div class='row'>"; $y=2;}
 
-				if($x % 4 == 0){echo "<div class='row'>";  }
+				if($x % 4 == 0 || $x == 0){ }
 
 				echo "<div data='$x' class='col-3'>";
 
@@ -1173,7 +1272,7 @@ class general {
 				//echo "</div>";
 				echo "</div>";
 
-				if($x % 4 == 0){echo "</div>";}
+				if($x % 4 == 0){echo "</div>"; echo "<div class='row'>"; }
 
 				$x++;
 
@@ -1185,7 +1284,7 @@ class general {
 
 
 
-			}echo "</div>";
+			}echo "</div>";echo "</div>";
 
 		}
 

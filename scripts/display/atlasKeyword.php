@@ -151,7 +151,6 @@
 						}
 						
 						
-						vhttps://codepen.io/matt-west/pen/jKnzG
 						
 						ajax to a json of select tags where tagscategory= atlas and xxxx
 						

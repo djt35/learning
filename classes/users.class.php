@@ -568,6 +568,7 @@ return $result; 	}
 		
 	}
 	
+	
 	public function getUsers (){
 		
 		$q = "SELECT `user_id`, `firstname`, `surname` FROM `users`";

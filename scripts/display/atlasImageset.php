@@ -197,7 +197,7 @@
 		
 		        <div class='responsiveContainer white'>
 		
-			        <div class='row'>
+			        <div class='row' id='imageSetTitleBar'>
 		                <div class='col-9'>
 		                    <h2 style="text-align:left;"><?php echo $title;?></h2>
 		                    <p style='text-align:left;'><?php echo $description;?></p>
@@ -245,7 +245,7 @@
 				</div>-->
 		
 		        </div>
-		
+				</div>
 		    </div>
 		<script>
 			
@@ -391,7 +391,7 @@ $(document).ready(function() {
 		
 		//get the tag name
 		
-		var searchTerm = $(this).parent().prev().prev().find('h3').html();
+		var searchTerm = $('#imageSetTitleBar').find('h2').html();
 		
 		console.log(searchTerm);
 		
@@ -408,7 +408,7 @@ $(document).ready(function() {
 		
 		//get the tag name
 		
-		var searchTerm = $(this).parent().prev().find('h3').html();
+		var searchTerm = $('#imageSetTitleBar').find('h2').html();
 		
 		console.log(searchTerm);
 		
@@ -946,6 +946,7 @@ $(document).ready(function() {
     $('.content').on('click', '#captionHide', function() {
 
         $('.caption').toggle();
+        $('.describer').toggle();
 		
 		if ($(this).text() == 'Toggle captions'){
 			

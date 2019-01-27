@@ -16,6 +16,11 @@
 			redirect_login($location);
 	
 	
+		}else{
+			
+			$userid = $_SESSION['user_id'];
+			echo '<div id="user_id" style="display:none;">' . $userid . '</div>';
+			
 		}
 		
 		foreach ($_GET as $k=>$v){
@@ -221,9 +226,9 @@ function constructEditTable(idPassed){
 	        
         }
 		
-		var html = "Title of this image set : <input id='imageSetTitle'></input><br>";
-		html += "Author of this image set : {select here for author}<br>";
-		 html += "Overall description for these images : <br><textarea name='imageSetname' id='imageSetname' class='name' rows='4' cols='100'></textarea>";
+		var html = "Title of this image set : <input id='imageSetTitle' size='40'></input><br><br>";
+		//html += "Author of this image set : {select here for author}<br>";
+		 html += "Overall description for these images : <br><textarea name='imageSetname' id='imageSetname' class='name' rows='4' cols='100'></textarea><br><br>";
 		html += "<table id=\"imagesTable\" class=\"imageTable\">";
 		html += "<tr>";
 		html += '<th></th>';
@@ -243,7 +248,7 @@ function constructEditTable(idPassed){
             var type = val.type;
             
             html += '<tr class="file">';
-			html += "<td id='"+image_id+"' style='display:none;'>$file</td>";
+			html += "<td id='"+image_id+"' style='display:none;'>"+url+"</td>";
 			html += "<td><img src='"+siteRoot+"/"+url+"' style=\"width:128px;\"></td>";
 			html += "<td><button class='addTag'>Add Tag</button></td>";
 			html += "<td class='imageTag' id='tag"+image_id+"'></td>";
@@ -440,8 +445,31 @@ function deleteImage(imageRowClicked){
 function fn60sec() {
 
     console.log('fired');
+    
+    //get logged in author
+    
+    var user_id = $('#user_id').text();
+    
+    console.log('data is '+'user_id='+user_id);
+    
+    //check function to see if user in session matches user in javascript function
+    
+    //createCheckuser file in scripts
+    
+    request = $.ajax({
+	        url: siteRoot + "scripts/checkUser.php",
+	        type: "get",
+	        data: 'userid='+user_id,
 
-    //!get imageids
+		   });
+
+		   request.done(function(data){
+
+			   if (data){
+
+			     if (data == 1){
+				     
+				      //!get imageids
 
     var overallObject = new Object();
 
@@ -533,18 +561,26 @@ function fn60sec() {
         
         var imageSetTitle = $('#imageSetTitle').val();
 
+		if (imagesPassed == "") {
+	    
+	    	imagesPassed = $('#imageSetID').text();
+	    	
+	    
+		}
+		
+		console.log('images passed is '+imagesPassed);
         
         var imageSetObject = pushDataAJAX('imageSet', 'id', imagesPassed, 1, {
                         'name': imageSetDescription,
                         'type': imageSetTitle,
-                        'author' : 'not yet implemented',
+                        'author' : user_id,
                         
                     }); 
         
         imageSetObject.done(function(data) {
         
         
-        
+        		console.log('imageSetObject completed with data ' + data);
 
 		        if (data) {
 			        
@@ -610,6 +646,20 @@ function fn60sec() {
 			   */
 
     // runs every 60 sec and runs on init.
+				     
+			     }else if (data == 0){
+				     
+				     logout();
+				     
+			     }
+
+			   }
+
+		   });
+    
+    
+
+   
 }
 setInterval(fn60sec, 60 * 1000);
 
@@ -1079,6 +1129,7 @@ $(document).ready(function() {
 
             //console.log(selectorObject);
             var alreadyExists;
+            //find the id of image which is already tagged, push it from the array of images to be tagged!
 
             selectorObject.done(function(data) {
 
@@ -1090,7 +1141,7 @@ $(document).ready(function() {
 
                     if (data == 1) {
 
-                        alert('This image tag combination already exists');
+                        alert('This image tag combination already exists for one or more images');
                         alreadyExists = 1;
                         $('.modal').hide();
 
