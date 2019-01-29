@@ -298,17 +298,17 @@ function getAllVideos ($tagCategoriesid) {
 		        <div class='responsiveContainer white'>
 
 			        <div class='row'>
-		                <div class='col-9'>
+		                <div class='col-12'>
 		                    <h2 style="text-align:left;">Colonoscopy Tutor</h2>
 		                    <p style='text-align:left;'>Use the buttons below to filter the videos.  Clicking a video will take you to it.  Groups of videos and how to integrate</p>
 		                    <div id='procedureTagsDisplay' class='responsiveContainer' style='text-align:left;'>
-			                    <div class='col-9'>
+			                    <div class='col-10'>
 
 			                    Filter by tag (click):
 
 
 			                    </div>
-			                    <div id='resetButtonDiv' class='col-3'>
+			                    <div id='resetButtonDiv' class='col-2'>
 			                    </div>
 		                    </div>
 		                </div>

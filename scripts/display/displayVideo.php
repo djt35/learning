@@ -237,7 +237,7 @@
 					
 					</div>
 					 
-				    <div class='col-3 black whiteborder center' style="height:60%;">
+				    <div class='col-3 black whiteborder center' style="min-height:60%;">
 					    
 					    <div id='chapterInfo'>
 						    <div id='titleBar' class = 'gentBlue' style='padding:3px;'>
@@ -326,7 +326,7 @@ var videoChapterData = $.parseJSON(videoChapterDataText);
 
 }catch(err){
 	
-	console.log('No video chapter data received');
+	//console.log('No video chapter data received');
 	
 }
 
@@ -338,7 +338,7 @@ var videoData = $.parseJSON(videoDataText);
 
 }catch(err){
 	
-	console.log('No video data received');
+	//console.log('No video data received');
 	
 }
 
@@ -407,11 +407,11 @@ function constructEditTable(idPassed){
 
     var selectorObject = JSONStraightDataQuery("video", query, 7); //to here
 
-    //console.log(selectorObject);
+    ////console.log(selectorObject);
 
     selectorObject.done(function(data) {
 
-        console.log(data);
+        //console.log(data);
 		
 		try{
 		
@@ -419,7 +419,7 @@ function constructEditTable(idPassed){
         
         } catch (error) {
 	        
-	       console.log ('caught');
+	       //console.log ('caught');
 	       	        
         }
         
@@ -512,13 +512,13 @@ function constructEditTable(idPassed){
             var id = val.id;
             var chapterid = val.chapterid;
             var number = $.trim(val.number);
-            console.log('chapter number is '+number);
+            //console.log('chapter number is '+number);
             var timeFrom = val.timeFrom;
             var timeTo = val.timeTo; 
             var name = val.chaptername;
             //var order = $.trim(val.order);
-            //console.log('Type for image id '+image_id+' is '+type);
-            //console.log('Order for image id '+image_id+' is '+order);
+            ////console.log('Type for image id '+image_id+' is '+type);
+            ////console.log('Order for image id '+image_id+' is '+order);
 			
 		
 		$("#chaptername"+chapterid+"").val(name);
@@ -546,11 +546,11 @@ function constructEditTable(idPassed){
 		
 		    var selectorObject = JSONStraightDataQuery(idPassed, "selectChapterSet", 9);
 		
-		    //console.log(selectorObject);
+		    ////console.log(selectorObject);
 		
 		    selectorObject.done(function(data) {
 		
-		        console.log(data);
+		        //console.log(data);
 				
 				try{
 				
@@ -1282,6 +1282,89 @@ function getVideoTags (videoPassed){
 	
 }
 
+//get chapter selector
+
+function getChapterSelector(idSelector, ChapteridSelector){
+	
+			
+		var chapterObject = new Object();
+		
+		chapterObject = {
+            'id': videoPassed,
+        };
+		
+		var imagesObject = JSONStraightDataQuery(chapterObject, 'getChapterSelectorAll', 9); 
+
+		            imagesObject.done(function(data) {
+		
+		                console.log(data);
+		
+		                if (data) {
+				
+				                    if (data) {
+				
+				                        //do the tag thing foreach data
+				                        
+				                        console.log(data);
+		
+										try{
+										
+								        var formData = $.parseJSON(data);
+								        
+								        } catch (error) {
+									        
+									       console.log ('caught');
+									       	        
+								        }
+				                        
+				                        var html = "<p>Select Chapter : </p><select id='chapterSelectorVideo"+chapterObject.id+"' class='chapterSelector' style='width:100%;'>";
+				                        html += "<option value hidden selected></option>";
+				                        
+				                        	$(formData).each(function(i, val) {
+					                        	
+					                        	var chapterid = val.chapterid;
+												var name = val.chaptername;
+												var number = val.number;
+												//var tagName = val.tagName;
+					                        	
+					                        	html += "<option value='"+chapterid+"'>"+number+" - "+name+"</option>";
+					                        	
+					                        	
+					                        })
+				                      
+		
+			
+			
+										html += "</select>";
+				                        
+				                        $('#chapterSelector').html(html);
+				                        
+				                        $('#chapterSelectorMessage').html('<p class="small">Showing all chapters');
+				                        
+				                        $//(".chapterSelector").fadeIn(100).fadeOut(100).fadeIn(100).fadeOut(100).fadeIn(100);
+				                        
+				                        $('#content').find("#chapterSelectorVideo"+idSelector+" option[value='"+ChapteridSelector+"']").prop('selected', true);
+				                        		
+				                    } else {
+				
+				                        alert("Error, try again");
+				
+				                        //enableFormInputs("images");
+				
+				                    }
+				
+				
+				
+				                }
+		
+		
+		});
+
+	
+	
+	
+}
+
 $(document).ready(function() {
 
     if (edit == 1) {
@@ -1767,9 +1850,13 @@ $(document).ready(function() {
         
     }));
     
-    
+    //filter the chapter selector
 
     $("#content").on('click', '.tagButton', (function(event) {
+
+		$(this).removeClass('tagbutton').addClass('greenButton');
+	    
+	    $(this).siblings().removeClass('greenButton').addClass('tagButton');
 
         var button = $(this);
 
@@ -1784,6 +1871,10 @@ $(document).ready(function() {
 		//var tagImageid1 = tagImageid.replace('tag', '');
 		
 		console.log(tagImageid);
+		
+		//stop the video
+		
+		$("#videoChapter").vimeo("pause");
 		
 		/*$(".tagButton").each(function(){
 			
@@ -2024,7 +2115,7 @@ $(document).ready(function() {
 			    	
 			    	var stripped = description.replace(/\n/g, '<br><br>');
 			    	
-			    	console.log(stripped);
+			    	//console.log(stripped);
 
 			    	
 			    	$('#chapterHeading').html("<p style='text-align:left;'><b>Chapter "+val.number+"</b></p><p style='text-align:left;'><b>"+val.chaptername+"</b></p><br><p style='text-align:justify;'>"+stripped+"</p>");
@@ -2049,8 +2140,27 @@ $(document).ready(function() {
 			    	
 			    	}*/
 			    	
-			    	$('#content').find("#chapterSelectorVideo"+val.id+" option[value='"+val.chapterid+"']").attr('selected', 'selected');
+			    	//$('#content').find("#chapterSelectorVideo"+val.id+" option:selected").prop("selected",false);
 			    	
+			    	//check the selector shows the data for the chapter being displayed
+			    	
+			    	var chapterExists = $('#content').find("#chapterSelectorVideo"+val.id+" option[value='"+val.chapterid+"']").length;
+
+					if (chapterExists == 0){
+						
+						//$('.tagButton').removeClass('tagbutton').addClass('greenButton');
+	    
+						$('.tagButton').removeClass('greenButton').addClass('tagButton');
+						
+						getChapterSelector(val.id, val.chapterid);
+						
+					}else {
+
+			    	
+			    	$('#content').find("#chapterSelectorVideo"+val.id+" option[value='"+val.chapterid+"']").prop('selected', true);
+			    	
+			    	
+			    	}
 			    	//$('.chapterSelector').val('')
 			    	
 			    }		    	
@@ -2080,7 +2190,7 @@ $(document).ready(function() {
 				
 				$focussed.val(data);
 				
-				console.log( "Current time", data ); 
+				//console.log( "Current time", data ); 
 			})
 			
 			
@@ -2092,7 +2202,7 @@ $(document).ready(function() {
 				var tagRow = $(this).parent().find('input').val();
 				//var tagRow = $(this).parent().find(':input').val();
 				jumpToTime(tagRow);
-				console.log(tagRow);
+				//console.log(tagRow);
 		
 	
 		}));
@@ -2106,7 +2216,7 @@ $(document).ready(function() {
 		 		
 				//event.preventDefault();
 				
-				console.log('changed');
+				//console.log('changed');
 				
 				var option = $(this).val();
 				
@@ -2116,7 +2226,7 @@ $(document).ready(function() {
 
 		            imagesObject.done(function(data) {
 		
-		                console.log(data);
+		                //console.log(data);
 		
 		                if (data) {
 		
@@ -2141,7 +2251,7 @@ $(document).ready(function() {
 
 				
 				
-				//console.log(tagRow);
+				////console.log(tagRow);
 		
 	
 		}));

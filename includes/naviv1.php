@@ -76,6 +76,8 @@ echo '<div class="navbar responsiveContainer">
 				  echo '<div class="dropdown"><button class="dropbtn">Superuser&#9660;</button>
 			  			<div class="dropdown-content">
 			  				<a href="'. $roothttp . 'scripts/forms/creators.php">Superuser Creator Menu</a>
+			  				<a href="'. $roothttp . 'scripts/getThumbnailsVideo.php">Generate video thumbnails</a>
+			
 			  			</div>
 			  		</div>';
 				  
