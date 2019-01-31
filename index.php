@@ -8,7 +8,24 @@
 		
 		
 		
-		require ($_SERVER['DOCUMENT_ROOT'].'/dashboard/learning/scripts/headerIndex.php'); //set this at login in session
+		$host = substr($_SERVER['HTTP_HOST'], 0, 5);
+		if (in_array($host, array('local', '127.0', '192.1'))) {
+		    $local = TRUE;
+		} else {
+		    $local = FALSE;
+		}
+		
+		if ($local){
+			
+		
+		require ($_SERVER['DOCUMENT_ROOT'].'/dashboard/learning/scripts/headerIndex.php');
+			
+			
+		}else{
+		
+		require ($_SERVER['DOCUMENT_ROOT'].'/scripts/headerIndex.php'); //set this at login in session
+		
+		} //set this at login in session
 	
 		$formv1 = new formGenerator;
 		$general = new general;

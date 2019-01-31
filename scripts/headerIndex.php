@@ -17,9 +17,9 @@ if ($local){
     require($_SERVER['DOCUMENT_ROOT'].'/dashboard/learning/includes/config.inc.php');
 }else{
     $root = $_SERVER['DOCUMENT_ROOT'].'/learning/';
-    $roothttp = 'http://' . $_SERVER['HTTP_HOST'].'/learning/';
+    $roothttp = 'http://' . $_SERVER['HTTP_HOST'].'/';
 
-    require($_SERVER['DOCUMENT_ROOT'].'/learning/includes/config.inc.php');
+    require($_SERVER['DOCUMENT_ROOT'].'/includes/config.inc.php');
 
 }
 
