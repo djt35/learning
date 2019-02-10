@@ -49,7 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 		$_SESSION['user_id'] = $data['user_id'];
 		$_SESSION['firstname'] = $data['firstname'];
 		$_SESSION['surname'] = $data['surname'];
-		$_SESSION['centre'] = $data['centre'];
+		
 
 
 		

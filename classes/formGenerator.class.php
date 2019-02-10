@@ -99,12 +99,23 @@ Class formGenerator {
 		
 	}
 	
-	public function generateText ($label, $id, $class, $tooltip){
+	public function generateTextOld2 ($label, $id, $class, $tooltip){
 		
 		//echo "<div id='".$id."row' class='row'>";
 		echo "<p class='formRow'>";
 		echo "<label for='$id' id='".$id."label' title='$tooltip'>$label&nbsp&nbsp</label>";
 		echo "<input name='$id' id='$id' class='$class' type='text' size ='50'>";
+		echo "</p>";
+		//echo "</div>";	
+		
+	}
+	
+	public function generateText ($label, $id, $class, $tooltip){
+		
+		//echo "<div id='".$id."row' class='row'>";
+		echo "<p class='formRow'>";
+		echo "<label for='$id' id='".$id."label' title='$tooltip'>$label&nbsp&nbsp</label>";
+		echo "<input name='$id' id='$id' class='$class' type='text' size ='55'>";
 		echo "</p>";
 		//echo "</div>";	
 		

@@ -92,7 +92,7 @@
 		
 			<div id="id" style="display:none;"><?php if ($id){echo $id;}?></div>
 		
-		    <div id='content' class='content'>
+		    <div id='content' class='content' style='text-align:left;'>
 		
 		        <div class='responsiveContainer white'>
 		
@@ -122,7 +122,9 @@
 		?></p>
 		
 		
-			        <p>
+			       <div class='row'>
+				       <div class='col-2'></div>
+		                <div class='col-8'>
 		
 					    <form id="users">
 					    <?php 
@@ -151,7 +153,7 @@ echo $formv1->generateText('Firstname', 'firstname', '', 'tooltip here');
 echo $formv1->generateText('Surname', 'surname', '', 'tooltip here');
 echo $formv1->generateText('Email Address', 'email', '', 'tooltip here');
 echo $formv1->generateText('Password', 'password', '', 'tooltip here');
-echo '<button type="button" id="hash">hash</button>';
+//echo '<button type="button" id="hash">hash</button>';
 echo '</fieldset>';
 echo '<br><br>';
 
@@ -165,12 +167,12 @@ echo '</fieldset>';
 echo '<br><br>';
 
 echo '<fieldset>';
+echo $formv1->generateSelect('What is your specialist interest?', 'specialistInterest', '', 'specialistInterest', 'tooltip here');
 echo $formv1->generateSelect('Are you a trainee?', 'trainee', '', 'Yes_No', 'tooltip here');
 echo $formv1->generateText('How many years have you practiced?', 'yearsIndependent', '', 'tooltip here');
 echo $formv1->generateText('How many years have you performed endoscopy for independently?', 'yearsEndoscopy', '', 'tooltip here');
 echo $formv1->generateSelect('Have you ever undertaken an endoscopy fellowship (dedicated, >6months)', 'endoscopyTrainingProgramme', '', 'Yes_No', 'tooltip here');
-echo $formv1->generateSelect('What is your specialist interest?', 'specialistInterest', '', 'specialistInterest', 'tooltip here');
-echo $formv1->generateSelectCustom('Email preferences', 'emailPreferences', '', 'options here', 'tooltip here');
+echo $formv1->generateSelect('Email preferences <sub>(can be changed later)</sub>', 'emailPreferences', '', 'emailPreferences', 'tooltip here');
 
 echo '</fieldset>';
 echo '<br><br>';
@@ -180,17 +182,18 @@ echo $formv1->generateText('timezone', 'timezone', '', 'tooltip here');
 echo $formv1->generateText('registered_date', 'registered_date', '', 'tooltip here');
 echo $formv1->generateText('last_login', 'last_login', '', 'tooltip here');
 echo $formv1->generateText('previous_login', 'previous_login', '', 'tooltip here');
-echo $formv1->generateText('access_level', 'access_level', '', 'tooltip here');
+echo $formv1->generateSelect('User access level', 'access_level', '', 'access_level', 'tooltip here');
 echo $formv1->generateText('key', 'key', '', 'tooltip here');
-echo '<button type="button" id="random">random key</button><br><br>';
+//echo '<button type="button" id="random">random key</button><br><br>';
 echo '</fieldset>';
 echo '<br><br>';
 ?>
 						    <button id="submitusers">Submit</button>
 		
 					    </form>
-		
-				        </p>
+		                </div>
+						<div class='col-2'></div>
+				        </div>
 		
 		
 		
@@ -402,6 +405,14 @@ var siteRoot = rootFolder;
 		
 		
 			}
+			
+			function hash() {
+				
+				//later
+				
+				
+				
+			}
 		
 			$(document).ready(function() {
 		
@@ -462,39 +473,48 @@ var siteRoot = rootFolder;
 			                $('div.error').hide();
 			            }
 			        },rules: {
-user_id: { required: true },   
+   
 firstname: { required: true },   
 surname: { required: true },   
-email: { required: true },   
+email: { required: true, email: true },   
 password: { required: true },   
-centre: { required: true },   
-registered_date: { required: true },   
-last_login: { required: true },   
-previous_login: { required: true },   
-timezone: { required: true },   
+centreName: { required: true },
+centreCity: { required: true },
+specialistInterest: { required: true },
+trainee: { required: true },
+yearsIndependent: { required: true },
+yearsEndoscopy: { required: true },
+endoscopyTrainingProgramme : { required: true },
+emailPreferences: { required: true },
+
 access_level: { required: true },   
-contactPhone: { required: true },   
-key: { required: true },   
+
+
 },messages: {
-user_id: { required: 'message' },   
-firstname: { required: 'message' },   
-surname: { required: 'message' },   
-email: { required: 'message' },   
-password: { required: 'message' },   
-centre: { required: 'message' },   
-registered_date: { required: 'message' },   
-last_login: { required: 'message' },   
-previous_login: { required: 'message' },   
-timezone: { required: 'message' },   
-access_level: { required: 'message' },   
-contactPhone: { required: 'message' },   
-key: { required: 'message' },   
+ 
+firstname: { required: 'Please enter your first name' },   
+surname: { required: 'Please enter your surname' },   
+email: { required: 'Please enter your email address', email: 'Please enter a valid email address'},   
+password: { required: 'Please enter a password' },   
+
+centreName: { required: 'Please enter the name of your institution' },
+centreCity: { required: 'Please enter your institution city' },
+specialistInterest: { required: 'Please select your specialist interest' },
+trainee: { required: 'Are you a trainee?' },
+yearsIndependent: { required: 'How many years have you been practising your specialty (incl. training)' },
+yearsEndoscopy: { required: 'How many years have you been performing endoscopy?' },
+endoscopyTrainingProgramme : { required: 'Required' },
+emailPreferences: { required: 'Required' },
+
+ 
+access_level: { required: 'Please enter user access level' },   
+
 },
 			        submitHandler: function(form) {
 		
 			            submitusersForm();
 		
-			          	console.log("submitted form");
+			          	console.log("User form submitted");
 		
 		
 		

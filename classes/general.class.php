@@ -515,7 +515,7 @@ class general {
 					}else if ($key == 'author'){
 						
 						echo '<td class="datarow">';
-						echo $this->getUserName($_SESSION['user_id']);
+						echo $this->getUserName($value);
 						echo '</td>';
 						
 						
@@ -654,7 +654,7 @@ class general {
 					}else if ($key == 'author'){
 						
 						echo '<td class="datarow">';
-						echo $this->getUserName($_SESSION['user_id']);
+						echo $this->getUserName($value);
 						echo '</td>';
 						
 						

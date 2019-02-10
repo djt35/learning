@@ -25,6 +25,11 @@ $location = $roothttp . 'elearn.php';
 
 session_start( );
 
+function hash_password($password, $salt) {
+    $salted_password = substr($password, 0, 4) . $salt . substr($password, 4);
+    return hash('sha512', $salted_password);
+}
+
 
 if (!isset($_SESSION['user_id'])) {
 			 		
@@ -36,6 +41,7 @@ if (!isset($_SESSION['user_id'])) {
 
 
 $general = new general;
+$user = new users;
 
 
 
@@ -142,6 +148,51 @@ if (count($_GET) > 0){
 	// if a new field
 	
 	if ($update == 0){
+		
+		//check if new user form
+		
+		if ($data['table'] == 'users'){
+			
+			unset($data['update']);
+			unset($data['table']);
+			unset($data['identifierKey']);
+			unset($data['identifier']);
+			
+			//transform password
+			
+			$data['password'] = hash_password($data['password'], 'westmead');
+			
+			//generate random string
+			$data['key'] = $user->generateRandomString(15);
+			
+			
+			foreach ($data as $key=>$value){
+				
+				if ($value == ''){
+					
+					$value == null;
+					
+				}
+				
+			}
+	
+			$values = implode('\', \'', $data);
+			$keys = array_keys($data);
+			$keys = implode('`, `', $keys);
+			
+			
+			$q = "INSERT INTO `$table` (`$keys`) VALUES ('$values')";
+			
+			//echo $q;
+					
+			echo $general->returnWithInsertID($q);
+			
+			$general->endGeneral();
+			
+			exit();
+			
+			
+		}
 		
 		unset($data['update']);
 		unset($data['table']);
