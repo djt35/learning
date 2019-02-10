@@ -122,6 +122,7 @@ echo '<div id="navbarResponsive" class="navbar responsiveContainer topnav1">
 					 echo '<div class="dropdown topnav"><button class="dropbtn">Logged in&#9660;</button>
 					 
 					 <div class="dropdown-content" id="myDropdown">
+			  				<a href="'. $roothttp . 'scripts/forms/imageSetDraftTable.php">My Submitted Images</a>
 			  				<a class="logout">Logout</a>
 			  				
 			  				

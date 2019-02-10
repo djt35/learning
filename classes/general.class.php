@@ -455,9 +455,25 @@ class general {
 			foreach ($data as $key=>$value){
 				//echo '<th></th>';
 				foreach ($value as $k=>$v){
+					
+					if ($k == 'url'){
+						
+						echo '<th>' . 'Thumbnail' . '</th>';
+						
+					}else if ($k == 'type'){
+						
+						echo '<th>' . 'Title' . '</th>';
+						
+					}else{
+					
 					echo '<th>' . $k . '</th>';
+				
+					}
+				
+				
 				}
-				echo '<th></th>';
+				//echo '<th></th>';
+				
 
 				break;
 			}
@@ -471,9 +487,9 @@ class general {
 
 				if ($id) {	
 					if ($id <> $v['id']){
-						echo '<td>';
+						/*echo '<td>';
 								echo "<button class='deleteSet'>Delete</button>";
-								echo '</td>';
+								echo '</td>';*/
 						
 						echo '</tr>';
 						echo '<tr>';
@@ -496,6 +512,32 @@ class general {
 						echo '<td class="datarow">';
 						echo "<img class='lslimage' style='max-width:100px;' src='$roothttp$value'>";
 						echo '</td>';
+					}else if ($key == 'author'){
+						
+						echo '<td class="datarow">';
+						echo $this->getUserName($_SESSION['user_id']);
+						echo '</td>';
+						
+						
+					}else if ($key == 'approved'){
+						
+						echo '<td class="datarow">';
+							if ($value == NULL){
+								
+								echo 'pending';
+								
+							}elseif ($value == '1'){
+								
+								echo 'accepted';
+								
+							}elseif ($value == '0'){
+								
+								echo 'rejected';
+								
+							}
+						echo '</td>';
+						
+						
 					}else{
 
 						
@@ -522,6 +564,130 @@ class general {
 
 			echo '</table>';
 
+		}
+
+	}
+	
+	public function makeTableImagesv3 ($q, $roothttp){
+
+		//echo $q;
+		//$result = $this->connection->RunQuery('USE ESD');
+		$result = $this->connection->RunQuery($q);
+
+		//print_r($result);
+
+		if ($result->num_rows > 0){
+
+
+			$data = array();
+			
+			echo '<table id="dataTable">';
+			
+			echo '<tr>';
+
+			while($data[] = $result->fetch_array(MYSQLI_ASSOC));
+			
+			foreach ($data as $key=>$value){
+				//echo '<th></th>';
+				foreach ($value as $k=>$v){
+					
+					if ($k == 'url'){
+						
+						echo '<th>' . 'Thumbnail' . '</th>';
+						
+					}else if ($k == 'type'){
+						
+						echo '<th>' . 'Title' . '</th>';
+						
+					}else{
+					
+					echo '<th>' . $k . '</th>';
+				
+					}
+				
+				
+				}
+				echo '<th></th>';
+				echo '<th></th>';
+				
+
+				break;
+			}
+
+			//echo '<th></th>';
+			echo '</tr>';
+
+			$x = 0;
+
+			foreach ($data as $k=>$v){
+
+				if ($id) {	
+					if ($id <> $v['id']){
+						echo '<td>';
+								echo "<button class='deleteSet'>Delete</button>";
+								echo '</td>';
+						echo '<td>';
+								echo "<button class='approveSet'>Approve</button><br><br><button class='reject'>Reject</button>";
+								echo '</td>';
+						
+						echo '</tr>';
+						echo '<tr>';
+						$x = 0;
+	
+					}
+					
+				}
+
+				$id = $v['id'];
+				$id = trim($id);
+
+
+
+				foreach($v as $key=>$value){
+
+
+
+					if ($key == 'url'){
+						echo '<td class="datarow">';
+						echo "<img class='lslimage' style='max-width:100px;' src='$roothttp$value'>";
+						echo '</td>';
+					}else if ($key == 'author'){
+						
+						echo '<td class="datarow">';
+						echo $this->getUserName($_SESSION['user_id']);
+						echo '</td>';
+						
+						
+					}else{
+
+						
+						
+						echo '<td class="datarow">';
+							echo trim($value);
+							echo '</td>';
+						
+						
+
+					}
+
+					$x++;
+
+
+				}
+
+
+
+
+			}
+
+
+
+			echo '</table>';
+
+		}else{
+			
+			echo '<p>There are no user submissions pending approval</p>';
+			
 		}
 
 	}
@@ -966,7 +1132,7 @@ class general {
 
 				if($x % 4 == 0){echo "<div class='row'>";  }
 
-				echo "<div data='$x' class='col-3'>";
+				echo "<div data='$x' class='col-3 coverimages'>";
 
 				echo "<img id='$lesionid' data='imageSet{$imageSetid}' class='lslimage zoom' src='$roothttp/$filename'>";
 				//echo "<img id='$lesionid' class='lslimage zoom' src='https://www.acestudy.net/studyserver/$filename'>";
@@ -1089,7 +1255,7 @@ class general {
 				//echo "</div>";
 				if($x % 4 == 0){echo "<div class='row'>";}
 
-				echo "<div data='$x' class='col-3'>";
+				echo "<div data='$x' class='col-3 coverImages'>";
 
 				echo "<img id='$lesionid' class='lslimage zoom' src='$roothttp/$filename'>";
 				//echo "<img id='$lesionid' class='lslimage zoom' src='https://www.acestudy.net/studyserver/$filename'>";
@@ -1203,7 +1369,7 @@ class general {
 
 				if($x % 4 == 0){echo "<div class='row'>";  }
 
-				echo "<div data='$x' class='col-3'>";
+				echo "<div data='$x' class='col-3 coverImages'>";
 
 				echo "<img id='$lesionid' data='imageSet{$imageSetid}' class='lslimage zoom' src='$roothttp/$filename'>";
 				//echo "<img id='$lesionid' class='lslimage zoom' src='https://www.acestudy.net/studyserver/$filename'>";
@@ -1243,6 +1409,114 @@ class general {
 		//$q = "SELECT a.`id` as `imageSetid`, b.`image_id` as `imageid`, c.`url`, c.`name`, c.`order`, c.`type`, e.`tagName`, d.`tags_id` FROM `imageSet` as a INNER JOIN `imageImageSet` as b ON a.`id` = b.`imageSet_id` INNER JOIN `images` as c on b.`image_id` = c.`id` INNER JOIN `imagesTag` as d ON c.`id` = d.`images_id` INNER JOIN `tags` as e ON d.`tags_id` = e.`id` INNER JOIN `tagCategories` as f on f.`id` = e.`tagCategories_id` WHERE f.`id` = $tagCategoriesid AND c.`type` = 1 ORDER BY e.`tagName` ASC, `imageSetid` ASC, c.`order` ASC";
 
 		$q = "SELECT a.`id` as imageSetid, a.`name` as imageSetDescription, b.`image_id` as imageid, c.`url`, c.`name` FROM `imageSet` as a INNER JOIN `imageImageSet` as b ON a.`id` = b.`imageSet_id` INNER JOIN `images` as c on b.`image_id` = c.`id` WHERE a.`id` = $imageSetid ORDER BY c.`order` ASC";
+
+
+
+		$result = $this->connection->RunQuery($q);
+
+		if ($result->num_rows > 0){
+
+			$x = 1;
+			$y = 1;
+			$lesionid='';
+			echo "<hr>";
+			echo "<div class='row tagSet'>";
+
+
+			while($row = $result->fetch_array(MYSQLI_ASSOC)){
+
+				/* sort by tagset
+				if ($tagName){
+					if ($tagName != $row['tagName']){ //for imageset then reset the row somehow
+
+						echo "</div>";
+						echo "<hr>";
+						echo "<div class='row tagSet'>";
+						//echo "<h3 style='text-align:left;'>$tagName</h3>";
+						$x=1;
+
+					}
+				}
+				
+				*/
+				if ($imageSetid){
+					if ($imageSetid != $row['imageSetid']){ //for imageset then reset the row somehow
+
+						echo "</div>";
+						echo "<hr>";
+						echo "<div class='row tagSet'>";
+						//echo "<h3 style='text-align:left;'>$tagName</h3>";
+						$x=1;
+
+					}
+				}
+				
+
+				$filename = $row['url'];
+				//$position = $row['position'];
+				$lesionid = $row['imageid'];
+				$imageSetid = $row['imageSetid'];
+				$name = $row['name'];
+				$tagName = $row['tagName'];
+				$tags_id = $row['tags_id'];
+				$imageSetDescription = $row['imageSetDescription'];
+
+				//get all the tags for this tag with their category
+				//does this show all tags for a specific image
+
+
+				//echo "<div class='col-2' data='$x'><div class='description'>$name";
+				//echo "</div>";
+
+				//echo "</div>";
+				
+				//removed from below line <h3 style='text-align:left; cursor:pointer;' id='tag{$tags_id}' class='tagLink'>$tagName</h3>
+				
+				
+				if ($y == 1){echo "<div class='responsiveContainer'><div class='row describer'><div class='col-8'></div><div class='col-2'><button type='button' class='blueButton uptodateSearch'>Search UpToDate</button></div><div class='col-2'><button type='button' class='blueButton pubMedSearch'>Search PubMed</button></div></div><div class='row'>"; $y=2;}
+
+				if($x % 4 == 0 || $x == 0){ }
+
+				echo "<div data='$x' class='col-3'>";
+
+				echo "<img id='$lesionid' data='imageSet{$imageSetid}' class='lslimage zoom' src='$roothttp/$filename'>";
+				//echo "<img id='$lesionid' class='lslimage zoom' src='https://www.acestudy.net/studyserver/$filename'>";
+				echo "<div class='caption'>$name</div>";
+				//echo "</div>";
+				echo "</div>";
+
+				if($x % 4 == 0){echo "</div>"; echo "<div class='row'>"; }
+
+				$x++;
+
+				continue;
+
+
+
+
+
+
+
+			}echo "</div>";echo "</div>";
+
+		}
+
+	}
+	
+	public function getTaggedImageSetsv3Draft ($imageSetid, $roothttp) {
+
+
+		//shows all images from each tag
+		
+		//prints only one set of search buttons
+		
+		//no hrs
+		
+		//currently sorted by imageSET
+
+		//$q = "SELECT a.`id` as `imageSetid`, b.`image_id` as `imageid`, c.`url`, c.`name`, c.`order`, c.`type`, e.`tagName`, d.`tags_id` FROM `imageSet` as a INNER JOIN `imageImageSet` as b ON a.`id` = b.`imageSet_id` INNER JOIN `images` as c on b.`image_id` = c.`id` INNER JOIN `imagesTag` as d ON c.`id` = d.`images_id` INNER JOIN `tags` as e ON d.`tags_id` = e.`id` INNER JOIN `tagCategories` as f on f.`id` = e.`tagCategories_id` WHERE f.`id` = $tagCategoriesid AND c.`type` = 1 ORDER BY e.`tagName` ASC, `imageSetid` ASC, c.`order` ASC";
+
+		$q = "SELECT a.`id` as imageSetid, a.`name` as imageSetDescription, b.`image_id` as imageid, c.`url`, c.`name` FROM `imageSetDraft` as a INNER JOIN `imageImageSetDraft` as b ON a.`id` = b.`imageSet_id` INNER JOIN `imagesDraft` as c on b.`image_id` = c.`id` WHERE a.`id` = $imageSetid ORDER BY c.`order` ASC";
 
 
 
@@ -1549,6 +1823,40 @@ class general {
 
 
 	}
+	
+	
+	//! counting functions
+	
+	public function countPendingApprovals () {
+		
+		$q = "SELECT COUNT(a.`id`) as number
+FROM `imageSetDraft` as a 
+INNER JOIN `imageImageSetDraft` as b ON a.`id` = b.`imageSet_id`
+INNER JOIN `imagesDraft` as c on b.`image_id` = c.`id` WHERE a.`approved` IS NULL GROUP BY a.`id` ORDER BY a.`created` desc";
+
+		$result = $this->connection->RunQuery($q);
+		
+		if ($result->num_rows > 0){
+
+			while($row = $result->fetch_array(MYSQLI_ASSOC)){
+
+
+				$count = $row['number'];
+			}
+			
+			return $count;
+
+		
+		
+		}else{
+			
+			return 0;
+			
+		}
+		
+	}
+	
+	
 
 }
 

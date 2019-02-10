@@ -204,7 +204,8 @@ if(isset($_FILES)){
 		echo '</table>';
 		echo '<p>';
 		echo "<button class='addTagAll'> Add tag to all images</button>&nbsp;&nbsp;";
-		echo "<button class='save' onclick='fn60sec();'> Save data </button>";
+		echo "<button class='save' onclick='fn60sec();'> Save data </button>&nbsp;&nbsp;";
+		echo "<button class='view' onclick='preview({$insertid2});'><b>View example page</b> </button>";
 		echo '</p>';
 	}
 

@@ -102,9 +102,9 @@ foreach ($columns as $key=>$value){
 
             <div class="row">
                 <div class="col-2"></div>
-
+					<p style='text-align:left;'><b>Choose an entity to edit or create:</b></p>
                 <div class="col-8 narrow">
-                    <p>Choose an entity to edit or create</p>
+                    
                 </div>
 
                 <div class="col-2"></div>
@@ -112,67 +112,98 @@ foreach ($columns as $key=>$value){
 	        
 	        
 	        	        
-	         <div class="row">
-                <div class="col-4"><b>Images</b></div>
-
-                <div class="col-4 narrow">
-                    <p><a href='<?php echo $roothttp.'/scripts/forms/imagesUploadForm.php';?>'>Upload new images</a></p>
-                </div>
-                
-                <div class="col-4 narrow">
-                    
-                </div>
-
-
-                
-            </div>   
-            
-             <div class="row">
-                <div class="col-4"><b></b></div>
-
-                <div class="col-4 narrow">
-                    <p><a href='<?php echo $roothttp.'/scripts/forms/imageSetTable.php';?>'>Modify existing images</a></p>
-                </div>
-                
-                <div class="col-4 narrow">
-                    
-                </div>
-
-
-                
-            </div>  
-            
-             <div class="row">
-                <div class="col-4"><b>Videos</b></div>
-
-                <div class="col-4 narrow">
-                    <p><a href='<?php echo $roothttp.'/scripts/forms/videoUploadForm.php';?>'>Register new Vimeo video</a></p>
-                </div>
-                
-                <div class="col-4 narrow">
-                   
-
-                </div>
-
-
-                
-            </div>   
-            
-             <div class="row">
-                <div class="col-4"><b></b></div>
-
-                <div class="col-4 narrow">
-                    <p><a href='<?php echo $roothttp.'/scripts/forms/videoTable.php';?>'>View and add chapters and tags to existing videos</a></p>
-                </div>
-                
-                <div class="col-4 narrow">
-                    
-                </div>
-
-
-                
-            </div>  
+		         <div class="row">
+			         
+			         <div class="col-2"></div>
+	                <div class="col-2"><b>Images</b></div>
+	
+	                <div class="col-4 narrow">
+	                    <p><a href='<?php echo $roothttp.'/scripts/forms/imagesUploadForm.php';?>'>Upload new images</a></p>
+	                </div>
+	                
+	                <div class="col-4 narrow">
+	                    
+	                </div>
+	
+	
+	                
+	            </div>   
+	            
+	             <div class="row">
+	                <div class="col-4"><b></b></div>
+	
+	                <div class="col-4 narrow">
+	                    <p><a href='<?php echo $roothttp.'/scripts/forms/imageSetTable.php';?>'>Modify existing images</a></p>
+	                </div>
+	                
+	                <div class="col-4 narrow">
+	                    
+	                </div>
+	
+	
+	                
+	            </div>  
 	        
+            
+            <br><br>
+            
+            	
+            
+	            <div class="row">
+		            <div class="col-2"></div>
+	                <div class="col-2"><b>Draft Images</b></div>
+	
+	                <div class="col-4 narrow">
+	                    <p><a href='<?php echo $roothttp.'/scripts/forms/imageSetdraftTableApprove.php';?>'>View and approve draft images uploaded by users</a><br><b><?php echo $general->countPendingApprovals() . ' pending.';?></b></p>
+	                </div>
+	                
+	                <div class="col-4 narrow">
+	                    
+	                </div>
+	
+	
+	                
+	            </div> 
+            
+           
+            
+            <br><br>
+            
+            
+            
+	             <div class="row">
+		             <div class="col-2"></div>
+	                <div class="col-2"><b>Videos</b></div>
+	
+	                <div class="col-4 narrow">
+	                    <p><a href='<?php echo $roothttp.'/scripts/forms/videoUploadForm.php';?>'>Register new Vimeo video</a></p>
+	                </div>
+	                
+	                <div class="col-4 narrow">
+	                   
+	
+	                </div>
+	
+	
+	                
+	            </div>   
+	            
+	             <div class="row">
+	                <div class="col-4"><b></b></div>
+	
+	                <div class="col-4 narrow">
+	                    <p><a href='<?php echo $roothttp.'/scripts/forms/videoTable.php';?>'>View and add chapters and tags to existing videos</a></p>
+	                </div>
+	                
+	                <div class="col-4 narrow">
+	                    
+	                </div>
+	
+	
+	                
+	            </div>  
+	        
+           
 	        		        
 		      
 	        

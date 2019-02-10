@@ -301,7 +301,8 @@ function constructEditTable(idPassed){
         html += '</table>';
 		html += '<p>';
 		html += "<button class='addTagAll'> Add tag to all images</button>&nbsp;&nbsp;";
-		html += "<button class='save' onclick='fn60sec();'> Save data </button>";
+		html += "<button class='save' onclick='fn60sec();'> Save data </button>&nbsp;&nbsp;";
+		html += "<button class='view' onclick='preview("+idPassed+");'><b>View example page</b> </button>";
 		html += '</p>';
 
         $("#messageBox").text("Editing images with imageSet id " + idPassed);
@@ -470,6 +471,14 @@ function deleteImage(imageRowClicked){
 	
 }
 
+
+function preview(idPassed){
+	
+	PopupCenter(siteRoot + "scripts/display/atlasImageSetDraft.php?id="+idPassed, 'Preview images', 800, 1000);
+
+	
+	
+}
 
 function fn60sec() {
 

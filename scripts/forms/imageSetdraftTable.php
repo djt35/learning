@@ -77,7 +77,7 @@
 			                    
 			                    $useridquery = $_SESSION['user_id'];
 			                    
-			                    $general->makeTableImagesv2("SELECT a.`type`, a.`author`, a.`id`, c.`url`, a.`created`, a.`updated` 
+			                    $general->makeTableImagesv2("SELECT a.`type`, a.`author`, a.`id`, c.`url`, a.`created`, a.`updated`, a.`approved` 
 FROM `imageSetDraft` as a 
 INNER JOIN `imageImageSetDraft` as b ON a.`id` = b.`imageSet_id`
 INNER JOIN `imagesDraft` as c on b.`image_id` = c.`id` WHERE a.`author` = $useridquery GROUP BY a.`id` ORDER BY a.`id` desc", $roothttp); ?></p>

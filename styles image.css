@@ -135,6 +135,13 @@ p {
 	
 }
 
+.blackborder {
+	
+	border: 1px solid black;
+
+	
+}
+
 .red {
 	
 	background-color: #e62c45 !important;
@@ -284,8 +291,6 @@ strong {
 
 	
 }
-
-
 
 .navbar-black {
     overflow: hidden;
@@ -480,7 +485,7 @@ label.error { float: none; color: red; padding-left: .5em; vertical-align: top; 
 
 .content a:visited {
 	
-	color: #6bcefc;
+	color: rgba(23, 87, 154, 0.8);
 	
 }
 
@@ -868,6 +873,12 @@ display: none;
 @media only screen and (max-width: 767px) {
     /* phones */
     
+    .allow2 {
+		float: left;
+		width: 50%;
+        
+    }
+
     .icon {
     float: right;
     display: block;
@@ -940,15 +951,16 @@ display: none;
     .content {
         
         font-size: 18px;
-        overflow-x: hidden;
+        
         padding: 0px;
         margin: 0px;
+         max-height: none;
         
     }
     
-    button, footer {
+    button {
         
-        font-size: 8px;
+        font-size: 18px;
         
     }
     
@@ -994,6 +1006,13 @@ display: none;
     .reponsiveToolbar {
 	    
 	    position: relative;
+	    
+    }
+    
+    footer {
+	    
+	    font-size: 15px;
+	    text-align: center;
 	    
     }
 

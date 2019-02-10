@@ -1,4 +1,23 @@
 
+
+
+function ensureMenuBarColorCorrect () {
+	
+	var colorMenuBar = $('.title').css('color');
+	
+	console.log(colorMenuBar);
+	
+	var backgroundColor = $('#menu').css('background-color');
+
+	if (backgroundColor == 'rgb(255, 255, 255)'){
+		
+		$('.title').css('color', 'black');
+		
+	}
+	
+}
+
+
 //function for getting bulk data with an optional query string used as the where clause and output as json or a html table
 function getDataQuery (table, query, fieldsToGetObject, outputFormat){
 
@@ -845,6 +864,9 @@ $(document).ready(function() {
 		
 		
 	})
+	
+	ensureMenuBarColorCorrect ();
+
 	
 	//!login validation
 	

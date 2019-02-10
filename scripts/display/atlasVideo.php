@@ -221,7 +221,7 @@ function getAllVideos ($tagCategoriesid) {
 			//echo "</div>";
 			if ($x == 1){echo "<div class='responsiveContainer'><div class='row'><div class='col-8'><h3 style='text-align:left; cursor:pointer;' id='tag{$tags_id}' class='tagLink'>$tagName</h3></div><div class='col-2'></div></div></div>";}
 			
-			//removed above <button type='button' class='blueButton uptodateSearch'>Search UpToDate</button></div><div class='col-2'><button type='button' class='blueButton pubMedSearch'>Search PubMed</button>
+			//removed above <button type='button' class='blueButton uptodateSearch'>Search UpToDate</button></div><div class='col-2 allow2'><button type='button' class='blueButton pubMedSearch'>Search PubMed</button>
 
 			if($x % 3 == 0){echo "<div class='row'>";  }
 
