@@ -14,33 +14,37 @@ if ($local){
     $roothttp = 'http://' . $_SERVER['HTTP_HOST'].'/dashboard/learning/';
     //require($_SERVER['DOCUMENT_ROOT'].'/dashboard/learning/includes/config.inc.php');
 }else{
-    $root = $_SERVER['DOCUMENT_ROOT'].'/learning/';
-    $roothttp = 'http://' . $_SERVER['HTTP_HOST'].'/learning/';
+    $root = $_SERVER['DOCUMENT_ROOT'];
+    $roothttp = 'http://' . $_SERVER['HTTP_HOST'].'/';
 
-    //require($_SERVER['DOCUMENT_ROOT'].'/learning/includes/config.inc.php');
+    //require($_SERVER['DOCUMENT_ROOT'].'/includes/config.inc.php');
 
 }
 
 $user = new users;
 
 
-echo '<div class="navbar responsiveContainer">
+echo '<div id="navbarResponsive" class="navbar responsiveContainer topnav1">
 
   <div class="row">
   	<div class="slim-col-10">
-			  <a href="' . $roothttp . 'index.php">Home</a>';
+  				<a href="javascript:void(0);" class="icon" onclick="mobileMenuShow()">
+    <i class="fa fa-bars"></i>
+  </a>
+			  <a class="topnav" href="' . $roothttp . 'index.php">Home</a>';
 			  
-			  echo '<div class="dropdown"><button class="dropbtn">Image&#9660;</button>
+			  echo '<div class="dropdown topnav"><button class="dropbtn">Image&#9660;</button>
 			  			<div class="dropdown-content">
 			  				<a href="">Browse images</a><hr>
 			  				<a href="' . $roothttp . 'scripts/display/atlas.php">Atlas of endoscopy</a><hr>
 			  				<a href="' . $roothttp . 'scripts/display/imaging.php">Atlas of endoscopic imaging</a><hr>
-			  				<a href="' . $roothttp . 'scripts/display/resection.php">Atlas of endoscopic resection</a>
+			  				<a href="' . $roothttp . 'scripts/display/resection.php">Atlas of endoscopic resection</a><hr>
+			  				<a href="' . $roothttp . 'scripts/forms/imagesdraftUploadForm.php">Submit new images for inclusion</a>
 			  				
 			  			</div>
 			  		</div>';
 			  
-			  echo '<div class="dropdown"><button class="dropbtn">Video&#9660;</button>
+			  echo '<div class="dropdown topnav"><button class="dropbtn">Video&#9660;</button>
 			  			<div class="dropdown-content">
 			  				<a href="' . $roothttp . 'scripts/display/atlasVideo.php">Browse video</a><hr>
 			  				<a href="' . $roothttp . 'scripts/display/displayVideo.php?id=50">Watch specific video</a><hr>
@@ -48,14 +52,14 @@ echo '<div class="navbar responsiveContainer">
 			  			</div>
 			  		</div>';
 			  		
-			  echo '<div class="dropdown"><button class="dropbtn">Colonoscopy Tutor&#9660;</button>
+			  echo '<div class="dropdown topnav"><button class="dropbtn">Colonoscopy Tutor&#9660;</button>
 			  			<div class="dropdown-content">
 			  				<a href="' . $roothttp . 'scripts/display/colontutor/video.php">Videos</a>
 			  							  				
 			  			</div>
 			  		</div>';
 			  		
-			   echo '<div class="dropdown"><button class="dropbtn">Learning Tool&#9660;</button>
+			   echo '<div class="dropdown topnav"><button class="dropbtn">Learning Tool&#9660;</button>
 			  			<div class="dropdown-content">
 			  				<a href="">Coming soon</a>
 			  			</div>
@@ -64,7 +68,7 @@ echo '<div class="navbar responsiveContainer">
 			  //echo $user->getUserAccessLevel($_SESSION['user_id']);	
 			  
 			  if ($user->getUserAccessLevel($_SESSION['user_id']) == 1 || $user->getUserAccessLevel($_SESSION['user_id']) == 2){
-				  echo '<div class="dropdown"><button class="dropbtn">Creator&#9660;</button>
+				  echo '<div class="dropdown topnav"><button class="dropbtn">Creator&#9660;</button>
 			  			<div class="dropdown-content">
 			  				<a href="'. $roothttp . 'scripts/forms/creatormenu.php">Main Creator Menu</a>
 			  			</div>
@@ -73,7 +77,7 @@ echo '<div class="navbar responsiveContainer">
 				  };
 			  		
 			  if ($user->getUserAccessLevel($_SESSION['user_id']) == 1){
-				  echo '<div class="dropdown"><button class="dropbtn">Superuser&#9660;</button>
+				  echo '<div class="dropdown topnav"><button class="dropbtn">Superuser&#9660;</button>
 			  			<div class="dropdown-content">
 			  				<a href="'. $roothttp . 'scripts/forms/creators.php">Superuser Creator Menu</a>
 			  				<a href="'. $roothttp . 'scripts/getThumbnailsVideo.php">Generate video thumbnails</a>
@@ -102,7 +106,7 @@ echo '<div class="navbar responsiveContainer">
 			    </div>
 			  </div>';*/
 			 
-			 echo '<a href="index.php?p=help">Help</a>';
+			 echo '<a class="topnav" href="index.php?p=help">Help</a>';
 			echo '			
 			</div>
 			
@@ -110,12 +114,12 @@ echo '<div class="navbar responsiveContainer">
 
 	echo '<div class="slim-col-2">';
 
-			echo "<div id='userDisplay' style='float:right;'>";
+			echo "<div id='userDisplay'>";
 				 $firstname =  $_SESSION['firstname'];
 				 $surname = $_SESSION['surname'];
 				 $userid = $_SESSION['user_id'];
 				 if ($userid){
-					 echo '<div class="dropdown"><button class="dropbtn">Logged in&#9660;</button>
+					 echo '<div class="dropdown topnav"><button class="dropbtn">Logged in&#9660;</button>
 					 
 					 <div class="dropdown-content" id="myDropdown">
 			  				<a class="logout">Logout</a>
@@ -127,7 +131,7 @@ echo '<div class="navbar responsiveContainer">
 					 </div>';
 				 }else{
 					 
-					 echo '<div class="dropdown"><button class="dropbtn login">Login</button></div>';
+					 echo '<div class="dropdown topnav"><button class="dropbtn login">Login</button></div>';
 				 }
 			 echo '</div>';
 				 
@@ -136,6 +140,8 @@ echo '<div class="navbar responsiveContainer">
 			echo "<div id='userID' style='display:none;'>";
 			echo $_SESSION['user_id'];
 			echo "</div>";
+			
+		
 			
 			
 	echo "</div>";

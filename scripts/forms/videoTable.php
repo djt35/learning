@@ -2,7 +2,22 @@
 		
 		<?php
 		
+			$host = substr($_SERVER['HTTP_HOST'], 0, 5);
+		if (in_array($host, array('local', '127.0', '192.1'))) {
+		    $local = TRUE;
+		} else {
+		    $local = FALSE;
+		}
+		
+		if ($local){
+			
 			require ('/Applications/XAMPP/xamppfiles/htdocs/dashboard/learning/scripts/headerCreator.php');
+			
+			
+		}else{
+			
+			require ($_SERVER['DOCUMENT_ROOT'].'/scripts/headerCreator.php');;
+		}
 		
 		
 		$formv1 = new formGenerator;
@@ -67,7 +82,17 @@
 		        
 		    </div>
 		<script>
-			var siteRoot = "http://localhost:90/dashboard/learning/";
+			switch (document.location.hostname)
+{
+        case 'www.endoscopy.wiki':
+                          
+                         var rootFolder = 'http://www.endoscopy.wiki/'; break;
+        case 'localhost' :
+                           var rootFolder = 'http://localhost:90/dashboard/learning/'; break;
+        default :  // set whatever you want
+}
+			
+var siteRoot = rootFolder;
 			
 			//after loading find tr, fast last td, insert td with edit chapter set for this video
 		

@@ -48,13 +48,13 @@ if ($local) {
     
 } else {
 
-    define('BASE_URI', $_SERVER['DOCUMENT_ROOT'].'/testing/anderval/');
-    define('BASE_URL', 'http://www.acestudy.net/');
+    define('BASE_URI', $_SERVER['DOCUMENT_ROOT'].'/');
+    define('BASE_URL', 'http://www.endoscopy.wiki/');
     define('DB', $_SERVER['DOCUMENT_ROOT'].'/mysqli_connect_elearn.php');
     
     function class_loader($class) {
 		
-			require($_SERVER['DOCUMENT_ROOT'].'/learning/classes/'.$class.'.class.php');
+			require($_SERVER['DOCUMENT_ROOT'].'/classes/'.$class.'.class.php');
 		 	
 		}
 	

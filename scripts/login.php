@@ -1,17 +1,41 @@
 
  <?php
-error_reporting(1);	 
+error_reporting(-1);	 
 
 session_start();
+
+$host = substr($_SERVER['HTTP_HOST'], 0, 5);
+if (in_array($host, array('local', '127.0', '192.1'))) {
+    $local = TRUE;
+} else {
+    $local = FALSE;
+}
 	 
-require ($_SERVER['DOCUMENT_ROOT'].'/dashboard/learning/includes/config.inc.php');
+if ($local){
+
+	require ($_SERVER['DOCUMENT_ROOT'].'/dashboard/learning/includes/config.inc.php');
+
+}else{
+
+	require ($_SERVER['DOCUMENT_ROOT'].'/includes/config.inc.php');
+
+}
+
+
+
 
 
 // Check if the form has been submitted:
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	
 	// Need two helper files:
-	require ($_SERVER['DOCUMENT_ROOT'].'/dashboard/learning/includes/login_functions.php');
+
+	if ($local){
+		require ($_SERVER['DOCUMENT_ROOT'].'/dashboard/learning/includes/login_functions.php');
+	}else{
+
+		require($_SERVER['DOCUMENT_ROOT'].'/includes/login_functions.php');
+	}
 	require (DB);
 
 	// Check the login:

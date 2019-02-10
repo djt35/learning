@@ -13,10 +13,10 @@ if ($local){
     $roothttp = 'http://' . $_SERVER['HTTP_HOST'].'/dashboard/learning/';
     require($_SERVER['DOCUMENT_ROOT'].'/dashboard/learning/includes/config.inc.php');
 }else{
-    $root = $_SERVER['DOCUMENT_ROOT'].'/learning/';
-    $roothttp = 'http://' . $_SERVER['HTTP_HOST'].'/learning/';
+    $root = $_SERVER['DOCUMENT_ROOT'];
+    $roothttp = 'http://' . $_SERVER['HTTP_HOST'].'/';
 
-    require($_SERVER['DOCUMENT_ROOT'].'/learning/includes/config.inc.php');
+    require($_SERVER['DOCUMENT_ROOT'].'/includes/config.inc.php');
 
 }
 $location = $roothttp . 'elearn.php';
@@ -53,7 +53,7 @@ $tagCategories = new tagCategories;
 
 	
 	/**
-     * Create Directory to save the files if don´t exist
+     * Create Directory to save the files if donï¿½t exist
      * 
      */
 function VerifyDirectory(){

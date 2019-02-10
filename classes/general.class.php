@@ -865,6 +865,53 @@ class general {
 		}
 
 	}
+	
+	
+	public function getHighestRatedImagesCover ($roothttp) {
+		
+		$q = "SELECT a.`id` as `imageSetid`, b.`image_id` as `imageid`, c.`url`, c.`name`, c.`order`, c.`type`, e.`tagName`, d.`tags_id` FROM `imageSet` as a INNER JOIN `imageImageSet` as b ON a.`id` = b.`imageSet_id` INNER JOIN `images` as c on b.`image_id` = c.`id` INNER JOIN `imagesTag` as d ON c.`id` = d.`images_id` INNER JOIN `tags` as e ON d.`tags_id` = e.`id` INNER JOIN `tagCategories` as f on f.`id` = e.`tagCategories_id` WHERE c.`type` = 1 ORDER BY RAND(), `imageSetid` ASC, c.`order` ASC LIMIT 12";
+
+		$result = $this->connection->RunQuery($q);
+
+		if ($result->num_rows > 0){
+			
+			$x = 1;
+			
+			echo '<div class="row">';
+			
+			while($row = $result->fetch_array(MYSQLI_ASSOC)){
+
+				echo '<div class="col-3 coverImages">';
+				
+					echo "<img class='cover' src='{$roothttp}{$row['url']}'>";
+
+				echo '</div>';
+				
+				if ($x % 4 == 0){
+					
+					echo "</div>";  
+					
+					echo '<div class="row">';
+					
+					$x = 1;
+					
+					continue;
+						
+					
+				}
+				
+				$x++;
+
+
+			}
+			
+			echo "</div>";
+			
+
+		}
+		
+		
+	}
 
 	public function getAllTagsInCategoryWithHighestRatedImages ($tagCategoriesid, $roothttp) {
 

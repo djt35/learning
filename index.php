@@ -245,9 +245,19 @@
 					
 					
 					
-					<div class='col-9'>
+					<div class='col-9 images'>
 						
 						<div class='responsiveContainer'>
+							
+							<?php
+								
+								//select 9 random grade 1 images from the databse and dsiplay
+								
+								$general->getHighestRatedImagesCover ($roothttp);
+								
+								
+							?>
+							<!--
 							
 							<div class = 'row'>
 						
@@ -350,7 +360,7 @@
 							
 							
 							</div>																											
-						
+						-->
 														
 							
 						</div>	
@@ -378,7 +388,7 @@
 								
 								<div class='row'>	
 												 
-								    <div class='col-12 black whiteborder center' style="min-height:60vh;">
+								    <div class='col-12 black whiteborder center news'>
 									    
 									    <div id='chapterInfo'>
 										    
@@ -435,7 +445,93 @@
 		    </div>
 		<script>
 			
-var siteRoot = "http://localhost:90/dashboard/learning/";
+		
+
+switch (document.location.hostname)
+{
+        case 'www.endoscopy.wiki':
+                          
+                         var rootFolder = 'http://www.endoscopy.wiki/'; break;
+        case 'localhost' :
+                           var rootFolder = 'http://localhost:90/dashboard/learning/'; break;
+        default :  // set whatever you want
+}
+			
+var siteRoot = rootFolder;
+
+/*function mobileMenuShow(){
+	
+	//check if already clicked
+	
+	var alreadyClicked = 0;
+	
+	$('.navbar').find('.topnav').each(function(){
+	
+		if ($(this).hasClass('responsive') == true){
+			
+			alreadyClicked = 1;
+			
+		}	
+		
+	})
+	
+	if (alreadyClicked == 0){
+		
+		$('.navbar').addClass('responsiveToolbar');
+	
+		//show the items floated in a new way
+		
+		$('.navbar').find('.topnav').each(function(){
+	    	
+	    	//add the required class
+	    	$(this).addClass('responsive');
+	    	$(this).show();
+		})
+		
+		$('.navbar').find('.icon').each(function(){
+	    	
+	    	//add the required class
+	    	$(this).addClass('responsive2');
+	   
+	   	})
+		
+	}else if (alreadyClicked == 1){
+		
+		$('.navbar').removeClass('responsiveToolbar');
+	
+		//show the items floated in a new way
+		
+		$('.navbar').find('.topnav').each(function(){
+	    	
+	    	//add the required class
+	    	$(this).removeClass('responsive');
+	    	$(this).hide();
+		})
+		
+		$('.navbar').find('.icon').each(function(){
+	    	
+	    	//add the required class
+	    	$(this).removeClass('responsive2');
+	   
+	   	})
+		
+		
+	}
+	
+	
+	//get items to show (everything with topnav)
+	
+	
+	
+	
+		
+	//that way is responsive
+	
+	
+}*/
+
+
+
 
 
 $(document).ready(function() {
@@ -452,6 +548,9 @@ $(document).ready(function() {
     }).bind('ajaxStop', function() {
         $(this).hide();
     });
+    
+    $(".news").css("height", $(".images").height());
+    
 
     var titleGraphic = $(".title").height();
     var titleBar = $("#menu").height();
@@ -464,6 +563,7 @@ $(document).ready(function() {
             var titleGraphic = $(".title").height();
             var titleBar = $("#menu").height();
             $(".title").css('height', (titleBar));
+            $(".news").css("height", $(".images").height());
 
         }, 100, 'Resize header');
     });

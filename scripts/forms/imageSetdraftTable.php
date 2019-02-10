@@ -26,7 +26,7 @@
 		$tagCategories = new tagCategories;
 		$user = new users;
 		
-		if ($user->getUserAccessLevel($_SESSION['user_id']) > 2){
+		if ($user->getUserAccessLevel($_SESSION['user_id']) > 3){
 	
 			redirect_login($location);
 	
@@ -40,7 +40,7 @@
 		
 		<html>
 		<head>
-		    <title>imageSet Table</title>
+		    <title>Draft Images Uploaded by User</title>
 		</head>
 		
 		<?php
@@ -59,11 +59,13 @@
 			        
 			        <div class='row'>
 		                <div class='col-9'>
-		                    <h2 style="text-align:left;">List of imageSet</h2>
+		                    <h2 style="text-align:left;">Draft Images Table</h2>
+		                    <p style='text-align:left;'>Welcome <?php echo $user->getUserName($_SESSION['user_id']);?>.</p>
+		                    <p style='text-align:left;'>Here are a list of the images you have submitted for consideration.  You can edit these submissions here.</p>
 		                </div>
 		
 		                <div id="messageBox" class='col-3 yellow-light narrow center'>
-		                    <p><button id="newimageSet" onclick="window.location.href = '<?php echo $roothttp;?>/scripts/forms/imageSetForm.php';">New imageSet</button></p>
+		                    <!--<p><button id="newimageSet" onclick="window.location.href = '<?php echo $roothttp;?>/scripts/forms/imageSetForm.php';">New imageSet</button></p>-->
 		                </div>
 		            </div>
 			        
@@ -71,10 +73,14 @@
 		                <div class='col-1'></div>
 		
 		                <div class='col-10 narrow' style='overflow-x: scroll;'>
-		                    <p><?php $general->makeTableImagesv2("SELECT a.`type`, a.`author`, a.`id`, c.`url`, a.`created`, a.`updated` 
-FROM `imageSet` as a 
-INNER JOIN `imageImageSet` as b ON a.`id` = b.`imageSet_id`
-INNER JOIN `images` as c on b.`image_id` = c.`id` GROUP BY a.`id` ORDER BY a.`id` desc", $roothttp); ?></p>
+		                    <p><?php 
+			                    
+			                    $useridquery = $_SESSION['user_id'];
+			                    
+			                    $general->makeTableImagesv2("SELECT a.`type`, a.`author`, a.`id`, c.`url`, a.`created`, a.`updated` 
+FROM `imageSetDraft` as a 
+INNER JOIN `imageImageSetDraft` as b ON a.`id` = b.`imageSet_id`
+INNER JOIN `imagesDraft` as c on b.`image_id` = c.`id` WHERE a.`author` = $useridquery GROUP BY a.`id` ORDER BY a.`id` desc", $roothttp); ?></p>
 		                </div>
 		
 		                <div class='col-1'></div>
@@ -108,12 +114,12 @@ var siteRoot = rootFolder;
 					
 					//console.log(id);
 					
-					window.location.href = siteRoot + 'scripts/forms/imagesUploadForm.php?id=' + id;
+					window.location.href = siteRoot + 'scripts/forms/imagesdraftUploadForm.php?id=' + id;
 		
 					
 				})
 				
-				var navBarEntry = '<div class="dropdown"><button class="dropbtn activeButton">Image Creators&#9660;</button><div class="dropdown-content"><a href="' + siteRoot + 'scripts/forms/imagesUploadForm.php">New Image Entry</a><hr><a href="' + siteRoot + 'scripts/forms/imageSetTable.php">Images Table</a></div></div>';
+				var navBarEntry = '<div class="dropdown"><button class="dropbtn activeButton">Image Creators&#9660;</button><div class="dropdown-content"><a href="' + siteRoot + 'scripts/forms/imagesdraftUploadForm.php">New Image Entry</a><hr><a href="' + siteRoot + 'scripts/forms/imageSetdraftTable.php">Images Table</a></div></div>';
     
     $('.navbar').find('.dropdown:eq(3)').after(navBarEntry);
 				
@@ -129,7 +135,7 @@ var siteRoot = rootFolder;
 
 			            //disableFormInputs("images");
 			
-			            var imagesObject = pushDataAJAX('imageSet', 'id', id, 2, ''); //delete images
+			            var imagesObject = pushDataAJAX('imageSetDraft', 'id', id, 2, ''); //delete images
 			
 			            imagesObject.done(function(data) {
 			

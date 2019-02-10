@@ -43,7 +43,7 @@ function generateRandomString($length = 8) {
 }
 
 $desired_dir=$root . "includes/images/";
-$desired_http_dir = $roothttp . "includes/images/";
+$desired_http_dir = $roothttp . "includes/images/drafts/";
 
 $filearray = array();
 
@@ -51,12 +51,12 @@ $filearray = array();
 
 if(isset($_FILES)){
 	
-	$r = "INSERT into `imageSet` (`name`) VALUES ('" . generateRandomString() . "')";
+	$r = "INSERT into `imageSetDraft` (`name`) VALUES ('" . generateRandomString() . "')";
 					
 	$insertid2 = $general->returnWithInsertID($r);
 
 	$errors= array();
-	$desired_dir=$root . "includes/images/"; // replace with your directory name where you want to store images
+	$desired_dir=$root . "includes/images/drafts/"; // replace with your directory name where you want to store images
 	// getting files array
 	$x=1;
 	foreach($_FILES as $file){
@@ -109,17 +109,17 @@ if(isset($_FILES)){
 				// inserting data into database
 				// mysql_query("INSERT into your_tablename(your_field) VALUES('$filename')"); // inserting data if file is moved
 				
-				$q = "INSERT into `images` (`url`) VALUES ('includes/images/$file_name')";
+				$q = "INSERT into `imagesDraft` (`url`) VALUES ('includes/images/drafts/$file_name')";
 				
 				$insertid = $general->returnWithInsertID($q);
 				
 				if ($insertid){
 					
-					$filearray[$x] = array ('id' => $insertid, 'filename' => 'includes/images/' .$file_name);
+					$filearray[$x] = array ('id' => $insertid, 'filename' => 'includes/images/drafts/' .$file_name);
 					
 					//use insert ID for insert into imagesGroup
 					
-					$s = "INSERT into `imageImageSet` (`image_id`,`imageSet_id`) VALUES ('$insertid','$insertid2')";
+					$s = "INSERT into `imageImageSetDraft` (`image_id`,`imageSet_id`) VALUES ('$insertid','$insertid2')";
 					//echo "The file ".$file_name." has been uploaded";
 					$general->connection->RunQuery($s);
 					

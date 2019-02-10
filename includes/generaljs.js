@@ -1,3 +1,4 @@
+
 //function for getting bulk data with an optional query string used as the where clause and output as json or a html table
 function getDataQuery (table, query, fieldsToGetObject, outputFormat){
 
@@ -746,6 +747,78 @@ function login(){
 	
 	
 }
+
+function mobileMenuShow(){
+	
+	//check if already clicked
+	
+	var alreadyClicked = 0;
+	
+	$('.navbar').find('.topnav').each(function(){
+	
+		if ($(this).hasClass('responsive') == true){
+			
+			alreadyClicked = 1;
+			
+		}	
+		
+	})
+	
+	if (alreadyClicked == 0){
+		
+		$('.navbar').addClass('responsiveToolbar');
+	
+		//show the items floated in a new way
+		
+		$('.navbar').find('.topnav').each(function(){
+	    	
+	    	//add the required class
+	    	$(this).addClass('responsive');
+	    	$(this).show();
+		})
+		
+		$('.navbar').find('.icon').each(function(){
+	    	
+	    	//add the required class
+	    	$(this).addClass('responsive2');
+	   
+	   	})
+		
+	}else if (alreadyClicked == 1){
+		
+		$('.navbar').removeClass('responsiveToolbar');
+	
+		//show the items floated in a new way
+		
+		$('.navbar').find('.topnav').each(function(){
+	    	
+	    	//add the required class
+	    	$(this).removeClass('responsive');
+	    	$(this).hide();
+		})
+		
+		$('.navbar').find('.icon').each(function(){
+	    	
+	    	//add the required class
+	    	$(this).removeClass('responsive2');
+	   
+	   	})
+		
+		
+	}
+	
+	
+	//get items to show (everything with topnav)
+	
+	
+	
+	
+		
+	//that way is responsive
+	
+	
+}
+
 
 $(document).ready(function() {
 
