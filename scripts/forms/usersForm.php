@@ -24,6 +24,7 @@
 			$general = new general;
 			$video = new video;
 			$tagCategories = new tagCategories;
+			$user = new users;
 		
 		
 		
@@ -63,7 +64,29 @@
 		include($root . "/scripts/logobar.php");
 		
 		include($root . "/includes/naviCreator.php");
+		
+		if ($user->getUserAccessLevel($_SESSION['user_id']) > 1){
+			
+			echo '<body><div class="content">';
+			
+			//message to user goes here
+			
+			echo 'You do not have sufficient access privileges to view this page';
+			echo '<br><br>';
+			echo '<a href="javascript:history.back()">Go Back</a>';
+			
+			echo '</div></body>';
+			include($root ."/includes/footer.html");
+			
+			exit();
+			
+			//redirect_login($location);
+	
+	
+		}
+		
 		?>
+		
 		
 		<body>
 		
@@ -75,7 +98,7 @@
 		
 			        <div class='row'>
 		                <div class='col-9'>
-		                    <h2 style="text-align:left;">users Form</h2>
+		                    <h2 style="text-align:left;">New / Edit Endoscopy Wiki Users Form</h2>
 		                </div>
 		
 		                <div id="messageBox" class='col-3 yellow-light narrow center'>
@@ -102,19 +125,66 @@
 			        <p>
 		
 					    <form id="users">
-					    <?php echo $formv1->generateText('user_id', 'user_id', '', 'tooltip here');
-echo $formv1->generateText('firstname', 'firstname', '', 'tooltip here');
-echo $formv1->generateText('surname', 'surname', '', 'tooltip here');
-echo $formv1->generateText('email', 'email', '', 'tooltip here');
-echo $formv1->generateText('password', 'password', '', 'tooltip here');
-echo $formv1->generateText('centre', 'centre', '', 'tooltip here');
+					    <?php 
+						    
+						    
+						    
+$countries = array();
+
+$q = "SELECT `CountryID`, `CountryName` FROM countries";
+
+$result = $general->connection->RunQuery($q);
+
+while($row = $result->fetch_array(MYSQLI_ASSOC)){
+				
+				$id = $row['CountryID'];
+				$name = $row['CountryName'];
+		
+				$countries[$id] = $name;
+		
+		}
+					
+				
+//echo $formv1->generateText('user_id', 'user_id', '', 'tooltip here');
+echo '<fieldset>';
+echo $formv1->generateText('Firstname', 'firstname', '', 'tooltip here');
+echo $formv1->generateText('Surname', 'surname', '', 'tooltip here');
+echo $formv1->generateText('Email Address', 'email', '', 'tooltip here');
+echo $formv1->generateText('Password', 'password', '', 'tooltip here');
+echo '<button type="button" id="hash">hash</button>';
+echo '</fieldset>';
+echo '<br><br>';
+
+echo '<fieldset>';
+echo $formv1->generateText('Institution name', 'centreName', '', 'tooltip here');
+echo $formv1->generateText('Institution City', 'centreCity', '', 'tooltip here');
+echo $formv1->generateSelectCustom('Country', 'centreCountry', '', $countries, 'tooltip here');
+echo $formv1->generateText('Phone number', 'contactPhone', '', 'tooltip here');
+
+echo '</fieldset>';
+echo '<br><br>';
+
+echo '<fieldset>';
+echo $formv1->generateSelect('Are you a trainee?', 'trainee', '', 'Yes_No', 'tooltip here');
+echo $formv1->generateText('How many years have you practiced?', 'yearsIndependent', '', 'tooltip here');
+echo $formv1->generateText('How many years have you performed endoscopy for independently?', 'yearsEndoscopy', '', 'tooltip here');
+echo $formv1->generateSelect('Have you ever undertaken an endoscopy fellowship (dedicated, >6months)', 'endoscopyTrainingProgramme', '', 'Yes_No', 'tooltip here');
+echo $formv1->generateSelect('What is your specialist interest?', 'specialistInterest', '', 'specialistInterest', 'tooltip here');
+echo $formv1->generateSelectCustom('Email preferences', 'emailPreferences', '', 'options here', 'tooltip here');
+
+echo '</fieldset>';
+echo '<br><br>';
+
+echo '<fieldset>';
+echo $formv1->generateText('timezone', 'timezone', '', 'tooltip here');
 echo $formv1->generateText('registered_date', 'registered_date', '', 'tooltip here');
 echo $formv1->generateText('last_login', 'last_login', '', 'tooltip here');
 echo $formv1->generateText('previous_login', 'previous_login', '', 'tooltip here');
-echo $formv1->generateText('timezone', 'timezone', '', 'tooltip here');
 echo $formv1->generateText('access_level', 'access_level', '', 'tooltip here');
-echo $formv1->generateText('contactPhone', 'contactPhone', '', 'tooltip here');
 echo $formv1->generateText('key', 'key', '', 'tooltip here');
+echo '<button type="button" id="random">random key</button><br><br>';
+echo '</fieldset>';
+echo '<br><br>';
 ?>
 						    <button id="submitusers">Submit</button>
 		
@@ -193,11 +263,15 @@ var siteRoot = rootFolder;
 		
 				try {
 		
-					$("form#users").find("button#deleteusers").length();
+					var length = $("form#users").find("#deleteusers").length;
+					if (length == 0){
+							$("form#users").find("#submitusers").after("<button id='deleteusers'>Delete</button>");
+							
+							}
 		
 				}catch(error){
 		
-					$("form#users").find("button").after("<button id='deleteusers'>Delete</button>");
+					
 		
 				}
 		
