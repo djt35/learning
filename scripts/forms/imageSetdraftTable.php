@@ -26,7 +26,7 @@
 		$tagCategories = new tagCategories;
 		$user = new users;
 		
-		if ($user->getUserAccessLevel($_SESSION['user_id']) > 3){
+		if ($user->getUserAccessLevel($_SESSION['user_id']) > 4){
 	
 			redirect_login($location);
 	

@@ -420,8 +420,7 @@ body {
     min-height: 60vh;
 	/* max-height: 60vh;*/
 	text-align: center;
-
-	overflow-x: scroll;
+	overflow-x: hidden;
 	
 
 }
@@ -745,6 +744,7 @@ display: none;
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
     padding: 20px;
     z-index: 50;
+    overflow-x:hidden; 
 }
 
 .tagButton {
@@ -1165,6 +1165,19 @@ display: none;
   display: block;
 }
 
+/*#loading {
+	    display: block;
+	    position: absolute;
+	    top: 0;
+	    left: 0;
+	    z-index: 100;
+	    width: 100vw;
+	    height: 100vh;
+	    background-color: rgba(192, 192, 192, 0.5);
+	    background-image: url("http://www.endoscopy.wiki/includes/810.svg");
+	    background-repeat: no-repeat;
+	    background-position: center;
+	}*/
 
 
 

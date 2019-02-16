@@ -32,13 +32,13 @@ if ($local) {
    // $debug = TRUE;
     
     // Define the constants:
-    define('BASE_URI', '/Applications/XAMPP/xamppfiles/htdocs/dashboard/learning/');
-    define('BASE_URL', 'http://localhost:90/');
-    define('DB', '/Applications/XAMPP/xamppfiles/htdocs/dashboard/mysqli_connect_elearn.inc.php');
+    define('BASE_URI', '/Applications/XAMPP/xamppfiles/htdocs/dashboard/learning');
+    define('BASE_URL', 'http://localhost:90/dashboard/esd');
+    define('DB', '/Applications/XAMPP/xamppfiles/htdocs/dashboard/mysqli_connect_esd.inc.php');
     
     function class_loader($class) {
 		
-			require($_SERVER['DOCUMENT_ROOT'].'/dashboard/learning/classes/'.$class.'.class.php');
+			require($_SERVER['DOCUMENT_ROOT'].'/dashboard/esd/classes/'.$class.'.class.php');
 		 	
 		}
 	
@@ -48,13 +48,13 @@ if ($local) {
     
 } else {
 
-    define('BASE_URI', $_SERVER['DOCUMENT_ROOT'].'/');
-    define('BASE_URL', 'http://www.endoscopy.wiki/');
-    define('DB', $_SERVER['DOCUMENT_ROOT'].'/mysqli_connect_elearn.php');
+    define('BASE_URI', $_SERVER['DOCUMENT_ROOT'].'/public_html/esd');
+    define('BASE_URL', 'http://www.endoscopy.wiki/esd');
+    define('DB', $_SERVER['DOCUMENT_ROOT'].'/mysqli_connect_esd.inc.php');
     
     function class_loader($class) {
 		
-			require($_SERVER['DOCUMENT_ROOT'].'/classes/'.$class.'.class.php');
+			require($_SERVER['DOCUMENT_ROOT'].'/esd/classes/'.$class.'.class.php');
 		 	
 		}
 	

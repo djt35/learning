@@ -7,9 +7,34 @@ Class formGenerator {
 	private $traineeID; //int(10)
 
 	private $connection;
+	private $databaseName;
 
 	public function __construct (){
 		$this->connection = new DataBaseMysql();
+		
+		$host = substr($_SERVER['HTTP_HOST'], 0, 5);
+		if (in_array($host, array('local', '127.0', '192.1'))) {
+		    $local = TRUE;
+		} else {
+		    $local = FALSE;
+		}
+		
+		if ($local){
+				$this->setDatabaseName ('LearningTool');
+				
+		}else{
+			
+			$this->setDatabaseName ('learningToolv1');
+			
+			
+		}
+	}
+	
+	public function setDatabaseName ($databaseName){
+		
+		$this->databaseName = $databaseName;
+		
+		
 	}
 	
 	public function GetValues($column){
@@ -273,6 +298,36 @@ Class formGenerator {
 	    $q = "SELECT `TABLE_NAME` AS `table`, `COLUMN_NAME` AS `name`, `ORDINAL_POSITION` AS `position`, `CHARACTER_MAXIMUM_LENGTH` AS `length`
 	    FROM INFORMATION_SCHEMA.COLUMNS
 	            WHERE TABLE_SCHEMA='LearningTool'";
+	    
+	   	
+	   	$result = $this->connection->RunQuery($q);
+	   	    
+	    if ($result->num_rows > 0){
+					
+		
+				$columns = array();
+			
+				while($columns[] = $result->fetch_array(MYSQLI_ASSOC));
+
+			
+				
+			return $columns;	
+				
+			}else{
+				
+				echo 'query didn\t work';
+				return NULL;
+				
+			}
+	    
+	    
+    }
+    
+    public function getAllDatabaseTablesv1 ($ref){
+	    
+	    $q = "SELECT `TABLE_NAME` AS `table`, `COLUMN_NAME` AS `name`, `ORDINAL_POSITION` AS `position`, `CHARACTER_MAXIMUM_LENGTH` AS `length`
+	    FROM INFORMATION_SCHEMA.COLUMNS
+	            WHERE TABLE_SCHEMA='$ref'";
 	    
 	   	
 	   	$result = $this->connection->RunQuery($q);

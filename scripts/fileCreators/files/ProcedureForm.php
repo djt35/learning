@@ -3,22 +3,7 @@
 		
 			<?php
 		
-			$host = substr($_SERVER['HTTP_HOST'], 0, 5);
-		if (in_array($host, array('local', '127.0', '192.1'))) {
-		    $local = TRUE;
-		} else {
-		    $local = FALSE;
-		}
-		
-		if ($local){
-			
 			require ('/Applications/XAMPP/xamppfiles/htdocs/dashboard/learning/scripts/headerCreator.php');
-			
-			
-		}else{
-			
-			require ($_SERVER['DOCUMENT_ROOT'].'/scripts/headerCreator.php');;
-		}
 		
 			$formv1 = new formGenerator;
 			$general = new general;
@@ -102,68 +87,7 @@
 			        <p>
 		
 					    <form id="Procedure">
-					    <?php echo $formv1->generateText('_k_procedure', '_k_procedure', '', 'tooltip here');
-echo $formv1->generateText('_k_patient', '_k_patient', '', 'tooltip here');
-echo $formv1->generateText('Institution', 'Institution', '', 'tooltip here');
-echo $formv1->generateText('ProcedureDate', 'ProcedureDate', '', 'tooltip here');
-echo $formv1->generateText('Age', 'Age', '', 'tooltip here');
-echo $formv1->generateText('Consultant', 'Consultant', '', 'tooltip here');
-echo $formv1->generateText('Endoscopist', 'Endoscopist', '', 'tooltip here');
-echo $formv1->generateText('Complete_Colon', 'Complete_Colon', '', 'tooltip here');
-echo $formv1->generateText('TertiaryReferral', 'TertiaryReferral', '', 'tooltip here');
-echo $formv1->generateText('RefDocType', 'RefDocType', '', 'tooltip here');
-echo $formv1->generateText('ASA', 'ASA', '', 'tooltip here');
-echo $formv1->generateText('MajorComorb_Simple', 'MajorComorb_Simple', '', 'tooltip here');
-echo $formv1->generateText('MajorComorbNone', 'MajorComorbNone', '', 'tooltip here');
-echo $formv1->generateText('MajorComorbIHD', 'MajorComorbIHD', '', 'tooltip here');
-echo $formv1->generateText('MajorComorbCCF', 'MajorComorbCCF', '', 'tooltip here');
-echo $formv1->generateText('MajorComorbHT', 'MajorComorbHT', '', 'tooltip here');
-echo $formv1->generateText('MajorComorbCVA', 'MajorComorbCVA', '', 'tooltip here');
-echo $formv1->generateText('MajorComorbChronicResp', 'MajorComorbChronicResp', '', 'tooltip here');
-echo $formv1->generateText('MajorComorbChronicRenal', 'MajorComorbChronicRenal', '', 'tooltip here');
-echo $formv1->generateText('MajorComorbMajorRheum', 'MajorComorbMajorRheum', '', 'tooltip here');
-echo $formv1->generateText('MajorComorbLiverDisease', 'MajorComorbLiverDisease', '', 'tooltip here');
-echo $formv1->generateText('MajorComorbCirrhosis', 'MajorComorbCirrhosis', '', 'tooltip here');
-echo $formv1->generateText('MajorComorbActiveCa', 'MajorComorbActiveCa', '', 'tooltip here');
-echo $formv1->generateText('MajorComorbDM1', 'MajorComorbDM1', '', 'tooltip here');
-echo $formv1->generateText('MajorComorbDM2', 'MajorComorbDM2', '', 'tooltip here');
-echo $formv1->generateText('MajorComorbHaem', 'MajorComorbHaem', '', 'tooltip here');
-echo $formv1->generateText('MajorComorbObese', 'MajorComorbObese', '', 'tooltip here');
-echo $formv1->generateText('MajorComorbOther', 'MajorComorbOther', '', 'tooltip here');
-echo $formv1->generateText('MajorComorb_OtherNotes', 'MajorComorb_OtherNotes', '', 'tooltip here');
-echo $formv1->generateText('Reg_Antithromb', 'Reg_Antithromb', '', 'tooltip here');
-echo $formv1->generateText('Reg_Antithromb_1', 'Reg_Antithromb_1', '', 'tooltip here');
-echo $formv1->generateText('Reg_Antithromb_1Other', 'Reg_Antithromb_1Other', '', 'tooltip here');
-echo $formv1->generateText('Discontinuation1', 'Discontinuation1', '', 'tooltip here');
-echo $formv1->generateText('Reg_Antithromb_2', 'Reg_Antithromb_2', '', 'tooltip here');
-echo $formv1->generateText('Reg_Antithromb_2Other', 'Reg_Antithromb_2Other', '', 'tooltip here');
-echo $formv1->generateText('Discontinuation2', 'Discontinuation2', '', 'tooltip here');
-echo $formv1->generateText('Reg_Antithromb_7daySum', 'Reg_Antithromb_7daySum', '', 'tooltip here');
-echo $formv1->generateText('MainIndic', 'MainIndic', '', 'tooltip here');
-echo $formv1->generateText('MainIndic_Other', 'MainIndic_Other', '', 'tooltip here');
-echo $formv1->generateText('Height', 'Height', '', 'tooltip here');
-echo $formv1->generateText('Weight', 'Weight', '', 'tooltip here');
-echo $formv1->generateText('AbdoCirc', 'AbdoCirc', '', 'tooltip here');
-echo $formv1->generateText('Smoking100CigsEver', 'Smoking100CigsEver', '', 'tooltip here');
-echo $formv1->generateText('SmokingCigsPerDay', 'SmokingCigsPerDay', '', 'tooltip here');
-echo $formv1->generateText('AlcoholCurrent', 'AlcoholCurrent', '', 'tooltip here');
-echo $formv1->generateText('AlcoholEver', 'AlcoholEver', '', 'tooltip here');
-echo $formv1->generateText('Bowel_preparation', 'Bowel_preparation', '', 'tooltip here');
-echo $formv1->generateText('Pain', 'Pain', '', 'tooltip here');
-echo $formv1->generateText('MultipleESDs', 'MultipleESDs', '', 'tooltip here');
-echo $formv1->generateText('DirectAdmit', 'DirectAdmit', '', 'tooltip here');
-echo $formv1->generateText('DirectAdmitReason', 'DirectAdmitReason', '', 'tooltip here');
-echo $formv1->generateText('DirectAdmit_Other', 'DirectAdmit_Other', '', 'tooltip here');
-echo $formv1->generateText('DirectAdmit_NoNights', 'DirectAdmit_NoNights', '', 'tooltip here');
-echo $formv1->generateText('DirectAdmit_NonSocialYN', 'DirectAdmit_NonSocialYN', '', 'tooltip here');
-echo $formv1->generateText('DelayedAdmit', 'DelayedAdmit', '', 'tooltip here');
-echo $formv1->generateText('DelayedAdmit_Reason', 'DelayedAdmit_Reason', '', 'tooltip here');
-echo $formv1->generateText('DelayedAdmit_ReasonOther', 'DelayedAdmit_ReasonOther', '', 'tooltip here');
-echo $formv1->generateText('DelayedAdmit_NoNights', 'DelayedAdmit_NoNights', '', 'tooltip here');
-echo $formv1->generateText('AnyAdmit', 'AnyAdmit', '', 'tooltip here');
-echo $formv1->generateText('TotalInpatientNights', 'TotalInpatientNights', '', 'tooltip here');
-echo $formv1->generateText('AnyAdmitNotes', 'AnyAdmitNotes', '', 'tooltip here');
-?>
+					    <?php ?>
 						    <button id="submitProcedure">Submit</button>
 		
 					    </form>
@@ -176,17 +100,7 @@ echo $formv1->generateText('AnyAdmitNotes', 'AnyAdmitNotes', '', 'tooltip here')
 		
 		    </div>
 		<script>
-			switch (document.location.hostname)
-{
-        case 'www.endoscopy.wiki':
-                          
-                         var rootFolder = 'http://www.endoscopy.wiki/'; break;
-        case 'localhost' :
-                           var rootFolder = 'http://localhost:90/dashboard/learning/'; break;
-        default :  // set whatever you want
-}
-			
-var siteRoot = rootFolder;
+			var siteRoot = "http://localhost:90/dashboard/learning/";
 		
 			 ProcedurePassed = $("#id").text();
 		

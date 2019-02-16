@@ -3,8 +3,10 @@
 	$host = substr($_SERVER['HTTP_HOST'], 0, 5);
 		if (in_array($host, array('local', '127.0', '192.1'))) {
 		    $local = TRUE;
+		    $ref = 'LearningTool';
 		} else {
 		    $local = FALSE;
+		    $ref = 'learningToolv1';
 		}
 		
 		if ($local){
@@ -45,7 +47,7 @@ include($root . "/scripts/logobar.php");
 		
 include($root . "/includes/naviv1.php");
 
-$columns = $formv1->getAllDatabaseTables();
+$columns = $formv1->getAllDatabaseTablesv1($ref);
 
 $datafields = array();
 

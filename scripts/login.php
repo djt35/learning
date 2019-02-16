@@ -64,7 +64,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 		// Assign $data to $errors for
 		$errors = $data;
 		foreach ($errors as $msg) {
-			//echo " - $msg<br />\n";
+			echo " - $msg<br />\n";
 		
 		}
 

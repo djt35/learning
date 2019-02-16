@@ -3,22 +3,7 @@
 		
 			<?php
 		
-			$host = substr($_SERVER['HTTP_HOST'], 0, 5);
-		if (in_array($host, array('local', '127.0', '192.1'))) {
-		    $local = TRUE;
-		} else {
-		    $local = FALSE;
-		}
-		
-		if ($local){
-			
 			require ('/Applications/XAMPP/xamppfiles/htdocs/dashboard/learning/scripts/headerCreator.php');
-			
-			
-		}else{
-			
-			require ($_SERVER['DOCUMENT_ROOT'].'/scripts/headerCreator.php');;
-		}
 		
 			$formv1 = new formGenerator;
 			$general = new general;
@@ -102,19 +87,7 @@
 			        <p>
 		
 					    <form id="Patient">
-					    <?php echo $formv1->generateText('_k_patient', '_k_patient', '', 'tooltip here');
-echo $formv1->generateText('_k_referrer', '_k_referrer', '', 'tooltip here');
-echo $formv1->generateText('Sex', 'Sex', '', 'tooltip here');
-echo $formv1->generateText('Age', 'Age', '', 'tooltip here');
-echo $formv1->generateText('Institution', 'Institution', '', 'tooltip here');
-echo $formv1->generateText('ProspectiveEthics', 'ProspectiveEthics', '', 'tooltip here');
-echo $formv1->generateText('Family_Hx', 'Family_Hx', '', 'tooltip here');
-echo $formv1->generateText('Number_affected_FH', 'Number_affected_FH', '', 'tooltip here');
-echo $formv1->generateText('Relationship_1', 'Relationship_1', '', 'tooltip here');
-echo $formv1->generateText('Age_1_FH', 'Age_1_FH', '', 'tooltip here');
-echo $formv1->generateText('Relationship_2', 'Relationship_2', '', 'tooltip here');
-echo $formv1->generateText('Age_2_FH', 'Age_2_FH', '', 'tooltip here');
-?>
+					    <?php ?>
 						    <button id="submitPatient">Submit</button>
 		
 					    </form>
@@ -127,17 +100,7 @@ echo $formv1->generateText('Age_2_FH', 'Age_2_FH', '', 'tooltip here');
 		
 		    </div>
 		<script>
-			switch (document.location.hostname)
-{
-        case 'www.endoscopy.wiki':
-                          
-                         var rootFolder = 'http://www.endoscopy.wiki/'; break;
-        case 'localhost' :
-                           var rootFolder = 'http://localhost:90/dashboard/learning/'; break;
-        default :  // set whatever you want
-}
-			
-var siteRoot = rootFolder;
+			var siteRoot = "http://localhost:90/dashboard/learning/";
 		
 			 PatientPassed = $("#id").text();
 		
