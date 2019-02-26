@@ -173,6 +173,10 @@
 		
 		</div>
 		
+		<div class="popup">
+		
+		</div>
+		
 		<div class="modal" style="display:none;">
 			
 			<div class='modalContent'>
@@ -1406,6 +1410,12 @@ $(document).ready(function() {
     //!modify navbar to include page specific links
     
     var navBarEntry = '<div class="dropdown"><button class="dropbtn activeButton">Video Atlas</button><div class="dropdown-content"><a href="' + siteRoot + 'scripts/display/displayVideo.php">All Videos</a><hr></div></div>';
+    
+    $('.pageTitle').click(function(e) {
+		  $(".popup").css({left: e.pageX});
+		  $(".popup").css({top: e.pageY});
+		  $(".popup").show();
+		});
     
     //$('.navbar').find('a:eq(1)').after(navBarEntry);
 

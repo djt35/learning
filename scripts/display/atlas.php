@@ -960,7 +960,7 @@ $(document).ready(function() {
 		
 		searchTerm = searchTerm.slice(8);
 		
-		window.location.href = siteRoot + "scripts/display/atlasImageSet.php?id="+searchTerm;
+		window.location.href = siteRoot + "scripts/display/atlasImageset.php?id="+searchTerm;
 		
 		
 		

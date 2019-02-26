@@ -45,8 +45,8 @@ include($root . "/scripts/logobar.php");
 		
 include($root . "/includes/naviv1.php");
 
-$columns = $formv1->getAllDatabaseTables();
-
+//$columns = $formv1->getAllDatabaseTables();
+/*
 $datafields = array();
 
 $x=0;
@@ -66,7 +66,7 @@ foreach ($columns as $key=>$value){
 	}
 		
 } 
-
+*/
 
 
 //TERMINATE THE SCRIPT IF NOT A SUPERUSER

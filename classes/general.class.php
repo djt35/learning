@@ -1897,8 +1897,7 @@ class general {
 		
 		$q = "SELECT COUNT(a.`id`) as number
 FROM `imageSetDraft` as a 
-INNER JOIN `imageImageSetDraft` as b ON a.`id` = b.`imageSet_id`
-INNER JOIN `imagesDraft` as c on b.`image_id` = c.`id` WHERE a.`approved` IS NULL GROUP BY a.`id` ORDER BY a.`created` desc";
+WHERE a.`approved` IS NULL GROUP BY a.`id` ORDER BY a.`created` desc";
 
 		$result = $this->connection->RunQuery($q);
 		

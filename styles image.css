@@ -98,6 +98,17 @@ p {
 	
 }
 
+.popup {
+  display: none;
+  position: absolute;
+  color: white;
+  padding: 10px;
+  border: solid 1px #ddd;
+  background: #e62c45;
+  text-align: center;
+  width: 10%;
+}
+
 .cover {
 	
 	width: 98%;
