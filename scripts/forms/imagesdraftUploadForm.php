@@ -474,7 +474,7 @@ function deleteImage(imageRowClicked){
 
 function preview(idPassed){
 	
-	PopupCenter(siteRoot + "scripts/display/atlasImageSetDraft.php?id="+idPassed, 'Preview images', 800, 1000);
+	PopupCenter(siteRoot + "scripts/display/atlasImagesetDraft.php?id="+idPassed, 'Preview images', 800, 1000);
 
 	
 	
@@ -1010,7 +1010,7 @@ $(document).ready(function() {
 	});
 	*/
 	
-	var navBarEntry = '<div class="dropdown"><button class="dropbtn activeButton">Image Creators&#9660;</button><div class="dropdown-content"><a href="' + siteRoot + 'scripts/forms/imagesdraftUploadForm.php">New Image Entry</a><hr><a href="' + siteRoot + 'scripts/forms/imageSetDraftTable.php">Images Table</a></div></div>';
+	var navBarEntry = '<div class="dropdown"><button class="dropbtn activeButton">Image Creators&#9660;</button><div class="dropdown-content"><a href="' + siteRoot + 'scripts/forms/imagesdraftUploadForm.php">New Image Entry</a><hr><a href="' + siteRoot + 'scripts/forms/imageSetdraftTable.php">Images Table</a></div></div>';
     
     $('.navbar').find('.dropdown:eq(3)').after(navBarEntry);
 

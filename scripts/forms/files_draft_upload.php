@@ -15,7 +15,7 @@
 			
 		}else{
 			
-			require ($_SERVER['DOCUMENT_ROOT'].'/scripts/headerCreator.php');;
+			require ($_SERVER['DOCUMENT_ROOT'].'/scripts/headerCreator.php');
 		}
 		
 			$formv1 = new formGenerator;
@@ -42,8 +42,23 @@ function generateRandomString($length = 8) {
     return $randomString;
 }
 
-$desired_dir=$root . "includes/images/";
-$desired_http_dir = $roothttp . "includes/images/drafts/";
+if ($local){
+		//echo 'local is'.$local;
+		$desired_dir=$root . "includes/images/drafts/";
+		//echo 'desired dir is' . $root;
+		$desired_http_dir = $roothttp . "includes/images/drafts/";
+		//echo 'desired http dir is' . $roothttp;
+	
+	}else{
+		
+		//echo 'local is'.$local;
+		$desired_dir=$root . "/includes/images/drafts/";
+		//echo 'desired dir is' . $desired_dir;
+		$desired_http_dir = $roothttp . "includes/images/drafts/";
+		//echo 'desired http dir is' . $desired_http_dir;
+
+		
+	}
 
 $filearray = array();
 
@@ -56,8 +71,15 @@ if(isset($_FILES)){
 	$insertid2 = $general->returnWithInsertID($r);
 
 	$errors= array();
-	$desired_dir=$root . "includes/images/drafts/"; // replace with your directory name where you want to store images
-	// getting files array
+	if ($local){
+	
+		$desired_dir=$root . "includes/images/drafts/"; // replace with your directory name where you want to store images
+	
+	}else{
+		
+		$desired_dir=$root . "/includes/images/drafts/";
+		
+	}	// getting files array
 	$x=1;
 	foreach($_FILES as $file){
 		$filename = $file['name'];

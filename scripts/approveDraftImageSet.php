@@ -13,7 +13,7 @@ if ($local){
 	$roothttp = 'http://' . $_SERVER['HTTP_HOST'].'/dashboard/learning/';
 	require($_SERVER['DOCUMENT_ROOT'].'/dashboard/learning/includes/config.inc.php');
 }else{
-	$root = $_SERVER['DOCUMENT_ROOT'];
+	$root = $_SERVER['DOCUMENT_ROOT'] . '/';
 	$roothttp = 'http://' . $_SERVER['HTTP_HOST'].'/';
 
 	require($_SERVER['DOCUMENT_ROOT'].'/includes/config.inc.php');

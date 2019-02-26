@@ -1,5 +1,6 @@
 <?php
-
+ini_set('display_errors',1);
+error_reporting(E_ALL);
 
 			$host = substr($_SERVER['HTTP_HOST'], 0, 5);
 		if (in_array($host, array('local', '127.0', '192.1'))) {
@@ -15,7 +16,7 @@
 			
 		}else{
 			
-			require ($_SERVER['DOCUMENT_ROOT'].'/scripts/headerCreator.php');;
+			require ($_SERVER['DOCUMENT_ROOT'].'/scripts/headerCreator.php');
 		}
 		
 			$formv1 = new formGenerator;
@@ -42,8 +43,25 @@ function generateRandomString($length = 8) {
     return $randomString;
 }
 
-$desired_dir=$root . "includes/images/";
-$desired_http_dir = $roothttp . "includes/images/";
+if ($local){
+		//echo 'local is'.$local;
+		$desired_dir=$root . "includes/images/";
+		//echo 'desired dir is' . $root;
+		$desired_http_dir = $roothttp . "includes/images/";
+		//echo 'desired http dir is' . $roothttp;
+	
+	}else{
+		
+		//echo 'local is'.$local;
+		$desired_dir=$root . "/includes/images/";
+		//echo 'desired dir is' . $desired_dir;
+		$desired_http_dir = $roothttp . "includes/images/";
+		//echo 'desired http dir is' . $desired_http_dir;
+
+		
+	}
+
+
 
 $filearray = array();
 
@@ -56,7 +74,16 @@ if(isset($_FILES)){
 	$insertid2 = $general->returnWithInsertID($r);
 
 	$errors= array();
-	$desired_dir=$root . "includes/images/"; // replace with your directory name where you want to store images
+	
+	if ($local){
+	
+		$desired_dir=$root . "includes/images/"; // replace with your directory name where you want to store images
+	
+	}else{
+		
+		$desired_dir=$root . "/includes/images/";
+		
+	}
 	// getting files array
 	$x=1;
 	foreach($_FILES as $file){
@@ -95,13 +122,14 @@ if(isset($_FILES)){
 		    $i++;
 		}
 		
-		
+		//print_r($errors);
 		
 		if(empty($errors)==true){
 			// moving files to destination
 			$finalFilenames[$x]=$file_name;
 			$x++;
 			
+			//echo 'Move target' . $desired_dir . $file_name;
 			$move=move_uploaded_file($file_tmp, $desired_dir . $file_name);
 			// you can direct write move_uploaded files method in bellow if condition
 			if($move)
@@ -117,6 +145,8 @@ if(isset($_FILES)){
 					
 					$filearray[$x] = array ('id' => $insertid, 'filename' => 'includes/images/' .$file_name);
 					
+					//rename the file using the insert id -- implement later
+					
 					//use insert ID for insert into imagesGroup
 					
 					$s = "INSERT into `imageImageSet` (`image_id`,`imageSet_id`) VALUES ('$insertid','$insertid2')";
@@ -128,7 +158,7 @@ if(isset($_FILES)){
 				//echo "The file ".$filename." has been uploaded"; // only for debugging
 			}
 			else{
-				echo $file_name."is not uploaded"; // use this for debugging otherwise remove it
+				//echo $file_name."is not uploaded"; // use this for debugging otherwise remove it
 			}
 
 		}
