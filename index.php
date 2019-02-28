@@ -7,8 +7,11 @@
 			//fix ability yo skip
 		
 		
+		require ('includes/config.inc.php');
 		
-		$host = substr($_SERVER['HTTP_HOST'], 0, 5);
+		require (BASE_URI . '/scripts/headerIndex.php');
+		
+		/*$host = substr($_SERVER['HTTP_HOST'], 0, 5);
 		if (in_array($host, array('local', '127.0', '192.1'))) {
 		    $local = TRUE;
 		} else {
@@ -26,6 +29,8 @@
 		require ($_SERVER['DOCUMENT_ROOT'].'/scripts/headerIndex.php'); //set this at login in session
 		
 		} //set this at login in session
+		
+		*/
 	
 		$formv1 = new formGenerator;
 		$general = new general;
@@ -67,7 +72,7 @@
 		</head>	  
 		
 		
-		<script src=<?php echo $roothttp . "/dist/jquery.vimeo.api.min.js"?>></script>
+		<script src=<?php echo BASE_URL . "/dist/jquery.vimeo.api.min.js"?>></script>
 
 		
 		
@@ -164,9 +169,9 @@
 		</style>
 		
 		<?php
-		include($root . "/scripts/logobar.php");
+		include(BASE_URI . "/scripts/logobar.php");
 		
-		include($root . "/includes/naviv1.php");
+		include(BASE_URI . "/includes/naviv1.php");
 		?>
 		
 		<div id="loading">
@@ -253,7 +258,7 @@
 								
 								//select 9 random grade 1 images from the databse and dsiplay
 								
-								$general->getHighestRatedImagesCover ($roothttp);
+								$general->getHighestRatedImagesCover (BASE_URL);
 								
 								
 							?>
@@ -579,7 +584,7 @@ $(document).ready(function() {
 		<?php
 		
 		    // Include the footer file to complete the template:
-		    include($root ."/includes/footer.html");
+		    include(BASE_URI ."/includes/footer.html");
 		
 		
 		

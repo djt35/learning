@@ -397,7 +397,7 @@ class general {
 
 					if ($key == 'url'){
 						echo '<td class="datarow">';
-						echo "<img class='lslimage' style='max-width:50px;' src='$roothttp$value'>";
+						echo "<img class='lslimage' style='max-width:50px;' src='$roothttp/$value'>";
 						echo '</td>';
 					}else{
 
@@ -510,7 +510,7 @@ class general {
 
 					if ($key == 'url'){
 						echo '<td class="datarow">';
-						echo "<img class='lslimage' style='max-width:100px;' src='$roothttp$value'>";
+						echo "<img class='lslimage' style='max-width:100px;' src='$roothttp/$value'>";
 						echo '</td>';
 					}else if ($key == 'author'){
 						
@@ -649,7 +649,7 @@ class general {
 
 					if ($key == 'url'){
 						echo '<td class="datarow">';
-						echo "<img class='lslimage' style='max-width:100px;' src='$roothttp$value'>";
+						echo "<img class='lslimage' style='max-width:100px;' src='$roothttp/$value'>";
 						echo '</td>';
 					}else if ($key == 'author'){
 						
@@ -1057,7 +1057,7 @@ class general {
 			
 				echo '<div class="col-3 coverImages">';
 				
-					echo "<img class='cover' src='{$roothttp}{$row['url']}'>";
+					echo "<img class='cover' src='{$roothttp}/{$row['url']}'>";
 
 				echo '</div>';
 				
@@ -1113,7 +1113,7 @@ class general {
 			
 				echo '<div class="col-3 coverImages">';
 				
-					echo "<img class='cover' src='{$roothttp}{$row['url']}'>";
+					echo "<img class='cover' src='{$roothttp}/{$row['url']}'>";
 
 				echo '</div>';
 				

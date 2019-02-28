@@ -41,8 +41,8 @@ if ($local) {
    // $debug = TRUE;
     
     // Define the constants:
-    define('BASE_URI', '/Applications/XAMPP/xamppfiles/htdocs/dashboard/learning/');
-    define('BASE_URL', 'http://localhost:90/');
+    define('BASE_URI', '/Applications/XAMPP/xamppfiles/htdocs/dashboard/learning');
+    define('BASE_URL', 'http://localhost:90/dashboard/learning');
     define('DB', '/Applications/XAMPP/xamppfiles/htdocs/dashboard/mysqli_connect_elearn.inc.php');
     
     function class_loader($class) {
@@ -57,8 +57,8 @@ if ($local) {
     
 } else {
 
-    define('BASE_URI', $_SERVER['DOCUMENT_ROOT'].'/');
-    define('BASE_URL', 'http://www.endoscopy.wiki/');
+    define('BASE_URI', $_SERVER['DOCUMENT_ROOT']);
+    define('BASE_URL', 'http://www.endoscopy.wiki');
     define('DB', $_SERVER['DOCUMENT_ROOT'].'/mysqli_connect_elearn.php');
     
     function class_loader($class) {
