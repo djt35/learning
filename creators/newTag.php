@@ -1,38 +1,20 @@
 <?php
 
-$host = substr($_SERVER['HTTP_HOST'], 0, 5);
-if (in_array($host, array('local', '127.0', '192.1'))) {
-    $local = TRUE;
-} else {
-    $local = FALSE;
-}
-
-if ($local){
-
-    $root = $_SERVER['DOCUMENT_ROOT'].'/dashboard/learning/';
-    $roothttp = 'http://' . $_SERVER['HTTP_HOST'].'/dashboard/learning/';
-    require($_SERVER['DOCUMENT_ROOT'].'/dashboard/learning/includes/config.inc.php');
-}else{
-    $root = $_SERVER['DOCUMENT_ROOT'];
-    $roothttp = 'http://' . $_SERVER['HTTP_HOST'].'/';
-
-    require($_SERVER['DOCUMENT_ROOT'].'/includes/config.inc.php');
-
-}
-$location = $roothttp . 'elearn.php';
+require ('../includes/config.inc.php');
+$location = BASE_URL . '/elearn.php';
 
 session_start();
 if (!isset($_SESSION['user_id'])) {
 
     // Need the functions:
-    require ($root . 'includes/login_functions.php');
+    require (BASE_URI . '/includes/login_functions.php');
     redirect_login($location);
 }
 
 ?> 
 
-<script src="<?php echo $roothttp . 'includes/generaljs.js'; ?>" type="text/javascript"></script>
-<script src="<?php echo $roothttp . 'includes/jquery.min.js'; ?>" type="text/javascript"></script>
+<script src="<?php echo BASE_URL . '/includes/generaljs.js'; ?>" type="text/javascript"></script>
+<script src="<?php echo BASE_URL . '/includes/jquery.min.js'; ?>" type="text/javascript"></script>
 
 
 
@@ -48,8 +30,8 @@ $tagCategories = new tagCategories;
 $page_title = 'Tag Editor';
 
 // Include the header file:
-include($root . '/includes/header.php');
-include($root . '/includes/naviCreator.php');
+include(BASE_URI . '/includes/header.php');
+include(BASE_URI . '/includes/naviCreator.php');
 
 // Page content
 ?>
@@ -211,7 +193,17 @@ var tagCategoriesid = null;
 
 var tagid = null;
 
-var siteRoot = 'http://localhost:90/dashboard/learning/';
+switch (document.location.hostname)
+{
+        case 'www.endoscopy.wiki':
+                          
+                         var rootFolder = 'http://www.endoscopy.wiki/'; break;
+        case 'localhost' :
+                           var rootFolder = 'http://localhost:90/dashboard/learning/'; break;
+        default :  // set whatever you want
+}
+			
+var siteRoot = rootFolder;
 
 
 $("#tag").prop('disabled', true);
@@ -966,7 +958,7 @@ getNamesFormElements('tagEntryForm'));
 <?php
 
     // Include the footer file to complete the template:
-    include($root .'/includes/footer.html');
+    include(BASE_URI .'/includes/footer.html');
 
 
 

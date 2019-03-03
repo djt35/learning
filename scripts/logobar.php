@@ -19,13 +19,13 @@
                 endoscopy<sub>wiki</sub>
             </div>
         </div>
-    </div><?php //echo '<img src="'. $roothttp . 'includes/ACEeLearningLogo.png" align="left" class="title">';
+    </div><?php //echo '<img src="'. BASE_URL . '/includes/ACEeLearningLogo.png" align="left" class="title">';
              
             
             
-            echo '<img src="'. $roothttp . 'includes/USL.png" align="right" class="logo">';
+            echo '<img src="'. BASE_URL . '/includes/USL.png" align="right" class="logo">';
             
-            echo '<img src="'. $roothttp . 'includes/uz.png" align="right" class="logo">';
+            echo '<img src="'. BASE_URL . '/includes/uz.png" align="right" class="logo">';
             
          
              

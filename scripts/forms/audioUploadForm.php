@@ -3,22 +3,7 @@
 		
 		<?php
 	
-		$host = substr($_SERVER['HTTP_HOST'], 0, 5);
-		if (in_array($host, array('local', '127.0', '192.1'))) {
-		    $local = TRUE;
-		} else {
-		    $local = FALSE;
-		}
-		
-		if ($local){
-			
-			require ('/Applications/XAMPP/xamppfiles/htdocs/dashboard/learning/scripts/headerCreator.php');
-			
-			
-		}else{
-			
-			require ($_SERVER['DOCUMENT_ROOT'].'/scripts/headerCreator.php');;
-		}
+		require ('../../includes/config.inc.php'); require (BASE_URI.'/scripts/headerCreator.php');
 	
 		$formv1 = new formGenerator;
 		$general = new general;
@@ -60,9 +45,9 @@
 		</head>
 		
 		<?php
-		include($root . "/scripts/logobar.php");
+		include(BASE_URI . "/scripts/logobar.php");
 		
-		include($root . "/includes/naviCreator.php");
+		include(BASE_URI . "/includes/naviCreator.php");
 		?>
 		
 		<div id="loading">
@@ -385,7 +370,7 @@ function constructEditTable(idPassed){
 			
 			echo '<tr class="file">';
 			echo "<td id='$insert' style='display:none;'>$file</td>";
-			echo "<td><img src='$roothttp/$file' style=\"width:128px;\"></td>";
+			echo "<td><img src='BASE_URL/$file' style=\"width:128px;\"></td>";
 			echo "<td><button class='addTag'>Add Tag</button></td>";
 			echo "<td class='imageTag'></td>";
 			echo "<td class='imageDesc'><textarea name='imagename$insert' id='imagename$insert' class='name' rows='4' cols='30'></textarea></td>";
@@ -1481,7 +1466,7 @@ $(document).ready(function() {
 		<?php
 		
 		    // Include the footer file to complete the template:
-		    include($root ."/includes/footer.html");
+		    include(BASE_URI . "/includes/footer.html");
 		
 		
 		

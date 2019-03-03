@@ -3,22 +3,7 @@
 		
 			<?php
 		
-			$host = substr($_SERVER['HTTP_HOST'], 0, 5);
-		if (in_array($host, array('local', '127.0', '192.1'))) {
-		    $local = TRUE;
-		} else {
-		    $local = FALSE;
-		}
-		
-		if ($local){
-			
-			require ('/Applications/XAMPP/xamppfiles/htdocs/dashboard/learning/scripts/headerCreator.php');
-			
-			
-		}else{
-			
-			require ($_SERVER['DOCUMENT_ROOT'].'/scripts/headerCreator.php');;
-		}
+			require ('../../includes/config.inc.php'); require (BASE_URI.'/scripts/headerCreator.php');
 		
 			$formv1 = new formGenerator;
 			$general = new general;
@@ -60,9 +45,9 @@
 		</head>
 		
 		<?php
-		include($root . "/scripts/logobar.php");
+		include(BASE_URI . "/scripts/logobar.php");
 		
-		include($root . "/includes/naviCreator.php");
+		include(BASE_URI . "/includes/naviCreator.php");
 		?>
 		
 		<body>
@@ -407,7 +392,7 @@ split: { required: 'message' },
 		<?php
 		
 		    // Include the footer file to complete the template:
-		    include($root ."/includes/footer.html");
+		    include(BASE_URI . "/includes/footer.html");
 		
 		
 		

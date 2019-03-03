@@ -44,9 +44,9 @@ if (isset($_GET["id"]) && is_numeric($_GET["id"])){
 </head>
 
 <?php
-include($root . "/scripts/logobar.php");
+include(BASE_URI . "/scripts/logobar.php");
 
-include($root . "/includes/naviCreator.php");
+include(BASE_URI . "/includes/naviCreator.php");
 ?>
 
 <body>
@@ -404,7 +404,7 @@ video_id: { required: 'message' },
 <?php
 
     // Include the footer file to complete the template:
-    include($root ."/includes/footer.html");
+    include(BASE_URI . "/includes/footer.html");
 
 
 

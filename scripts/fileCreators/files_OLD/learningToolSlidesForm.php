@@ -45,9 +45,9 @@
 		</head>
 		
 		<?php
-		include($root . "/scripts/logobar.php");
+		include(BASE_URI . "/scripts/logobar.php");
 		
-		include($root . "/includes/naviCreator.php");
+		include(BASE_URI . "/includes/naviCreator.php");
 		?>
 		
 		<body>
@@ -103,7 +103,17 @@ echo $formv1->generateText('learningTool_id', 'learningTool_id', '', 'tooltip he
 		
 		    </div>
 		<script>
-			var siteRoot = "http://localhost:90/dashboard/learning/";
+			switch (document.location.hostname)
+{
+        case 'www.endoscopy.wiki':
+                          
+                         var rootFolder = 'http://www.endoscopy.wiki/'; break;
+        case 'localhost' :
+                           var rootFolder = 'http://localhost:90/dashboard/learning/'; break;
+        default :  // set whatever you want
+}
+			
+var siteRoot = rootFolder;
 		
 			 learningToolSlidesPassed = $("#id").text();
 		
@@ -382,7 +392,7 @@ learningTool_id: { required: 'message' },
 		<?php
 		
 		    // Include the footer file to complete the template:
-		    include($root ."/includes/footer.html");
+		    include(BASE_URI . "/includes/footer.html");
 		
 		
 		

@@ -1,23 +1,17 @@
 <?php
 
-	$host = substr($_SERVER['HTTP_HOST'], 0, 5);
-		if (in_array($host, array('local', '127.0', '192.1'))) {
-		    $local = TRUE;
-		    $ref = 'LearningTool';
-		} else {
-		    $local = FALSE;
-		    $ref = 'learningToolv1';
-		}
+    require('../../includes/config.inc.php');
 		
 		if ($local){
+            $ref = 'LearningTool';
+        }else{
+			$ref = 'learningToolv1';
 			
-			require ('/Applications/XAMPP/xamppfiles/htdocs/dashboard/learning/scripts/headerCreator.php');
-			
-			
-		}else{
-			
-			require ($_SERVER['DOCUMENT_ROOT'].'/scripts/headerCreator.php');;
 		}
+		
+	require (BASE_URI . '/scripts/headerCreator.php');
+
+			
 		
 		
 		$formv1 = new formGenerator;
@@ -43,9 +37,9 @@
 $page_title = 'Superuser Creator Menu';
 
 // Include the header file:
-include($root . "/scripts/logobar.php");
+include(BASE_URI . "/scripts/logobar.php");
 		
-include($root . "/includes/naviv1.php");
+include(BASE_URI . "/includes/naviv1.php");
 
 $columns = $formv1->getAllDatabaseTablesv1($ref);
 
@@ -124,11 +118,11 @@ foreach ($columns as $key=>$value){
                 <div class="col-4"><b>'.$name.'</b></div>
 
                 <div class="col-4 narrow">
-                    <p><a href=\''.$roothttp.'scripts/forms/'.$name.'Form.php\'>New</a></p>
+                    <p><a href=\''.BASE_URL.'/scripts/forms/'.$name.'Form.php\'>New</a></p>
                 </div>
                 
                 <div class="col-4 narrow">
-                     <p><a href=\''.$roothttp.'scripts/forms/'.$name.'Table.php\'>Modify</a></p>                    
+                     <p><a href=\''.BASE_URL.'/scripts/forms/'.$name.'Table.php\'>Modify</a></p>                    
                 </div>
 
 
@@ -151,7 +145,7 @@ foreach ($columns as $key=>$value){
                 <div class="col-4"><b>Uploaders</b></div>
 
                 <div class="col-4 narrow">
-                    <p><a href='<?php echo $roothttp.'/scripts/forms/imagesUploadForm.php';?>'>Upload images</a></p>
+                    <p><a href='<?php echo BASE_URL.'/scripts/forms/imagesUploadForm.php';?>'>Upload images</a></p>
                 </div>
                 
                 <div class="col-4 narrow">
@@ -167,11 +161,11 @@ foreach ($columns as $key=>$value){
                 <div class="col-4"><b>Helpers</b></div>
 
                 <div class="col-4 narrow">
-                    <p><a href='<?php echo $roothttp.'/scripts/helpers/getTables.php';?>'>All tables in database</a></p>
+                    <p><a href='<?php echo BASE_URL.'/scripts/helpers/getTables.php';?>'>All tables in database</a></p>
                 </div>
                 
                 <div class="col-4 narrow">
-                    <p><a href='<?php echo $roothttp.'/scripts/helpers/createFormHtml.php';?>'>Generate code for particular table</a></p>
+                    <p><a href='<?php echo BASE_URL.'/scripts/helpers/createFormHtml.php';?>'>Generate code for particular table</a></p>
                 </div>
 
 
@@ -182,7 +176,17 @@ foreach ($columns as $key=>$value){
         
     </div>
 <script>
-	var siteRoot = 'http://localhost:90/dashboard/learning/';
+	switch (document.location.hostname)
+{
+        case 'www.endoscopy.wiki':
+                          
+                         var rootFolder = 'http://www.endoscopy.wiki/'; break;
+        case 'localhost' :
+                           var rootFolder = 'http://localhost:90/dashboard/learning/'; break;
+        default :  // set whatever you want
+}
+			
+var siteRoot = rootFolder;
 
 		
 	$(document).ready(function() {
@@ -213,7 +217,7 @@ foreach ($columns as $key=>$value){
 <?php
 
     // Include the footer file to complete the template:
-    include($root .'/includes/footer.html');
+    include(BASE_URI .'/includes/footer.html');
 
 
 

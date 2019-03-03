@@ -6,10 +6,10 @@
     </title>
 <head> 
 <meta charset="utf-8">
-<?php //echo '<script src="' . $roothttp . 'includes/jquery.min.js"></script>';?>
+<?php //echo '<script src="' . BASE_URL . '/includes/jquery.min.js"></script>';?>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
 
-<?php echo '<script src="' . $roothttp . 'includes/jquery.validate.js"></script>';?>
+<?php echo '<script src="' . BASE_URL . '/includes/jquery.validate.js"></script>';?>
 
 
 <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>-->
@@ -58,8 +58,8 @@ $(document).ready(function() {
 <?php
 	
 	
-	echo $roothttp;
-	 echo '<link rel="stylesheet" type="text/css" href="'. $roothttp . '/styles%20image.css">';
+	//echo BASE_URL;
+	 echo '<link rel="stylesheet" type="text/css" href="'. BASE_URL . '/styles%20image.css">';
 	
 	
 	
@@ -70,9 +70,9 @@ $(document).ready(function() {
 <div id="holder">
     <div id="menu">
 	    
-	 <?php echo '<img src="'. $roothttp . 'includes/ACEeLearningLogo.png" align="left" class="title">';
+	 <?php echo '<img src="'. BASE_URL . '/includes/ACEeLearningLogo.png" align="left" class="title">';
 		 
-		echo '<img src="'. $roothttp . 'includes/USL.png" align="right" class="otherimg">';
+		echo '<img src="'. BASE_URL . '/includes/USL.png" align="right" class="otherimg">';
 		 
 	 ?>
 

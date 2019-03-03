@@ -214,7 +214,7 @@
 							if ($general->returnYesNoDBQuery($q) != 1){
 								echo "Passed id does not exist in the database";
 								echo '</div></div>';
-								include($root ."/includes/footer.html");
+								include(BASE_URI . "/includes/footer.html");
 								exit();
 		
 							}
@@ -222,7 +222,7 @@
 							
 							echo "This page requires the id of a video existing in the database to be passed";
 							echo '</div></div>';
-							include($root ."/includes/footer.html");
+							include(BASE_URI . "/includes/footer.html");
 							exit();
 							
 						}*/
@@ -268,48 +268,14 @@
 						
 								<div class='col-3'>
 									
-									<img class='cover' src='<?php echo $roothttp . 'includes/images/image6828.jpg';?>'>
+									<img class='cover' src='<?php echo BASE_URL . '/includes/images/image6828.jpg';?>'>
 									
 									
 								</div>
 								
 								<div class='col-3'>
 									
-									<img class='cover' src='<?php echo $roothttp . 'includes/images/image6828.jpg';?>'>
-									
-									
-								</div>
-								
-								<div class='col-3'>
-									
-									
-									<img class='cover' src='<?php echo $roothttp . 'includes/images/image6828.jpg';?>'>
-									
-								</div>
-								
-								<div class='col-3'>
-									
-									
-									<img class='cover' src='<?php echo $roothttp . 'includes/images/image6828.jpg';?>'>
-									
-								</div>
-								
-							
-							
-							</div>	
-							
-							<div class = 'row'>
-						
-								<div class='col-3'>
-									
-									<img class='cover' src='<?php echo $roothttp . 'includes/images/image6828.jpg';?>'>
-									
-									
-								</div>
-								
-								<div class='col-3'>
-									
-									<img class='cover' src='<?php echo $roothttp . 'includes/images/image6828.jpg';?>'>
+									<img class='cover' src='<?php echo BASE_URL . '/includes/images/image6828.jpg';?>'>
 									
 									
 								</div>
@@ -317,14 +283,14 @@
 								<div class='col-3'>
 									
 									
-									<img class='cover' src='<?php echo $roothttp . 'includes/images/image6828.jpg';?>'>
+									<img class='cover' src='<?php echo BASE_URL . '/includes/images/image6828.jpg';?>'>
 									
 								</div>
 								
 								<div class='col-3'>
 									
 									
-									<img class='cover' src='<?php echo $roothttp . 'includes/images/image6828.jpg';?>'>
+									<img class='cover' src='<?php echo BASE_URL . '/includes/images/image6828.jpg';?>'>
 									
 								</div>
 								
@@ -336,14 +302,14 @@
 						
 								<div class='col-3'>
 									
-									<img class='cover' src='<?php echo $roothttp . 'includes/images/image6828.jpg';?>'>
+									<img class='cover' src='<?php echo BASE_URL . '/includes/images/image6828.jpg';?>'>
 									
 									
 								</div>
 								
 								<div class='col-3'>
 									
-									<img class='cover' src='<?php echo $roothttp . 'includes/images/image6828.jpg';?>'>
+									<img class='cover' src='<?php echo BASE_URL . '/includes/images/image6828.jpg';?>'>
 									
 									
 								</div>
@@ -351,14 +317,48 @@
 								<div class='col-3'>
 									
 									
-									<img class='cover' src='<?php echo $roothttp . 'includes/images/image6828.jpg';?>'>
+									<img class='cover' src='<?php echo BASE_URL . '/includes/images/image6828.jpg';?>'>
 									
 								</div>
 								
 								<div class='col-3'>
 									
 									
-									<img class='cover' src='<?php echo $roothttp . 'includes/images/image6828.jpg';?>'>
+									<img class='cover' src='<?php echo BASE_URL . '/includes/images/image6828.jpg';?>'>
+									
+								</div>
+								
+							
+							
+							</div>	
+							
+							<div class = 'row'>
+						
+								<div class='col-3'>
+									
+									<img class='cover' src='<?php echo BASE_URL . '/includes/images/image6828.jpg';?>'>
+									
+									
+								</div>
+								
+								<div class='col-3'>
+									
+									<img class='cover' src='<?php echo BASE_URL . '/includes/images/image6828.jpg';?>'>
+									
+									
+								</div>
+								
+								<div class='col-3'>
+									
+									
+									<img class='cover' src='<?php echo BASE_URL . '/includes/images/image6828.jpg';?>'>
+									
+								</div>
+								
+								<div class='col-3'>
+									
+									
+									<img class='cover' src='<?php echo BASE_URL . '/includes/images/image6828.jpg';?>'>
 									
 								</div>
 								

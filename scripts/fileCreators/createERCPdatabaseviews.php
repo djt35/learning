@@ -1,31 +1,13 @@
 <?php
 
-$host = substr($_SERVER['HTTP_HOST'], 0, 5);
-if (in_array($host, array('local', '127.0', '192.1'))) {
-	$local = TRUE;
-} else {
-	$local = FALSE;
-}
-
-if ($local){
-
-	$root = $_SERVER['DOCUMENT_ROOT'].'/dashboard/learning/';
-	$roothttp = 'http://' . $_SERVER['HTTP_HOST'].'/dashboard/learning/';
-	require($_SERVER['DOCUMENT_ROOT'].'/dashboard/learning/includes/config.inc.php');
-}else{
-	$root = $_SERVER['DOCUMENT_ROOT'];
-	$roothttp = 'http://' . $_SERVER['HTTP_HOST'].'/';
-
-	require($_SERVER['DOCUMENT_ROOT'].'/includes/config.inc.php');
-
-}
-$location = $roothttp . 'elearn.php';
+require ('../../../includes/config.inc.php');
+$location = BASE_URL . '/elearn.php';
 
 session_start();
 if (!isset($_SESSION['user_id'])) {
 
 	// Need the functions:
-	require ($root . 'includes/login_functions.php');
+	require (BASE_URI . 'includes/login_functions.php');
 	redirect_login($location);
 }
 
@@ -33,9 +15,9 @@ error_reporting(1);
 
 ?>
 
-<script src="<?php echo $roothttp . 'includes/generaljs.js'; ?>" type="text/javascript"></script>
-<script src="<?php echo $roothttp . 'includes/jquery.min.js'; ?>" type="text/javascript"></script>
-<script src="<?php echo $roothttp . 'includes/jquery-ui.js'; ?>" type="text/javascript"></script>
+<script src="<?php echo BASE_URL . '/includes/generaljs.js'; ?>" type="text/javascript"></script>
+<script src="<?php echo BASE_URL . '/includes/jquery.min.js'; ?>" type="text/javascript"></script>
+<script src="<?php echo BASE_URL . '/includes/jquery-ui.js'; ?>" type="text/javascript"></script>
 
 
 
@@ -57,10 +39,10 @@ $tagCategories = new tagCategories;
  *
  */
 function VerifyDirectory(){
-	if(is_dir($root . "scripts/fileCreators/files")){
+	if(is_dir(BASE_URI . "/scripts/fileCreators/files")){
 		return true;
 	}else{
-		mkdir($root . "scripts/fileCreators/files", "0777", true);
+		mkdir(BASE_URI . "/scripts/fileCreators/files", "0777", true);
 		return true;
 	}
 }
@@ -190,7 +172,7 @@ print_r($datafields);
 		
 			<?php
 		
-			require ('{$root}scripts/headerCreator.php');
+			require ('{{BASE_URI}}scripts/headerCreator.php');
 		
 			\$formv1 = new formGenerator;
 			\$general = new general;
@@ -235,9 +217,9 @@ print_r($datafields);
 		</head>
 		
 		<?php
-		include(\$root . \"/scripts/logobar.php\");
+		include(\{BASE_URI} . \"/scripts/logobar.php\");
 		
-		include(\$root . \"/includes/naviv1.php\");
+		include(\{BASE_URI} . \"/includes/naviv1.php\");
 		?>
 		
 		<body>
@@ -591,7 +573,7 @@ print_r($datafields);
 		<?php
 		
 		    // Include the footer file to complete the template:
-		    include(\$root .\"/includes/footer.html\");
+		    include(\{BASE_URI} .\"/includes/footer.html\");
 		
 		
 		
@@ -603,9 +585,9 @@ print_r($datafields);
 }
 
 print_r($file_in);
-print_r(createWritableFolder($root . "scripts/fileCreators/files"));
+print_r(createWritableFolder(BASE_URI . "/scripts/fileCreators/files"));
 
-SaveFile($root . "scripts/fileCreators/files/{$databaseTable}Form.php", $file_in);
+SaveFile(BASE_URI . "/scripts/fileCreators/files/{$databaseTable}Form.php", $file_in);
 
 
 	foreach ($value as $key2=>$value2){
@@ -616,7 +598,7 @@ SaveFile($root . "scripts/fileCreators/files/{$databaseTable}Form.php", $file_in
 		
 		<?php
 		
-			require ('{$root}scripts/headerCreator.php');
+			require ('{{BASE_URI}}scripts/headerCreator.php');
 		
 		
 		\$formv1 = new formGenerator;
@@ -635,9 +617,9 @@ SaveFile($root . "scripts/fileCreators/files/{$databaseTable}Form.php", $file_in
 		</head>
 		
 		<?php
-		include(\$root . \"/scripts/logobar.php\");
+		include(\{BASE_URI} . \"/scripts/logobar.php\");
 		
-		include(\$root . \"/includes/naviCreator.php\");
+		include(\{BASE_URI} . \"/includes/naviCreator.php\");
 		?>
 		
 		
@@ -654,7 +636,7 @@ SaveFile($root . "scripts/fileCreators/files/{$databaseTable}Form.php", $file_in
 		                </div>
 		
 		                <div id=\"messageBox\" class='col-3 yellow-light narrow center'>
-		                    <p><button id=\"new{$databaseTable}\" onclick=\"window.location.href = '<?php echo \$roothttp;?>/scripts/forms/{$databaseTable}Form.php';\">New {$databaseTable}</button></p>
+		                    <p><button id=\"new{$databaseTable}\" onclick=\"window.location.href = '<?php echo \BASE_URL;?>/scripts/forms/{$databaseTable}Form.php';\">New {$databaseTable}</button></p>
 		                </div>
 		            </div>
 			        
@@ -719,7 +701,7 @@ SaveFile($root . "scripts/fileCreators/files/{$databaseTable}Form.php", $file_in
 		<?php
 		
 		    // Include the footer file to complete the template:
-		    include(\$root .\"/includes/footer.html\");
+		    include(\{BASE_URI} .\"/includes/footer.html\");
 		
 		
 		
@@ -736,9 +718,9 @@ SaveFile($root . "scripts/fileCreators/files/{$databaseTable}Form.php", $file_in
 	}
 
 print_r($file_in);
-print_r(createWritableFolder($root . "scripts/fileCreators/files"));
+print_r(createWritableFolder(BASE_URI . "/scripts/fileCreators/files"));
 
-SaveFile($root . "scripts/fileCreators/files/{$databaseTable}Table.php", $file_in);
+SaveFile(BASE_URI . "/scripts/fileCreators/files/{$databaseTable}Table.php", $file_in);
 
 
 }

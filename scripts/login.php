@@ -4,11 +4,7 @@ error_reporting(-1);
 
 require ('../includes/config.inc.php');
 
-
 session_start();
-
-
-
 
 
 // Check if the form has been submitted:
@@ -31,11 +27,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 		$_SESSION['user_id'] = $data['user_id'];
 		$_SESSION['firstname'] = $data['firstname'];
 		$_SESSION['surname'] = $data['surname'];
-
-
-
-
-
 
 		// Redirect:
 		echo '1';

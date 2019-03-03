@@ -1,31 +1,13 @@
 <?php
 
-$host = substr($_SERVER['HTTP_HOST'], 0, 5);
-if (in_array($host, array('local', '127.0', '192.1'))) {
-    $local = TRUE;
-} else {
-    $local = FALSE;
-}
-
-if ($local){
-
-    $root = $_SERVER['DOCUMENT_ROOT'].'/dashboard/learning/';
-    $roothttp = 'http://' . $_SERVER['HTTP_HOST'].'/dashboard/learning/';
-    //require($_SERVER['DOCUMENT_ROOT'].'/dashboard/learning/includes/config.inc.php');
-}else{
-    $root = $_SERVER['DOCUMENT_ROOT'];
-    $roothttp = 'http://' . $_SERVER['HTTP_HOST'].'/';
-
-    //require($_SERVER['DOCUMENT_ROOT'].'/includes/config.inc.php');
-
-}
+//require ('config.inc.php');
 
 new users;
 
 
 echo '<div class="navbar">
-  <a href="' . $roothttp . 'index.php?p=home">Home</a>
-  <a href="' . $roothttp . 'scripts/forms/creators.php">Creator Menu</a>';
+  <a href="' . BASE_URL . '/index.php?p=home">Home</a>
+  <a href="' . BASE_URL . '/scripts/forms/creators.php">Creator Menu</a>';
 /*echo '  
 
 
@@ -35,9 +17,9 @@ echo '<div class="navbar">
      
     </button>
     <div class="dropdown-content">
-       <a href="' . $roothttp . 'creators/newVideo.php">Enter New Video</a>
+       <a href="' . BASE_URL . '/creators/newVideo.php">Enter New Video</a>
 	  <hr>
-	  <a href="' . $roothttp . 'creators/newTag.php">Enter New Tag</a>
+	  <a href="' . BASE_URL . '/creators/newTag.php">Enter New Tag</a>
 	  	  
 	       
     </div>

@@ -2,22 +2,7 @@
 		
 		<?php
 		
-			$host = substr($_SERVER['HTTP_HOST'], 0, 5);
-		if (in_array($host, array('local', '127.0', '192.1'))) {
-		    $local = TRUE;
-		} else {
-		    $local = FALSE;
-		}
-		
-		if ($local){
-			
-			require ('/Applications/XAMPP/xamppfiles/htdocs/dashboard/learning/scripts/headerCreator.php');
-			
-			
-		}else{
-			
-			require ($_SERVER['DOCUMENT_ROOT'].'/scripts/headerCreator.php');;
-		}
+			require ('../../includes/config.inc.php'); require (BASE_URI.'/scripts/headerCreator.php');
 		
 		
 		$formv1 = new formGenerator;
@@ -44,9 +29,9 @@
 		
 	
 		<?php
-		include($root . "/scripts/logobar.php");
+		include(BASE_URI . "/scripts/logobar.php");
 		
-		include($root . "/includes/naviv1.php");
+		include(BASE_URI . "/includes/naviv1.php");
 		//echo '<div class="navbar structure">Creators > Video > Table</div>';		?>
 		
 		
@@ -63,7 +48,7 @@
 		                </div>
 		
 		                <div id="messageBox" class='col-3 yellow-light narrow center'>
-		                    <p><button id="newvideo" onclick="window.location.href = '<?php echo $roothttp;?>/scripts/forms/videoUploadForm.php';">New video</button></p>
+		                    <p><button id="newvideo" onclick="window.location.href = '<?php echo BASE_URL;?>/scripts/forms/videoUploadForm.php';">New video</button></p>
 		                </div>
 		            </div>
 			        
@@ -162,7 +147,7 @@ var siteRoot = rootFolder;
 		<?php
 		
 		    // Include the footer file to complete the template:
-		    include($root ."/includes/footer.html");
+		    include(BASE_URI . "/includes/footer.html");
 		
 		
 		

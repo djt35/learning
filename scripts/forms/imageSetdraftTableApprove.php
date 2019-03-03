@@ -2,22 +2,7 @@
 		
 		<?php
 		
-			$host = substr($_SERVER['HTTP_HOST'], 0, 5);
-		if (in_array($host, array('local', '127.0', '192.1'))) {
-		    $local = TRUE;
-		} else {
-		    $local = FALSE;
-		}
-		
-		if ($local){
-			
-			require ('/Applications/XAMPP/xamppfiles/htdocs/dashboard/learning/scripts/headerCreator.php');
-			
-			
-		}else{
-			
-			require ($_SERVER['DOCUMENT_ROOT'].'/scripts/headerCreator.php');;
-		}
+			require ('../../includes/config.inc.php'); require (BASE_URI.'/scripts/headerCreator.php');
 		
 		
 		$formv1 = new formGenerator;
@@ -39,9 +24,9 @@
 		</head>
 		
 		<?php
-		include($root . "/scripts/logobar.php");
+		include(BASE_URI . "/scripts/logobar.php");
 		
-		include($root . "/includes/naviv1.php");
+		include(BASE_URI . "/includes/naviv1.php");
 		
 		if ($user->getUserAccessLevel($_SESSION['user_id']) > 1){
 			
@@ -54,7 +39,7 @@
 			echo '<a href="javascript:history.back()">Go Back</a>';
 			
 			echo '</div></body>';
-			include($root ."/includes/footer.html");
+			include(BASE_URI . "/includes/footer.html");
 			
 			exit();
 			
@@ -80,7 +65,7 @@
 		                </div>
 		
 		                <div id="messageBox" class='col-3 yellow-light narrow center'>
-		                    <!--<p><button id="newimageSet" onclick="window.location.href = '<?php echo $roothttp;?>/scripts/forms/imageSetForm.php';">New imageSet</button></p>-->
+		                    <!--<p><button id="newimageSet" onclick="window.location.href = '<?php echo BASE_URL;?>/scripts/forms/imageSetForm.php';">New imageSet</button></p>-->
 		                </div>
 		            </div>
 			        
@@ -95,7 +80,7 @@
 			                    $general->makeTableImagesv3("SELECT a.`type`, a.`author`, a.`id`, c.`url`, a.`created`, a.`updated` 
 FROM `imageSetDraft` as a 
 INNER JOIN `imageImageSetDraft` as b ON a.`id` = b.`imageSet_id`
-INNER JOIN `imagesDraft` as c on b.`image_id` = c.`id` WHERE a.`approved` IS NULL GROUP BY a.`id` ORDER BY a.`created` desc", $roothttp); ?></p>
+INNER JOIN `imagesDraft` as c on b.`image_id` = c.`id` WHERE a.`approved` IS NULL GROUP BY a.`id` ORDER BY a.`created` desc", BASE_URL); ?></p>
 		                </div>
 		
 		                <div class='col-1'></div>
@@ -361,7 +346,7 @@ var siteRoot = rootFolder;
 		<?php
 		
 		    // Include the footer file to complete the template:
-		    include($root ."/includes/footer.html");
+		    include(BASE_URI . "/includes/footer.html");
 		
 		
 		

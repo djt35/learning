@@ -1,38 +1,20 @@
 <?php
 
-$host = substr($_SERVER['HTTP_HOST'], 0, 5);
-if (in_array($host, array('local', '127.0', '192.1'))) {
-    $local = TRUE;
-} else {
-    $local = FALSE;
-}
-
-if ($local){
-
-    $root = $_SERVER['DOCUMENT_ROOT'].'/dashboard/learning/';
-    $roothttp = 'http://' . $_SERVER['HTTP_HOST'].'/dashboard/learning/';
-    require($_SERVER['DOCUMENT_ROOT'].'/dashboard/learning/includes/config.inc.php');
-}else{
-    $root = $_SERVER['DOCUMENT_ROOT'];
-    $roothttp = 'http://' . $_SERVER['HTTP_HOST'].'/';
-
-    require($_SERVER['DOCUMENT_ROOT'].'/includes/config.inc.php');
-
-}
-$location = $roothttp . 'elearn.php';
+require ('../../includes/config.inc.php');
+$location = BASE_URL . '/elearn.php';
 
 session_start();
 if (!isset($_SESSION['user_id'])) {
 
     // Need the functions:
-    require ($root . 'includes/login_functions.php');
+    require (BASE_URI . '/includes/login_functions.php');
     redirect_login($location);
 }
 
 ?> 
 
-<script src="<?php echo $roothttp . 'includes/generaljs.js'; ?>" type="text/javascript"></script>
-<script src="<?php echo $roothttp . 'includes/jquery.min.js'; ?>" type="text/javascript"></script>
+<script src="<?php echo BASE_URL . '/includes/generaljs.js'; ?>" type="text/javascript"></script>
+<script src="<?php echo BASE_URL . '/includes/jquery.min.js'; ?>" type="text/javascript"></script>
 
 
 
@@ -48,8 +30,8 @@ $tagCategories = new tagCategories;
 $page_title = 'User Editor';
 
 // Include the header file:
-include($root . '/includes/header.php');
-include($root . '/includes/naviCreator.php');
+include(BASE_URI . '/includes/header.php');
+include(BASE_URI . '/includes/naviCreator.php');
 
 $columns = $formv1->GetDisplays();
 
@@ -138,7 +120,7 @@ foreach ($columns as $key=>$value){
 			       <div class="row">
 	               
 	                <div class="col-4"><b>
-	                	<p><a href=\''.$roothttp.'scripts/forms/display.php?id='.$id.'\'>'.$name.'</a></p></b>
+	                	<p><a href=\''.BASE_URL.'scripts/forms/display.php?id='.$id.'\'>'.$name.'</a></p></b>
 	                </div>
 	                <div class="col-4 narrow">
 	                
@@ -164,7 +146,7 @@ foreach ($columns as $key=>$value){
 				       <div class="row">
 		               
 		                <div class="col-4"><b>
-		                	<p><a href=\''.$roothttp.'scripts/forms/display.php?id='.$id.'\'>'.$name.'</a></p></b>
+		                	<p><a href=\''.BASE_URL.'scripts/forms/display.php?id='.$id.'\'>'.$name.'</a></p></b>
 		                </div>
 		                <div class="col-4 narrow">
 		                ';
@@ -172,7 +154,7 @@ foreach ($columns as $key=>$value){
                 }else{
 	                
 		                echo '
-	                    <p><a href=\''.$roothttp.'scripts/forms/displaydiv.php?id='.$tagid.'\'>'.$tagname.'</a></p>
+	                    <p><a href=\''.BASE_URL.'scripts/forms/displaydiv.php?id='.$tagid.'\'>'.$tagname.'</a></p>
 						';
 	                
 	                
@@ -198,7 +180,7 @@ foreach ($columns as $key=>$value){
                 <div class="col-4"><b>Uploaders</b></div>
 
                 <div class="col-4 narrow">
-                    <p><a href='<?php echo $roothttp.'/scripts/forms/imagesUploadForm.php';?>'>Upload images</a></p>
+                    <p><a href='<?php echo BASE_URL.'/scripts/forms/imagesUploadForm.php';?>'>Upload images</a></p>
                 </div>
                 
                 <div class="col-4 narrow">
@@ -214,11 +196,11 @@ foreach ($columns as $key=>$value){
                 <div class="col-4"><b>Helpers</b></div>
 
                 <div class="col-4 narrow">
-                    <p><a href='<?php echo $roothttp.'/scripts/helpers/getTables.php';?>'>All tables in database</a></p>
+                    <p><a href='<?php echo BASE_URL.'/scripts/helpers/getTables.php';?>'>All tables in database</a></p>
                 </div>
                 
                 <div class="col-4 narrow">
-                    <p><a href='<?php echo $roothttp.'/scripts/helpers/createFormHtml.php';?>'>Generate code for particular table</a></p>
+                    <p><a href='<?php echo BASE_URL.'/scripts/helpers/createFormHtml.php';?>'>Generate code for particular table</a></p>
                 </div>
 
 
@@ -229,7 +211,17 @@ foreach ($columns as $key=>$value){
         
     </div>
 <script>
-	var siteRoot = 'http://localhost:90/dashboard/learning/';
+	switch (document.location.hostname)
+{
+        case 'www.endoscopy.wiki':
+                          
+                         var rootFolder = 'http://www.endoscopy.wiki/'; break;
+        case 'localhost' :
+                           var rootFolder = 'http://localhost:90/dashboard/learning/'; break;
+        default :  // set whatever you want
+}
+			
+var siteRoot = rootFolder;
 
 		
 	$(document).ready(function() {
@@ -247,7 +239,7 @@ foreach ($columns as $key=>$value){
 <?php
 
     // Include the footer file to complete the template:
-    include($root .'/includes/footer.html');
+    include(BASE_URI .'/includes/footer.html');
 
 
 

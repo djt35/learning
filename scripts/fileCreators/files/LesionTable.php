@@ -21,9 +21,9 @@
 		</head>
 		
 		<?php
-		include($root . "/scripts/logobar.php");
+		include(BASE_URI . "/scripts/logobar.php");
 		
-		include($root . "/includes/naviCreator.php");
+		include(BASE_URI . "/includes/naviCreator.php");
 		?>
 		
 		
@@ -40,7 +40,7 @@
 		                </div>
 		
 		                <div id="messageBox" class='col-3 yellow-light narrow center'>
-		                    <p><button id="newLesion" onclick="window.location.href = '<?php echo $roothttp;?>/scripts/forms/LesionForm.php';">New Lesion</button></p>
+		                    <p><button id="newLesion" onclick="window.location.href = '<?php echo BASE_URL;?>/scripts/forms/LesionForm.php';">New Lesion</button></p>
 		                </div>
 		            </div>
 			        
@@ -59,7 +59,17 @@
 		        
 		    </div>
 		<script>
-			var siteRoot = "http://localhost:90/dashboard/learning/";
+			switch (document.location.hostname)
+{
+        case 'www.endoscopy.wiki':
+                          
+                         var rootFolder = 'http://www.endoscopy.wiki/'; break;
+        case 'localhost' :
+                           var rootFolder = 'http://localhost:90/dashboard/learning/'; break;
+        default :  // set whatever you want
+}
+			
+var siteRoot = rootFolder;
 		
 				
 			$(document).ready(function() {
@@ -105,7 +115,7 @@
 		<?php
 		
 		    // Include the footer file to complete the template:
-		    include($root ."/includes/footer.html");
+		    include(BASE_URI . "/includes/footer.html");
 		
 		
 		

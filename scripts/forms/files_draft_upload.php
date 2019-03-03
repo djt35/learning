@@ -44,17 +44,17 @@ function generateRandomString($length = 8) {
 
 if ($local){
 		//echo 'local is'.$local;
-		$desired_dir=$root . "includes/images/drafts/";
+		$desired_dir=BASE_URI . "/includes/images/drafts/";
 		//echo 'desired dir is' . $root;
-		$desired_http_dir = $roothttp . "includes/images/drafts/";
-		//echo 'desired http dir is' . $roothttp;
+		$desired_http_dir = BASE_URL . "/includes/images/drafts/";
+		//echo 'desired http dir is' . BASE_URL;
 	
 	}else{
 		
 		//echo 'local is'.$local;
-		$desired_dir=$root . "/includes/images/drafts/";
+		$desired_dir=BASE_URI . "/includes/images/drafts/";
 		//echo 'desired dir is' . $desired_dir;
-		$desired_http_dir = $roothttp . "includes/images/drafts/";
+		$desired_http_dir = BASE_URL . "/includes/images/drafts/";
 		//echo 'desired http dir is' . $desired_http_dir;
 
 		
@@ -73,11 +73,11 @@ if(isset($_FILES)){
 	$errors= array();
 	if ($local){
 	
-		$desired_dir=$root . "includes/images/drafts/"; // replace with your directory name where you want to store images
+		$desired_dir=BASE_URI . "/includes/images/drafts/"; // replace with your directory name where you want to store images
 	
 	}else{
 		
-		$desired_dir=$root . "/includes/images/drafts/";
+		$desired_dir=BASE_URI . "/includes/images/drafts/";
 		
 	}	// getting files array
 	$x=1;
@@ -192,7 +192,7 @@ if(isset($_FILES)){
 			
 			echo '<tr class="file">';
 			echo "<td id='$insert' style='display:none;'>$file</td>";
-			echo "<td><img src='$roothttp/$file' style=\"width:128px;\"></td>";
+			echo "<td><img src='BASE_URL/$file' style=\"width:128px;\"></td>";
 			echo "<td><button class='addTag'>Add Tag</button></td>";
 			echo "<td class='imageTag'></td>";
 			echo "<td class='imageDesc'><textarea name='imagename$insert' id='imagename$insert' class='name' rows='4' cols='30'></textarea></td>";
