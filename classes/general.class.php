@@ -1890,7 +1890,44 @@ class general {
 
 	}
 	
-	
+	//functions for images
+
+	public function getFilenamesImageSetid($imageset){
+
+		$q = "SELECT c.`url` 
+		FROM `imageSet` as a 
+		INNER JOIN `imageImageSet` as b ON a.`id` = b.`imageSet_id` 
+		INNER JOIN `images` as c on b.`image_id` = c.`id`
+		WHERE a.`id` = $imageset";
+
+
+		echo $q;
+
+		$result = $this->connection->RunQuery($q);
+
+		if ($result->num_rows > 0){
+
+			$columns = array();
+
+			while($row = $result->fetch_array(MYSQLI_ASSOC)){
+
+				$columns[] = $row['url'];
+
+			}
+
+			return $columns;
+
+		}else {
+
+			return FALSE;
+		}
+
+
+
+
+	}
+
+
 	//! counting functions
 	
 	public function countPendingApprovals () {

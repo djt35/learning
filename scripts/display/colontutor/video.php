@@ -3,7 +3,17 @@
 
 		<?php
 
-require ('../../../includes/config.inc.php'); require (BASE_URI.'/scripts/headerCreator.php');
+        //set values
+
+        //user level required to access
+        $requiredUserLevel = 1;
+        //paid page
+        //$paidPage = 0;
+        
+
+require ('../../../includes/config.inc.php'); 
+
+require (BASE_URI.'/scripts/headerCreator.php');
 
 $formv1 = new formGenerator;
 $general = new general;

@@ -45,7 +45,7 @@
         
         if (empty ($errors)) {
             
-            $q = "SELECT user_id, firstname, surname, centre FROM users WHERE email='$e' AND password='$p'";
+            $q = "SELECT user_id, firstname, surname, centre, access_level FROM users WHERE email='$e' AND password='$p'";
             
             $r = @mysqli_query ($dbc, $q);
             

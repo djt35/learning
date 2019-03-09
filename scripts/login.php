@@ -27,6 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 		$_SESSION['user_id'] = $data['user_id'];
 		$_SESSION['firstname'] = $data['firstname'];
 		$_SESSION['surname'] = $data['surname'];
+		$_SESSION['access_level'] = $data['access_level'];
 
 		// Redirect:
 		echo '1';

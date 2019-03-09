@@ -1,7 +1,15 @@
 <?php
 ini_set('display_errors',1);
-error_reporting(E_ALL);
 
+require ('../../includes/config.inc.php');
+
+$openaccess = 0;
+$requiredUserLevel = 1;
+
+require (BASE_URI . '/scripts/headerScript.php');
+
+error_reporting(E_ALL);
+/*
 			$host = substr($_SERVER['HTTP_HOST'], 0, 5);
 		if (in_array($host, array('local', '127.0', '192.1'))) {
 		    $local = TRUE;
@@ -18,7 +26,7 @@ error_reporting(E_ALL);
 			
 			require ($_SERVER['DOCUMENT_ROOT'].'/scripts/headerCreator.php');
 		}
-		
+*/	
 			$formv1 = new formGenerator;
 			$general = new general;
 			$video = new video;
@@ -27,6 +35,8 @@ error_reporting(E_ALL);
 //echo 'hello';
 
 error_reporting(1);
+
+
 
 //define('MYSQL', '../../mysqli_connect_PROSPER.php');
 //require (MYSQL);
@@ -43,25 +53,8 @@ function generateRandomString($length = 8) {
     return $randomString;
 }
 
-if ($local){
-		//echo 'local is'.$local;
-		$desired_dir=BASE_URI . "/includes/images/";
-		//echo 'desired dir is' . $root;
-		$desired_http_dir = BASE_URL . "/includes/images/";
-		//echo 'desired http dir is' . BASE_URL;
-	
-	}else{
-		
-		//echo 'local is'.$local;
-		$desired_dir=BASE_URI . "/includes/images/";
-		//echo 'desired dir is' . $desired_dir;
-		$desired_http_dir = BASE_URL . "/includes/images/";
-		//echo 'desired http dir is' . $desired_http_dir;
-
-		
-	}
-
-
+$desired_dir=BASE_URI . "/includes/images/";
+$desired_http_dir = BASE_URL . "/includes/images/";
 
 $filearray = array();
 
@@ -75,15 +68,6 @@ if(isset($_FILES)){
 
 	$errors= array();
 	
-	if ($local){
-	
-		$desired_dir=BASE_URI . "/includes/images/"; // replace with your directory name where you want to store images
-	
-	}else{
-		
-		$desired_dir=BASE_URI . "/includes/images/";
-		
-	}
 	// getting files array
 	$x=1;
 	foreach($_FILES as $file){
@@ -200,7 +184,7 @@ if(isset($_FILES)){
 			
 			echo '<tr class="file">';
 			echo "<td id='$insert' style='display:none;'>$file</td>";
-			echo "<td><img src='BASE_URL/$file' style=\"width:128px;\"></td>";
+			echo "<td><img src='".BASE_URL."/$file' style=\"width:128px;\"></td>";
 			echo "<td><button class='addTag'>Add Tag</button></td>";
 			echo "<td class='imageTag'></td>";
 			echo "<td class='imageDesc'><textarea name='imagename$insert' id='imagename$insert' class='name' rows='4' cols='30'></textarea></td>";

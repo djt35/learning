@@ -2,24 +2,17 @@
 	
 error_reporting(1);
 
-//require ('../includes/config.inc.php');
+require (BASE_URI . '/includes/login_functions.php');
+
+//place to redirect the user if not allowed access
 $location = BASE_URL . '/index.php';
 
-session_start();
-if (!isset($_SESSION['user_id'])) {
+require(BASE_URI . '/scripts/interpretUserAccess.php');
 
-    // Need the functions:
-    require (BASE_URI . '/includes/login_functions.php');
-    redirect_login($location);
-}
-
-//echo $root;
 
 ?>
 
-
-        <script src="<?php echo BASE_URL . '/includes/jquery.min.js'; ?>" type="text/javascript">
-</script>
+ <script src="<?php echo BASE_URL . '/includes/jquery.min.js'; ?>" type="text/javascript"></script>
    
 	    <script src="<?php echo BASE_URL . '/includes/generaljs.js'; ?>" type="text/javascript">
 </script>
