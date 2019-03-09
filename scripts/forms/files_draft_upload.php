@@ -1,6 +1,16 @@
 <?php
 
+ini_set('display_errors',1);
 
+require ('../../includes/config.inc.php');
+
+$openaccess = 0;
+$requiredUserLevel = 1;
+
+require (BASE_URI . '/scripts/headerScript.php');
+
+error_reporting(E_ALL);
+/*
 			$host = substr($_SERVER['HTTP_HOST'], 0, 5);
 		if (in_array($host, array('local', '127.0', '192.1'))) {
 		    $local = TRUE;
@@ -18,6 +28,7 @@
 			require ($_SERVER['DOCUMENT_ROOT'].'/scripts/headerCreator.php');
 		}
 		
+		*/
 			$formv1 = new formGenerator;
 			$general = new general;
 			$video = new video;
@@ -192,7 +203,7 @@ if(isset($_FILES)){
 			
 			echo '<tr class="file">';
 			echo "<td id='$insert' style='display:none;'>$file</td>";
-			echo "<td><img src='BASE_URL/$file' style=\"width:128px;\"></td>";
+			echo "<td><img src='".BASE_URL."/$file' style=\"width:128px;\"></td>";
 			echo "<td><button class='addTag'>Add Tag</button></td>";
 			echo "<td class='imageTag'></td>";
 			echo "<td class='imageDesc'><textarea name='imagename$insert' id='imagename$insert' class='name' rows='4' cols='30'></textarea></td>";

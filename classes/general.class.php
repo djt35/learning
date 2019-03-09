@@ -487,9 +487,10 @@ class general {
 
 				if ($id) {	
 					if ($id <> $v['id']){
-						/*echo '<td>';
+						echo '<td>';
 								echo "<button class='deleteSet'>Delete</button>";
-								echo '</td>';*/
+								echo "<button class='manipulateSet'>Manipulate</button>";
+								echo '</td>';
 						
 						echo '</tr>';
 						echo '<tr>';
@@ -1892,6 +1893,38 @@ class general {
 	
 	//functions for images
 
+	public function getAuthorImageSet($imageset){
+
+		$q = "SELECT a.`author` 
+		FROM `imageSet` as a 
+		WHERE a.`id` = $imageset";
+
+
+
+
+		//echo $q;
+
+		$result = $this->connection->RunQuery($q);
+
+		if ($result->num_rows > 0){
+
+			//$columns = array();
+
+			while($row = $result->fetch_array(MYSQLI_ASSOC)){
+
+				$author = $row['author'];
+
+			}
+
+			return $author;
+
+		}else{
+
+			return FALSE;
+		}
+
+	}
+
 	public function getFilenamesImageSetid($imageset){
 
 		$q = "SELECT c.`url` 
@@ -1901,7 +1934,7 @@ class general {
 		WHERE a.`id` = $imageset";
 
 
-		echo $q;
+		//echo $q;
 
 		$result = $this->connection->RunQuery($q);
 

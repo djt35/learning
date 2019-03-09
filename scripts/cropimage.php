@@ -9,17 +9,17 @@ require (BASE_URI . '/scripts/headerScript.php');
 
 function determineImageAndCreate ($image){
 
-    print_r(list($width, $height, $image_type) = getimagesize($image));
+    //print_r(list($width, $height, $image_type) = getimagesize($image));
 
-    echo $image_type;
+    //echo $image_type;
 
     switch ($image_type)
     {
-        case 1: $src = imagecreatefromgif($image); echo 'image is gif'; return $src; break;
-        case 2: $src = imagecreatefromjpeg($image);  echo 'image is jpeg'; return $src; break;
-        case 3: $src = imagecreatefrompng($image); echo 'image is png'; return $src; break;
-        case 6: $src = ImageCreateFromBmp($image); echo 'image is bmp, not yet implemented'; /*return $src;*/ return false; break;
-        default: echo 'image not valid'; return false;  break;
+        case 1: $src = imagecreatefromgif($image); /*echo 'image is gif';*/ return $src; break;
+        case 2: $src = imagecreatefromjpeg($image);  /*echo 'image is jpeg';*/ return $src; break;
+        case 3: $src = imagecreatefrompng($image); /*echo 'image is png';*/ return $src; break;
+        case 6: $src = ImageCreateFromBmp($image); /*echo 'image is bmp, not yet implemented';*/ /*return $src;*/ return false; break;
+        default: /*echo 'image not valid';*/ return false;  break;
     }
 
     
@@ -84,7 +84,7 @@ function cropImage ($image, $type){
     
      
     // find the size of image 
-    echo $imagey = imagesx($im);
+    //echo $imagey = imagesx($im);
     $size = min(imagesx($im), imagesy($im)); 
     
     //can we tell from the size of the input image which format it is?  therefore can be resized without $type
@@ -107,7 +107,7 @@ function cropImage ($image, $type){
         return $im2;
     }else{
 
-        echo 'image not created';
+        //echo 'image not created';
     }
     /*if ($im2 !== FALSE) { 
         header("Content-type: image/jpeg"); 
@@ -126,7 +126,7 @@ function cropImage ($image, $type){
 function resize_image($file, $w, $h, $crop=FALSE) {
     list($width, $height) = getimagesize($file);
     $r = $width / $height;
-    echo $r;
+    //echo $r;
     if ($crop) {
         if ($width > $height) {
             $width = ceil($width-($width*abs($r-$w/$h)));
@@ -138,7 +138,7 @@ function resize_image($file, $w, $h, $crop=FALSE) {
     } else {
         if ($w/$h > $r) {
             $newwidth = $h*$r;
-            echo 'new width is ' . $newwidth; 
+            //echo 'new width is ' . $newwidth; 
             $newheight = $h;
         } else {
             $newheight = $w/$r;
@@ -148,14 +148,14 @@ function resize_image($file, $w, $h, $crop=FALSE) {
     $src = imagecreatefromjpeg($file);
     if ($src){
 
-        echo 'file successfully created from image';
+        //echo 'file successfully created from image';
     }
 
     $dst = imagecreatetruecolor($newwidth, $newheight);
 
     if ($dst){
 
-        echo 'new image successfully created';
+        //echo 'new image successfully created';
     }
     $var = imagecopyresampled($dst, $src, 0, 0, 0, 0, $newwidth, $newheight, $width, $height);
 
@@ -169,14 +169,14 @@ function alternateResize ($image, $newwidth, $newheight){
     $src = determineImageAndCreate($image);
     if ($src){
 
-        echo 'file successfully created from image';
+        //echo 'file successfully created from image';
     }
 
     $dst = imagecreatetruecolor($newwidth, $newheight);
 
     if ($dst){
 
-        echo 'new image successfully created';
+        //echo 'new image successfully created';
     }
     $var = imagecopyresampled($dst, $src, 0, 0, 0, 0, $newwidth, $newheight, $width, $height);
 
@@ -195,7 +195,7 @@ function addWatermarkImage ($imageinput, $stampinput){
 
     if ($stamp){
 
-        echo 'stamp image created';
+        //echo 'stamp image created';
     }
     
     $right = 10;
@@ -207,7 +207,7 @@ function addWatermarkImage ($imageinput, $stampinput){
 
     if ($im){
 
-        echo 'image merge complete';
+        //echo 'image merge complete';
         return $image;
     }
 
@@ -234,7 +234,7 @@ function addWatermarkText ($imageinput, $text){
 
     if ($im){
 
-        echo 'image merge complete';
+        //echo 'image merge complete';
         return $image;
     }
 
@@ -272,7 +272,7 @@ function insertExtraDirectory ($filename, $textToInsert){
 
     //designed for ajax
 
-echo 'Image generation script';
+////echo 'Image generation script';
 
 //parameters
 
@@ -354,7 +354,7 @@ if (count($_GET) > 0){
 
     if ($imageSetFilenameArray){
 
-        print_r($imageSetFilenameArray);
+        //print_r($imageSetFilenameArray);
 
         foreach ($imageSetFilenameArray as $key=>$value){
 
@@ -396,7 +396,15 @@ if (count($_GET) > 0){
 
             //echo $watermarkfolderpath;
 
-            $image = addWatermarkText(BASE_URI . '/' . $imagename, 'David Tate');
+            $useridauthor = $general->getAuthorImageSet($imageSet);
+
+            //echo $useridauthor . '****';
+
+            $authorname = $general->getUserName(2);
+
+            //echo $authorname;
+
+            $image = addWatermarkText(BASE_URI . '/' . $imagename, $authorname);
 
             imagejpeg($image, BASE_URI . '/' . $watermarkfolderpath);
 
@@ -410,6 +418,8 @@ if (count($_GET) > 0){
 
             imagedestroy($image);
             imagedestroy($imageThumbnail);
+
+            echo 'complete image manipulation';
 
         }
     }else{
@@ -432,8 +442,8 @@ if (count($_GET) > 0){
 }
 
 
-print_r($errors);
-print_r($messages);
+//print_r($errors);
+//print_r($messages);
 //expecting $images which is an array of filenames
 
 

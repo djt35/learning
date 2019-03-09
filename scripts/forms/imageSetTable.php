@@ -23,6 +23,21 @@
 		?>
 		<!DOCTYPE html PUBLIC '-//W3C//DTD HTML 4.01//EN'>
 		
+		<div class="darkClass">
+		
+		</div>
+		
+		<div class="modal" style="display:none;">
+			
+			<div class='modalContent'>
+				
+			</div>
+			<div class='modalClose'>
+				<p><br><button onclick="$('.modal, .darkClass').hide();">Close this window</button></p>
+			</div>
+			
+		</div>
+
 		<html>
 		<head>
 		    <title>imageSet Table</title>
@@ -153,6 +168,70 @@ var siteRoot = rootFolder;
 					
 				})
 				
+				$(".content").on("click", ".manipulateSet", function(){
+					
+					var id = $(this).closest('tr').find("td:eq(2)").text();
+					
+					var tr = $(this).closest('tr');
+					
+					//console.log(id);
+					$('.modal').show();
+
+					$('.modal').show();
+					$('.modal').css('max-height', 800);
+					$('.modal').css('max-width', 800);
+					$('.modal').css('overflow', 'scroll');
+
+
+
+					$('.modal').find('.modalContent').html('<h3>Choose Tag Category</h3>');
+
+
+					$('.modal').find('.modalContent').append('<p>' + data + '</p>');
+
+					/*
+					if (confirm("Do you wish to delete this imageSet [can't be undone]?")) {
+
+			            //disableFormInputs("images");
+			
+			            var imagesObject = pushDataAJAX('imageSet', 'id', id, 2, ''); //delete images
+			
+			            imagesObject.done(function(data) {
+			
+			                console.log(data);
+			
+			                if (data) {
+			
+			                    if (data == 1) {
+			
+			                        //alert ("tag connection deleted");
+			                        $(tr).hide();
+			
+			                        //edit = 0;
+			                        //imagesPassed = null;
+			                        //window.location.href = siteRoot + "scripts/forms/imagesTable.php";
+			                        //go to images list
+			
+			                    } else {
+			
+			                        alert("Error, try again");
+			
+			                        //enableFormInputs("images");
+			
+			                    }
+			
+			
+			
+			                }
+			
+			
+			            });
+			
+			        }*/
+
+		
+					
+				})
 				
 			  	var titleGraphic = $(".title").height();
 				var titleBar = $("#menu").height();

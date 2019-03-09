@@ -260,7 +260,7 @@ function constructEditTable(idPassed){
             
             html += '<tr class="file">';
 			html += "<td id='"+image_id+"' style='display:none;'>"+url+"</td>";
-			html += "<td><img src='"+siteRoot+"/"+url+"' style=\"width:128px;\"></td>";
+			html += "<td><img src='"+siteRoot+url+"' style=\"width:128px;\"></td>";
 			html += "<td><button class='addTag'>Add Tag</button></td>";
 			html += "<td class='imageTag' id='tag"+image_id+"'></td>";
 			html += "<td class='imageDesc'><textarea name='imagename$insert' id='imagename"+image_id+"' class='name' rows='4' cols='30'></textarea></td>";
