@@ -11,13 +11,3 @@
     
     require(BASE_URI . '/scripts/interpretUserAccess.php');
 ?>
-
-
-        <script src="<?php echo BASE_URL . '/includes/jquery.min.js'; ?>" type="text/javascript">
-</script>
-   
-	    <script src="<?php echo BASE_URL . '/includes/generaljs.js'; ?>" type="text/javascript">
-</script>
-
-	    
-

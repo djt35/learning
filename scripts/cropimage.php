@@ -7,9 +7,11 @@ $requiredUserLevel = 1;
 
 require (BASE_URI . '/scripts/headerScript.php');
 
+error_reporting(E_ALL);
+
 function determineImageAndCreate ($image){
 
-    //print_r(list($width, $height, $image_type) = getimagesize($image));
+    list($width, $height, $image_type) = getimagesize($image);
 
     //echo $image_type;
 
@@ -25,7 +27,6 @@ function determineImageAndCreate ($image){
     
     
 }
-
 function createThumbnail($imageinput){
     
     $image = determineImageAndCreate($imageinput);
@@ -99,11 +100,16 @@ function cropImage ($image, $type){
         //pentax left  //bottom 1024, right 1264
         $im2 = imagecrop($im, ['x' => 42, 'y' => 60, 'width' => 1222, 'height' => 964]);
 
+    }elseif ($type==3){
+        //olympus ultrathin  //l 570px, r 1580px, t 35px, b 1045px
+        $im2 = imagecrop($im, ['x' => 570, 'y' => 35, 'width' => 1010, 'height' => 1010]);
+
     }
 
      
 
     if ($im2 !== FALSE) { 
+        //echo 'image created';
         return $im2;
     }else{
 
@@ -121,8 +127,6 @@ function cropImage ($image, $type){
 
     
 }
-
-
 function resize_image($file, $w, $h, $crop=FALSE) {
     list($width, $height) = getimagesize($file);
     $r = $width / $height;
@@ -161,7 +165,6 @@ function resize_image($file, $w, $h, $crop=FALSE) {
 
     return $dst;
 }
-
 function alternateResize ($image, $newwidth, $newheight){
 
     list($width, $height) = getimagesize($image);
@@ -184,7 +187,6 @@ function alternateResize ($image, $newwidth, $newheight){
 
 
 }
-
 function addWatermarkImage ($imageinput, $stampinput){
 
     //file as input
@@ -214,7 +216,6 @@ function addWatermarkImage ($imageinput, $stampinput){
     
 
 }
-
 function addWatermarkText ($imageinput, $text){
 
     $image = imagecreatefromjpeg($imageinput);
@@ -239,7 +240,6 @@ function addWatermarkText ($imageinput, $text){
     }
 
 }
-
 function spliceFilename ($filename, $textToInsert, $requiredextension){
 
     //remove .and extension
@@ -253,7 +253,6 @@ function spliceFilename ($filename, $textToInsert, $requiredextension){
     return $filenameToReturn;
 
 }
-
 function insertExtraDirectory ($filename, $textToInsert){
 
     //remove .and extension
@@ -267,15 +266,10 @@ function insertExtraDirectory ($filename, $textToInsert){
     return $filenameToReturn;
 
 }
-
-
-
-    //designed for ajax
-
+//designed for ajax
 ////echo 'Image generation script';
 
 //parameters
-
 //imageSet
 //crop yes no
 //type of image 1 olympus 2 pentax
@@ -283,13 +277,9 @@ function insertExtraDirectory ($filename, $textToInsert){
 //always generate thumbnail image /thumbnails
 //always create watermark version /watermarked
 
-
 //put the original image in a subfolder with name originals and same filename
-
 //create a thumbnail of the image at 1/8 size
-
 //save this name to the database
-
 //return the log file in console
 
 
@@ -310,9 +300,15 @@ if (count($_GET) > 0){
 
     $data = $general->sanitiseGET($_GET);
 
+   
+    //echo implode(" ",$data);
+
+    $messages[] = implode(" ",$data);
+
     if (isset($data['imageSet'])){
         
         $imageSet = $data['imageSet'];
+        $messages[] = 'Manipulating imageset id ' . $imageSet;
 
     }else{
 
@@ -326,6 +322,7 @@ if (count($_GET) > 0){
     if (isset($data['crop'])){
         
         $crop = $data['crop'];
+        $messages[] = 'Crop was set as '.$crop;
 
     }else{
 
@@ -339,6 +336,7 @@ if (count($_GET) > 0){
         if (isset($data['type'])){
         
             $type = $data['type'];
+            $messages[] = 'Type was set as '.$type;
     
         }else{
     
@@ -352,6 +350,8 @@ if (count($_GET) > 0){
 
     $imageSetFilenameArray = $general->getFilenamesImageSetid($imageSet);
 
+    $messages[] = 'Filenames to manipulate were' . implode(" ",$imageSetFilenameArray);
+
     if ($imageSetFilenameArray){
 
         //print_r($imageSetFilenameArray);
@@ -360,30 +360,59 @@ if (count($_GET) > 0){
 
             $imagename = $value;
 
+            $messages[] = 'Image name ' . $imagename;
+
             //copy the original to original folder
 
             $copyfolderpath = insertExtraDirectory ('/'.$imagename, original);
 
             copy(BASE_URI . '/' . $imagename, BASE_URI . '/' . $copyfolderpath);
 
+            $messages[] = BASE_URI . '/' . $imagename . ' copied to ' . BASE_URI . '/' . $copyfolderpath;
+
+            $messages[] = substr(sprintf('%o', fileperms(BASE_URI . '/' . $imagename)), -4);
             
             //crop image
 
-            if ($crop == 1 && isset($type)){
+            if ($crop == '1' && isset($type)){
 
                 $image = determineImageAndCreate(BASE_URI . '/' . $imagename);
 
+                if ($image){
+
+                    $messages[] = 'determineiMAGEandCreate worked';
+
+                }else{
+
+                    $errors[] = 'determineiMAGEandCreate did not work';
+                }
                 //if size of image w is >?? as constraint, i.ee do not resize an image not requiring it
+
+                //print_r($image);
 
                 $image = cropImage($image, $type);
 
-                imagejpeg($image, BASE_URI . '/' . $imagename);
+                //print_r($image);
+
+                echo $imagename;
+
+                $cropexecuted = imagejpeg($image, BASE_URI . '/' . $imagename);
+
+                if ($cropexecuted == 1){
+
+                    $messages[] = BASE_URI . '/' . $imagename . ' cropped to ' . BASE_URI . '/' . $imagename;
+
+                }else{
+
+                    $errors[] = 'error, cropped image not saved';
+
+                }
 
             }else{
 
-                $messages = 'crop or type were not set';
+                $messages[] = 'crop or type were not set so no cropping performed';
             }
-
+            
             //resize
 
             $image = alternateResize(BASE_URI . '/' . $imagename, '1350', '1064');
@@ -392,7 +421,7 @@ if (count($_GET) > 0){
 
             //watermark
 
-            $watermarkfolderpath = insertExtraDirectory ('/'.$imagename, watermark);
+            $watermarkfolderpath = insertExtraDirectory ('/'.$imagename, 'watermark');
 
             //echo $watermarkfolderpath;
 
@@ -400,13 +429,21 @@ if (count($_GET) > 0){
 
             //echo $useridauthor . '****';
 
-            $authorname = $general->getUserName(2);
+            $authorname = $general->getUserName($useridauthor);
 
             //echo $authorname;
 
             $image = addWatermarkText(BASE_URI . '/' . $imagename, $authorname);
 
             imagejpeg($image, BASE_URI . '/' . $watermarkfolderpath);
+
+            //watermarkImage
+
+            $watermarkImagefolderpath = insertExtraDirectory ('/'.$imagename, 'watermarkImage');
+
+            $image = addWatermarkImage(BASE_URI . '/' . $imagename, BASE_URI . '/' . 'includes/images/stamp.png');
+
+            imagejpeg($image, BASE_URI . '/' . $watermarkImagefolderpath);
 
             //thumbnail
 
@@ -419,7 +456,9 @@ if (count($_GET) > 0){
             imagedestroy($image);
             imagedestroy($imageThumbnail);
 
-            echo 'complete image manipulation';
+            
+
+            
 
         }
     }else{
@@ -439,6 +478,17 @@ if (count($_GET) > 0){
 
     $errors[] = 'GET array was empty';
 
+}
+
+if (empty($errors)){
+
+    $general->setManipulatedImageSet($imageSet);
+    echo 'Image Manipulation Complete';
+    //print_r($messages);
+}else{
+
+    print_r($errors);
+    print_r($messages);
 }
 
 

@@ -71,7 +71,7 @@
 		                <div class='col-1'></div>
 		
 		                <div class='col-10 narrow' style='overflow-x: scroll;'>
-		                    <p><?php $general->makeTableImagesv2("SELECT a.`type`, a.`author`, a.`id`, c.`url`, a.`created`, a.`updated` 
+		                    <p><?php $general->makeTableImagesv2("SELECT a.`type`, a.`author`, a.`id`, c.`url`, a.`created`, a.`updated`, a.`manipulated` 
 FROM `imageSet` as a 
 INNER JOIN `imageImageSet` as b ON a.`id` = b.`imageSet_id`
 INNER JOIN `images` as c on b.`image_id` = c.`id` GROUP BY a.`id` ORDER BY a.`id` desc", BASE_URL); ?></p>
@@ -96,11 +96,15 @@ INNER JOIN `images` as c on b.`image_id` = c.`id` GROUP BY a.`id` ORDER BY a.`id
 }
 			
 var siteRoot = rootFolder;
+
+var imageSetid = null;
 		
 				
 			$(document).ready(function() {
 		
 				$("#dataTable").find("tr");
+
+				
 		
 				$(".content").on("click", ".datarow", function(){
 					
@@ -171,23 +175,41 @@ var siteRoot = rootFolder;
 				$(".content").on("click", ".manipulateSet", function(){
 					
 					var id = $(this).closest('tr').find("td:eq(2)").text();
+
+					imageSetid = id;
 					
 					var tr = $(this).closest('tr');
 					
 					//console.log(id);
 					$('.modal').show();
 
-					$('.modal').show();
+					$('.darkClass').show();
+
+					//$('.modal').show();
 					$('.modal').css('max-height', 800);
 					$('.modal').css('max-width', 800);
 					$('.modal').css('overflow', 'scroll');
 
+					$('.modal').find('.modalContent').html('<h3>Manipulate Images</h3>');
+
+					//crop yes no
+					//type olympus 1 pentax 2
+					//watermark and resize automatic  -- and should occur on image upload
+
+					$('.modal').find('.modalContent').append('<form id="manipulateForm"><p>Crop : <select id="crop" name="crop"><option value="0">No</option><option value="1">Yes</option></select></p><p>Type : <select id="type" name="type"><option value="1">Olympus middle</option><option value="2">Pentax left</option><option value="3">Olympus ultrathin</option></select></p></form>');
+
+					//$('.modal').find('.modalContent').append('<p>Crop : <select id="crop" name="crop"><option value="0">No</option><option value="1">Yes</option></select></p>');
+
+					//$('.modal').find('.modalContent').append('<p>Type : <select id="type" name="type"><option value="1">Olympus middle</option><option value="2">Pentax left</option></select></p>');
+
+					//$('.modal').find('.modalContent').append('</form>');
 
 
-					$('.modal').find('.modalContent').html('<h3>Choose Tag Category</h3>');
-
-
-					$('.modal').find('.modalContent').append('<p>' + data + '</p>');
+					$('.modal').find('.modalContent').append('<button id="startManipulation">Start</button>');
+					
+					$(".modal").find('#type').prop('disabled', true);
+					//set a manipulated field added
+					//set it in the update script
 
 					/*
 					if (confirm("Do you wish to delete this imageSet [can't be undone]?")) {
@@ -233,6 +255,65 @@ var siteRoot = rootFolder;
 					
 				})
 				
+				$(".modal").on("click", "#startManipulation", function(){
+
+					//alert('picked up the click');
+
+					var formString = $(".modal").find('#manipulateForm').serialize();
+
+					var manipulation = $.ajax({
+						url: siteRoot + "scripts/cropimage.php",
+						type: "get",
+						data: 'imageSet='+imageSetid+'&'+formString,
+
+				
+					});
+
+					manipulation.done(function(data) {
+
+						console.log('manipulation = ' + data);
+
+                        if (data) {
+
+							alert(data);
+
+							$('.modal').hide();
+
+							$('.darkClass').hide();
+							
+							location.reload();
+
+                            return;
+
+
+						}else {
+
+							alert("Error, try again");
+
+						}
+
+
+					})
+
+				});
+
+				$(".modal").on("change", "#crop", function(){
+					
+					if ($(this).val() == '0'){
+
+						$(".modal").find('#type').prop('disabled', true);
+
+					}
+
+					if ($(this).val() == '1'){
+
+					$(".modal").find('#type').prop('disabled', false);
+
+					}
+					//alert('picked up the click');
+
+				});
+
 			  	var titleGraphic = $(".title").height();
 				var titleBar = $("#menu").height();
 				$(".title").css('height',(titleBar));	

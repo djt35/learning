@@ -446,12 +446,16 @@ class general {
 
 			$data = array();
 			
+			
+
+			while($data[] = $result->fetch_array(MYSQLI_ASSOC));
+			
+			//print_r($data);
+
 			echo '<table id="dataTable">';
 			
 			echo '<tr>';
 
-			while($data[] = $result->fetch_array(MYSQLI_ASSOC));
-			
 			foreach ($data as $key=>$value){
 				//echo '<th></th>';
 				foreach ($value as $k=>$v){
@@ -484,12 +488,16 @@ class general {
 			$x = 0;
 
 			foreach ($data as $k=>$v){
-
+				//$manipulated = null;
+				
 				if ($id) {	
 					if ($id <> $v['id']){
 						echo '<td>';
 								echo "<button class='deleteSet'>Delete</button>";
+								if (($manipulated != 1)){
 								echo "<button class='manipulateSet'>Manipulate</button>";
+								}
+								//echo '$manipulated is ' . $manipulated;
 								echo '</td>';
 						
 						echo '</tr>';
@@ -502,7 +510,7 @@ class general {
 
 				$id = $v['id'];
 				$id = trim($id);
-
+				$manipulated = $v['manipulated'];
 
 
 				foreach($v as $key=>$value){
@@ -534,6 +542,21 @@ class general {
 							}elseif ($value == '0'){
 								
 								echo 'rejected';
+								
+							}
+						echo '</td>';
+						
+						
+					}else if ($key == 'manipulated'){
+						
+						echo '<td class="datarow">';
+							if ($value == NULL){
+								
+								echo 'No';
+								
+							}elseif ($value == '1'){
+								
+								echo 'Yes';
 								
 							}
 						echo '</td>';
@@ -1917,6 +1940,27 @@ class general {
 			}
 
 			return $author;
+
+		}else{
+
+			return FALSE;
+		}
+
+	}
+
+	public function setManipulatedImageSet($imageset){
+
+		$q = "UPDATE `imageSet` 
+		SET `manipulated`='1'
+		WHERE `id` = $imageset";
+
+		//echo $q;
+
+		$result = $this->connection->RunQuery($q);
+
+		if ($result){
+
+			return TRUE;
 
 		}else{
 
