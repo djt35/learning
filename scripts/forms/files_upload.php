@@ -4,9 +4,11 @@ ini_set('display_errors',1);
 require ('../../includes/config.inc.php');
 
 $openaccess = 0;
-$requiredUserLevel = 1;
+$requiredUserLevel = 2;
 
 require (BASE_URI . '/scripts/headerScript.php');
+
+require (BASE_URI . '/scripts/imageFunctions.php');
 
 error_reporting(E_ALL);
 
@@ -39,7 +41,7 @@ $filearray = array();
 
 if(isset($_FILES)){
 	
-	$r = "INSERT into `imageSet` (`name`) VALUES ('" . generateRandomString() . "')";
+	$r = "INSERT into `imageSet` (`name`, `author`) VALUES ('" . generateRandomString() . "', '$userid')";
 					
 	$insertid2 = $general->returnWithInsertID($r);
 
@@ -127,6 +129,11 @@ if(isset($_FILES)){
 
 
 					//now perform image manipulation  resize, watermark, thumbnail
+					//perhaps better to do this afterwards once edits made etc.
+
+
+
+
 				}
 				
 
@@ -134,7 +141,7 @@ if(isset($_FILES)){
 				//echo "The file ".$filename." has been uploaded"; // only for debugging
 			}
 			else{
-				//echo $file_name."is not uploaded"; // use this for debugging otherwise remove it
+				//echo $newDesiredFilename."is not uploaded"; // use this for debugging otherwise remove it
 			}
 
 		}

@@ -2009,9 +2009,9 @@ class general {
 	
 	public function countPendingApprovals () {
 		
-		$q = "SELECT COUNT(a.`id`) as number
-FROM `imageSetDraft` as a 
-WHERE a.`approved` IS NULL GROUP BY a.`id` ORDER BY a.`created` desc";
+		$q = "SELECT COUNT(`id`) as number
+		FROM `imageSetDraft`
+		WHERE `approved` IS NULL";
 
 		$result = $this->connection->RunQuery($q);
 		

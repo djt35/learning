@@ -9,6 +9,8 @@ $requiredUserLevel = 4;
 
 require (BASE_URI . '/scripts/headerScript.php');
 
+require (BASE_URI . '/scripts/imageFunctions.php');
+
 error_reporting(E_ALL);
 
 error_reporting(1);
@@ -29,8 +31,8 @@ function generateRandomString($length = 8) {
 }
 
 
-$desired_dir=BASE_URI . "/includes/images/";
-$desired_http_dir = BASE_URL . "/includes/images/";	
+$desired_dir=BASE_URI . "/includes/images/drafts/";
+$desired_http_dir = BASE_URL . "/includes/images/drafts/";	
 
 $filearray = array();
 
@@ -38,20 +40,12 @@ $filearray = array();
 
 if(isset($_FILES)){
 	
-	$r = "INSERT into `imageSetDraft` (`name`) VALUES ('" . generateRandomString() . "')";
+	$r = "INSERT into `imageSetDraft` (`name`, `author`) VALUES ('" . generateRandomString() . "', '$userid')";
 					
 	$insertid2 = $general->returnWithInsertID($r);
 
 	$errors= array();
-	if ($local){
-	
-		$desired_dir=BASE_URI . "/includes/images/drafts/"; // replace with your directory name where you want to store images
-	
-	}else{
-		
-		$desired_dir=BASE_URI . "/includes/images/drafts/";
-		
-	}	// getting files array
+	// getting files array
 	$x=1;
 	foreach($_FILES as $file){
 		$filename = $file['name'];
@@ -109,20 +103,29 @@ if(isset($_FILES)){
 				
 				if ($insertid){
 					
-					$filearray[$x] = array ('id' => $insertid, 'filename' => 'includes/images/drafts/' .$file_name);
+					$newDesiredFilename = 'image'. $insertid . '.' . strtolower($extension);
 					
 					//use insert ID for insert into imagesGroup
 					
 					$s = "INSERT into `imageImageSetDraft` (`image_id`,`imageSet_id`) VALUES ('$insertid','$insertid2')";
 					//echo "The file ".$file_name." has been uploaded";
 					$general->connection->RunQuery($s);
+
+					rename($desired_dir . $file_name, $desired_dir . $newDesiredFilename);
+
+					$t = "UPDATE `imagesDraft` SET `url` = 'includes/images/drafts/$newDesiredFilename' WHERE `id` = $insertid";
+					$general->connection->RunQuery($t);
+
+
+					$filearray[$x] = array ('id' => $insertid, 'filename' => 'includes/images/drafts/' .$newDesiredFilename);
+					
 					
 				}
 				
 				//echo "The file ".$filename." has been uploaded"; // only for debugging
 			}
 			else{
-				echo $file_name."is not uploaded"; // use this for debugging otherwise remove it
+				//echo $newDesiredFilename."is not uploaded"; // use this for debugging otherwise remove it
 			}
 
 		}

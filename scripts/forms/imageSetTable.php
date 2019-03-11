@@ -131,9 +131,32 @@ var imageSetid = null;
 					
 					if (confirm("Do you wish to delete this imageSet [can't be undone]?")) {
 
-			            //disableFormInputs("images");
-			
-			            var imagesObject = pushDataAJAX('imageSet', 'id', id, 2, ''); //delete images
+						//disableFormInputs("images");
+						
+						//get array of image filenames
+
+						var overallObject = new Object();
+
+						overallObject['query'] = 'getFilenames';
+
+						var filesObject = JSONDataQuery(id, overallObject,9);
+
+						filesObject.done(function(data) {
+
+							console.dir(data);
+
+							filesMoveObject = $.ajax({
+								url: siteRoot + "scripts/moveImagesDeleted.php",
+								type: "POST",
+								contentType: "application/json",
+								data: data,
+							});
+
+							filesMoveObject.done(function(data) {
+
+								console.dir(data);
+
+								var imagesObject = pushDataAJAX('imageSet', 'id', id, 2, ''); //delete images
 			
 			            imagesObject.done(function(data) {
 			
@@ -165,6 +188,11 @@ var imageSetid = null;
 			
 			
 			            });
+
+							})
+						})
+			
+			            
 			
 			        }
 

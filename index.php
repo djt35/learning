@@ -466,6 +466,46 @@ var siteRoot = rootFolder;
 
 var serializedReturn;
 
+var serializedReturnForgot;
+
+function submitusersForgotForm (){
+
+	var dataToSend = serializedReturnForgot;
+
+	console.log(serializedReturnForgot);
+
+	var usersObject = $.ajax({
+		url: siteRoot + "scripts/mailLogin.php",
+		type: "get",
+		data: serializedReturnForgot,
+
+
+	});
+
+			usersObject.done(function (data){
+
+				console.log(data);
+
+				if ($.isNumeric(data)){
+
+					alert ("If this email address is registered you will soon receive an email. \n If you do not receive it and you are sure you are registered please check your junk mail folder.");
+					$('.modal').hide();
+					$('.darkClass').hide();
+
+
+				}else {
+
+					alert(data);
+
+				}
+
+
+			});
+
+
+
+}
+
 function submitusersForm (){
 		
 		
@@ -547,6 +587,16 @@ $(document).ready(function() {
 					var form = $('#users');
 					serializedReturn = $('input[name!=confirm], select', $(form)).serialize();
 			        $('#users').submit();
+		
+		
+				}));
+				
+	$(".modal").on('click', '#submitusersForgot', (function(event) {
+					//alert('detected');
+					event.preventDefault();
+					var form = $('#usersForgot');
+					serializedReturnForgot = $('input, select', $(form)).serialize();
+			        $('#usersForgot').submit();
 		
 		
 			    }));
@@ -659,6 +709,93 @@ $(document).ready(function() {
 
 	});
 
+	$(".modal").on("click", "#forgot", function(){
+
+		
+
+var manipulation = $.ajax({
+				url: siteRoot + "scripts/forms/userForgotPasswordForm.php",
+				type: "get",
+				data: '',
+
+		
+			});
+
+			manipulation.done(function(data) {
+
+				console.log('manipulation = ' + data);
+
+				if (data) {
+					
+					$('.modal').show();
+
+			$('.darkClass').show();
+
+			//$('.modal').show();
+			$('.modal').css('max-height', 800);
+			$('.modal').css('max-width', 800);
+			$('.modal').css('overflow', 'scroll');
+
+			$('.modal').find('.modalContent').html('<h3>Forgotten Password</h3>');
+			
+			$('.modal').find('.modalContent').append('<p>Enter your email address below. <br> If this email address is registered you will receive a password reset email.</p><br>');
+
+			$('.modal').find('.modalContent').append(data);
+
+			$('.modal').find('.modalContent').append('<div class="errorTxt" style="font-size:12px;"></div>');
+
+			$("#usersForgot").validate({
+
+invalidHandler: function(event, validator) {
+	var errors = validator.numberOfInvalids();
+	console.log("there were " + errors + "errors");
+	if (errors) {
+		var message = errors == 1 ?
+			"You missed 1 field. It has been highlighted" :
+			"You missed " + errors + " fields. They have been highlighted";
+		$('div.error span').html('<br>'+message);
+		$('.error').css('fontSize',10);
+		$('div.error').show();
+	} else {
+		$('div.error').hide();
+	}
+},rules: {
+
+	  
+	email: { required: true, email: true },   
+	
+
+
+},messages: {
+
+	
+	email: { required: 'Please enter the registered email address', email: 'Please enter a valid email address'},   
+	
+
+
+	//access_level: { required: 'Please enter user access level' },   
+
+},errorElement : 'div',
+    errorLabelContainer: '.errorTxt',
+	submitHandler: function(form) {
+
+		//alert('got past the validation');
+		submitusersForgotForm();
+
+		//console.log("User form submitted");
+
+
+
+}
+
+
+
+
+});
+				}
+			})
+
+});
 	
    
 		

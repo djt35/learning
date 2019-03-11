@@ -91,6 +91,8 @@ if (isset($requiredUserLevel)){
     }
 
 }
+
+
 //identify with the variables in the top of the original file
 //$userLevel
 //$paid, not yet implemented
