@@ -5,7 +5,7 @@ ini_set('display_errors',1);
 require ('../../includes/config.inc.php');
 
 $openaccess = 0;
-$requiredUserLevel = 1;
+$requiredUserLevel = 4;
 
 require (BASE_URI . '/scripts/headerScript.php');
 

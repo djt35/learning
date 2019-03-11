@@ -464,79 +464,47 @@ switch (document.location.hostname)
 			
 var siteRoot = rootFolder;
 
-/*function mobileMenuShow(){
-	
-	//check if already clicked
-	
-	var alreadyClicked = 0;
-	
-	$('.navbar').find('.topnav').each(function(){
-	
-		if ($(this).hasClass('responsive') == true){
-			
-			alreadyClicked = 1;
-			
-		}	
-		
-	})
-	
-	if (alreadyClicked == 0){
-		
-		$('.navbar').addClass('responsiveToolbar');
-	
-		//show the items floated in a new way
-		
-		$('.navbar').find('.topnav').each(function(){
-	    	
-	    	//add the required class
-	    	$(this).addClass('responsive');
-	    	$(this).show();
-		})
-		
-		$('.navbar').find('.icon').each(function(){
-	    	
-	    	//add the required class
-	    	$(this).addClass('responsive2');
-	   
-	   	})
-		
-	}else if (alreadyClicked == 1){
-		
-		$('.navbar').removeClass('responsiveToolbar');
-	
-		//show the items floated in a new way
-		
-		$('.navbar').find('.topnav').each(function(){
-	    	
-	    	//add the required class
-	    	$(this).removeClass('responsive');
-	    	$(this).hide();
-		})
-		
-		$('.navbar').find('.icon').each(function(){
-	    	
-	    	//add the required class
-	    	$(this).removeClass('responsive2');
-	   
-	   	})
+var serializedReturn;
+
+function submitusersForm (){
 		
 		
+			var dataToSend = serializedReturn;
+
+			console.log(serializedReturn);
+
+			var usersObject = $.ajax({
+						url: siteRoot + "scripts/registerUser.php",
+						type: "get",
+						data: serializedReturn,
+
+				
+					});
+
+			usersObject.done(function (data){
+
+				console.log(data);
+
+				if ($.isNumeric(data)){
+
+					alert ("You were successfully registered for the site \n Please now login with your details");
+					$('.modal').hide();
+					$('.darkClass').hide();
+
+
+				}else {
+
+					alert(data);
+
+				}
+
+
+			});
+
+		
+
+
 	}
-	
-	
-	//get items to show (everything with topnav)
-	
-	
-	
-	
-		
-	//that way is responsive
-	
-	
-}*/
-
-
-
 
 
 $(document).ready(function() {
@@ -572,8 +540,126 @@ $(document).ready(function() {
 
         }, 100, 'Resize header');
     });
-    
+	
+	$(".modal").on('click', '#submitusers', (function(event) {
+					//alert('detected');
+					event.preventDefault();
+					var form = $('#users');
+					serializedReturn = $('input[name!=confirm], select', $(form)).serialize();
+			        $('#users').submit();
+		
+		
+			    }));
 
+	$(".modal").on("click", "#signUp", function(){
+
+		
+
+		var manipulation = $.ajax({
+						url: siteRoot + "scripts/forms/userIndexForm.php",
+						type: "get",
+						data: '',
+
+				
+					});
+
+					manipulation.done(function(data) {
+
+						console.log('manipulation = ' + data);
+
+                        if (data) {
+							
+							$('.modal').show();
+
+					$('.darkClass').show();
+
+					//$('.modal').show();
+					$('.modal').css('max-height', 800);
+					$('.modal').css('max-width', 800);
+					$('.modal').css('overflow', 'scroll');
+
+					$('.modal').find('.modalContent').html('<h3>Sign Up to EndoWiki</h3>');
+					
+					$('.modal').find('.modalContent').append('<p>Thanks for expressing your interest in Endoscopy Wiki. <br> Joining is free. <br> Multiple high quality learning opportunities are only a few clicks away.</p>');
+
+					$('.modal').find('.modalContent').append(data);
+
+					$("#users").validate({
+		
+		invalidHandler: function(event, validator) {
+			var errors = validator.numberOfInvalids();
+			console.log("there were " + errors + "errors");
+			if (errors) {
+				var message = errors == 1 ?
+					"You missed 1 field. It has been highlighted" :
+					"You missed " + errors + " fields. They have been highlighted";
+				$('div.error span').html(message);
+				$('div.error').css('fontSize',10);
+				$('div.error').show();
+			} else {
+				$('div.error').hide();
+			}
+		},rules: {
+
+			firstname: { required: true },   
+			surname: { required: true },   
+			email: { required: true, email: true },   
+			password: { minlength : 8, required: true },   
+			confirm : {
+                    minlength : 8,
+                    equalTo : "#password"
+                },
+			centreName: { required: true },
+			centreCity: { required: true },
+			specialistInterest: { required: true },
+			trainee: { required: true },
+			yearsIndependent: { number: true, required: true, max: 70 },
+			yearsEndoscopy: { number: true, required: true, max: 70 },
+			endoscopyTrainingProgramme : { required: true },
+			emailPreferences: { required: true },  
+
+
+	},messages: {
+
+			firstname: { required: 'Please enter your first name' },   
+			surname: { required: 'Please enter your surname' },   
+			email: { required: 'Please enter your email address', email: 'Please enter a valid email address'},   
+			password: { minlength: 'Password must be 8 or more characters', required: 'Please enter a password' },   
+			confirm: {minlength: 'Password must be 8 or more characters', equalTo: 'Passwords do not match'},
+			centreName: { required: 'Please enter the name of your institution' },
+			centreCity: { required: 'Please enter your institution city' },
+			specialistInterest: { required: 'Please select your specialist interest' },
+			trainee: { required: 'Are you a trainee?' },
+			yearsIndependent: { required: 'How many years have you been practising your specialty (incl. training)' },
+			yearsEndoscopy: { required: 'How many years have you been performing endoscopy?' },
+			endoscopyTrainingProgramme : { required: 'Required' },
+			emailPreferences: { required: 'Required' },
+
+
+			//access_level: { required: 'Please enter user access level' },   
+
+	},
+			submitHandler: function(form) {
+
+				//alert('got past the validation');
+				submitusersForm();
+
+				//console.log("User form submitted");
+
+
+
+		}
+
+
+
+
+	});
+						}
+					})
+
+	});
+
+	
    
 		
 
