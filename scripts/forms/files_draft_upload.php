@@ -10,38 +10,13 @@ $requiredUserLevel = 4;
 require (BASE_URI . '/scripts/headerScript.php');
 
 error_reporting(E_ALL);
-/*
-			$host = substr($_SERVER['HTTP_HOST'], 0, 5);
-		if (in_array($host, array('local', '127.0', '192.1'))) {
-		    $local = TRUE;
-		} else {
-		    $local = FALSE;
-		}
-		
-		if ($local){
-			
-			require ('/Applications/XAMPP/xamppfiles/htdocs/dashboard/learning/scripts/headerCreator.php');
-			
-			
-		}else{
-			
-			require ($_SERVER['DOCUMENT_ROOT'].'/scripts/headerCreator.php');
-		}
-		
-		*/
-			$formv1 = new formGenerator;
-			$general = new general;
-			$video = new video;
-			$tagCategories = new tagCategories;
-
-//echo 'hello';
 
 error_reporting(1);
 
-//define('MYSQL', '../../mysqli_connect_PROSPER.php');
-//require (MYSQL);
-//var_dump($_FILES);
-// check files are set or not
+$formv1 = new formGenerator;
+			$general = new general;
+			$video = new video;
+			$tagCategories = new tagCategories;
 
 function generateRandomString($length = 8) {
     $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -53,23 +28,9 @@ function generateRandomString($length = 8) {
     return $randomString;
 }
 
-if ($local){
-		//echo 'local is'.$local;
-		$desired_dir=BASE_URI . "/includes/images/drafts/";
-		//echo 'desired dir is' . $root;
-		$desired_http_dir = BASE_URL . "/includes/images/drafts/";
-		//echo 'desired http dir is' . BASE_URL;
-	
-	}else{
-		
-		//echo 'local is'.$local;
-		$desired_dir=BASE_URI . "/includes/images/drafts/";
-		//echo 'desired dir is' . $desired_dir;
-		$desired_http_dir = BASE_URL . "/includes/images/drafts/";
-		//echo 'desired http dir is' . $desired_http_dir;
 
-		
-	}
+$desired_dir=BASE_URI . "/includes/images/";
+$desired_http_dir = BASE_URL . "/includes/images/";	
 
 $filearray = array();
 

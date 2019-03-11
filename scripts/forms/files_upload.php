@@ -9,39 +9,16 @@ $requiredUserLevel = 1;
 require (BASE_URI . '/scripts/headerScript.php');
 
 error_reporting(E_ALL);
-/*
-			$host = substr($_SERVER['HTTP_HOST'], 0, 5);
-		if (in_array($host, array('local', '127.0', '192.1'))) {
-		    $local = TRUE;
-		} else {
-		    $local = FALSE;
-		}
-		
-		if ($local){
-			
-			require ('/Applications/XAMPP/xamppfiles/htdocs/dashboard/learning/scripts/headerCreator.php');
-			
-			
-		}else{
-			
-			require ($_SERVER['DOCUMENT_ROOT'].'/scripts/headerCreator.php');
-		}
-*/	
+
 			$formv1 = new formGenerator;
 			$general = new general;
 			$video = new video;
 			$tagCategories = new tagCategories;
 
-//echo 'hello';
+
 
 error_reporting(1);
 
-
-
-//define('MYSQL', '../../mysqli_connect_PROSPER.php');
-//require (MYSQL);
-//var_dump($_FILES);
-// check files are set or not
 
 function generateRandomString($length = 8) {
     $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -127,18 +104,33 @@ if(isset($_FILES)){
 				
 				if ($insertid){
 					
-					$filearray[$x] = array ('id' => $insertid, 'filename' => 'includes/images/' .$file_name);
+					//$filearray[$x] = array ('id' => $insertid, 'filename' => 'includes/images/' .$file_name);
 					
 					//rename the file using the insert id -- implement later
 					
 					//use insert ID for insert into imagesGroup
+
+					$newDesiredFilename = 'image'. $insertid . '.' . strtolower($extension);
 					
 					$s = "INSERT into `imageImageSet` (`image_id`,`imageSet_id`) VALUES ('$insertid','$insertid2')";
 					//echo "The file ".$file_name." has been uploaded";
 					$general->connection->RunQuery($s);
+
+					//addition***  update the filename
+
+					rename($desired_dir . $file_name, $desired_dir . $newDesiredFilename);
+
+					$t = "UPDATE `images` SET `url` = 'includes/images/$newDesiredFilename' WHERE `id` = $insertid";
+					$general->connection->RunQuery($t);
 					
+					$filearray[$x] = array ('id' => $insertid, 'filename' => 'includes/images/'.$newDesiredFilename);
+
+
+					//now perform image manipulation  resize, watermark, thumbnail
 				}
 				
+
+
 				//echo "The file ".$filename." has been uploaded"; // only for debugging
 			}
 			else{
