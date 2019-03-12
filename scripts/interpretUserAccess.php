@@ -10,7 +10,7 @@
 
 if (count($_GET) > 0){
 
-    if (isset($_GET['token']) && is_numeric($_GET['token'])){
+    if (isset($_GET['token'])){
 
         $token = $_GET['token'];
 
@@ -19,31 +19,68 @@ if (count($_GET) > 0){
 }
 
 //script for detection of page related variables in header
-if (isset($openaccess)){
-
-    if ($openaccess == 1){
+if ($openaccess == 1){
 
         goto b;
-
-    }else{
-
-        goto a;
-
-    }
 
 }else{
 
     //if a token is present allowing access to the page then allow
     //else reject
+    if ($tokenaccess == 1){
+        if (isset($token)){
 
-    if (isset($token)){
+            //echo 'token set is' . $token;
 
-        //echo 'token set is' . $token;
-        //allow access if token valid from database
+            //why does this require login
 
+            $dbc = @mysqli_connect (DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+           // print_r($dbc);
+            $sql = "SELECT `user_id` FROM `users` WHERE `key` = '$token'";
+            //echo $sql;
+            $result = mysqli_query ($dbc, $sql);
+            //print_r($result);
+            if(mysqli_num_rows($result) > 0){
+
+                while($row = mysqli_fetch_array($result)) {
+                    $userid = $row['user_id'];
+                
+                    
+                }
+
+                //echo $userid;
+                goto c;
+    
+            }else{
+                    echo 'token did not match any userid';
+                    unset($token);
+                    goto a;
+                    
+    
+            }
+
+             
+
+            
+
+            mysqli_free_result($result);
+            mysqli_close($dbc);
+
+            //allow access if token valid from database
+
+            //if so goto c:
+
+            
+            //get user id from token
+            //reset token once used
+
+        }
     }
+}
 
-    a:
+    a:{
+//echo 'made it to a';
+
 if (!isset($_SESSION['user_id']) || !isset($_SESSION['access_level'])) {
 
     redirect_login($location);
@@ -99,6 +136,16 @@ if (isset($requiredUserLevel)){
 
 }
 
-b:
+
+
+b:{
+
+    unset($userid);
 
 //do things where open access allowed
+}
+c:{
+//echo 'made it to c';
+//do things for token access
+
+}

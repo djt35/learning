@@ -3,6 +3,8 @@ session_start();
 
 //require ('config.inc.php');
 
+
+
 $user = new users;
 
 
@@ -14,7 +16,9 @@ echo '<div id="navbarResponsive" class="navbar responsiveContainer topnav1">
     <i class="fa fa-bars"></i>
   </a>
 			  <a class="topnav" href="' . BASE_URL . '/index.php">Home</a>';
-			  
+
+
+
 			  echo '<div class="dropdown topnav"><button class="dropbtn">Image&#9660;</button>
 			  			<div class="dropdown-content">
 			  				<a href="">Browse images</a><hr>
@@ -93,14 +97,15 @@ echo '<div id="navbarResponsive" class="navbar responsiveContainer topnav1">
 			</div>
 			
 			';
+				
 
 	echo '<div class="slim-col-2">';
 
 			echo "<div id='userDisplay'>";
 				 $firstname =  $_SESSION['firstname'];
 				 $surname = $_SESSION['surname'];
-				 $userid = $_SESSION['user_id'];
-				 if ($userid){
+				 $useridNav = $_SESSION['user_id'];
+				 if ($useridNav){
 					 echo '<div class="dropdown topnav"><button class="dropbtn">Logged in&#9660;</button>
 					 
 					 <div class="dropdown-content" id="myDropdown">
@@ -125,7 +130,7 @@ echo '<div id="navbarResponsive" class="navbar responsiveContainer topnav1">
 			echo "</div>";
 			
 		
-			
+				
 			
 	echo "</div>";
 	echo "</div>";
