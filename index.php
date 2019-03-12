@@ -136,7 +136,7 @@
 			
 			#images {
 				
-				overflow-x: scroll;
+				/*overflow-x: scroll;*/
 				
 			}
 			

@@ -48,6 +48,8 @@ include(BASE_URI . "/includes/naviv1.php");
 <body>
 	
 	<div id='userid' style='display:none;'><?php if ($userid){echo $userid;}?>
+    </div>
+    <div id='token' style='display:none;'><?php if ($token){echo $token;}?>
     
     </div>
 	
@@ -105,34 +107,47 @@ var siteRoot = rootFolder;
 function submitPasswordUpdate(){
 
     //update the password and issue new token
-/*
-    var usersObject = pushDataFromFormAJAX("users", "users", "user_id", null, "0"); //insert new object
+
+    var password = $('#password').val();
+
+    var confirm = $('#confirm').val();
+
+    var userid = $('#userid').text();
+
+    var token = $('#token').text();
+
+    var data = "&password="+password+"&confirm="+confirm+"&userid="+userid+"&token="+token;
+
+    console.log(data); 
+
+    var usersObject = $.ajax({
+				url: siteRoot+"scripts/updatePassword.php",
+				type: "get",
+				data: "&password="+password+"&confirm="+confirm+"&userid="+userid+"&token="+token  	 		
+			}); //insert new object
 		
 					usersObject.done(function (data){
 		
-						//console.log(data);
+						console.log(data);
 		
-						if (data){
+						if (data == 1){
 		
-							alert ("New users no "+data+" created");
-							edit = 1;
-							$("#id").text(data);
-							usersPassed = data;
-							fillForm(data);
+							alert ("Your password has been changed.  Please login again");
+							header(siteRoot + "index.php");
 		
 		
 		
 		
 						}else {
 		
-							alert("No data inserted, try again");
+							alert("Failed, try again");
 		
 						}
 		
 		
 					});
 
-*/
+
 
 
 }

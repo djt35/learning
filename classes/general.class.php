@@ -248,6 +248,47 @@ class general {
 
 	}
 
+	public function returnUpdateQuery ($q){
+
+
+		//print_r($q);
+
+
+		$result = $this->connection->RunQuery($q);
+
+		//print_r($result);
+
+		//IF THERE is a database error return 2
+
+		//IF THERE are no rows affected but no errors return 0
+
+		//IF THERE is one row affected return 1
+
+		if ($result){
+
+
+			//print_r($this->connection->conn->affected_rows);
+
+			//print_r($this->connection->conn);
+
+			if ($this->connection->conn->affected_rows == 1){
+
+				return 1;
+
+			} else {
+
+				return 0;
+
+			}
+
+		} else {
+
+			return 2;
+
+		}
+
+	}
+
 	public function returnWithInsertID($q) {
 
 
