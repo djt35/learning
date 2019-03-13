@@ -1,6 +1,6 @@
 <?php
 
-require ('../../../includes/config.inc.php');
+require ('../../includes/config.inc.php');
 $location = BASE_URL . '/elearn.php';
 
 session_start();
@@ -75,11 +75,18 @@ if (isset($_GET['table'])){
 		    <p><?php 
 			    
 			    $columns = $formv1->getDatabaseColumns($table);
+				array_pop($columns);
+				print_r($columns);
+				
+				$count = count($columns);
 
-			    
 			    foreach ($columns as $key=>$value){
-				    
-				 echo $value['name']. ', ';
+				
+				 echo $value['name'];
+				 if (--$count <= 0) {
+					break;
+				}
+				 echo ', ';
 				 
 				    
 				}

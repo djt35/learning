@@ -415,31 +415,11 @@
 					  
 				</div>
 				
-				<div class='row'>
-					<div class='col-1'>
-					</div>
-					<div class='col-10'>
-					
-						<div id='images' class='standardBack'>
-							
-						</div>
-					    <!--<<form id="imageUpload">
-					    
-					    input name="files[]" type="file" multiple="multiple" accept=".jpg, .jpeg, .bmp"/>-->
-					    
-					    <!--<button id="submitimagefiles">Submit</button>
-		
-					    </form>-->
-					</div>
-				    <div class='col-1'>
-					</div>    
-				</div>
 				
-				<hr>
 				
-				<div class='row'>
-					
-				</div>
+				
+				
+				
 				
 				
 				

@@ -64,7 +64,8 @@
 		                </div>
 		
 		                <div id="messageBox" class='col-3 yellow-light narrow center'>
-		                    <p></p>
+							<p><button id="tableTags" onclick="window.location.href = '<?php echo BASE_URL;?>/scripts/forms/tagsTable.php';">Table of tags</button></p>
+		               
 		                </div>
 		            </div>
 		
@@ -159,7 +160,7 @@ var siteRoot = rootFolder;
 		
 				    });
 				    
-				    $("#messageBox").text("Editing tags id "+idPassed);
+				    $("#messageBox").append("Editing tags id "+idPassed);
 		
 				    enableFormInputs("tags");
 		
@@ -311,7 +312,7 @@ var siteRoot = rootFolder;
 		
 				}else{
 					
-					$("#messageBox").text("New tags");
+					$("#messageBox").append("New tags");
 					
 				}
 		

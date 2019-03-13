@@ -133,7 +133,7 @@ function submitPasswordUpdate(){
 						if (data == 1){
 		
 							alert ("Your password has been changed.  Please login again");
-							header(siteRoot + "index.php");
+							window.location.href = siteRoot + "index.php";
 		
 		
 		

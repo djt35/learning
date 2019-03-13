@@ -1,6 +1,6 @@
 <?php
 
-require ('../../../includes/config.inc.php');
+require ('../../includes/config.inc.php');
 $location = BASE_URL . '/elearn.php';
 
 session_start();
@@ -92,6 +92,29 @@ function createWritableFolder($folder)
 	return false;
 }
 
+function returnDatabaseFields($table){
+
+	$columns = $formv1->getDatabaseColumns('audio');
+				array_pop($columns);
+				//print_r($columns);
+				$returning = null;
+				$count = count($columns);
+
+			    foreach ($columns as $key=>$value){
+				
+				 $returning .= $value['name'];
+				 if (--$count <= 0) {
+					break;
+				}
+				$returning .= ', ';
+				 
+				    
+				}
+
+
+	return $returning;
+}
+
 
 //$databaseTable = 'chapter';
 //$databaseIdentifier = 'id';
@@ -158,11 +181,11 @@ print_r($datafields);
 	
 	foreach ($datafields as $key=>$value){
 		
-		$databaseTable = $value['databaseTable'];
+		echo $databaseTable = $value['databaseTable'];
 		$databaseIdentifier = $value['databaseIdentifier'];
 		$title = $value['title'];
 		$pageURLIdentifier = $value['pageURLIdentifier'];
-		
+		//echo returnDatabaseFields($databaseTable);
 		
 		foreach ($value as $key2=>$value2){
 	
@@ -171,8 +194,8 @@ print_r($datafields);
 		
 		
 			<?php
-		
-			require ('{{BASE_URI}}scripts/headerCreator.php');
+			require ('../../includes/config.inc.php');
+			require (BASE_URI . '/scripts/headerCreator.php');
 		
 			\$formv1 = new formGenerator;
 			\$general = new general;
@@ -217,9 +240,9 @@ print_r($datafields);
 		</head>
 		
 		<?php
-		include(\{BASE_URI} . \"/scripts/logobar.php\");
+		include(BASE_URI . \"/scripts/logobar.php\");
 		
-		include(\{BASE_URI} . \"/includes/naviCreator.php\");
+		include(BASE_URI . \"/includes/naviCreator.php\");
 		?>
 		
 		<body>
@@ -236,7 +259,8 @@ print_r($datafields);
 		                </div>
 		
 		                <div id=\"messageBox\" class='col-3 yellow-light narrow center'>
-		                    <p></p>
+							<p><button id=\"table{$databaseTable}\" onclick=\"window.location.href = '<?php echo BASE_URL;?>/scripts/forms/{$databaseTable}Table.php';\">Table of {$databaseTable}</button></p>
+		              
 		                </div>
 		            </div>
 		
@@ -342,7 +366,7 @@ print_r($datafields);
 		
 				    });
 				    
-				    $(\"#messageBox\").text(\"Editing {$databaseTable} id \"+idPassed);
+				    $(\"#messageBox\").append(\"Editing {$databaseTable} id \"+idPassed);
 		
 				    enableFormInputs(\"{$databaseTable}\");
 		
@@ -494,7 +518,7 @@ print_r($datafields);
 		
 				}else{
 					
-					$(\"#messageBox\").text(\"New {$databaseTable}\");
+					$(\"#messageBox\").append(\"New {$databaseTable}\");
 					
 				}
 		
@@ -576,7 +600,7 @@ print_r($datafields);
 		<?php
 		
 		    // Include the footer file to complete the template:
-		    include(\{BASE_URI} .\"/includes/footer.html\");
+		    include(BASE_URI .\"/includes/footer.html\");
 		
 		
 		
@@ -600,8 +624,8 @@ SaveFile(BASE_URI . "/scripts/fileCreators/files/{$databaseTable}Form.php", $fil
 		$file_in = "
 		
 		<?php
-		
-			require ('{{BASE_URI}}scripts/headerCreator.php');
+			require ('../../includes/config.inc.php');
+			require (BASE_URI . '/scripts/headerCreator.php');
 		
 		
 		\$formv1 = new formGenerator;
@@ -620,9 +644,9 @@ SaveFile(BASE_URI . "/scripts/fileCreators/files/{$databaseTable}Form.php", $fil
 		</head>
 		
 		<?php
-		include(\{BASE_URI} . \"/scripts/logobar.php\");
+		include(BASE_URI . \"/scripts/logobar.php\");
 		
-		include(\{BASE_URI} . \"/includes/naviCreator.php\");
+		include(BASE_URI . \"/includes/naviCreator.php\");
 		?>
 		
 		
@@ -639,7 +663,7 @@ SaveFile(BASE_URI . "/scripts/fileCreators/files/{$databaseTable}Form.php", $fil
 		                </div>
 		
 		                <div id=\"messageBox\" class='col-3 yellow-light narrow center'>
-		                    <p><button id=\"new{$databaseTable}\" onclick=\"window.location.href = '<?php echo \BASE_URL;?>/scripts/forms/{$databaseTable}Form.php';\">New {$databaseTable}</button></p>
+		                    <p><button id=\"new{$databaseTable}\" onclick=\"window.location.href = '<?php echo BASE_URL;?>/scripts/forms/{$databaseTable}Form.php';\">New {$databaseTable}</button></p>
 		                </div>
 		            </div>
 			        
@@ -704,7 +728,7 @@ SaveFile(BASE_URI . "/scripts/fileCreators/files/{$databaseTable}Form.php", $fil
 		<?php
 		
 		    // Include the footer file to complete the template:
-		    include(\{BASE_URI} .\"/includes/footer.html\");
+		    include(BASE_URI .\"/includes/footer.html\");
 		
 		
 		

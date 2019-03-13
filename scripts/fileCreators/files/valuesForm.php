@@ -2,8 +2,8 @@
 		
 		
 			<?php
-		
-			require ('/Applications/XAMPP/xamppfiles/htdocs/dashboard/learning/scripts/headerCreator.php');
+			require ('../../includes/config.inc.php');
+			require (BASE_URI . '/scripts/headerCreator.php');
 		
 			$formv1 = new formGenerator;
 			$general = new general;
@@ -64,7 +64,8 @@
 		                </div>
 		
 		                <div id="messageBox" class='col-3 yellow-light narrow center'>
-		                    <p></p>
+							<p><button id="tablevalues" onclick="window.location.href = '<?php echo BASE_URL;?>/scripts/forms/valuesTable.php';">Table of values</button></p>
+		              
 		                </div>
 		            </div>
 		
@@ -108,17 +109,7 @@ echo $formv1->generateText('access_level_t', 'access_level_t', '', 'tooltip here
 		
 		    </div>
 		<script>
-			switch (document.location.hostname)
-{
-        case 'www.endoscopy.wiki':
-                          
-                         var rootFolder = 'http://www.endoscopy.wiki/'; break;
-        case 'localhost' :
-                           var rootFolder = 'http://localhost:90/dashboard/learning/'; break;
-        default :  // set whatever you want
-}
-			
-var siteRoot = rootFolder;
+			var siteRoot = "http://localhost:90/dashboard/learning/";
 		
 			 valuesPassed = $("#id").text();
 		
@@ -165,7 +156,7 @@ var siteRoot = rootFolder;
 		
 				    });
 				    
-				    $("#messageBox").text("Editing values id "+idPassed);
+				    $("#messageBox").append("Editing values id "+idPassed);
 		
 				    enableFormInputs("values");
 		
@@ -317,7 +308,7 @@ var siteRoot = rootFolder;
 		
 				}else{
 					
-					$("#messageBox").text("New values");
+					$("#messageBox").append("New values");
 					
 				}
 		
@@ -407,7 +398,7 @@ access_level_t: { required: 'message' },
 		<?php
 		
 		    // Include the footer file to complete the template:
-		    include(BASE_URI . "/includes/footer.html");
+		    include(BASE_URI ."/includes/footer.html");
 		
 		
 		

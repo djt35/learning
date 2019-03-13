@@ -1,8 +1,8 @@
 
 		
 		<?php
-		
-			require ('/Applications/XAMPP/xamppfiles/htdocs/dashboard/learning/scripts/headerCreator.php');
+			require ('../../includes/config.inc.php');
+			require (BASE_URI . '/scripts/headerCreator.php');
 		
 		
 		$formv1 = new formGenerator;
@@ -59,17 +59,7 @@
 		        
 		    </div>
 		<script>
-			switch (document.location.hostname)
-{
-        case 'www.endoscopy.wiki':
-                          
-                         var rootFolder = 'http://www.endoscopy.wiki/'; break;
-        case 'localhost' :
-                           var rootFolder = 'http://localhost:90/dashboard/learning/'; break;
-        default :  // set whatever you want
-}
-			
-var siteRoot = rootFolder;
+			var siteRoot = "http://localhost:90/dashboard/learning/";
 		
 				
 			$(document).ready(function() {
@@ -115,7 +105,7 @@ var siteRoot = rootFolder;
 		<?php
 		
 		    // Include the footer file to complete the template:
-		    include(BASE_URI . "/includes/footer.html");
+		    include(BASE_URI ."/includes/footer.html");
 		
 		
 		

@@ -202,6 +202,33 @@ class general {
 		}
 	}
 
+	public function getTagCategoryName ($id){
+		
+		$q = "SELECT `tagCategoryName` FROM `tagCategories` WHERE `id` = $id";
+
+		//echo $q;
+
+		$result = $this->connection->RunQuery($q);
+
+		if ($result->num_rows == 1){
+
+			
+			while($row = $result->fetch_array(MYSQLI_ASSOC)){
+				
+				$tagCategoryName = $row['tagCategoryName'];
+			
+				
+				
+				
+				
+			}
+		
+			return $tagCategoryName;
+		}else{
+			
+			return null;
+		}
+	}
 
 
 
@@ -378,6 +405,89 @@ class general {
 
 			echo '<p>Error</p>';
 			print_r($this->connection->conn);
+
+		}
+
+	}
+
+	public function makeSearchableTableDelete ($q){
+
+		//echo $q;
+
+		$result = $this->connection->RunQuery($q);
+
+
+		if ($result->num_rows > 0){
+
+
+			$data = array();
+
+			while($data[] = $result->fetch_array(MYSQLI_ASSOC));
+
+			echo '<table id="dataTable">';
+
+			echo '<tr class="header">';
+
+			foreach ($data as $key=>$value){
+
+				foreach ($value as $k=>$v){
+					echo '<th data="' . $k . '">' . $k . '</th>';
+				}
+
+				break;
+			}
+
+			echo '</tr>';
+
+			$x = 0;
+
+			foreach ($data as $k=>$v){
+
+				if ($id <> $v['id']){
+					echo '</tr>';
+					echo '<tr>';
+					$x = 0;
+
+				}
+
+				$id = $v['id'];
+				$id = trim($id);
+
+
+
+				foreach($v as $key=>$value){
+
+
+
+					if ($key == 'tagCategories_id'){
+						echo '<td class="datarow">';
+						echo $this->getTagCategoryName($id);
+						echo '</td>';
+					}else{
+
+						
+
+							echo '<td class="datarow">';
+							echo "$value";
+							echo '</td>';
+
+						
+
+					}
+
+					$x++;
+
+
+				}
+
+
+
+
+			}
+
+
+
+			echo '</table>';
 
 		}
 
@@ -720,6 +830,122 @@ class general {
 						
 						echo '<td class="datarow">';
 						echo $this->getUserName($value);
+						echo '</td>';
+						
+						
+					}else{
+
+						
+						
+						echo '<td class="datarow">';
+							echo trim($value);
+							echo '</td>';
+						
+						
+
+					}
+
+					$x++;
+
+
+				}
+
+
+
+
+			}
+
+
+
+			echo '</table>';
+
+		}else{
+			
+			echo '<p>There are no user submissions pending approval</p>';
+			
+		}
+
+	}
+
+	public function makeTableTagManager ($q, $roothttp){
+
+		//echo $q;
+		//$result = $this->connection->RunQuery('USE ESD');
+		$result = $this->connection->RunQuery($q);
+
+		//print_r($result);
+
+		if ($result->num_rows > 0){
+
+
+			$data = array();
+			
+			echo '<table id="dataTable">';
+			
+			echo '<tr class="header">';
+
+			while($data[] = $result->fetch_array(MYSQLI_ASSOC));
+			
+			foreach ($data as $key=>$value){
+				//echo '<th></th>';
+				foreach ($value as $k=>$v){
+					
+					
+					
+					echo '<th data="'.$k.'">' . $k . '</th>';
+				
+					
+				
+				
+				}
+				echo '<th></th>';
+				echo '<th></th>';
+				
+
+				break;
+			}
+
+			//echo '<th></th>';
+			echo '</tr>';
+
+			$x = 0;
+
+			foreach ($data as $k=>$v){
+
+				if ($id) {	
+					if ($id <> $v['id']){
+						echo '<td>';
+								echo "<button class='deleteTag'>Delete</button>";
+								echo '</td>';
+						echo '<td>';
+								echo "<button class='reference'>Add reference</button>";
+								echo '</td>';
+						
+						echo '</tr>';
+						echo '<tr>';
+						$x = 0;
+	
+					}
+					
+				}
+
+				$id = $v['id'];
+				$id = trim($id);
+
+
+
+				foreach($v as $key=>$value){
+
+
+
+					if ($key == 'url'){
+						echo '<td class="datarow">';
+						echo "<img class='lslimage' style='max-width:100px;' src='$roothttp/$value'>";
+						echo '</td>';
+					}else if ($key == 'tagCategories_id'){
+						
+						echo '<td class="datarow">';
+						echo $this->getTagCategoryName($value);
 						echo '</td>';
 						
 						
@@ -1100,7 +1326,9 @@ class general {
 	
 	public function getHighestRatedImagesCover ($roothttp) {
 		
-		$q = "SELECT a.`id` as `imageSetid`, b.`image_id` as `imageid`, c.`url`, c.`name`, c.`order`, c.`type`, e.`tagName`, d.`tags_id` FROM `imageSet` as a INNER JOIN `imageImageSet` as b ON a.`id` = b.`imageSet_id` INNER JOIN `images` as c on b.`image_id` = c.`id` INNER JOIN `imagesTag` as d ON c.`id` = d.`images_id` INNER JOIN `tags` as e ON d.`tags_id` = e.`id` INNER JOIN `tagCategories` as f on f.`id` = e.`tagCategories_id` WHERE c.`type` = 1 LIMIT 12";
+		//$q = "SELECT a.`id` as `imageSetid`, b.`image_id` as `imageid`, c.`url`, c.`name`, c.`order`, c.`type`, e.`tagName`, d.`tags_id` FROM `imageSet` as a INNER JOIN `imageImageSet` as b ON a.`id` = b.`imageSet_id` INNER JOIN `images` as c on b.`image_id` = c.`id` INNER JOIN `imagesTag` as d ON c.`id` = d.`images_id` INNER JOIN `tags` as e ON d.`tags_id` = e.`id` INNER JOIN `tagCategories` as f on f.`id` = e.`tagCategories_id` WHERE c.`type` = 1 LIMIT 12";
+		
+		$q = "SELECT a.`id` as `imageSetid`, b.`image_id` as `imageid`, c.`url` FROM `imageSet` as a INNER JOIN `imageImageSet` as b ON a.`id` = b.`imageSet_id` INNER JOIN `images` as c on b.`image_id` = c.`id` WHERE c.`type` = 1 ORDER BY RAND() LIMIT 12";
 		
 
 		$result = $this->connection->RunQuery($q);

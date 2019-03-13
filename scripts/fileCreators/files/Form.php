@@ -2,8 +2,8 @@
 		
 		
 			<?php
-		
-			require ('/Applications/XAMPP/xamppfiles/htdocs/dashboard/learning/scripts/headerCreator.php');
+			require ('../../includes/config.inc.php');
+			require (BASE_URI . '/scripts/headerCreator.php');
 		
 			$formv1 = new formGenerator;
 			$general = new general;
@@ -47,7 +47,7 @@
 		<?php
 		include(BASE_URI . "/scripts/logobar.php");
 		
-		include(BASE_URI . "/ncludes/naviCreator.php");
+		include(BASE_URI . "/includes/naviCreator.php");
 		?>
 		
 		<body>
@@ -64,7 +64,8 @@
 		                </div>
 		
 		                <div id="messageBox" class='col-3 yellow-light narrow center'>
-		                    <p></p>
+							<p><button id="table" onclick="window.location.href = '<?php echo BASE_URL;?>/scripts/forms/Table.php';">Table of </button></p>
+		              
 		                </div>
 		            </div>
 		
@@ -100,17 +101,7 @@
 		
 		    </div>
 		<script>
-			switch (document.location.hostname)
-{
-        case 'www.endoscopy.wiki':
-                          
-                         var rootFolder = 'http://www.endoscopy.wiki/'; break;
-        case 'localhost' :
-                           var rootFolder = 'http://localhost:90/dashboard/learning/'; break;
-        default :  // set whatever you want
-}
-			
-var siteRoot = rootFolder;
+			var siteRoot = "http://localhost:90/dashboard/learning/";
 		
 			 Passed = $("#id").text();
 		
@@ -157,7 +148,7 @@ var siteRoot = rootFolder;
 		
 				    });
 				    
-				    $("#messageBox").text("Editing  id "+idPassed);
+				    $("#messageBox").append("Editing  id "+idPassed);
 		
 				    enableFormInputs("");
 		
@@ -309,7 +300,7 @@ var siteRoot = rootFolder;
 		
 				}else{
 					
-					$("#messageBox").text("New ");
+					$("#messageBox").append("New ");
 					
 				}
 		
@@ -381,7 +372,7 @@ var siteRoot = rootFolder;
 		<?php
 		
 		    // Include the footer file to complete the template:
-		    include(BASE_URI . "/includes/footer.html");
+		    include(BASE_URI ."/includes/footer.html");
 		
 		
 		
