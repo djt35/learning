@@ -48,7 +48,7 @@
 		                <div class='col-1'></div>
 		
 		                <div class='col-10 narrow' style='overflow-x: scroll;'>
-		                    <p><?php $general->makeTable("SELECT id from video"); ?></p>
+		                    <p><?php $general->makeTable("SELECT `id` from `video`"); ?></p>
 		                </div>
 		
 		                <div class='col-1'></div>

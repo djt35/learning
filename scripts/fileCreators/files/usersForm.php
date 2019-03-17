@@ -74,7 +74,7 @@
 		
 				        if ($id){
 		
-							$q = "SELECT  user_id  FROM  users  WHERE  user_id  = $id";
+							$q = "SELECT  `user_id`  FROM  `users`  WHERE  user_id  = $id";
 							if ($general->returnYesNoDBQuery($q) != 1){
 								echo "Passed id does not exist in the database";
 								exit();

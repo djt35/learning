@@ -17,7 +17,7 @@
 		
 		<html>
 		<head>
-		    <title>auth_group_permissions Table</title>
+		    <title>references Table</title>
 		</head>
 		
 		<?php
@@ -36,11 +36,11 @@
 			        
 			        <div class='row'>
 		                <div class='col-9'>
-		                    <h2 style="text-align:left;">List of auth_group_permissions</h2>
+		                    <h2 style="text-align:left;">List of references</h2>
 		                </div>
 		
 		                <div id="messageBox" class='col-3 yellow-light narrow center'>
-		                    <p><button id="newauth_group_permissions" onclick="window.location.href = '<?php echo BASE_URL;?>/scripts/forms/auth_group_permissionsForm.php';">New auth_group_permissions</button></p>
+		                    <p><button id="newreferences" onclick="window.location.href = '<?php echo BASE_URL;?>/scripts/forms/referencesForm.php';">New references</button></p>
 		                </div>
 		            </div>
 			        
@@ -48,7 +48,7 @@
 		                <div class='col-1'></div>
 		
 		                <div class='col-10 narrow' style='overflow-x: scroll;'>
-		                    <p><?php $general->makeTable("SELECT `id` from `auth_group_permissions`"); ?></p>
+		                    <p><?php $general->makeTable("SELECT id, formatted, DOI from `references`"); ?></p>
 		                </div>
 		
 		                <div class='col-1'></div>
@@ -72,7 +72,7 @@
 					
 					//console.log(id);
 					
-					window.location.href = siteRoot + 'scripts/forms/auth_group_permissionsForm.php?id=' + id;
+					window.location.href = siteRoot + 'scripts/forms/referencesForm.php?id=' + id;
 		
 					
 				})

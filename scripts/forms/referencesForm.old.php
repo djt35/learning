@@ -41,7 +41,7 @@
 		
 		<html>
 		<head>
-		    <title>imageSet Form</title>
+		    <title>references Form</title>
 		</head>
 		
 		<?php
@@ -60,12 +60,13 @@
 		
 			        <div class='row'>
 		                <div class='col-9'>
-		                    <h2 style="text-align:left;">imageSet Form</h2>
+		                    <h2 style="text-align:left;">references Form</h2>
 		                </div>
 		
 		                <div id="messageBox" class='col-3 yellow-light narrow center'>
-							<p><button id="tableimageSet" onclick="window.location.href = '<?php echo BASE_URL;?>/scripts/forms/imageSetTable.php';">Table of imageSet</button></p>
-		              
+						<p><button id="tablereferences" onclick="window.location.href = '<?php echo BASE_URL;?>/scripts/forms/referencesTable.php';">References Table</button></p>
+		                
+		                    <p></p>
 		                </div>
 		            </div>
 		
@@ -74,7 +75,7 @@
 		
 				        if ($id){
 		
-							$q = "SELECT  `id`  FROM  `imageSet`  WHERE  id  = $id";
+							$q = "SELECT  id  FROM  `references`  WHERE  id  = $id";
 							if ($general->returnYesNoDBQuery($q) != 1){
 								echo "Passed id does not exist in the database";
 								exit();
@@ -87,19 +88,18 @@
 		
 			        <p>
 		
-					    <form id="imageSet">
-					    <?php echo $formv1->generateText('name', 'name', '', 'tooltip here');
-echo $formv1->generateText('type', 'type', '', 'tooltip here');
-echo $formv1->generateText('author', 'author', '', 'tooltip here');
-echo $formv1->generateText('manipulated', 'manipulated', '', 'tooltip here');
-echo $formv1->generateText('created', 'created', '', 'tooltip here');
-echo $formv1->generateText('updated', 'updated', '', 'tooltip here');
+					    <form id="references">
+						<?php echo $formv1->generateText('DOI', 'DOI', '', 'tooltip here');
+						
+echo $formv1->generateText('formatted', 'formatted', '', 'tooltip here');
 ?>
-						    <button id="submitimageSet">Submit</button>
+						    <button id="submitreferences">Submit</button>
 		
 					    </form>
 		
-				        </p>
+						</p>
+						
+					<?php	echo '<P><button type="button" id="check">Check Entered DOI</button></P>';?>
 		
 		
 		
@@ -109,9 +109,9 @@ echo $formv1->generateText('updated', 'updated', '', 'tooltip here');
 		<script>
 			var siteRoot = "http://localhost:90/dashboard/learning/";
 		
-			 imageSetPassed = $("#id").text();
+			 referencesPassed = $("#id").text();
 		
-			if ( imageSetPassed == ""){
+			if ( referencesPassed == ""){
 		
 				var edit = 0;
 		
@@ -127,15 +127,15 @@ echo $formv1->generateText('updated', 'updated', '', 'tooltip here');
 		
 			function fillForm (idPassed){
 		
-				disableFormInputs("imageSet");
+				disableFormInputs("references");
 		
-				imageSetRequired = new Object;
+				referencesRequired = new Object;
 		
-				imageSetRequired = getNamesFormElements("imageSet");
+				referencesRequired = getNamesFormElements("references");
 		
-				imageSetString = '`id`=\''+idPassed+'\'';
+				referencesString = '`id`=\''+idPassed+'\'';
 		
-				var selectorObject = getDataQuery ("imageSet", imageSetString, getNamesFormElements("imageSet"), 1);
+				var selectorObject = getDataQuery ("references", referencesString, getNamesFormElements("references"), 1);
 		
 				//console.log(selectorObject);
 		
@@ -154,19 +154,19 @@ echo $formv1->generateText('updated', 'updated', '', 'tooltip here');
 		
 				    });
 				    
-				    $("#messageBox").append("Editing imageSet id "+idPassed);
+				    $("#messageBox").append("Editing references id "+idPassed);
 		
-				    enableFormInputs("imageSet");
+				    enableFormInputs("references");
 		
 				});
 		
 				try {
 		
-					$("form#imageSet").find("button#deleteimageSet").length();
+					$("form#references").find("button#deletereferences").length();
 		
 				}catch(error){
 		
-					$("form#imageSet").find("button").after("<button id='deleteimageSet'>Delete</button>");
+					$("form#references").find("button").after("<button id='deletereferences'>Delete</button>");
 		
 				}
 		
@@ -175,24 +175,24 @@ echo $formv1->generateText('updated', 'updated', '', 'tooltip here');
 		
 			//delete behaviour
 		
-			function deleteimageSet (){
+			function deletereferences (){
 		
-				//imageSetPassed is the current record, some security to check its also that in the id field
+				//referencesPassed is the current record, some security to check its also that in the id field
 		
-				if (imageSetPassed != $("#id").text()){
+				if (referencesPassed != $("#id").text()){
 		
 					return;
 		
 				}
 		
 		
-				if (confirm("Do you wish to delete this imageSet?")) {
+				if (confirm("Do you wish to delete this references?")) {
 		
-					disableFormInputs("imageSet");
+					disableFormInputs("references");
 		
-					var imageSetObject = pushDataFromFormAJAX("imageSet", "imageSet", "id", imageSetPassed, "2"); //delete imageSet
+					var referencesObject = pushDataFromFormAJAX("references", "references", "id", referencesPassed, "2"); //delete references
 		
-					imageSetObject.done(function (data){
+					referencesObject.done(function (data){
 		
 						//console.log(data);
 		
@@ -200,17 +200,17 @@ echo $formv1->generateText('updated', 'updated', '', 'tooltip here');
 		
 							if (data == 1){
 		
-								alert ("imageSet deleted");
+								alert ("references deleted");
 								edit = 0;
-								imageSetPassed = null;
-								window.location.href = siteRoot + "scripts/forms/imageSetTable.php";
-								//go to imageSet list
+								referencesPassed = null;
+								window.location.href = siteRoot + "scripts/forms/referencesTable.php";
+								//go to references list
 		
 							}else {
 		
 							alert("Error, try again");
 		
-							enableFormInputs("imageSet");
+							enableFormInputs("references");
 		
 						    }
 		
@@ -226,24 +226,24 @@ echo $formv1->generateText('updated', 'updated', '', 'tooltip here');
 		
 			}
 		
-			function submitimageSetForm (){
+			function submitreferencesForm (){
 		
 				//pushDataFromFormAJAX (form, table, identifierKey, identifier, updateType)
 		
 				if (edit == 0){
 		
-					var imageSetObject = pushDataFromFormAJAX("imageSet", "imageSet", "id", null, "0"); //insert new object
+					var referencesObject = pushDataFromFormAJAX("references", "references", "id", null, "0"); //insert new object
 		
-					imageSetObject.done(function (data){
+					referencesObject.done(function (data){
 		
 						//console.log(data);
 		
 						if (data){
 		
-							alert ("New imageSet no "+data+" created");
+							alert ("New references no "+data+" created");
 							edit = 1;
 							$("#id").text(data);
-							imageSetPassed = data;
+							referencesPassed = data;
 							fillForm(data);
 		
 		
@@ -260,9 +260,9 @@ echo $formv1->generateText('updated', 'updated', '', 'tooltip here');
 		
 				} else if (edit == 1){
 		
-					var imageSetObject = pushDataFromFormAJAX("imageSet", "imageSet", "id", imageSetPassed, "1"); //insert new object
+					var referencesObject = pushDataFromFormAJAX("references", "references", "id", referencesPassed, "1"); //insert new object
 		
-					imageSetObject.done(function (data){
+					referencesObject.done(function (data){
 		
 						//console.log(data);
 		
@@ -302,11 +302,11 @@ echo $formv1->generateText('updated', 'updated', '', 'tooltip here');
 		
 				if (edit == 1){
 		
-					fillForm(imageSetPassed);
+					fillForm(referencesPassed);
 		
 				}else{
 					
-					$("#messageBox").append("New imageSet");
+					$("#messageBox").append("New references");
 					
 				}
 		
@@ -328,21 +328,31 @@ echo $formv1->generateText('updated', 'updated', '', 'tooltip here');
 					});
 		
 		
-				$("#content").on('click', '#submitimageSet', (function(event) {
+				$("#content").on('click', '#submitreferences', (function(event) {
 			        event.preventDefault();
-			        $('#imageSet').submit();
+			        $('#references').submit();
 		
 		
 			    }));
 		
-			    $("#content").on('click', '#deleteimageSet', (function(event) {
+			    $("#content").on('click', '#deletereferences', (function(event) {
 			        event.preventDefault();
-			        deleteimageSet();
+			        deletereferences();
+		
+		
+				}));
+				
+				$("#content").on('click', '#check', (function(event) {
+					event.preventDefault();
+					//get the contents of the DOI box
+
+					var doi = $('#DOI').val();
+					PopupCenter('https://doi.org/'+doi, 'Check reference', 800, 800);
 		
 		
 			    }));
 		
-				$("#imageSet").validate({
+				$("#references").validate({
 		
 			        invalidHandler: function(event, validator) {
 			            var errors = validator.numberOfInvalids();
@@ -357,23 +367,15 @@ echo $formv1->generateText('updated', 'updated', '', 'tooltip here');
 			                $('div.error').hide();
 			            }
 			        },rules: {
-name: { required: true },   
-type: { required: true },   
-author: { required: true },   
-manipulated: { required: true },   
-created: { required: true },   
-updated: { required: true },   
+DOI: { required: true },   
+formatted: { required: true },   
 },messages: {
-name: { required: 'message' },   
-type: { required: 'message' },   
-author: { required: 'message' },   
-manipulated: { required: 'message' },   
-created: { required: 'message' },   
-updated: { required: 'message' },   
+DOI: { required: 'message' },   
+formatted: { required: 'message' },   
 },
 			        submitHandler: function(form) {
 		
-			            submitimageSetForm();
+			            submitreferencesForm();
 		
 			          	console.log("submitted form");
 		

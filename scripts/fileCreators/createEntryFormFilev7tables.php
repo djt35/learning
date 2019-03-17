@@ -269,7 +269,7 @@ print_r($datafields);
 		
 				        if (\$id){
 		
-							\$q = \"SELECT  {$databaseIdentifier}  FROM  {$databaseTable}  WHERE  {$databaseIdentifier}  = \$id\";
+							\$q = \"SELECT  `{$databaseIdentifier}`  FROM  `{$databaseTable}`  WHERE  {$databaseIdentifier}  = \$id\";
 							if (\$general->returnYesNoDBQuery(\$q) != 1){
 								echo \"Passed id does not exist in the database\";
 								exit();
@@ -671,7 +671,7 @@ SaveFile(BASE_URI . "/scripts/fileCreators/files/{$databaseTable}Form.php", $fil
 		                <div class='col-1'></div>
 		
 		                <div class='col-10 narrow' style='overflow-x: scroll;'>
-		                    <p><?php \$general->makeTable(\"SELECT {$databaseIdentifier} from {$databaseTable}\"); ?></p>
+		                    <p><?php \$general->makeTable(\"SELECT `{$databaseIdentifier}` from `{$databaseTable}`\"); ?></p>
 		                </div>
 		
 		                <div class='col-1'></div>

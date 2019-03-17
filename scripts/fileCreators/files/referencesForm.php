@@ -74,7 +74,7 @@
 		
 				        if ($id){
 		
-							$q = "SELECT  id  FROM  references  WHERE  id  = $id";
+							$q = "SELECT  `id`  FROM  `references`  WHERE  id  = $id";
 							if ($general->returnYesNoDBQuery($q) != 1){
 								echo "Passed id does not exist in the database";
 								exit();
@@ -90,6 +90,7 @@
 					    <form id="references">
 					    <?php echo $formv1->generateText('DOI', 'DOI', '', 'tooltip here');
 echo $formv1->generateText('formatted', 'formatted', '', 'tooltip here');
+echo $formv1->generateText('authors', 'authors', '', 'tooltip here');
 ?>
 						    <button id="submitreferences">Submit</button>
 		
@@ -355,9 +356,11 @@ echo $formv1->generateText('formatted', 'formatted', '', 'tooltip here');
 			        },rules: {
 DOI: { required: true },   
 formatted: { required: true },   
+authors: { required: true },   
 },messages: {
 DOI: { required: 'message' },   
 formatted: { required: 'message' },   
+authors: { required: 'message' },   
 },
 			        submitHandler: function(form) {
 		

@@ -74,7 +74,7 @@
 		
 				        if ($id){
 		
-							$q = "SELECT  id  FROM  audioTag  WHERE  id  = $id";
+							$q = "SELECT  `id`  FROM  `audioTag`  WHERE  id  = $id";
 							if ($general->returnYesNoDBQuery($q) != 1){
 								echo "Passed id does not exist in the database";
 								exit();

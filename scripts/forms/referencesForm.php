@@ -64,9 +64,8 @@
 		                </div>
 		
 		                <div id="messageBox" class='col-3 yellow-light narrow center'>
-						<p><button id="tablereferences" onclick="window.location.href = '<?php echo BASE_URL;?>/scripts/forms/referencesTable.php';">References Table</button></p>
-		                
-		                    <p></p>
+							<p><button id="tablereferences" onclick="window.location.href = '<?php echo BASE_URL;?>/scripts/forms/referencesTable.php';">Table of references</button></p>
+		              
 		                </div>
 		            </div>
 		
@@ -75,7 +74,7 @@
 		
 				        if ($id){
 		
-							$q = "SELECT  id  FROM  `references`  WHERE  id  = $id";
+							$q = "SELECT  `id`  FROM  `references`  WHERE  id  = $id";
 							if ($general->returnYesNoDBQuery($q) != 1){
 								echo "Passed id does not exist in the database";
 								exit();
@@ -89,17 +88,15 @@
 			        <p>
 		
 					    <form id="references">
-						<?php echo $formv1->generateText('DOI', 'DOI', '', 'tooltip here');
-						
+					    <?php echo $formv1->generateText('DOI', 'DOI', '', 'tooltip here');
 echo $formv1->generateText('formatted', 'formatted', '', 'tooltip here');
+echo $formv1->generateText('authors', 'authors', '', 'tooltip here');
 ?>
 						    <button id="submitreferences">Submit</button>
 		
 					    </form>
 		
-						</p>
-						
-					<?php	echo '<P><button type="button" id="check">Check Entered DOI</button></P>';?>
+				        </p>
 		
 		
 		
@@ -340,16 +337,6 @@ echo $formv1->generateText('formatted', 'formatted', '', 'tooltip here');
 			        deletereferences();
 		
 		
-				}));
-				
-				$("#content").on('click', '#check', (function(event) {
-					event.preventDefault();
-					//get the contents of the DOI box
-
-					var doi = $('#DOI').val();
-					PopupCenter('https://doi.org/'+doi, 'Check reference', 800, 800);
-		
-		
 			    }));
 		
 				$("#references").validate({
@@ -369,9 +356,11 @@ echo $formv1->generateText('formatted', 'formatted', '', 'tooltip here');
 			        },rules: {
 DOI: { required: true },   
 formatted: { required: true },   
+authors: { required: true },   
 },messages: {
 DOI: { required: 'message' },   
 formatted: { required: 'message' },   
+authors: { required: 'message' },   
 },
 			        submitHandler: function(form) {
 		

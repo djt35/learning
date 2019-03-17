@@ -155,7 +155,7 @@ if (count($_GET) > 0){
 				foreach ($data as $key=>$value){
 
 
-					echo '<th>' . $key . '</th>';
+					echo '<th data="'.$key.'">' . $key . '</th>';
 
 
 
