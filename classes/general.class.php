@@ -898,6 +898,7 @@ class general {
 				
 				
 				}
+				echo '<th>References</th>';
 				echo '<th></th>';
 				echo '<th></th>';
 				
@@ -914,12 +915,23 @@ class general {
 
 				if ($id) {	
 					if ($id <> $v['id']){
-						echo '<td>';
-								echo "<button class='deleteTag'>Delete</button>";
-								echo '</td>';
+						
+						
+							echo '<td>';
+							echo $this->getBriefReference($id);
+							echo '</td>';
+							
+							
+						
 						echo '<td>';
 								echo "<button class='reference'>Add reference</button>";
 								echo '</td>';
+						
+						echo '<td>';
+								echo "<button class='deleteTag'>Delete</button>";
+								echo '</td>';
+						
+						
 						
 						echo '</tr>';
 						echo '<tr>';
@@ -1039,6 +1051,46 @@ class general {
 		}
 
 
+
+
+
+
+	}
+
+	public function getBriefReference ($id){
+
+		$q = "SELECT b.`id`, c.`authors`, c.`formatted`, c.`DOI` 
+		from `tags` as a 
+		INNER JOIN `referencesTag` as b on a.`id` = b.`tag_id` 
+		INNER JOIN `references` as c on c.`id` = b.`references_id` 
+		WHERE a.`id` = $id ";
+
+		//$q = "SELECT `authors`, `formatted`, `DOI` from `references` WHERE `id` = $id";
+
+		//echo $q;
+
+		$references = '';
+		$x = 1;
+		$result = $this->connection->RunQuery($q);
+
+		if ($result->num_rows > 0){
+
+			while($row = $result->fetch_array(MYSQLI_ASSOC)){
+				$idforthis = $row['id'];
+				$references .= '<p class="referenceintable" data="' . $idforthis . '">' . $x . ' - ';
+				$references .= mb_substr($row['authors'], 0, 30);
+				$references .= ' ,';
+				$references .= mb_substr($row['formatted'], 0, 30);
+				//$references .= ' ,';
+				//$references .= mb_substr($row['DOI'], 0, 5);
+				$references .= '. </p><br>';
+				$x++;
+			}
+
+
+		}
+
+		echo $references;
 
 
 

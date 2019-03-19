@@ -174,9 +174,7 @@
 		include(BASE_URI . "/includes/naviv1.php");
 		?>
 		
-		<div id="loading">
-	
-		</div>
+		<!---->
 		
 		<div class="darkClass">
 		
@@ -452,6 +450,8 @@ function submitusersForgotForm (){
 
 	var dataToSend = serializedReturnForgot;
 
+	disableFormInputs('usersForgot');
+
 	console.log(serializedReturnForgot);
 
 	var usersObject = $.ajax({
@@ -465,6 +465,8 @@ function submitusersForgotForm (){
 			usersObject.done(function (data){
 
 				console.log(data);
+
+				enableFormInputs('usersForgot');
 
 				if ($.isNumeric(data)){
 
@@ -491,6 +493,8 @@ function submitusersForm (){
 		
 			var dataToSend = serializedReturn;
 
+			disableFormInputs('users');
+
 			console.log(serializedReturn);
 
 			var usersObject = $.ajax({
@@ -504,6 +508,8 @@ function submitusersForm (){
 			usersObject.done(function (data){
 
 				console.log(data);
+
+				enableFormInputs('users');
 
 				if ($.isNumeric(data)){
 
@@ -529,19 +535,20 @@ function submitusersForm (){
 
 $(document).ready(function() {
 
+	
         
     //!modify navbar to include page specific links
     
     /*var navBarEntry = '<div class="dropdown"><button class="dropbtn activeButton">Video Atlas</button><div class="dropdown-content"><a href="' + siteRoot + 'scripts/display/displayVideo.php">All Videos</a><hr></div></div>';
     
     $('.navbar').find('a:eq(1)').after(navBarEntry);*/
-
+	/*
     $('#loading').bind('ajaxStart', function() {
         $(this).show();
-    }).bind('ajaxStop', function() {
+    }).bind('ajaxSuccess', function() {
         $(this).hide();
     });
-    
+    */
     $(".news").css("height", $(".images").height());
     
 

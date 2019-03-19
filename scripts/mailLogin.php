@@ -23,17 +23,21 @@ function Mailer ($email, $subject, $txt){
     $mail = new PHPMailer(true);                              // Passing `true` enables exceptions
             try {
                 //Server settings
-                $mail->SMTPDebug = 3;                                 // Enable verbose debug output
+                $mail->SMTPDebug = 0;                                 // Enable verbose debug output
                 $mail->isSMTP();                                      // Set mailer to use SMTP
                 $mail->Host = 'n3plcpnl0258.prod.ams3.secureserver.net';  // Specify main and backup SMTP servers
-                $mail->SMTPAuth = true;                               // Enable SMTP authentication
-                $mail->Username = 'administrator@endoscopy.wiki';                 // SMTP username
-                $mail->Password = 'Nel67fnvr2';                           // SMTP password
+                
+                $mail->SMTPAuth = False;
+                //$mail->SMTPAuth = true;
+                //$mail->AuthType = 'PLAIN';                               // Enable SMTP authentication
+                //$mail->Username = 'administrator@endoscopy.wiki';                 // SMTP username
+                $mail->Username = 'k8qbphyrx50v@endoscopy.wiki';                 // SMTP username
+                $mail->Password = 'Nel67&fnvr2';                           // SMTP password
                 $mail->SMTPSecure = 'ssl';                            // Enable TLS encryption, `ssl` also accepted
                 $mail->Port = 465;                                    // TCP port to connect to
 
                 //Recipients
-                $mail->setFrom('administrator@endoscopy.wiki', 'Endoscopy wiki administrator');
+                $mail->setFrom('administrator@endoscopy.wiki', 'Endoscopy wiki');
                 
                 foreach ($email as $key=>$value){
                     
@@ -58,10 +62,12 @@ function Mailer ($email, $subject, $txt){
                 //$mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
 
                 $mail->send();
-                echo 'Message has been sent';
+                return true;
                 //$this->setAccommodationUpdateDone($guestid);
             } catch (Exception $e) {
-                echo 'Message could not be sent. Mailer Error: ', $mail->ErrorInfo;
+                return false;
+                
+                //echo 'Message could not be sent. Mailer Error: ', $mail->ErrorInfo;
             }
 
     
@@ -107,6 +113,23 @@ if (count($_GET) > 0){
 
             //send email
 
+            $q = "SELECT `key` FROM `users` WHERE `email` = '$emailaddress'";
+
+            $result = $general->connection->RunQuery($q);
+
+            if ($result){
+
+                while($row = $result->fetch_array(MYSQLI_ASSOC)){
+    
+                    $key = $row['key'];
+    
+    
+                }
+    
+            }
+
+            //get the unique code and build the link
+
             $subject = "Password Reset Endoscopy Wiki";
 
             $txt = '<h2>Password Reset for Endoscopy Wiki</h2><br>';
@@ -116,11 +139,15 @@ if (count($_GET) > 0){
             $txt .= "<br><br>";
             $txt .= "If it was not you who requested this reset you can safely ignore this email";
             $txt .= "<br><br>";
-            $txt .= "Please click here to reset your password";
+            $txt .= "Please click <a href='" . BASE_URL . "/scripts/resetPassword.php?token=" . $key . "'>here </a>to reset your password";
 
-            Mailer(array(0 => 'djtate@gmail.com'), $subject, $txt);
+            if (Mailer(array(0 => $emailaddress), $subject, $txt)){
 
             echo '1';
+            }else{
+
+            echo '1';    
+            }
 
         }else{
             //echo 'user not found';

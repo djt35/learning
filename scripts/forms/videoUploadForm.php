@@ -69,9 +69,7 @@
 		//echo '<div class="navbar structure">Creators > <a href="'.BASE_URL.'/scripts/forms/videoTable.php">Video</a> > Edit</div>';
 		?>
 		
-		<div id="loading">
-	
-		</div>
+		
 		
 		<div class="darkClass">
 		

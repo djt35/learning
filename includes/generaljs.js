@@ -841,6 +841,18 @@ function mobileMenuShow(){
 
 $(document).ready(function() {
 
+	var $loading = $('#loading').hide();
+                   //Attach the event handler to any element
+                   $(document)
+                     .ajaxStart(function () {
+                        //ajax request went so show the loading image
+                         $loading.show();
+                     })
+                   .ajaxStop(function () {
+                       //got response so hide the loading image
+                        $loading.hide();
+                    });
+
 	$('#userDisplay').on('click', '.logout', function(e){
 		
 		e.preventDefault(); 

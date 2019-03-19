@@ -43,3 +43,7 @@ require(BASE_URI . '/scripts/interpretUserAccess.php');
 
 
     ?>
+
+<div id="loading">
+	
+    </div>

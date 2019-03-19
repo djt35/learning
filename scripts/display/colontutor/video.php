@@ -275,9 +275,7 @@ function getAllVideos ($tagCategoriesid) {
 
 ?>
 
-		<div id="loading">
-
-		</div>
+		
 
 		<div class="darkClass">
 

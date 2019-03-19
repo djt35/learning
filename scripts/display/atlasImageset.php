@@ -120,9 +120,7 @@
 		include(BASE_URI . "/includes/naviTag.php");
 		?>
 		
-		<div id="loading">
-	
-		</div>
+		
 		
 		<div class="darkClass">
 		

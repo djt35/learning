@@ -37,3 +37,7 @@ echo '<script type="text/javascript" src="' . BASE_URL . '/includes/jstz.js"></s
 
 
     ?>
+
+<div id="loading">
+	
+        </div>

@@ -50,9 +50,7 @@
 		include(BASE_URI . "/includes/naviCreator.php");
 		?>
 		
-		<div id="loading">
-	
-		</div>
+		
 		
 		<div class="darkClass">
 		

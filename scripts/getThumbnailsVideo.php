@@ -3,7 +3,13 @@
 
 		<?php
 
-require ('../../includes/config.inc.php'); require (BASE_URI.'/scripts/headerCreator.php');
+require ('../includes/config.inc.php'); 
+
+
+$requiredUserLevel = 1;
+require (BASE_URI.'/scripts/headerCreator.php');
+
+error_reporting(1);
 
 $formv1 = new formGenerator;
 $general = new general;
@@ -44,7 +50,7 @@ if (isset($_GET["id"]) && is_numeric($_GET["id"])){
 
 		<html>
 		<head>
-		    <title>Endoscopy Video Atlas</title>
+		    <title>Thumbnail creation page</title>
 		</head>
 
 		<style>
@@ -279,9 +285,7 @@ $video_id = '259042119';
 
 ?>
 
-		<div id="loading">
-
-		</div>
+		
 
 		<div class="darkClass">
 
@@ -313,8 +317,8 @@ $video_id = '259042119';
 
 			        <div class='row'>
 		                <div class='col-9'>
-		                    <h2 style="text-align:left;">Endoscopic Resection Video Atlas</h2>
-		                    <p style='text-align:left;'>Use the buttons below to filter the videos.  Clicking a video will take you to it.</p>
+		                    <h2 style="text-align:left;">Getting thumbnails...</h2>
+		                    <!--<p style='text-align:left;'>Use the buttons below to filter the videos.  Clicking a video will take you to it.</p>-->
 		                    <div id='procedureTagsDisplay' class='responsiveContainer' style='text-align:left;'>
 			                    <div class='col-9'>
 
@@ -884,7 +888,7 @@ $(document).ready(function() {
 
 
 
-    insertProcedureTags();
+   // insertProcedureTags();
 
 
     //$('#searchBox').attr("placeholder","Loading options...");

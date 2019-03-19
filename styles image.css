@@ -1568,7 +1568,7 @@ and (max-device-width : 1024px)  {
   display: block;
 }
 
-/*#loading {
+#loading {
 	    display: block;
 	    position: absolute;
 	    top: 0;
@@ -1580,7 +1580,7 @@ and (max-device-width : 1024px)  {
 	    background-image: url("http://www.endoscopy.wiki/includes/810.svg");
 	    background-repeat: no-repeat;
 	    background-position: center;
-	}*/
+	}
 
 
 

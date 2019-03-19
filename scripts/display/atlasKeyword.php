@@ -99,9 +99,7 @@
 		include(BASE_URI . "/includes/naviv1.php");
 		?>
 		
-		<div id="loading">
-	
-		</div>
+		
 		
 		<div class="darkClass">
 		

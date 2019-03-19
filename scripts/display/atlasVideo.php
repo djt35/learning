@@ -319,9 +319,7 @@ $video_id = '259042119';
 
 ?>
 
-		<div id="loading">
-
-		</div>
+		
 
 		<div class="darkClass">
 

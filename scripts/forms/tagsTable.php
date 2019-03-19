@@ -2,7 +2,13 @@
 		
 		<?php
 		
-			require ('../../includes/config.inc.php'); require (BASE_URI.'/scripts/headerCreator.php');
+			$requiredUserLevel = 1;
+
+			require ('../../includes/config.inc.php'); 
+			
+
+			
+			require (BASE_URI.'/scripts/headerCreator.php');
 		
 		
 		$formv1 = new formGenerator;
@@ -17,7 +23,7 @@
 		
 		<html>
 		<head>
-		    <title>Tag Manager</title>
+		    <title>Tag and Reference Manager</title>
 		</head>
 		
 		<?php
@@ -49,7 +55,7 @@
 			        
 			        <div class='row'>
 		                <div class='col-9'>
-		                    <h2 style="text-align:left;">Tag Manager</h2>
+		                    <h2 style="text-align:left;">Tag and Reference Manager</h2>
 		                </div>
 		
 		                <div id="messageBox" class='col-3 yellow-light narrow center'>
@@ -76,7 +82,7 @@
 		                <div class='col-1'></div>
 		
 		                <div class='col-10 narrow' style='overflow-x: scroll;'>
-		                    <p><?php $general->makeTableTagManager("SELECT id, tagCategories_id, tagName from tags ORDER BY tagCategories_id, tagName ASC", BASE_URL); ?></p>
+		                    <p><?php $general->makeTableTagManager("SELECT a.`id`, a.`tagCategories_id`, a.`tagName` from `tags` as a ORDER BY tagCategories_id, tagName ASC", BASE_URL); ?></p>
 		                </div>
 		
 		                <div class='col-1'></div>
@@ -100,6 +106,9 @@
 
 			var siteRoot = rootFolder;
 
+			var tagsid = null;
+
+			//var alreadyExists = null;
 
 			function makeSearchBox() {
 
@@ -130,32 +139,32 @@
 
 			function makeSearchBoxModal() {
 
-var length = $('.modal').find('#dataTable').find('th').length - 1;
+				var length = $('.modal').find('#dataTable').find('th').length - 1;
 
-console.log(length);
+				console.log(length);
 
-var x = 0;
+				var x = 0;
 
-$('.modal').find('#dataTable').find('th').each(function () {
+				$('.modal').find('#dataTable').find('th').each(function () {
 
-	console.log($(this).attr('data'));
+					console.log($(this).attr('data'));
 
-	var name = $(this).attr('data');
+					var name = $(this).attr('data');
 
-	if (name != undefined) {
+					if (name != undefined) {
 
-		$('.modal').find('.modalMessageBox').append(name + ': <input id="' + name + '" name="' + name + '" class="searchModal" data="' + x + '"></input><br>');
+						$('.modal').find('.modalMessageBox').append(name + ': <input id="' + name + '" name="' + name + '" class="searchModal" data="' + x + '"></input><br>');
 
-	}
+					}
 
-	x++;
+					x++;
 
-})
+				})
 
-$('.modal').find('.modalMessageBox').append("<p>Press enter in above boxes to search</p>");
+				$('.modal').find('.modalMessageBox').append("<p>Press enter in above boxes to search</p>");
 
 
-}
+			}
 
 			function filterTableVisible(tableid, column, criteria) {
 
@@ -200,104 +209,121 @@ $('.modal').find('.modalMessageBox').append("<p>Press enter in above boxes to se
 				}
 
 			}
-function filterTableVisible(tableid, column, criteria) {
 
-	// Declare variables 
-	var table, tr, td, i;
-	// var input, filter, table, tr, td, i;
-	// input = document.getElementById(inputid);
-	// filter = input.value.toUpperCase();
-	table = $(tableid);
-	//console.log(table);
-	tr = table.find("tr:visible");
-	//console.log(tr);
-	// Loop through all table rows, and hide those who don't match the search query
-	for (i = 1; i < tr.length; i++) {
+			function filterTableVisible(tableid, column, criteria) {
 
-		td = $(tr[i]).find("td:eq(" + column + ")");
-		// console.log(td);
-		if (td) {
-			if ($(td).text().indexOf(criteria) > -1) {
-				$(tr[i]).show();
-			} else {
-				$(tr[i]).hide();;
+				// Declare variables 
+				var table, tr, td, i;
+				// var input, filter, table, tr, td, i;
+				// input = document.getElementById(inputid);
+				// filter = input.value.toUpperCase();
+				table = $(tableid);
+				//console.log(table);
+				tr = table.find("tr:visible");
+				//console.log(tr);
+				// Loop through all table rows, and hide those who don't match the search query
+				for (i = 1; i < tr.length; i++) {
+
+					td = $(tr[i]).find("td:eq(" + column + ")");
+					// console.log(td);
+					if (td) {
+						if ($(td).text().indexOf(criteria) > -1) {
+							$(tr[i]).show();
+						} else {
+							$(tr[i]).hide();;
+						}
+					}
+				}
+
+				//var totalRow = table.find("tr:visible").length;
+
+				//totalRow - 1;
+
+				//table.before(totalRow  + ' Records Found');
+
+
+				table.animate({
+					scrollTop: table.offset().top - 800
+				}, 'fast');
+
+				if (table.find("tr:visible").length == 1) {
+
+					table.html('No records remain, please reset the table');
+
+				}
+
 			}
-		}
-	}
 
-	//var totalRow = table.find("tr:visible").length;
+			function filterTableVisibleModal(tableid, column, criteria) {
 
-	//totalRow - 1;
+				// Declare variables 
+				var table, tr, td, i;
+				// var input, filter, table, tr, td, i;
+				// input = document.getElementById(inputid);
+				// filter = input.value.toUpperCase();
+				table = $('.modal').find(tableid);
+				console.log(table);
+				tr = table.find("tr:visible");
+				//console.log(tr);
+				// Loop through all table rows, and hide those who don't match the search query
+				for (i = 1; i < tr.length; i++) {
 
-	//table.before(totalRow  + ' Records Found');
+					td = $(tr[i]).find("td:eq(" + column + ")");
+					// console.log(td);
+					if (td) {
+						if ($(td).text().indexOf(criteria) > -1) {
+							$(tr[i]).show();
+						} else {
+							$(tr[i]).hide();;
+						}
+					}
+				}
 
+				//var totalRow = table.find("tr:visible").length;
 
-	table.animate({
-		scrollTop: table.offset().top - 800
-	}, 'fast');
+				//totalRow - 1;
 
-	if (table.find("tr:visible").length == 1) {
-
-		table.html('No records remain, please reset the table');
-
-	}
-
-}
-
-function filterTableVisibleModal(tableid, column, criteria) {
-
-// Declare variables 
-var table, tr, td, i;
-// var input, filter, table, tr, td, i;
-// input = document.getElementById(inputid);
-// filter = input.value.toUpperCase();
-table = $('.modal').find(tableid);
-console.log(table);
-tr = table.find("tr:visible");
-//console.log(tr);
-// Loop through all table rows, and hide those who don't match the search query
-for (i = 1; i < tr.length; i++) {
-
-	td = $(tr[i]).find("td:eq(" + column + ")");
-	// console.log(td);
-	if (td) {
-		if ($(td).text().indexOf(criteria) > -1) {
-			$(tr[i]).show();
-		} else {
-			$(tr[i]).hide();;
-		}
-	}
-}
-
-//var totalRow = table.find("tr:visible").length;
-
-//totalRow - 1;
-
-//table.before(totalRow  + ' Records Found');
+				//table.before(totalRow  + ' Records Found');
 
 
-table.animate({
-	scrollTop: table.offset().top - 800
-}, 'fast');
+				table.animate({
+					scrollTop: table.offset().top - 800
+				}, 'fast');
 
-if (table.find("tr:visible").length == 1) {
+				if (table.find("tr:visible").length == 1) {
 
-	table.html('No records remain, please close and reopen the popup');
+					table.html('No records remain, please close and reopen the popup');
 
-}
+				}
 
-}
+			}
 			$(document).ready(function () {
 
 				$("#dataTable").find("tr");
 
 				$(".content").on("click", ".datarow", function () {
 
-					var id = $(this).find("td:first").text();
+					var id = $(this).parent().find("td:first").text();
 
-					//console.log(id);
+					id.trim();
+
+					console.log(id);
 
 					window.location.href = siteRoot + 'scripts/forms/tagsForm.php?id=' + id;
+
+
+				})
+
+				$('.modal').on('click', '#newReference', function() {
+
+					$('.modal').hide();
+
+					$('.darkClass').hide();
+
+					PopupCenter(siteRoot + "scripts/forms/referencesForm.php", 'New Reference', 600, 700);
+
+					//window.open(, "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,width=600,height=700");
+
 
 
 				})
@@ -335,18 +361,163 @@ if (table.find("tr:visible").length == 1) {
 					}
 				});
 
+				$('.content').on('click', '.referenceintable', function (e) {
+
+					var myid = $(this).attr('data');
+
+					
+
+					console.log(myid);
+
+					if (confirm("Do you wish to delete this reference from the tag [can't be undone]?")) {
+
+						var id = $(this).closest('tr').find("td:eq(0)").text();
+
+						console.log(id + 'is tagid');
+
+						var tr=$(this);
+
+						
+
+						var imagesObject = pushDataAJAX('referencesTag', 'id', myid, 2, ''); //delete tags
+
+						imagesObject.done(function (data) {
+
+							console.log(data);
+
+							if (data) {
+
+								if (data == 1) {
+
+									alert("tag-reference connection deleted");
+									$(tr).hide();
+
+									//edit = 0;
+									//imagesPassed = null;
+									//window.location.href = siteRoot + "scripts/forms/imagesTable.php";
+									//go to images list
+
+								} else {
+
+									alert("Error, try again");
+
+									//enableFormInputs("images");
+
+								}
+							}
+							
+						});
+
+						
+					
+					}
+						
+					
+				});
+
 				$('.modal').on('keyup', '.searchModal', function (e) {
 
-				console.log('key up');
-				
-				var columnid = $(this).attr('data');
+					console.log('key up');
 
-				var searchText = $(this).val();
+					var columnid = $(this).attr('data');
 
-				if (e.keyCode == 13) {
-					filterTableVisibleModal('#dataTable', columnid, searchText);
-				}
+					var searchText = $(this).val();
+
+					if (e.keyCode == 13) {
+						filterTableVisibleModal('#dataTable', columnid, searchText);
+					}
 				});
+
+				$('.modal').on('click', '.referencesrow', function (e) {
+
+							var id = $(this).find("td:first").text();
+
+							id.trim();
+
+							//alert(id + tagsid);
+
+							if (tagsid) {
+								var selectorObject = getDataQuery('referencesTag', '`references_id` = ' + id + ' and `tag_id` = ' + tagsid + '', {
+									'0': 'references_id',
+									'1': 'tag_id'
+								}, 3);
+
+								var alreadyExists;
+
+								selectorObject.done(function (data) {
+
+										if (data) {
+
+											//console.log('important data is' + data);
+
+											if (data == 1) {
+
+												alert('This reference tag combination already exists');
+												alreadyExists = 1;
+												$('.modal').hide();
+
+												$('.darkClass').hide();
+
+											} else {
+
+												alreadyExists = 0;
+											}
+
+
+
+											if (alreadyExists == 0) {
+
+												var tagsImagesObject = pushDataAJAX('referencesTag', 'id', '', 0, {
+													'references_id': id,
+													'tag_id': tagsid
+												}); //insert new object
+
+												tagsImagesObject.done(function (data) {
+
+													//console.log('tagsImagesObject = ' + data);
+
+													if (data) {
+
+														if (isNormalInteger(data)) {
+
+															alert("Reference added");
+
+															//add the tag to the table
+
+															//$('.file').find('td[id=' + imageID + ']').closest('tr').find('td:eq(6)').append('<button id="' + data + '" class="tagButton">' + $(cellClicked).closest('tr').find('td:eq(1)').text() + '</button>');
+
+															$('.modal').hide();
+
+															$('.darkClass').hide();
+
+															location.reload();
+
+															return;
+
+
+														} else {
+
+															alert("Error, try again");
+
+														}
+
+
+
+													}
+
+
+												});
+
+											}
+										}
+
+										
+								})
+								
+							}
+							
+						});
+
 
 				$('#resetTable').on('click', function () {
 
@@ -403,9 +574,11 @@ if (table.find("tr:visible").length == 1) {
 
 					var cellClicked = $(this);
 
-					imageID = $(cellClicked).closest('tr').find('td:eq(0)').attr('id');
+					imageID = $(this).closest('tr').find("td:eq(0)").text();;
 
 					console.log('tag id is' + imageID);
+
+					tagsid = imageID;
 
 					singleTag = 1;
 
@@ -415,10 +588,10 @@ if (table.find("tr:visible").length == 1) {
 
 					var selectorObject = getDataQuery('references', '', {
 						'id': 'id',
-						'authors' : 'authors',
+						'authors': 'authors',
 						'reference': 'formatted',
 						'DOI': 'DOI',
-						
+
 					}, 2);
 
 					//console.log(selectorObject);
@@ -445,7 +618,7 @@ if (table.find("tr:visible").length == 1) {
 						$('.modal').find('.modalContent').append('<button id="newReference">Add new reference</button>');
 
 						makeSearchBoxModal();
-						
+
 						return;
 
 
