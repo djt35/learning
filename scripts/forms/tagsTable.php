@@ -591,6 +591,7 @@
 						'authors': 'authors',
 						'reference': 'formatted',
 						'DOI': 'DOI',
+						'journal': 'journal',
 
 					}, 2);
 

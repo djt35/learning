@@ -1080,7 +1080,9 @@ class general {
 				$references .= '<p class="referenceintable" data="' . $idforthis . '">' . $x . ' - ';
 				$references .= mb_substr($row['authors'], 0, 30);
 				$references .= ' ,';
-				$references .= mb_substr($row['formatted'], 0, 30);
+				$references .= mb_substr($row['formatted'], 0, 60);
+				$references .= ' ,';
+				$references .= mb_substr($row['journal'], 0, 30);
 				//$references .= ' ,';
 				//$references .= mb_substr($row['DOI'], 0, 5);
 				$references .= '. </p><br>';

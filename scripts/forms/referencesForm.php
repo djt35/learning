@@ -91,6 +91,7 @@
 					    <?php echo $formv1->generateText('DOI', 'DOI', '', 'tooltip here');
 echo $formv1->generateText('formatted', 'formatted', '', 'tooltip here');
 echo $formv1->generateText('authors', 'authors', '', 'tooltip here');
+echo $formv1->generateText('journal', 'journal', '', 'tooltip here');
 ?>
 						    <button id="submitreferences">Submit</button>
 		
@@ -357,6 +358,7 @@ echo $formv1->generateText('authors', 'authors', '', 'tooltip here');
 DOI: { required: true },   
 formatted: { required: true },   
 authors: { required: true },   
+journal: { required: true },   
 },messages: {
 DOI: { required: 'message' },   
 formatted: { required: 'message' },   
