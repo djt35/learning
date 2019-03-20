@@ -226,6 +226,17 @@
 				
 				
 				</div>
+                
+
+                <div class = 'row' id='references'>
+                <div class='col-12'>
+                        <hr>
+
+                        <h2 style="text-align:left;">References</h2>
+
+                        <?php echo $general->getFullReferenceList($id);?>
+                        </div>
+                </div>
 			    
 				<!--<div class='row' id='imageDisplay'>
 					<div class='col-2'>
@@ -986,6 +997,7 @@ $(document).ready(function() {
 		
 		
 	})
+	
     
     $('.uptodateSearch').on('click', function (){
 		

@@ -1099,6 +1099,54 @@ class general {
 
 	}
 
+	public function getFullReferenceList ($tagid){
+
+		$q = "SELECT b.`id`, c.`authors`, c.`formatted`, c.`DOI` 
+		from `tags` as a 
+		INNER JOIN `referencesTag` as b on a.`id` = b.`tag_id` 
+		INNER JOIN `references` as c on c.`id` = b.`references_id` 
+		WHERE a.`id` = $tagid ";
+
+		//echo $q;
+
+		//$q = "SELECT `authors`, `formatted`, `DOI` from `references` WHERE `id` = $id";
+
+		//echo $q;
+
+		$references = '';
+		$x = 1;
+		$result = $this->connection->RunQuery($q);
+
+		if ($result->num_rows > 0){
+
+			while($row = $result->fetch_array(MYSQLI_ASSOC)){
+				$doi = $row['DOI'];
+				$references .= '<p class="referencelist" data="' . $doi . '" style="text-align:left;" >' . $x . ' - ';
+				$references .= $row['authors'];
+				$references .= ' ,';
+				$references .= $row['formatted'];
+				$references .= ' ,';
+				$references .= $row['journal'];
+				//$references .= ' ,';
+				//$references .= mb_substr($row['DOI'], 0, 5);
+				$references .= '. </p>';
+				$x++;
+			}
+
+			echo $references;
+		}else{
+
+			echo '<p class="left">No references yet</p>';
+		}
+
+		
+
+
+
+
+	}
+
+
 	public function generateLogicValidate ($table){
 
 		$q = "SELECT `COLUMN_NAME` AS `name`, `ORDINAL_POSITION` AS `position`, `CHARACTER_MAXIMUM_LENGTH` AS `length`

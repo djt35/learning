@@ -630,6 +630,8 @@ function PopupCenter(url, title, w, h) {
     }
 }
 
+
+
 function logout(){
 	
 	request = $.ajax({
@@ -873,6 +875,23 @@ $(document).ready(function() {
 		
 		$('#login').submit();
 		return false; 
+		
+		
+	})
+
+	$('.referencelist').on('click', function (){
+		
+		
+		//get the tag name
+		
+		var searchTerm = $(this).attr('data');
+		
+		console.log(searchTerm);
+		
+		PopupCenter("https://www.ncbi.nlm.nih.gov/pubmed?term="+searchTerm, 'PubMed Search (endoWiki)', 800, 700);
+
+		
+		
 		
 		
 	})
