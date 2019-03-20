@@ -19,6 +19,10 @@
 		
 		
 		?>
+
+		<script src="<?php echo BASE_URL . '/includes/tableinclude.js'; ?>" type="text/javascript"></script>
+
+
 		<!DOCTYPE html PUBLIC '-//W3C//DTD HTML 4.01//EN'>
 		
 		<html>
@@ -70,7 +74,7 @@
 		
 		                <div id="searchBox" class='col-6 yellow-light narrow left'>
 							<p></p>
-							<div><button type="button" id="resetTable">Reset Table</button></div>
+							<div><button type="button" id="resetTable">Reset Table</button>&nbsp;&nbsp;<button type="button" id="hideSearch">Hide Search Box</button></div>
 						</div>
 						
 						<div class='col-3'>
@@ -110,193 +114,8 @@
 
 			//var alreadyExists = null;
 
-			function makeSearchBox() {
+			
 
-				var length = $('#dataTable').find('th').length - 1;
-
-				console.log(length);
-
-				var x = 0;
-
-				$('#dataTable').find('th').each(function () {
-
-					console.log($(this).attr('data'));
-
-					var name = $(this).attr('data');
-
-					if (name != undefined) {
-
-						$('#searchBox').find('p').append(name + ': <input id="' + name + '" name="' + name + '" class="search" data="' + x + '"></input><br>');
-
-					}
-
-					x++;
-
-				})
-
-
-			}
-
-			function makeSearchBoxModal() {
-
-				var length = $('.modal').find('#dataTable').find('th').length - 1;
-
-				console.log(length);
-
-				var x = 0;
-
-				$('.modal').find('#dataTable').find('th').each(function () {
-
-					console.log($(this).attr('data'));
-
-					var name = $(this).attr('data');
-
-					if (name != undefined) {
-
-						$('.modal').find('.modalMessageBox').append(name + ': <input id="' + name + '" name="' + name + '" class="searchModal" data="' + x + '"></input><br>');
-
-					}
-
-					x++;
-
-				})
-
-				$('.modal').find('.modalMessageBox').append("<p>Press enter in above boxes to search</p>");
-
-
-			}
-
-			function filterTableVisible(tableid, column, criteria) {
-
-				// Declare variables 
-				var table, tr, td, i;
-				// var input, filter, table, tr, td, i;
-				// input = document.getElementById(inputid);
-				// filter = input.value.toUpperCase();
-				table = $(tableid);
-				//console.log(table);
-				tr = table.find("tr:visible");
-				//console.log(tr);
-				// Loop through all table rows, and hide those who don't match the search query
-				for (i = 1; i < tr.length; i++) {
-
-					td = $(tr[i]).find("td:eq(" + column + ")");
-					// console.log(td);
-					if (td) {
-						if ($(td).text().indexOf(criteria) > -1) {
-							$(tr[i]).show();
-						} else {
-							$(tr[i]).hide();;
-						}
-					}
-				}
-
-				//var totalRow = table.find("tr:visible").length;
-
-				//totalRow - 1;
-
-				//table.before(totalRow  + ' Records Found');
-
-
-				table.animate({
-					scrollTop: table.offset().top - 800
-				}, 'fast');
-
-				if (table.find("tr:visible").length == 1) {
-
-					table.html('No records remain, please reset the table');
-
-				}
-
-			}
-
-			function filterTableVisible(tableid, column, criteria) {
-
-				// Declare variables 
-				var table, tr, td, i;
-				// var input, filter, table, tr, td, i;
-				// input = document.getElementById(inputid);
-				// filter = input.value.toUpperCase();
-				table = $(tableid);
-				//console.log(table);
-				tr = table.find("tr:visible");
-				//console.log(tr);
-				// Loop through all table rows, and hide those who don't match the search query
-				for (i = 1; i < tr.length; i++) {
-
-					td = $(tr[i]).find("td:eq(" + column + ")");
-					// console.log(td);
-					if (td) {
-						if ($(td).text().indexOf(criteria) > -1) {
-							$(tr[i]).show();
-						} else {
-							$(tr[i]).hide();;
-						}
-					}
-				}
-
-				//var totalRow = table.find("tr:visible").length;
-
-				//totalRow - 1;
-
-				//table.before(totalRow  + ' Records Found');
-
-
-				table.animate({
-					scrollTop: table.offset().top - 800
-				}, 'fast');
-
-				if (table.find("tr:visible").length == 1) {
-
-					table.html('No records remain, please reset the table');
-
-				}
-
-			}
-
-			function filterTableVisibleModal(tableid, column, criteria) {
-
-				// Declare variables 
-				var table, tr, td, i;
-				// var input, filter, table, tr, td, i;
-				// input = document.getElementById(inputid);
-				// filter = input.value.toUpperCase();
-				table = $('.modal').find(tableid);
-				console.log(table);
-				tr = table.find("tr:visible");
-				//console.log(tr);
-				// Loop through all table rows, and hide those who don't match the search query
-				for (i = 1; i < tr.length; i++) {
-
-					td = $(tr[i]).find("td:eq(" + column + ")");
-					// console.log(td);
-					if (td) {
-						if ($(td).text().indexOf(criteria) > -1) {
-							$(tr[i]).show();
-						} else {
-							$(tr[i]).hide();;
-						}
-					}
-				}
-
-				//var totalRow = table.find("tr:visible").length;
-
-				//totalRow - 1;
-
-				//table.before(totalRow  + ' Records Found');
-
-
-				table.animate({
-					scrollTop: table.offset().top - 800
-				}, 'fast');
-
-				if (table.find("tr:visible").length == 1) {
-
-					table.html('No records remain, please close and reopen the popup');
-
-				}
-
-			}
 			$(document).ready(function () {
 
 				$("#dataTable").find("tr");
@@ -350,16 +169,7 @@
 				//search to find like
 
 
-				$('.search').on('keyup', function (e) {
-
-					var columnid = $(this).attr('data');
-
-					var searchText = $(this).val();
-
-					if (e.keyCode == 13) {
-						filterTableVisible('#dataTable', columnid, searchText);
-					}
-				});
+				
 
 				$('.content').on('click', '.referenceintable', function (e) {
 
@@ -415,18 +225,7 @@
 					
 				});
 
-				$('.modal').on('keyup', '.searchModal', function (e) {
-
-					console.log('key up');
-
-					var columnid = $(this).attr('data');
-
-					var searchText = $(this).val();
-
-					if (e.keyCode == 13) {
-						filterTableVisibleModal('#dataTable', columnid, searchText);
-					}
-				});
+				
 
 				$('.modal').on('click', '.referencesrow', function (e) {
 
@@ -519,12 +318,7 @@
 						});
 
 
-				$('#resetTable').on('click', function () {
-
-					location.reload();
-
-
-				})
+				
 
 				$('.content').on('click', '.deleteTag', function () {
 

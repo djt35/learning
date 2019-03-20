@@ -1,6 +1,8 @@
 <?php
 
-	require ('../../includes/config.inc.php'); require (BASE_URI.'/scripts/headerCreator.php');
+	require ('../../includes/config.inc.php'); 
+	
+	require (BASE_URI.'/scripts/headerCreator.php');
 		
 		
 		$formv1 = new formGenerator;
@@ -134,25 +136,11 @@ foreach ($columns as $key=>$value){
             
             	
             
-	            <div class="row">
-		            <div class="col-2"></div>
-	                <div class="col-2"><b>Draft Images</b></div>
-	
-	                <div class="col-4 narrow">
-	                    <p><a href='<?php echo BASE_URL.'/scripts/forms/imageSetdraftTableApprove.php';?>'>View and approve draft images uploaded by users</a><br><b><?php echo $general->countPendingApprovals() . ' pending.';?></b></p>
-	                </div>
-	                
-	                <div class="col-4 narrow">
-	                    
-	                </div>
-	
-	
-	                
-	            </div> 
+	            
             
            
             
-            <br><br>
+
             
             
             
@@ -187,9 +175,43 @@ foreach ($columns as $key=>$value){
 	
 	                
 	            </div>  
-	        
+
+				<br><br>
+
+				<div class="row">
+				<div class="col-2"></div>
+	                <div class="col-2"><b>Tags</b></div>
+	
+	                <div class="col-4 narrow">
+	                    <p><a href='<?php echo BASE_URL.'/scripts/forms/tagsTable.php';?>'>Manage tags and references</a></p>
+	                </div>
+	                
+	                <div class="col-4 narrow">
+	                    
+	                </div>
+	
+	
+	                
+	            </div>  
+
+				<br><br>
+
            
-	        		        
+	        	<div class="row">
+		            <div class="col-2"></div>
+	                <div class="col-2"><b>Draft Images</b></div>
+	
+	                <div class="col-4 narrow">
+	                    <p><a href='<?php echo BASE_URL.'/scripts/forms/imageSetdraftTableApprove.php';?>'>View and approve draft images uploaded by users</a><br><b><?php echo $general->countPendingApprovals() . ' pending.';?></b></p>
+	                </div>
+	                
+	                <div class="col-4 narrow">
+	                    
+	                </div>
+	
+	
+	                
+	            </div> 
 		      
 	        
         </div>

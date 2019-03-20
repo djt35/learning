@@ -2,16 +2,25 @@
 		
 		
 			<?php
+
+			//$openaccess = 1 allows the page to be viewed without login and skips the rest of the script
+			//$requiredUserLevel corresponds to database users access level; if not set the page simply requires login
+			//$paid allows setting of pages which require subscription and login
+
+			//define token from url
+
 			require ('../../includes/config.inc.php');
 			require (BASE_URI . '/scripts/headerCreator.php');
 		
 			$formv1 = new formGenerator;
 			$general = new general;
 			$video = new video;
-			$tagCategories = new tagCategories;
+			$tagCategories = new tagCategories;?>
 		
+		<script src='<?php echo BASE_URL . '/includes/tableinclude.js'; ?>' type='text/javascript'></script>
 		
-		
+		<?php
+
 		foreach ($_GET as $k=>$v){
 		
 			$sanitised = $general->sanitiseInput($v);
@@ -103,7 +112,18 @@ echo $formv1->generateText('video_id', 'video_id', '', 'tooltip here');
 		
 		    </div>
 		<script>
-			var siteRoot = "http://localhost:90/dashboard/learning/";
+		switch (document.location.hostname) {
+			case 'www.endoscopy.wiki':
+
+				var rootFolder = 'http://www.endoscopy.wiki/';
+				break;
+			case 'localhost':
+				var rootFolder = 'http://localhost:90/dashboard/learning/';
+				break;
+			default: // set whatever you want
+		}
+
+		var siteRoot = rootFolder;
 		
 			 slidePassed = $("#id").text();
 		

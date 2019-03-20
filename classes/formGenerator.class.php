@@ -291,7 +291,46 @@ Class formGenerator {
 			}
 
             
-    }
+	}
+	
+	public function getDatabaseColumnsv2 ($table) {
+	    
+		$q = "SELECT `COLUMN_NAME` AS `name`
+	FROM INFORMATION_SCHEMA.COLUMNS
+			WHERE TABLE_NAME = '$table'";
+		
+		//echo $q;
+		
+		$result = $this->connection->RunQuery($q);
+		
+		if ($result->num_rows > 0){
+		
+			$columns = array();
+		
+			while($columns[] = $result->fetch_array(MYSQLI_ASSOC));
+
+
+
+			
+			/*while($row = $result->fetch_array(MYSQLI_ASSOC)){
+	
+				$columns['name'] = $row['name'];
+				$columns['position'] = $row['position'];
+				$columns['length'] = $row['length'];
+				
+	
+			}*/
+			
+		return $columns;	
+			
+		}else{
+			
+			return NULL;
+			
+		}
+
+		
+}
     
     public function getAllDatabaseTables (){
 	    

@@ -2,16 +2,25 @@
 		
 		
 			<?php
-		
-			require ('../../includes/config.inc.php'); require (BASE_URI.'/scripts/headerCreator.php');
+
+			//$openaccess = 1 allows the page to be viewed without login and skips the rest of the script
+			//$requiredUserLevel corresponds to database users access level; if not set the page simply requires login
+			//$paid allows setting of pages which require subscription and login
+
+			//define token from url
+
+			require ('../../includes/config.inc.php');
+			require (BASE_URI . '/scripts/headerCreator.php');
 		
 			$formv1 = new formGenerator;
 			$general = new general;
 			$video = new video;
-			$tagCategories = new tagCategories;
+			$tagCategories = new tagCategories;?>
 		
+		<script src='<?php echo BASE_URL . '/includes/tableinclude.js'; ?>' type='text/javascript'></script>
 		
-		
+		<?php
+
 		foreach ($_GET as $k=>$v){
 		
 			$sanitised = $general->sanitiseInput($v);
@@ -64,7 +73,8 @@
 		                </div>
 		
 		                <div id="messageBox" class='col-3 yellow-light narrow center'>
-		                    <p></p>
+							<p><button id="tableaudio" onclick="window.location.href = '<?php echo BASE_URL;?>/scripts/forms/audioTable.php';">Table of audio</button></p>
+		              
 		                </div>
 		            </div>
 		
@@ -73,7 +83,7 @@
 		
 				        if ($id){
 		
-							$q = "SELECT  id  FROM  audio  WHERE  id  = $id";
+							$q = "SELECT  `id`  FROM  `audio`  WHERE  id  = $id";
 							if ($general->returnYesNoDBQuery($q) != 1){
 								echo "Passed id does not exist in the database";
 								exit();
@@ -102,17 +112,18 @@ echo $formv1->generateText('url', 'url', '', 'tooltip here');
 		
 		    </div>
 		<script>
-			switch (document.location.hostname)
-{
-        case 'www.endoscopy.wiki':
-                          
-                         var rootFolder = 'http://www.endoscopy.wiki/'; break;
-        case 'localhost' :
-                           var rootFolder = 'http://localhost:90/dashboard/learning/'; break;
-        default :  // set whatever you want
-}
-			
-var siteRoot = rootFolder;
+		switch (document.location.hostname) {
+			case 'www.endoscopy.wiki':
+
+				var rootFolder = 'http://www.endoscopy.wiki/';
+				break;
+			case 'localhost':
+				var rootFolder = 'http://localhost:90/dashboard/learning/';
+				break;
+			default: // set whatever you want
+		}
+
+		var siteRoot = rootFolder;
 		
 			 audioPassed = $("#id").text();
 		
@@ -159,7 +170,7 @@ var siteRoot = rootFolder;
 		
 				    });
 				    
-				    $("#messageBox").text("Editing audio id "+idPassed);
+				    $("#messageBox").append("Editing audio id "+idPassed);
 		
 				    enableFormInputs("audio");
 		
@@ -311,7 +322,7 @@ var siteRoot = rootFolder;
 		
 				}else{
 					
-					$("#messageBox").text("New audio");
+					$("#messageBox").append("New audio");
 					
 				}
 		
@@ -389,7 +400,7 @@ url: { required: 'message' },
 		<?php
 		
 		    // Include the footer file to complete the template:
-		    include(BASE_URI . "/includes/footer.html");
+		    include(BASE_URI ."/includes/footer.html");
 		
 		
 		

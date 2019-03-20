@@ -1,6 +1,14 @@
 
 		
 		<?php
+
+		//$openaccess = 1 allows the page to be viewed without login and skips the rest of the script
+			//$requiredUserLevel corresponds to database users access level; if not set the page simply requires login
+			//$paid allows setting of pages which require subscription and login
+
+			//define token from url
+
+
 			require ('../../includes/config.inc.php');
 			require (BASE_URI . '/scripts/headerCreator.php');
 		
@@ -26,6 +34,9 @@
 		include(BASE_URI . "/includes/naviCreator.php");
 		?>
 		
+		<script src='<?php echo BASE_URL . '/includes/tableinclude.js'; ?>' type='text/javascript'></script>
+		
+		
 		
 		<body>
 			
@@ -42,13 +53,28 @@
 		                <div id="messageBox" class='col-3 yellow-light narrow center'>
 		                    <p><button id="newusers_customuser" onclick="window.location.href = '<?php echo BASE_URL;?>/scripts/forms/users_customuserForm.php';">New users_customuser</button></p>
 		                </div>
+					</div>
+					
+					<div class='row'>
+		                <div class='col-3'>
+		                    <p style='text-align:right;'>Search:</p>
+		                </div>
+		
+		                <div id='searchBox' class='col-6 yellow-light narrow left'>
+							<p></p>
+							<div><button type='button' id='resetTable'>Reset Table</button>&nbsp;&nbsp;<button type='button' id='hideSearch'>Hide Search Box</button></div>
+						</div>
+						
+						<div class='col-3'>
+		                    
+		                </div>
 		            </div>
 			        
 			        <div class='row'>
 		                <div class='col-1'></div>
 		
 		                <div class='col-10 narrow' style='overflow-x: scroll;'>
-		                    <p><?php $general->makeTable("SELECT `id` from `users_customuser`"); ?></p>
+		                    <p><?php $general->makeSearchableTableDelete("SELECT `id`, `password`, `last_login`, `is_superuser`, `username`, `first_name`, `last_name`, `email`, `is_staff`, `is_active`, `date_joined`, `age`, `institution` from `users_customuser`"); ?></p>
 		                </div>
 		
 		                <div class='col-1'></div>
@@ -59,23 +85,78 @@
 		        
 		    </div>
 		<script>
-			var siteRoot = "http://localhost:90/dashboard/learning/";
+		switch (document.location.hostname) {
+			case 'www.endoscopy.wiki':
+
+				var rootFolder = 'http://www.endoscopy.wiki/';
+				break;
+			case 'localhost':
+				var rootFolder = 'http://localhost:90/dashboard/learning/';
+				break;
+			default: // set whatever you want
+		}
+
+		var siteRoot = rootFolder;
 		
-				
+		var tagsid = null;
+
 			$(document).ready(function() {
+
+				makeSearchBox();
 		
 				$("#dataTable").find("tr");
 		
 				$(".content").on("click", ".datarow", function(){
 					
-					var id = $(this).find("td:first").text();
-					
-					//console.log(id);
+					var id = $(this).parent().find('td:first').text();
+
+					id.trim();
 					
 					window.location.href = siteRoot + 'scripts/forms/users_customuserForm.php?id=' + id;
 		
 					
 				})
+
+				$('.content').on('click', '.deleteTag', function () {
+
+					if (confirm('Do you wish to delete this users_customuser [can\'t be undone]?')) {
+
+						var id = $(this).closest('tr').find('td:eq(0)').text();
+
+						var tr = $(this).closest('tr');
+
+						var imagesObject = pushDataAJAX('users_customuser', 'id', id, 2, ''); //delete users_customuser
+
+						imagesObject.done(function (data) {
+
+							console.log(data);
+
+							if (data) {
+
+								if (data == 1) {
+
+									alert('users_customuser deleted');
+									$(tr).hide();
+
+									//edit = 0;
+									//imagesPassed = null;
+									//window.location.href = siteRoot + 'scripts/forms/imagesTable.php';
+									//go to images list
+
+								} else {
+
+									alert('Error, try again');
+
+									//enableFormInputs('images');
+
+								}
+							}
+						});
+
+					}
+
+
+				});
 				
 				
 			  	var titleGraphic = $(".title").height();

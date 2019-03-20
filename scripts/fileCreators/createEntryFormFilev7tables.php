@@ -94,7 +94,7 @@ function createWritableFolder($folder)
 
 function returnDatabaseFields($table){
 
-	$columns = $formv1->getDatabaseColumns('audio');
+	$columns = $formv1->getDatabaseColumns($table);
 				array_pop($columns);
 				//print_r($columns);
 				$returning = null;
@@ -194,19 +194,28 @@ print_r($datafields);
 		
 		
 			<?php
+
+			//\$openaccess = 1 allows the page to be viewed without login and skips the rest of the script
+			//\$requiredUserLevel corresponds to database users access level; if not set the page simply requires login
+			//\$paid allows setting of pages which require subscription and login
+
+			//define token from url
+
 			require ('../../includes/config.inc.php');
 			require (BASE_URI . '/scripts/headerCreator.php');
 		
 			\$formv1 = new formGenerator;
 			\$general = new general;
 			\$video = new video;
-			\$tagCategories = new tagCategories;";
+			\$tagCategories = new tagCategories;?>";
 		
 		
 		$file_in .= "
 		
+		<script src='<?php echo BASE_URL . '/includes/tableinclude.js'; ?>' type='text/javascript'></script>
 		
-		
+		<?php
+
 		foreach (\$_GET as \$k=>\$v){
 		
 			\$sanitised = \$general->sanitiseInput(\$v);
@@ -319,7 +328,18 @@ print_r($datafields);
 		
 		$file_in .= "
 		<script>
-			var siteRoot = \"http://localhost:90/dashboard/learning/\";
+		switch (document.location.hostname) {
+			case 'www.endoscopy.wiki':
+
+				var rootFolder = 'http://www.endoscopy.wiki/';
+				break;
+			case 'localhost':
+				var rootFolder = 'http://localhost:90/dashboard/learning/';
+				break;
+			default: // set whatever you want
+		}
+
+		var siteRoot = rootFolder;
 		
 			 {$databaseTable}Passed = $(\"#id\").text();
 		
@@ -616,6 +636,29 @@ print_r(createWritableFolder(BASE_URI . "/scripts/fileCreators/files"));
 
 SaveFile(BASE_URI . "/scripts/fileCreators/files/{$databaseTable}Form.php", $file_in);
 
+//$columns = $formv1->getDatabaseColumnsv2($databaseTable);
+
+//$columnsText = explode(" ,", $columns);
+
+$columns = $formv1->getDatabaseColumns($databaseTable);
+				array_pop($columns);
+				print_r($columns);
+				$returning = null;
+				$count = count($columns);
+
+			    foreach ($columns as $key=>$value){
+				
+				 $returning .= '`' . $value['name'] . '`';
+				 if (--$count <= 0) {
+					break;
+				}
+				$returning .= ', ';
+				 
+				    
+				}
+
+
+	echo $returning;
 
 	foreach ($value as $key2=>$value2){
 		
@@ -624,6 +667,14 @@ SaveFile(BASE_URI . "/scripts/fileCreators/files/{$databaseTable}Form.php", $fil
 		$file_in = "
 		
 		<?php
+
+		//\$openaccess = 1 allows the page to be viewed without login and skips the rest of the script
+			//\$requiredUserLevel corresponds to database users access level; if not set the page simply requires login
+			//\$paid allows setting of pages which require subscription and login
+
+			//define token from url
+
+
 			require ('../../includes/config.inc.php');
 			require (BASE_URI . '/scripts/headerCreator.php');
 		
@@ -649,6 +700,9 @@ SaveFile(BASE_URI . "/scripts/fileCreators/files/{$databaseTable}Form.php", $fil
 		include(BASE_URI . \"/includes/naviCreator.php\");
 		?>
 		
+		<script src='<?php echo BASE_URL . '/includes/tableinclude.js'; ?>' type='text/javascript'></script>
+		
+		
 		
 		<body>
 			
@@ -665,13 +719,28 @@ SaveFile(BASE_URI . "/scripts/fileCreators/files/{$databaseTable}Form.php", $fil
 		                <div id=\"messageBox\" class='col-3 yellow-light narrow center'>
 		                    <p><button id=\"new{$databaseTable}\" onclick=\"window.location.href = '<?php echo BASE_URL;?>/scripts/forms/{$databaseTable}Form.php';\">New {$databaseTable}</button></p>
 		                </div>
+					</div>
+					
+					<div class='row'>
+		                <div class='col-3'>
+		                    <p style='text-align:right;'>Search:</p>
+		                </div>
+		
+		                <div id='searchBox' class='col-6 yellow-light narrow left'>
+							<p></p>
+							<div><button type='button' id='resetTable'>Reset Table</button>&nbsp;&nbsp;<button type='button' id='hideSearch'>Hide Search Box</button></div>
+						</div>
+						
+						<div class='col-3'>
+		                    
+		                </div>
 		            </div>
 			        
 			        <div class='row'>
 		                <div class='col-1'></div>
 		
 		                <div class='col-10 narrow' style='overflow-x: scroll;'>
-		                    <p><?php \$general->makeTable(\"SELECT `{$databaseIdentifier}` from `{$databaseTable}`\"); ?></p>
+		                    <p><?php \$general->makeSearchableTableDelete(\"SELECT {$returning} from `{$databaseTable}`\"); ?></p>
 		                </div>
 		
 		                <div class='col-1'></div>
@@ -682,23 +751,78 @@ SaveFile(BASE_URI . "/scripts/fileCreators/files/{$databaseTable}Form.php", $fil
 		        
 		    </div>
 		<script>
-			var siteRoot = \"http://localhost:90/dashboard/learning/\";
+		switch (document.location.hostname) {
+			case 'www.endoscopy.wiki':
+
+				var rootFolder = 'http://www.endoscopy.wiki/';
+				break;
+			case 'localhost':
+				var rootFolder = 'http://localhost:90/dashboard/learning/';
+				break;
+			default: // set whatever you want
+		}
+
+		var siteRoot = rootFolder;
 		
-				
+		var tagsid = null;
+
 			$(document).ready(function() {
+
+				makeSearchBox();
 		
 				$(\"#dataTable\").find(\"tr\");
 		
 				$(\".content\").on(\"click\", \".datarow\", function(){
 					
-					var id = $(this).find(\"td:first\").text();
-					
-					//console.log(id);
+					var id = $(this).parent().find('td:first').text();
+
+					id.trim();
 					
 					window.location.href = siteRoot + 'scripts/forms/{$databaseTable}Form.php?id=' + id;
 		
 					
 				})
+
+				$('.content').on('click', '.deleteTag', function () {
+
+					if (confirm('Do you wish to delete this {$databaseTable} [can\'t be undone]?')) {
+
+						var id = $(this).closest('tr').find('td:eq(0)').text();
+
+						var tr = $(this).closest('tr');
+
+						var imagesObject = pushDataAJAX('{$databaseTable}', 'id', id, 2, ''); //delete {$databaseTable}
+
+						imagesObject.done(function (data) {
+
+							console.log(data);
+
+							if (data) {
+
+								if (data == 1) {
+
+									alert('{$databaseTable} deleted');
+									$(tr).hide();
+
+									//edit = 0;
+									//imagesPassed = null;
+									//window.location.href = siteRoot + 'scripts/forms/imagesTable.php';
+									//go to images list
+
+								} else {
+
+									alert('Error, try again');
+
+									//enableFormInputs('images');
+
+								}
+							}
+						});
+
+					}
+
+
+				});
 				
 				
 			  	var titleGraphic = $(\".title\").height();

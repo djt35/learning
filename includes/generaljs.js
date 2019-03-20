@@ -895,6 +895,33 @@ $(document).ready(function() {
 		
 		
 	})
+
+	$('#resetTable').on('click', function () {
+
+		location.reload();
+
+
+	})
+
+	$('#hideSearch').on('click', function () {
+
+		$('#searchBox').parent().hide();
+		
+		if ($('#messageBox').find('#showSearchBox').length == 0){
+		$('#messageBox').append('<button id="showSearchBox" type="button">Show Search Box</button>');
+		}
+
+	})
+
+	$('.content').on('click', '#showSearchBox', function () {
+
+		if ($('#messageBox').find('#showSearchBox').length > 0){
+			$('#messageBox').find('#showSearchBox').remove();
+		}
+
+		$('#searchBox').parent().show();
+
+	})
 	
 	ensureMenuBarColorCorrect ();
 
