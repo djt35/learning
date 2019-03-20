@@ -220,7 +220,9 @@ $(document).ready(function () {
 
     })
 
-    $('.search').on('keyup', function (e) {
+    $('.content').on('keyup', '.search', function (e) {
+
+        //alert('trigger');
 
         var columnid = $(this).attr('data');
 
@@ -244,6 +246,6 @@ $(document).ready(function () {
         }
     });
 
-    
+
 
 })
