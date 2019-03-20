@@ -37,7 +37,7 @@ $desired_http_dir = BASE_URL . "/includes/images/";
 
 $filearray = array();
 
-
+$userid = $_SESSION['user_id'];
 
 if(isset($_FILES)){
 	

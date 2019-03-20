@@ -37,7 +37,7 @@ $desired_http_dir = BASE_URL . "/includes/images/drafts/";
 $filearray = array();
 
 
-
+$userid = $_SESSION['user_id'];
 if(isset($_FILES)){
 	
 	$r = "INSERT into `imageSetDraft` (`name`, `author`) VALUES ('" . generateRandomString() . "', '$userid')";

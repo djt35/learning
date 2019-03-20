@@ -594,7 +594,7 @@ function fn60sec() {
         var imageSetObject = pushDataAJAX('imageSetDraft', 'id', imagesPassed, 1, {
                         'name': imageSetDescription,
                         'type': imageSetTitle,
-                        'author' : user_id,
+                        /*'author' : user_id,*/
                         
                     }); 
         
