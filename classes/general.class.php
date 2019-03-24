@@ -422,6 +422,8 @@ class general {
 
 			$data = array();
 
+			
+
 			while($data[] = $result->fetch_array(MYSQLI_ASSOC));
 
 			echo '<table id="dataTable">';
@@ -442,16 +444,28 @@ class general {
 			$x = 0;
 
 			foreach ($data as $k=>$v){
+				if ($v['id']){
+					if ($id <> $v['id']){
+						echo '</tr>';
+						echo '<tr>';
+						$x = 0;
 
-				if ($id <> $v['id']){
-					echo '</tr>';
-					echo '<tr>';
-					$x = 0;
-
-				}
-
+					}
 				$id = $v['id'];
 				$id = trim($id);
+				}
+
+				if ($v['user_id']){
+					if ($id <> $v['user_id']){
+						echo '</tr>';
+						echo '<tr>';
+						$x = 0;
+
+					}
+				$id = $v['user_id'];
+				$id = trim($id);
+				}
+				
 
 
 

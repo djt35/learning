@@ -2,16 +2,25 @@
 		
 		
 			<?php
-		
-			require ('../../includes/config.inc.php'); require (BASE_URI.'/scripts/headerCreator.php');
+
+			//$openaccess = 1 allows the page to be viewed without login and skips the rest of the script
+			//$requiredUserLevel corresponds to database users access level; if not set the page simply requires login
+			//$paid allows setting of pages which require subscription and login
+
+			//define token from url
+
+			require ('../../includes/config.inc.php');
+			require (BASE_URI . '/scripts/headerCreator.php');
 		
 			$formv1 = new formGenerator;
 			$general = new general;
 			$video = new video;
-			$tagCategories = new tagCategories;
+			$tagCategories = new tagCategories;?>
 		
+		<script src='<?php echo BASE_URL . '/includes/tableinclude.js'; ?>' type='text/javascript'></script>
 		
-		
+		<?php
+
 		foreach ($_GET as $k=>$v){
 		
 			$sanitised = $general->sanitiseInput($v);
@@ -64,7 +73,8 @@
 		                </div>
 		
 		                <div id="messageBox" class='col-3 yellow-light narrow center'>
-		                    <p></p>
+							<p><button id="tablechapter" onclick="window.location.href = '<?php echo BASE_URL;?>/scripts/forms/chapterTable.php';">Table of chapter</button></p>
+		              
 		                </div>
 		            </div>
 		
@@ -73,7 +83,7 @@
 		
 				        if ($id){
 		
-							$q = "SELECT  id  FROM  chapter  WHERE  id  = $id";
+							$q = "SELECT  `id`  FROM  `chapter`  WHERE  id  = $id";
 							if ($general->returnYesNoDBQuery($q) != 1){
 								echo "Passed id does not exist in the database";
 								exit();
@@ -92,6 +102,7 @@ echo $formv1->generateText('name', 'name', '', 'tooltip here');
 echo $formv1->generateText('timeFrom', 'timeFrom', '', 'tooltip here');
 echo $formv1->generateText('timeTo', 'timeTo', '', 'tooltip here');
 echo $formv1->generateText('video_id', 'video_id', '', 'tooltip here');
+echo $formv1->generateText('description', 'description', '', 'tooltip here');
 ?>
 						    <button id="submitchapter">Submit</button>
 		
@@ -105,17 +116,18 @@ echo $formv1->generateText('video_id', 'video_id', '', 'tooltip here');
 		
 		    </div>
 		<script>
-			switch (document.location.hostname)
-{
-        case 'www.endoscopy.wiki':
-                          
-                         var rootFolder = 'http://www.endoscopy.wiki/'; break;
-        case 'localhost' :
-                           var rootFolder = 'http://localhost:90/dashboard/learning/'; break;
-        default :  // set whatever you want
-}
-			
-var siteRoot = rootFolder;
+		switch (document.location.hostname) {
+			case 'www.endoscopy.wiki':
+
+				var rootFolder = 'http://www.endoscopy.wiki/';
+				break;
+			case 'localhost':
+				var rootFolder = 'http://localhost:90/dashboard/learning/';
+				break;
+			default: // set whatever you want
+		}
+
+		var siteRoot = rootFolder;
 		
 			 chapterPassed = $("#id").text();
 		
@@ -162,7 +174,7 @@ var siteRoot = rootFolder;
 		
 				    });
 				    
-				    $("#messageBox").text("Editing chapter id "+idPassed);
+				    $("#messageBox").append("Editing chapter id "+idPassed);
 		
 				    enableFormInputs("chapter");
 		
@@ -314,7 +326,7 @@ var siteRoot = rootFolder;
 		
 				}else{
 					
-					$("#messageBox").text("New chapter");
+					$("#messageBox").append("New chapter");
 					
 				}
 		
@@ -370,12 +382,14 @@ name: { required: true },
 timeFrom: { required: true },   
 timeTo: { required: true },   
 video_id: { required: true },   
+description: { required: true },   
 },messages: {
 number: { required: 'message' },   
 name: { required: 'message' },   
 timeFrom: { required: 'message' },   
 timeTo: { required: 'message' },   
 video_id: { required: 'message' },   
+description: { required: 'message' },   
 },
 			        submitHandler: function(form) {
 		
@@ -398,7 +412,7 @@ video_id: { required: 'message' },
 		<?php
 		
 		    // Include the footer file to complete the template:
-		    include(BASE_URI . "/includes/footer.html");
+		    include(BASE_URI ."/includes/footer.html");
 		
 		
 		

@@ -72,7 +72,7 @@ include(BASE_URI . '/includes/naviCreator.php');
                 <div class="col-1"></div>
 
                 <div class="col-10 narrow" style="overflow-x: scroll;">
-                    <p><?php $general->makeTable('SELECT user_id, firstname, surname, email, centre from users'); ?></p>
+                    <p><?php $general->makeSearchableTableDelete('SELECT `user_id`, `firstname`, `surname`, `email`, `centre` from users'); ?></p>
                 </div>
 
                 <div class="col-1"></div>

@@ -88,15 +88,18 @@
 			        <p>
 		
 					    <form id="references">
-					    <?php echo $formv1->generateText('DOI', 'DOI', '', 'tooltip here');
+						<?php 
+						echo $formv1->generateText('PMID', 'PMID', '', 'tooltip here');
+						echo $formv1->generateText('DOI', 'DOI', '', 'tooltip here');
 echo $formv1->generateText('formatted', 'formatted', '', 'tooltip here');
 echo $formv1->generateText('authors', 'authors', '', 'tooltip here');
 echo $formv1->generateText('journal', 'journal', '', 'tooltip here');
-?>
-						    <button id="submitreferences">Submit</button>
+?>							
+							<button id="submitreferences">Submit</button>
+							
 		
 					    </form>
-		
+						<button id="queryDOI">Get info from Pubmed using PMID</button>
 				        </p>
 		
 		
@@ -105,7 +108,18 @@ echo $formv1->generateText('journal', 'journal', '', 'tooltip here');
 		
 		    </div>
 		<script>
-			var siteRoot = "http://localhost:90/dashboard/learning/";
+			switch (document.location.hostname) {
+			case 'www.endoscopy.wiki':
+
+				var rootFolder = 'http://www.endoscopy.wiki/';
+				break;
+			case 'localhost':
+				var rootFolder = 'http://localhost:90/dashboard/learning/';
+				break;
+			default: // set whatever you want
+		}
+
+		var siteRoot = rootFolder;
 		
 			 referencesPassed = $("#id").text();
 		
@@ -295,6 +309,82 @@ echo $formv1->generateText('journal', 'journal', '', 'tooltip here');
 		
 		
 			}
+
+			function getDOI (){
+
+				//check #pmid is not empty
+
+				if ($('#PMID').val() == ''){
+
+					alert ('Please enter a PMID (PubMed ID))');
+					return null;
+
+				}else{
+
+					var DOI = $('#PMID').val();
+
+				}
+
+				var dataObject = new Object();
+	
+				dataObject.DOI = DOI;
+			            
+			            var datastring = JSON.stringify(dataObject);
+			
+			            var imagesObject = $.ajax({
+												url: siteRoot + "scripts/decodeDOI.php",
+												type: "POST",
+												contentType: "application/json",
+												data: datastring,
+											    });
+			
+			            imagesObject.done(function(data) {
+			
+			                console.log(data);
+			
+			                if (data) {
+				                
+				                try {
+				                
+				                var newObject = $.parseJSON(data);
+				                console.dir(newObject);
+				                //delete the old data row by adding approved
+				                $.each(newObject, function(k, v) {
+									$('#' + k).val(v);
+
+								});
+				                /*var imageSetObject = pushDataAJAX('imageSetDraft', 'id', id, 1, {
+						                        'approved': 1,
+						                     
+						                 
+											}); */
+											
+										} catch (err) {
+
+
+
+										}
+									}
+
+								})
+
+				//convert the #DOI to a PMID
+				//https://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?ids=[[either DOI or PMID here]]
+
+				//parse this XML for the <record pmid=''>		
+
+				//get the XML from pubmed using the pmid http://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=pubmed&id=20598978&retmode=xml
+
+				//return the author, title and journal and page and volume as json
+
+				//parse this into the required fields
+
+				//if nothing display error
+
+
+
+
+			}
 		
 			$(document).ready(function() {
 		
@@ -337,6 +427,15 @@ echo $formv1->generateText('journal', 'journal', '', 'tooltip here');
 			        event.preventDefault();
 			        deletereferences();
 		
+		
+				}));
+				
+				$("#content").on('click', '#queryDOI', (function(event) {
+			        event.preventDefault();
+					
+					getDOI();
+
+					
 		
 			    }));
 		

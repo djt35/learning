@@ -8,6 +8,7 @@
 
 //define token from url
 
+
 if (count($_GET) > 0){
 
     if (isset($_GET['token'])){

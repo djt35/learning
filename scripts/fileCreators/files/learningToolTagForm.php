@@ -3,6 +3,8 @@
 		
 			<?php
 
+			$requiredUserLevel = 1;
+
 			//$openaccess = 1 allows the page to be viewed without login and skips the rest of the script
 			//$requiredUserLevel corresponds to database users access level; if not set the page simply requires login
 			//$paid allows setting of pages which require subscription and login
@@ -10,6 +12,9 @@
 			//define token from url
 
 			require ('../../includes/config.inc.php');
+
+			$location = BASE_URL . '/scripts/forms/creatormenu.php';
+
 			require (BASE_URI . '/scripts/headerCreator.php');
 		
 			$formv1 = new formGenerator;

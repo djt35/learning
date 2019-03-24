@@ -72,6 +72,9 @@ if ($local) {
 	spl_autoload_register ('class_loader');
     
 }
+
+define('redirect_location', BASE_URL . '/index.php');
+//echo redirect_location;
     
 /* 
  *  Most important setting!

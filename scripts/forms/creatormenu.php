@@ -1,5 +1,7 @@
 <?php
 
+	$requiredUserLevel = 2;
+
 	require ('../../includes/config.inc.php'); 
 	
 	require (BASE_URI.'/scripts/headerCreator.php');
@@ -11,12 +13,7 @@
 		$tagCategories = new tagCategories;
 		$user = new users;
 
-		if ($user->getUserAccessLevel($_SESSION['user_id']) > 2){
-	
-			redirect_login($location);
-	
-	
-		}
+		
 
 ?> 
 
@@ -197,21 +194,7 @@ foreach ($columns as $key=>$value){
 				<br><br>
 
            
-	        	<div class="row">
-		            <div class="col-2"></div>
-	                <div class="col-2"><b>Draft Images</b></div>
-	
-	                <div class="col-4 narrow">
-	                    <p><a href='<?php echo BASE_URL.'/scripts/forms/imageSetdraftTableApprove.php';?>'>View and approve draft images uploaded by users</a><br><b><?php echo $general->countPendingApprovals() . ' pending.';?></b></p>
-	                </div>
-	                
-	                <div class="col-4 narrow">
-	                    
-	                </div>
-	
-	
-	                
-	            </div> 
+	        	
 		      
 	        
         </div>
@@ -229,6 +212,10 @@ foreach ($columns as $key=>$value){
 }
 			
 var siteRoot = rootFolder;
+
+
+
+
 
 		
 	$(document).ready(function() {

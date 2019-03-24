@@ -5,7 +5,9 @@ error_reporting(1);
 require (BASE_URI . '/includes/login_functions.php');
 
 //place to redirect the user if not allowed access
-$location = BASE_URL . '/index.php';
+if (!isset($location)){
+    $location = BASE_URL . '/index.php';
+}
 
 if (!($dbc)){
     require(DB);

@@ -1,5 +1,7 @@
 <?php
 
+    $requiredUserLevel = 1;
+
     require('../../includes/config.inc.php');
 		
 		if ($local){
@@ -7,7 +9,9 @@
         }else{
 			$ref = 'learningToolv1';
 			
-		}
+        }
+        
+    $location = (BASE_URL . '/scripts/forms/creatormenu.php');
 		
 	require (BASE_URI . '/scripts/headerCreator.php');
 
@@ -20,12 +24,12 @@
 		$tagCategories = new tagCategories;
 		$user = new users;
 
-		if ($user->getUserAccessLevel($_SESSION['user_id']) > 1){
+		/*if ($user->getUserAccessLevel($_SESSION['user_id']) > 1){
 	
 			redirect_login($location);
 	
 	
-		}
+		}*/
 
 ?> 
 
@@ -78,6 +82,12 @@ foreach ($columns as $key=>$value){
     <title></title>
 </head>
 
+<style>
+
+
+
+</style>
+
 <body>
 	
 	<div id='id' style='display:none;'><?php if ($id){echo $id;}?></div>
@@ -110,20 +120,34 @@ foreach ($columns as $key=>$value){
 	        <?php
 	        foreach ($datafields as $key=>$value){
 		        
-		        $name = $value['databaseTable'];
+                $name = $value['databaseTable'];
+
+                $exclusions = array('auth_group', 'auth_group_permissions', 'auth_permission', 'django_content_type', 'userLearningToolAccess', 'users_customuser_groups', 'users_customuser_user_permissions', 'users_customuser');
+                
+                if (in_array($name, $exclusions)){
+
+                    //skip this iteration
+                    continue;
+
+                }
 		        
 		       echo '
 		       
-		       <div class="row">
-                <div class="col-4"><b>'.$name.'</b></div>
+               <div class="row">
+               <div class="col-3"><b></b></div>
+                <div class="col-2 narrow" style="border: 1px solid black; border-collapse: separate;
+                border-spacing: 10px;"><b>'.$name.'</b></div>
 
-                <div class="col-4 narrow">
+                <div class="col-2 narrow" style="border: 1px solid black; border-collapse: separate;
+                border-spacing: 0px;">
                     <p><a href=\''.BASE_URL.'/scripts/forms/'.$name.'Form.php\'>New</a></p>
                 </div>
                 
-                <div class="col-4 narrow">
+                <div class="col-2 narrow" style="border: 1px solid black; border-collapse: separate;
+                border-spacing: 0px;">
                      <p><a href=\''.BASE_URL.'/scripts/forms/'.$name.'Table.php\'>Modify</a></p>                    
                 </div>
+                <div class="col-3"><b></b></div>
 
 
                 
@@ -140,6 +164,22 @@ foreach ($columns as $key=>$value){
 	         
             
             ?>
+<br><br><br>
+<div class="row">
+		            <div class="col-2"></div>
+	                <div class="col-2"><b>Draft Images</b></div>
+	
+	                <div class="col-4 narrow">
+	                    <p><a href='<?php echo BASE_URL.'/scripts/forms/imageSetdraftTableApprove.php';?>'>View and approve draft images uploaded by users</a><br><b><?php echo $general->countPendingApprovals() . ' pending.';?></b></p>
+	                </div>
+	                
+	                <div class="col-4 narrow">
+	                    
+	                </div>
+	
+	
+	                
+	            </div> 
 	        
 	         <div class="row">
                 <div class="col-4"><b>Uploaders</b></div>
@@ -155,6 +195,8 @@ foreach ($columns as $key=>$value){
 
                 
             </div>   
+
+            
 	        
 	        		        
 		    <div class="row">

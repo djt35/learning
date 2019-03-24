@@ -64,7 +64,8 @@ echo '<div id="navbarResponsive" class="navbar responsiveContainer topnav1">
 			  		
 			  if ($user->getUserAccessLevel($_SESSION['user_id']) == 1){
 				  echo '<div class="dropdown topnav"><button class="dropbtn">Superuser&#9660;</button>
-			  			<div class="dropdown-content">
+							<div class="dropdown-content">
+								<a href="'.BASE_URL.'/scripts/forms/imageSetdraftTableApprove.php">View and approve draft images uploaded by users - ' . $general->countPendingApprovals() . ' pending.</a>
 			  				<a href="'. BASE_URL . '/scripts/forms/creators.php">Superuser Creator Menu</a>
 			  				<a href="'. BASE_URL . '/scripts/getThumbnailsVideo.php">Generate video thumbnails</a>
 			

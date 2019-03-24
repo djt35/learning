@@ -8,10 +8,11 @@
         header ("Location: $page");
         exit ();
     }
-    
-     
+      
+      
 	
 	 function redirect_login ($location) {
+        echo $location;
         header ("Location: $location");
         exit ();
     }
