@@ -888,7 +888,7 @@ $(document).ready(function() {
 		
 		console.log(searchTerm);
 		
-		PopupCenter("https://www.ncbi.nlm.nih.gov/pubmed?term="+searchTerm, 'PubMed Search (endoWiki)', 800, 700);
+		PopupCenter("https://www.ncbi.nlm.nih.gov/pubmed?id="+searchTerm, 'PubMed Search (endoWiki)', 800, 700);
 
 		
 		

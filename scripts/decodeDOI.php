@@ -149,11 +149,11 @@ if (count($data) > 0){
         
         if ($y < $x){
         
-            $authors .= $value->Initials . ' ' . $value->LastName . ', ';
+            $authors .=  $value->LastName . ' ' . $value->Initials . ', ';
 
         }else{
 
-            $authors .= $value->Initials . ' ' . $value->LastName;
+            $authors .= $value->LastName . ' ' . $value->Initials;
         }
         $y++;
 

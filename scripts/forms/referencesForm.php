@@ -454,12 +454,12 @@ echo $formv1->generateText('journal', 'journal', '', 'tooltip here');
 			                $('div.error').hide();
 			            }
 			        },rules: {
-DOI: { required: true },   
+  
 formatted: { required: true },   
 authors: { required: true },   
 journal: { required: true },   
 },messages: {
-DOI: { required: 'message' },   
+
 formatted: { required: 'message' },   
 authors: { required: 'message' },   
 },

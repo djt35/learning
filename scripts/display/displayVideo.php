@@ -259,6 +259,16 @@
 						<div id='buttons'></div>
 					</div>    
 				</div>
+
+				<div class = 'row' id='references'>
+                <div class='col-12'>
+                        <hr>
+
+                        <h2 style="text-align:left;">References</h2>
+
+                        <?php echo $general->getFullReferenceList($id);?>
+                        </div>
+                </div>
 				
 				<div class='row'>
 					<div class='col-1'>
