@@ -180,7 +180,7 @@
 			    
 			    <div id='imageDisplay'>
 				
-				<?php echo $general->getAllTagsInCategoryWithHighestRatedImages('38', BASE_URL);?>
+				<?php echo $general->getAllTagsInCategoryWithHighestRatedImagesThumbnailImage('38', BASE_URL);?>
 				
 				
 				</div>
