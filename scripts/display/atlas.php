@@ -1,7 +1,9 @@
 
 		
 		
-		<?php
+        <?php
+        
+        $openaccess = 1;
 	
         require ('../../includes/config.inc.php'); 
         require (BASE_URI . '/scripts/headerCreator.php');
@@ -138,7 +140,7 @@
 		
 		<body>
 		
-			<div id="id" style="display:none;"><?php if ($id){echo $id;}?></div>
+			<div id="id" style="display:none;"><?php if ($id){echo $id;}else {$id=38;}?></div>
 			
 			<div id="images" style="display:none;"><?php ?></div>
 			
@@ -180,7 +182,7 @@
 			    
 			    <div id='imageDisplay'>
 				
-				<?php echo $general->getAllTagsInCategoryWithHighestRatedImagesThumbnailImage('38', BASE_URL);?>
+				<?php echo $general->getAllTagsInCategoryWithHighestRatedImages($id, BASE_URL);?>
 				
 				
 				</div>
