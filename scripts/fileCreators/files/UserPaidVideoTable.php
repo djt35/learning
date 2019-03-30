@@ -28,7 +28,7 @@
 		
 		<html>
 		<head>
-		    <title>imageSet Table</title>
+		    <title>UserPaidVideo Table</title>
 		</head>
 		
 		<?php
@@ -50,11 +50,11 @@
 			        
 			        <div class='row'>
 		                <div class='col-9'>
-		                    <h2 style="text-align:left;">List of imageSet</h2>
+		                    <h2 style="text-align:left;">List of UserPaidVideo</h2>
 		                </div>
 		
 		                <div id="messageBox" class='col-3 yellow-light narrow center'>
-		                    <p><button id="newimageSet" onclick="window.location.href = '<?php echo BASE_URL;?>/scripts/forms/imageSetForm.php';">New imageSet</button></p>
+		                    <p><button id="newUserPaidVideo" onclick="window.location.href = '<?php echo BASE_URL;?>/scripts/forms/UserPaidVideoForm.php';">New UserPaidVideo</button></p>
 		                </div>
 					</div>
 					
@@ -77,7 +77,7 @@
 		                <div class='col-1'></div>
 		
 		                <div class='col-10 narrow' style='overflow-x: scroll;'>
-		                    <p><?php $general->makeSearchableTableDelete("SELECT `id`, `name`, `type`, `author`, `manipulated`, `paid`, `created`, `updated` from `imageSet`"); ?></p>
+		                    <p><?php $general->makeSearchableTableDelete("SELECT `id`, `user_id`, `video_id` from `UserPaidVideo`"); ?></p>
 		                </div>
 		
 		                <div class='col-1'></div>
@@ -115,20 +115,20 @@
 
 					id.trim();
 					
-					window.location.href = siteRoot + 'scripts/forms/imageSetForm.php?id=' + id;
+					window.location.href = siteRoot + 'scripts/forms/UserPaidVideoForm.php?id=' + id;
 		
 					
 				})
 
 				$('.content').on('click', '.deleteTag', function () {
 
-					if (confirm('Do you wish to delete this imageSet [can\'t be undone]?')) {
+					if (confirm('Do you wish to delete this UserPaidVideo [can\'t be undone]?')) {
 
 						var id = $(this).closest('tr').find('td:eq(0)').text();
 
 						var tr = $(this).closest('tr');
 
-						var imagesObject = pushDataAJAX('imageSet', 'id', id, 2, ''); //delete imageSet
+						var imagesObject = pushDataAJAX('UserPaidVideo', 'id', id, 2, ''); //delete UserPaidVideo
 
 						imagesObject.done(function (data) {
 
@@ -138,7 +138,7 @@
 
 								if (data == 1) {
 
-									alert('imageSet deleted');
+									alert('UserPaidVideo deleted');
 									$(tr).hide();
 
 									//edit = 0;

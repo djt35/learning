@@ -182,6 +182,15 @@ Class formGenerator {
 		echo "</p>";	
 		
 	}
+
+	public function generateTextAreav3 ($label, $id, $class, $tooltip, $cols){
+		
+		echo "<p class='formRow'>";
+		echo "<label for='$id' id='".$id."label' title='$tooltip'>$label&nbsp&nbsp</label>";
+		echo "<textarea name='$id' id='$id' class='$class' rows='4' cols=$cols></textarea>";
+		echo "</p>";	
+		
+	}
 	
 	public function generateSubmit ($id, $class, $text, $action){
 		

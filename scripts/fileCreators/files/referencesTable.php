@@ -77,7 +77,7 @@
 		                <div class='col-1'></div>
 		
 		                <div class='col-10 narrow' style='overflow-x: scroll;'>
-		                    <p><?php $general->makeSearchableTableDelete("SELECT `id`, `DOI`, `formatted`, `authors`, `journal` from `references`"); ?></p>
+		                    <p><?php $general->makeSearchableTableDelete("SELECT `id`, `PMID`, `DOI`, `formatted`, `authors`, `journal` from `references`"); ?></p>
 		                </div>
 		
 		                <div class='col-1'></div>

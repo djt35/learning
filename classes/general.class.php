@@ -2464,14 +2464,21 @@ return $arr;
 
 		if ($result->num_rows > 0){
 
+			$tags = array();
+
 			while($row = $result->fetch_array(MYSQLI_ASSOC)){
 
-
-				$rows[] = array_map('utf8_encode', $row);
+				$tagid = $row['tagid'];
+				$videoid = $row['videoid'];
+				$tagName = $row['tagName'];
+				
+				$tags[] = array('tagid'=>$tagid, 'videoid'=>$videoid, 'tagName'=>$tagName);
+				
+				//$rows[] = array_map('utf8_encode', $row);
 
 			}
 
-			echo '<div id="imageMatchProcedure" style="display:none;">' . json_encode($rows) . '</div>';
+			echo '<div id="imageMatchProcedure" style="display:none;">' . json_encode($tags) . '</div>';
 
 
 		}
@@ -2543,7 +2550,7 @@ return $arr;
 		WHERE a.`id` = $imageset";
 
 
-		//echo $q;
+		echo $q;
 
 		$result = $this->connection->RunQuery($q);
 
@@ -2598,6 +2605,128 @@ return $arr;
 			
 		}
 		
+	}
+
+	public function getVideos () {
+
+		
+		
+		$q = "SELECT `id`, `name`, `url` FROM `video`";
+
+		//echo $q;
+
+		$result = $this->connection->RunQuery($q);
+
+		if ($result->num_rows > 0){
+			
+
+			$users = array();
+
+			while($row = $result->fetch_array(MYSQLI_ASSOC)){
+				
+				$id = $row['id'];
+				$name = $row['name'];
+				$url = $row['url'];
+				
+				$users[$id] = $name . ' ' . $url;
+				
+				
+			}
+		
+			return $users;
+		}
+		
+
+
+
+
+	}
+
+	public function getImageset (){
+
+		$q = "SELECT `id`, `name`, `type` FROM `imageSet`";
+
+		//echo $q;
+
+		$result = $this->connection->RunQuery($q);
+
+		if ($result->num_rows > 0){
+			
+
+			$users = array();
+
+			while($row = $result->fetch_array(MYSQLI_ASSOC)){
+				
+				$id = $row['id'];
+				$name = $row['name'];
+				$type = $row['type'];
+				
+				$users[$id] = $id . ' ' . $type;
+				
+				
+			}
+		
+			return $users;
+		}
+
+
+
+	}
+
+	public function getBlogNewsPosts () {
+
+		$q = "SELECT `id`, `title`, `author`, `imageSet_id`, `dateCreated` from `blog` ORDER BY `dateCreated` DESC LIMIT 5";
+
+		//echo $q;
+
+		$result = $this->connection->RunQuery($q);
+
+		if ($result->num_rows > 0){
+			
+
+			$users = array();
+
+			while($row = $result->fetch_array(MYSQLI_ASSOC)){
+				
+				$id = $row['id'];
+				$title = $row['title'];
+				$author = $row['author'];
+				$author = $this->getUserName($author);
+				$dateCreated = $row['dateCreated'];
+				$dateCreated = date( "d/m/Y", strtotime($dateCreated));
+
+				$imageSet_id = $row['imageSet_id'];
+
+				$r = "SELECT `url` from `images` as a inner join `imageImageSet` as b on a.`id` = b.`image_id` inner join `imageSet` as c on b.`imageSet_id` = c.`id` WHERE c.`id` = '$imageSet_id' ORDER BY `order` ASC LIMIT 1";
+
+				//echo $r;
+
+				$result2 = $this->connection->RunQuery($r);
+
+				while($row2 = $result2->fetch_array(MYSQLI_ASSOC)){
+
+					$imageurl = $row2['url'];
+					//echo $imageurl;
+
+				}
+				//get the first image from this imageSet
+				
+				$users[] = array('id'=>$id, 'title'=>$title, 'author'=>$author, 'url'=>$imageurl, 'dateCreated'=>$dateCreated);
+				
+				
+			}
+		
+			return($users);
+		}
+
+
+
+		
+
+
+
+
+
 	}
 	
 	

@@ -55,7 +55,7 @@
 		
 		<html>
 		<head>
-		    <title>video Form</title>
+		    <title>blog Form</title>
 		</head>
 		
 		<?php
@@ -74,11 +74,11 @@
 		
 			        <div class='row'>
 		                <div class='col-9'>
-		                    <h2 style="text-align:left;">video Form</h2>
+		                    <h2 style="text-align:left;">blog Form</h2>
 		                </div>
 		
 		                <div id="messageBox" class='col-3 yellow-light narrow center'>
-							<p><button id="tablevideo" onclick="window.location.href = '<?php echo BASE_URL;?>/scripts/forms/videoTable.php';">Table of video</button></p>
+							<p><button id="tableblog" onclick="window.location.href = '<?php echo BASE_URL;?>/scripts/forms/blogTable.php';">Table of blog</button></p>
 		              
 		                </div>
 		            </div>
@@ -88,7 +88,7 @@
 		
 				        if ($id){
 		
-							$q = "SELECT  `id`  FROM  `video`  WHERE  id  = $id";
+							$q = "SELECT  `id`  FROM  `blog`  WHERE  id  = $id";
 							if ($general->returnYesNoDBQuery($q) != 1){
 								echo "Passed id does not exist in the database";
 								exit();
@@ -101,20 +101,15 @@
 		
 			        <p>
 		
-					    <form id="video">
-					    <?php echo $formv1->generateText('name', 'name', '', 'tooltip here');
-echo $formv1->generateText('url', 'url', '', 'tooltip here');
-echo $formv1->generateText('active', 'active', '', 'tooltip here');
-echo $formv1->generateText('split', 'split', '', 'tooltip here');
-echo $formv1->generateText('created', 'created', '', 'tooltip here');
-echo $formv1->generateText('updated', 'updated', '', 'tooltip here');
+					    <form id="blog">
+					    <?php echo $formv1->generateText('dateCreated', 'dateCreated', '', 'tooltip here');
 echo $formv1->generateText('author', 'author', '', 'tooltip here');
 echo $formv1->generateText('description', 'description', '', 'tooltip here');
-echo $formv1->generateText('duration', 'duration', '', 'tooltip here');
-echo $formv1->generateText('thumbnail', 'thumbnail', '', 'tooltip here');
-echo $formv1->generateText('paid', 'paid', '', 'tooltip here');
+echo $formv1->generateText('video_id', 'video_id', '', 'tooltip here');
+echo $formv1->generateText('imageSet_id', 'imageSet_id', '', 'tooltip here');
+echo $formv1->generateText('topBlog', 'topBlog', '', 'tooltip here');
 ?>
-						    <button id="submitvideo">Submit</button>
+						    <button id="submitblog">Submit</button>
 		
 					    </form>
 		
@@ -139,9 +134,9 @@ echo $formv1->generateText('paid', 'paid', '', 'tooltip here');
 
 		var siteRoot = rootFolder;
 		
-			 videoPassed = $("#id").text();
+			 blogPassed = $("#id").text();
 		
-			if ( videoPassed == ""){
+			if ( blogPassed == ""){
 		
 				var edit = 0;
 		
@@ -157,15 +152,15 @@ echo $formv1->generateText('paid', 'paid', '', 'tooltip here');
 		
 			function fillForm (idPassed){
 		
-				disableFormInputs("video");
+				disableFormInputs("blog");
 		
-				videoRequired = new Object;
+				blogRequired = new Object;
 		
-				videoRequired = getNamesFormElements("video");
+				blogRequired = getNamesFormElements("blog");
 		
-				videoString = '`id`=\''+idPassed+'\'';
+				blogString = '`id`=\''+idPassed+'\'';
 		
-				var selectorObject = getDataQuery ("video", videoString, getNamesFormElements("video"), 1);
+				var selectorObject = getDataQuery ("blog", blogString, getNamesFormElements("blog"), 1);
 		
 				//console.log(selectorObject);
 		
@@ -184,19 +179,19 @@ echo $formv1->generateText('paid', 'paid', '', 'tooltip here');
 		
 				    });
 				    
-				    $("#messageBox").append("Editing video id "+idPassed);
+				    $("#messageBox").append("Editing blog id "+idPassed);
 		
-				    enableFormInputs("video");
+				    enableFormInputs("blog");
 		
 				});
 		
 				try {
 		
-					$("form#video").find("button#deletevideo").length();
+					$("form#blog").find("button#deleteblog").length();
 		
 				}catch(error){
 		
-					$("form#video").find("button").after("<button id='deletevideo'>Delete</button>");
+					$("form#blog").find("button").after("<button id='deleteblog'>Delete</button>");
 		
 				}
 		
@@ -205,24 +200,24 @@ echo $formv1->generateText('paid', 'paid', '', 'tooltip here');
 		
 			//delete behaviour
 		
-			function deletevideo (){
+			function deleteblog (){
 		
-				//videoPassed is the current record, some security to check its also that in the id field
+				//blogPassed is the current record, some security to check its also that in the id field
 		
-				if (videoPassed != $("#id").text()){
+				if (blogPassed != $("#id").text()){
 		
 					return;
 		
 				}
 		
 		
-				if (confirm("Do you wish to delete this video?")) {
+				if (confirm("Do you wish to delete this blog?")) {
 		
-					disableFormInputs("video");
+					disableFormInputs("blog");
 		
-					var videoObject = pushDataFromFormAJAX("video", "video", "id", videoPassed, "2"); //delete video
+					var blogObject = pushDataFromFormAJAX("blog", "blog", "id", blogPassed, "2"); //delete blog
 		
-					videoObject.done(function (data){
+					blogObject.done(function (data){
 		
 						//console.log(data);
 		
@@ -230,17 +225,17 @@ echo $formv1->generateText('paid', 'paid', '', 'tooltip here');
 		
 							if (data == 1){
 		
-								alert ("video deleted");
+								alert ("blog deleted");
 								edit = 0;
-								videoPassed = null;
-								window.location.href = siteRoot + "scripts/forms/videoTable.php";
-								//go to video list
+								blogPassed = null;
+								window.location.href = siteRoot + "scripts/forms/blogTable.php";
+								//go to blog list
 		
 							}else {
 		
 							alert("Error, try again");
 		
-							enableFormInputs("video");
+							enableFormInputs("blog");
 		
 						    }
 		
@@ -256,24 +251,24 @@ echo $formv1->generateText('paid', 'paid', '', 'tooltip here');
 		
 			}
 		
-			function submitvideoForm (){
+			function submitblogForm (){
 		
 				//pushDataFromFormAJAX (form, table, identifierKey, identifier, updateType)
 		
 				if (edit == 0){
 		
-					var videoObject = pushDataFromFormAJAX("video", "video", "id", null, "0"); //insert new object
+					var blogObject = pushDataFromFormAJAX("blog", "blog", "id", null, "0"); //insert new object
 		
-					videoObject.done(function (data){
+					blogObject.done(function (data){
 		
 						//console.log(data);
 		
 						if (data){
 		
-							alert ("New video no "+data+" created");
+							alert ("New blog no "+data+" created");
 							edit = 1;
 							$("#id").text(data);
-							videoPassed = data;
+							blogPassed = data;
 							fillForm(data);
 		
 		
@@ -290,9 +285,9 @@ echo $formv1->generateText('paid', 'paid', '', 'tooltip here');
 		
 				} else if (edit == 1){
 		
-					var videoObject = pushDataFromFormAJAX("video", "video", "id", videoPassed, "1"); //insert new object
+					var blogObject = pushDataFromFormAJAX("blog", "blog", "id", blogPassed, "1"); //insert new object
 		
-					videoObject.done(function (data){
+					blogObject.done(function (data){
 		
 						//console.log(data);
 		
@@ -332,11 +327,11 @@ echo $formv1->generateText('paid', 'paid', '', 'tooltip here');
 		
 				if (edit == 1){
 		
-					fillForm(videoPassed);
+					fillForm(blogPassed);
 		
 				}else{
 					
-					$("#messageBox").append("New video");
+					$("#messageBox").append("New blog");
 					
 				}
 		
@@ -358,21 +353,21 @@ echo $formv1->generateText('paid', 'paid', '', 'tooltip here');
 					});
 		
 		
-				$("#content").on('click', '#submitvideo', (function(event) {
+				$("#content").on('click', '#submitblog', (function(event) {
 			        event.preventDefault();
-			        $('#video').submit();
+			        $('#blog').submit();
 		
 		
 			    }));
 		
-			    $("#content").on('click', '#deletevideo', (function(event) {
+			    $("#content").on('click', '#deleteblog', (function(event) {
 			        event.preventDefault();
-			        deletevideo();
+			        deleteblog();
 		
 		
 			    }));
 		
-				$("#video").validate({
+				$("#blog").validate({
 		
 			        invalidHandler: function(event, validator) {
 			            var errors = validator.numberOfInvalids();
@@ -387,33 +382,23 @@ echo $formv1->generateText('paid', 'paid', '', 'tooltip here');
 			                $('div.error').hide();
 			            }
 			        },rules: {
-name: { required: true },   
-url: { required: true },   
-active: { required: true },   
-split: { required: true },   
-created: { required: true },   
-updated: { required: true },   
+dateCreated: { required: true },   
 author: { required: true },   
 description: { required: true },   
-duration: { required: true },   
-thumbnail: { required: true },   
-paid: { required: true },   
+video_id: { required: true },   
+imageSet_id: { required: true },   
+topBlog: { required: true },   
 },messages: {
-name: { required: 'message' },   
-url: { required: 'message' },   
-active: { required: 'message' },   
-split: { required: 'message' },   
-created: { required: 'message' },   
-updated: { required: 'message' },   
+dateCreated: { required: 'message' },   
 author: { required: 'message' },   
 description: { required: 'message' },   
-duration: { required: 'message' },   
-thumbnail: { required: 'message' },   
-paid: { required: 'message' },   
+video_id: { required: 'message' },   
+imageSet_id: { required: 'message' },   
+topBlog: { required: 'message' },   
 },
 			        submitHandler: function(form) {
 		
-			            submitvideoForm();
+			            submitblogForm();
 		
 			          	console.log("submitted form");
 		

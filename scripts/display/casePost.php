@@ -1,101 +1,88 @@
 
-
-
+		
+		
 		<?php
-
-        //set values
-
-        //user level required to access
-        $requiredUserLevel = 2;
-        //paid page
-        //$paidPage = 0;
-        
-
-require ('../../../includes/config.inc.php'); 
-
-require (BASE_URI.'/scripts/headerCreator.php');
-
-$formv1 = new formGenerator;
-$general = new general;
-$video = new video;
-$tagCategories = new tagCategories;
-$db = new DataBaseMysql;
-$user = new users;
-
-
-
-
-foreach ($_GET as $k=>$v){
-
-	$sanitised = $general->sanitiseInput($v);
-	$_GET[$k] = $sanitised;
-
-
-}
-
-if (isset($_GET["id"]) && is_numeric($_GET["id"])){
-	$id = $_GET["id"];
-
-}else{
-
-	$id = null;
-
-}
-
-
-
-//TERMINATE THE SCRIPT IF NOT A SUPERUSER
-
-
-
-// Page content
-?>
+	
+		require ('../../includes/config.inc.php'); require (BASE_URI.'/scripts/headerCreator.php');
+	
+		$formv1 = new formGenerator;
+		$general = new general;
+		$video = new video;
+		$tagCategories = new tagCategories;
+		
+		
+		
+		foreach ($_GET as $k=>$v){
+		
+			$sanitised = $general->sanitiseInput($v);
+			$_GET[$k] = $sanitised;
+		
+		
+		}
+		
+		if (isset($_GET["id"]) && is_numeric($_GET["id"])){
+			$id = $_GET["id"];
+		
+		}else{
+		
+			$id = null;
+		
+		}
+		
+		
+		
+		//TERMINATE THE SCRIPT IF NOT A SUPERUSER
+		
+		
+		
+		// Page content
+		?>
 		<!DOCTYPE html PUBLIC '-//W3C//DTD HTML 4.01//EN'>
-
+		
 		<html>
 		<head>
-		    <title>Colonoscopy Tutor</title>
+		    <title>Endoscopy Case</title>
 		</head>
-
+		
 		<style>
-
+			
 			.content, #menu, .responsiveContainer {
-
+				
 				color: white;
 				background-color: black;
-
-
-
+				
+				
+				
 			}
-
+			
 			.content {
-
+				
 				max-height:none;
-
+				
 			}
-
+			
 			.navbar, .dropbtn, .dropdown .dropbtn, .navbar a, .dropdown, .dropdown-content {
-
+				
 				background-color: #2670DD;
-
+				
 			}
-
+			
 			footer {
-
+				
 				color: white;
 				background-color: black;
-
+				
 			}
-
+			
 			.startTyping {
-
+				
 				font-size: large;
-
-
+				
+				
 			}
-
+			
 			.modifiers {
-
+				
 				background-color: #2670DD; /* Blue UZ */
 			    border: none;
 			    color: white;
@@ -104,258 +91,260 @@ if (isset($_GET["id"]) && is_numeric($_GET["id"])){
 			    text-decoration: none;
 			    display: inline-block;
 			    font-size: 16px;
-
-
+				
+				
 			}
-
+			
 			[class*="col-"] {
 			    float: left;
 			    padding: 15px;
 			    /*border: 1px solid red;*/
 			}
-
+			
 			[class*="slim-col-"] {
 			    float: left;
 			    padding: 1px;
 			    /*border: 1px solid red;*/
 			}
-
-
-
-
-		</style>
-
-		<?php
-include(BASE_URI . "/scripts/logobar.php");
-
-include(BASE_URI . "/includes/naviv1.php");
-
-spl_autoload_unregister('class_loader');
-
-require(BASE_URI . '/scripts/autoload.php');
-use Vimeo\Vimeo;
-// Get this from your account
-$vimeo_client_id = '47b9e04f8014da6dc06bbd4b5879d2f3dff2fc1c';
-$vimeo_client_secret = '+7btjhyrrfEaZpAfLX81+pPrxOYlIS9A2d5Jj27GU7JyprVjwBGHK0+LE/XS0++3Ai060tT4msKZa4LbOQFOwOANa8JWqvz6D4k7XXFi4g8vEoBrH6Oh3RwQlaZUZCuP';
-
-// This has to be generated on your site, plugin or theme
-$vimeo_token = 'cc33c4732d5f31ff9b681b23591bd95d';
-error_reporting(-1);
-
-$client = new Vimeo($vimeo_client_id, $vimeo_client_secret, $vimeo_token);
-
-
-
-
-//spl_autoload_register ('class_loader');
-
-function getAllVideos ($tagCategoriesid) {
-
-	global $db;
-	global $client;
-	global $user;
-
-	//shows all videos in the tagCategory
-
-	//$client = new Vimeo($vimeo_client_id, $vimeo_client_secret, $vimeo_token);
-
-	$q = "SELECT a.`id`, a.`url`, a.`name`, a.`author`, a.`description`, a.`thumbnail`, DATE_FORMAT(a.`created`, '%M %d %Y') as created, d.`tagName`, d.`id` as `tags_id` FROM `video` as a INNER JOIN `chapter` as b ON a.`id` = b.`video_id` INNER JOIN `chapterTag` as c ON b.`id` = c.`chapter_id` INNER JOIN `tags` as d ON d.`id` = c.`tags_id` INNER JOIN `tagCategories` as e on e.`id` = d.`tagCategories_id` WHERE e.`id` = $tagCategoriesid GROUP BY a.`id` ORDER BY d.`tagName` ASC";
-
-	//echo $q;
-
-	//shows highest rated (1) images from each tag category
-
-	//$q = "SELECT a.`id` as `imageSetid`, b.`image_id` as `imageid`, c.`url`, c.`name`, c.`order`, c.`type`, e.`tagName`, d.`tags_id` FROM `imageSet` as a INNER JOIN `imageImageSet` as b ON a.`id` = b.`imageSet_id` INNER JOIN `images` as c on b.`image_id` = c.`id` INNER JOIN `imagesTag` as d ON c.`id` = d.`images_id` INNER JOIN `tags` as e ON d.`tags_id` = e.`id` INNER JOIN `tagCategories` as f on f.`id` = e.`tagCategories_id` WHERE f.`id` = $tagCategoriesid AND c.`type` = 1 ORDER BY e.`tagName` ASC, `imageSetid` ASC, c.`order` ASC";
-	//var_dump($db->connection->RunQuery("hello"));
-
-	$result = $db->RunQueryDebug($q);
-
-	if ($result->num_rows > 0){
-
-		$x = 1;
-		$y = 1;
-		$lesionid='';
-		echo "<hr>";
-		echo "<div class='row tagSet'>";
-
-
-		while($row = $result->fetch_array(MYSQLI_ASSOC)){
-
-
-			if ($tagName){
-				if ($tagName != $row['tagName']){ //for imageset then reset the row somehow
-
-					echo "</div>";
-					echo "<hr>";
-					echo "<div class='row tagSet'>";
-					//echo "<h3 style='text-align:left;'>$tagName</h3>";
-					$x=1;
-
-				}
-			}
-
-			$filename = $row['url'];
-			//$position = $row['position'];
-			$lesionid = $row['id'];
-			$imageSetid = $row['imageSetid']; //implement later for videoset
-			$name = $row['name'];
-			$tagName = $row['tagName'];
-			$tags_id = $row['tags_id'];
-			$description = $row['description'];
-			$author = $row['author'];
-			$created = $row['created'];
-			$thumbnail = $row['thumbnail'];
-
-			//get all the tags for this tag with their category
-			//does this show all tags for a specific image
-
-
-			//echo "<div class='col-2' data='$x'><div class='description'>$name";
-			//echo "</div>";
-
-			//echo "</div>";
-			if ($x == 1){echo "<div class='responsiveContainer'><div class='row'><div class='col-8'><h3 style='text-align:left; cursor:pointer;' id='tag{$tags_id}' class='tagLink'>$tagName</h3></div><div class='col-2'></div></div></div>";}
 			
-			//removed above <button type='button' class='blueButton uptodateSearch'>Search UpToDate</button></div><div class='col-2'><button type='button' class='blueButton pubMedSearch'>Search PubMed</button>
-
-			if($x % 3 == 0){echo "<div class='row'>";  }
-
-			echo "<div data='$x' class='col-4' style='border-right: 2px solid gray; border-left: 2px solid gray;'>";
-
-			echo "<div class='row'>";
-
-			echo "<div class='col-12'>";
-
-			//$response = $client->request('/videos/' . $filename);
-
-			//$urlThumbnail = $response['body']['pictures']['sizes'][4]['link'];
-
-			echo "<img id='$lesionid' data='imageSet{$imageSetid}' class='lslimage zoom' src='$thumbnail' style='border-style: solid; border-width: 2px; border-color:gray;'>";
-			//echo "<img id='$lesionid' class='lslimage zoom' src='https://www.acestudy.net/studyserver/$filename'>";
-			//echo "<div class='caption'>$name</div>";
-			//echo "</div>";
-			echo "</div>";
-
-			echo "</div>";
-
-			echo "<div class='row veryNarrow'>";
-
-			echo "<div class='col-12 veryNarrow'>";
-
-			echo "<b>" . $name . "</b>";
-
-			echo '<p style="font-size : 13px;">'.$description.'</p>';
-			echo '<p style="font-size : 13px; text-align:right;">Author : '.$user->getUserName($author).' | Created : '.$created.'</p>';
-			//echo '<p style="font-size : 13px; text-align:right;"></p>';
-
-			echo "</div>";
-
-			echo "</div>";
-
-			echo "</div>";
-
-			if($x % 3 == 0){echo "</div>";}
-
-			$x++;
-
-			continue;
-
-
-
-
-
-
-
-		}echo "</div>";
-
-	}
-
-}
-
-
-?>
-
+			
+			
+			
+		</style>
+				
+		<?php
+		include(BASE_URI . "/scripts/logobar.php");
 		
-
+		include(BASE_URI . "/includes/naviv1.php");
+		
+		include(BASE_URI . "/includes/naviTag.php");
+		?>
+		
+		
+		
 		<div class="darkClass">
-
+		
 		</div>
-
+		
 		<div class="modal" style="display:none;">
-
+			
 			<div class='modalContent'>
-
+				
 			</div>
 			<div class='modalClose'>
 				<p><br><button onclick="$('.modal, .darkClass').hide();">Close this window</button></p>
 			</div>
-
+			
 		</div>
-
+		
 		<body>
-
+		
 			<div id="id" style="display:none;"><?php if ($id){echo $id;}?></div>
-
+			
 			<div id="images" style="display:none;"><?php ?></div>
+			
+			<?php echo $general->getImageIdsProcedure(); //gets data for tagCategories and imageids?>
 
-			<?php echo $general->getVideoIdsAnderValAll(); //gets data for tagCategories and imageids?>
-
-
+		
 		    <div id='content' class='content'>
+			    
+			    <?php
+		
+				       
+		
+							$q = "SELECT  id  FROM  blog  WHERE  id  = $id";
+							if ($general->returnYesNoDBQuery($q) != 1){
+								echo "Passed id does not exist in the database";
+								exit();
+		
+							}else{
+								
+								$q = "SELECT `title`, `author`, `imageSet_id`, `dateCreated`, `description`, `video_id` from `blog` WHERE `id` = $id";
 
+                                    //echo $q;
+
+                                    $result = $general->connection->RunQuery($q);
+
+                                    if ($result->num_rows > 0){
+                                        
+
+                                        $users = array();
+
+                                        while($row = $result->fetch_array(MYSQLI_ASSOC)){
+                                            
+                                            $title = $row['title'];
+                                            $author = $row['author'];
+                                            $description = $row['description'];
+                                            $author = $general->getUserName($author);
+                                            $dateCreated = $row['dateCreated'];
+                                            $dateCreated = date( "d/m/Y", strtotime($dateCreated));
+                                            $video_id = $row['video_id'];
+
+                                            $imageSet_id = $row['imageSet_id'];
+
+                                            $r = "SELECT a.`id`, `url` from `images` as a inner join `imageImageSet` as b on a.`id` = b.`image_id` inner join `imageSet` as c on b.`imageSet_id` = c.`id` WHERE c.`id` = '$imageSet_id' ORDER BY `order` ASC LIMIT 1";
+
+                                            //echo $r;
+
+                                            $result2 = $general->connection->RunQuery($r);
+                                            $imagescollection = array();
+
+                                            while($row2 = $result2->fetch_array(MYSQLI_ASSOC)){
+
+                                                $imagescollection[] = array('url'=>$row2['url'], 'id'=>$row['id']);
+                                                //echo $imageurl;
+
+                                            }
+                                            //get the first image from this imageSet
+                                            
+                                            $users[] = array('title'=>$title, 'author'=>$author, 'description'=>$description, 'dateCreated'=>$dateCreated, 'imageSet_id'=>$imageSet_id, 'video_id'=>$video_id);
+                                            
+                                            
+                                        }
+                                    
+                                        
+                                    }
+						
+									echo '<div id="tagName" style="display:none;">' . $tagName . '</div>';
+
+			
+								
+								
+							}
+						
+						
+					
+						
+						
+						
+						
+						
+						
+						
+		
+		?>
+
+		
 		        <div class='responsiveContainer white'>
-
+		
 			        <div class='row'>
-		                <div class='col-12'>
-		                    <h2 style="text-align:left;">Colonoscopy Tutor</h2>
-		                    <p style='text-align:left;'>Use the buttons below to filter the videos.  Clicking a video will take you to it.  Groups of videos and how to integrate</p>
-		                    <div id='procedureTagsDisplay' class='responsiveContainer' style='text-align:left;'>
-			                    <div class='col-10'>
-
-			                    Filter by tag (click):
-
-
+		                <div class='col-9'>
+		                    <h2 style="text-align:left;"><?php echo $users[0]['title'];?></h2>
+                            <p style='text-align:left;'><?php echo $users[0]['description'];?></p>
+                            <p style='text-align:right;'><?php echo 'Author: ' . $users[0]['author'];?></p>
+                            <p style='text-align:right;'><?php echo 'Date: ' . $users[0]['dateCreated'];?></p>
+		                    <!--<div id='procedureTagsDisplay' class='responsiveContainer' style='text-align:left;'>
+			                    <div class='col-9'>
+			                    
+			                    Procedural tags: 
+			                    
+			                   
 			                    </div>
-			                    <div id='resetButtonDiv' class='col-2'>
+			                    <div id='resetButtonDiv' class='col-3'>
 			                    </div>
-		                    </div>
+		                    </div>-->
 		                </div>
-
-		                <!--<div id="messageBox" class='col-3 yellow-light veryNarrow center'>
-
+		
+		                <div id="messageBox" class='col-3 yellow-light veryNarrow center'>
+		                    
 		                    <p><button id="captionHide" class="modifiers">Toggle captions</button></p>
-		                </div>-->
+		                </div>
 		            </div>
-
-
-
-
+		
+		
+			        			    
 			    <div class='row' id='imageTitle'>
-
+				    
 			    </div>
+                <?php //print_r($users);?>
+               <hr> 
 
 			    <div id='imageDisplay'>
+				<?php $files =  $general->getFilenamesImageSetid($users[0]['imageSet_id']); print_r($files);?>
+				
+				<!--//with captions as previously-->
+				</div>
+                <hr>
+               
+                <?php $id = $users[0]['video_id'];?>
+                <div class='row'>
+		                <div class='col-9'>
+		                    <h2 id="pageTitle" style="text-align:left;"><?php echo $general->getVideoTitle($id)?></h2>
+		                    <p id="tagsDisplay"style="text-align: left;">Ideas in this video</p>
+		                </div>
+		                <div class='col-3 yellow-light center'>
+						<div id='chapterSelector'>
+							<?php echo 'Select Chapter : ' . $general->getChapterSelector($id)?>
+						</div>
+						<div id='chapterSelectorMessage'></div>
+					
+					</div>  
+		
+		                
+		            </div>
+		
+			<div id="vimeoid" style="display:none;"><?php echo $general->getVimeoID($id);?></div>
+			
+			<div id="videoChapterData" style="display:none;"><?php echo $general->getVideoAndChapterData($id);?></div>
+			
+			<div id="videoData" style="display:none;"><?php echo $general->getVideoData($id);?></div>
 
-				<?php echo getAllVideos('41');?>
-
-
+			        
+				<div class='row'>
+					
+					<div class='col-9'>
+						<div id='videoDisplay'>
+							
+						</div>
+					
+					</div>
+					 
+				    <div class='col-3 black whiteborder center' style="min-height:60%;">
+					    
+					    <div id='chapterInfo'>
+						    <div id='titleBar' class = 'gentBlue' style='padding:3px;'>
+						    <p id='videoTitle'><b></b></p>
+						    
+						    <p id='videoDescription'></p>
+						    <p id='videoAuthor' style='font-size:12px;'><b></b></p>
+						    </div>
+						    <p id='chapterHeading' style='padding:8px;padding-top:15px;'>Chapter information will appear here during the video</p>
+						    
+						    
+						    
+						   
+							
+						</div>
+						
+						<div id='buttons'></div>
+					</div>    
 				</div>
 
+                <div class = 'row' id='references'>
+                <div class='col-12'>
+                        <hr>
+
+                        <h2 style="text-align:left;">References</h2>
+
+                        <?php echo $general->getFullReferenceList($id);?>
+                        </div>
+                </div>
+			    
 				<!--<div class='row' id='imageDisplay'>
 					<div class='col-2'>
 					</div>
 					<div class='col-8'>
-
+				
 					</div>
 				    <div class='col-2'>
-					</div>
+					</div>    
 				</div>-->
-
+		
 		        </div>
-
+		
 		    </div>
 		<script>
-
+			
 switch (document.location.hostname)
 {
         case 'www.endoscopy.wiki':
@@ -368,16 +357,61 @@ switch (document.location.hostname)
 			
 var siteRoot = rootFolder;
 
-imagesPassed = $("#id").text();
+var imagesPassed = "";
 
-if (imagesPassed == "") {
+var videoDataDefined;
+
+var vimeoID;
+
+vimeoID = $("#vimeoid").text();
+
+videoPassed = $("#id").text();
+
+if (videoPassed == "") {
 
     var edit = 0;
+    
+    videoDataDefined = 0;
 
 } else {
 
     var edit = 1;
+    
+    //$('#imageUpload').hide();
+    
+    videoDataDefined = 1;
+    
+    
+    videoDisplay(vimeoID);
+    
+   
+    
+    //constructEditTable;
 
+}
+
+try{
+
+var videoChapterDataText = $("#videoChapterData").text();
+
+var videoChapterData = $.parseJSON(videoChapterDataText);
+
+}catch(err){
+	
+	//console.log('No video chapter data received');
+	
+}
+
+try{
+
+var videoDataText = $("#videoData").text();
+
+var videoData = $.parseJSON(videoDataText);
+
+}catch(err){
+	
+	//console.log('No video data received');
+	
 }
 
 var files;
@@ -392,11 +426,64 @@ var textAreas = new Object();
 
 var selects = new Object();
 
+var selects2 = new Object();
+
+var selects3 = new Object();
+
+function videoDisplay (url){
+	
+	
+	
+        if (isNormalInteger(url) === true){
+        
+	        $('#videoDisplay').html("<div class='videoWrapper' style='text-align: centre'><iframe id='videoChapter' src='https://player.vimeo.com/video/"+url+"' width='400' height='288' frameborder='0' webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe></div>");
+			
+			$('#submitimagefiles').prop('disabled', true);
+			$('#video').prop('disabled', true);
+			$('#resetVideoSubmit').show();
+			$('#videoForm').show();
+			$('#url').val(url);
+			
+			
+		
+		}else{
+			
+			
+			alert('Invalid vimeo id in record');
+			
+		}
+
+	
+	
+	
+}
+
+
+//!atlasTag specific functions
+
+function getSecondBarName(){
+	
+	var tagName = $('#tagName').text();
+	
+	$('#naviTagName').html('<p style="text-align:right;">Showing images matching '+tagName.toLowerCase()+'</p>');
+	
+	
+	
+}
+
+function getSecondBarButton(){
+	
+	$('#naviTagLeft').html('<button type="button" class="redButton veryNarrow" id="back" onclick="window.location.href = siteRoot + \'scripts/display/atlas.php\';"><--Back</p>');
+	
+	
+	
+}
+
 getSearchboxTerms();
 
 
 function getSearchboxTerms (){
-
+	
 	var selectorObject = getDataQuery('tags', 'tagCategories_id = 38', {
             'id': 'id',
             'name': 'tagName'
@@ -407,62 +494,62 @@ function getSearchboxTerms (){
         selectorObject.done(function(data) {
 
             console.log(data);
-
+			
 			var searchData = $.parseJSON(data);
-
+			
 			console.dir(searchData);
-
+			
 			$.each(searchData, function(key, value) {
-
+				
 				var id = value['id'];
 				var name = value['tagName'];
-
+		        
 		       	$('#json-datalist').append('<option value="'+name+'" data-id="'+id+'"></option>');
-
+		        
 		        //data.append(key, value);
-
-
-
+		        
+		       
+		    
 		    });
-
+            
             $('#searchBox').attr("placeholder","Start typing an endoscopic diagnosis...");
 
 
 
         })
-
-
-
+	
+	
+	
 }
 
-//!new
+//!new 
 
 //get all procedure tags and insert at the top of the document
 
 function insertProcedureTags () {
-
+	
 	var data = $('#procedureTags').text();
-
+	
 	var formData = $.parseJSON(data);
-
-
-
+	
+	
+	
 	$.each(formData, function(key, value) {
-
+				
 		var tagid = value['tagid'];
 		var tagName = value['tagName'];
-
+        
        	html = '<button id="' + tagid + '" class="tagButton">'+tagName+'</button>';
-
+       	
        	$('#procedureTagsDisplay').find('div').first().append(html);
-
+       	
        	//console.log(html);
-
+        
         //data.append(key, value);
-
+		    
 	});
-
-
+	
+	
 }
 
 function getAllImages () {
@@ -472,18 +559,18 @@ function getAllImages () {
 	        url: siteRoot + "scripts/getImages.php",
 	        type: "get",
 	        data: 'tagid='+option,
-
+	
 		   });
-
+		   
 		   request.done(function(data){
-
+			   
 			   if (data){
-
+			   
 			    $('#imageTitle').html('<h3 style="text-align:left;">'+value+'</h3>');
 			   	$('#imageDisplay').html(data);
-
+			   
 			   }
-
+			   
 		   });
 
 }
@@ -547,9 +634,9 @@ function fn60sec() {
     console.dir(images);
     console.dir(textAreas);
     console.dir(selects);
-
+	
 	//these need the field names
-
+	
     overallObject['id'] = images;
     overallObject['type'] = selects;
     overallObject['name'] = textAreas;
@@ -564,12 +651,12 @@ function fn60sec() {
         console.log('tagsImagesObject = ' + data);
 
         if (data) {
-
+	        
 	        if (data == 1){
-
-		        $('#messageBox').html('Saved at '+ new Date().toLocaleTimeString('en-GB', { hour: "numeric",
+		        
+		        $('#messageBox').html('Saved at '+ new Date().toLocaleTimeString('en-GB', { hour: "numeric", 
                                              minute: "numeric"})).fadeOut(100).fadeIn(100).fadeOut(100).fadeIn(100);;
-
+		        
 	        }
 
         }
@@ -585,42 +672,42 @@ function fn60sec() {
     //enter this in the field name
 
     /*
-
+			        
 			        imageID = $(cellClicked).closest('tr').find('td:eq(0)').attr('id');
-
+			        
 			        var text = $(this).val();
-
+		
 					var imagesObject = pushDataAJAX('images', 'id', imageID, 1, {'name':text}); //delete images
-
+		
 					imagesObject.done(function (data){
-
+		
 						console.log(data);
-
+		
 						if (data){
-
+		
 							if (data == 1){
-
+		
 								//alert ("tag connection deleted");
 								console.log('textarea data updated');
-
+								
 								//edit = 0;
 								//imagesPassed = null;
 								//window.location.href = siteRoot + "scripts/forms/imagesTable.php";
 								//go to images list
-
+		
 							}else {
-
+		
 								console.log('textarea data not updated');
-
+		
 							//enableFormInputs("images");
-
+		
 						    }
-
-
-
+		
+		
+		
 						}
-
-
+		
+		
 					});
 			   */
 
@@ -638,7 +725,7 @@ function addImageTagAll(event) {
 
     //once tag selected, come back and insert required keys
 
-    //collect the data needed for the tag table
+    //collect the data needed for the tag table	
 
     //display keys below
 
@@ -876,11 +963,11 @@ function submitimagesForm() {
 
 $(document).ready(function() {
 
-
+    
 
     insertProcedureTags();
-
-
+    
+    videoDisplay(vimeoID);
     //$('#searchBox').attr("placeholder","Loading options...");
 
 
@@ -925,193 +1012,183 @@ $(document).ready(function() {
         }
 
     });
-
-
+    
+    
     //!new
-
-	//!start of filter tag buttons code
+    
+    //!load the buttons for the second navi bar
+    
+    //getSecondBarName();
+    
+    getSecondBarButton();
+    
+	//!start of filter tag buttons code    
     //!detect click on tag button and filter the below
-
+    
     $('.tagButton').on('click', function(){
-
+	    
 	    //get the tag id
-
+	    
 	    $(this).removeClass('tagbutton').addClass('greenButton');
-
+	    
 	    $(this).siblings().removeClass('greenButton').addClass('tagButton');
-
+	    
 	    var tagid = $(this).attr('id');
 	    
-	    console.log(tagid);
-
 	    //get the array of images with their procedure tags
-
+	    
 	    var data = $('#imageMatchProcedure').text();
-
+	
 		var formData = $.parseJSON(data);
-
-
-
+		
+		
+		
 		$.each(formData, function(key, value) {
-
+			
 			var tagidInner = value['tagid'];
 			var tagName = value['tagName'];
-			var imageid = value['videoid'];
-
+			var imageid = value['imageid'];
+			
 			if (tagid == tagidInner){
-
+				
 				$('#'+imageid).show();
 				
-				console.log(imageid + 'should be shown');
-
 			}else{
-
+				
 				$('#'+imageid).hide();
-
+				
 			}
-
-
-
+			
+			
+			
 		})
-
+		
 		$('.tagSet').show();
-
+		
 		$('.tagSet').prev().show();
-
+		
 		//$(tagSet).closest('hr').show()
-
+		
 		$('.tagSet').each(function(){
-
+			
 			var tagSet = $(this);
-
+			
 			console.dir(this);
-
+			
 			console.log('img length = ' + $(this).find('img:visible').length);
-
+			
 			if ($(this).find('img:visible').length == 0){
-
+				
 				console.log('no images');
-
+				
 				$(tagSet).hide();
-
+				
 				$(tagSet).prev().hide();
-
+				
 			} else {
-
+				
 				console.log('images');
-
+				
 				$(tagSet).show();
-
+				
 				//$(tagSet).closest('hr').show()
-
+				
 			}
-
-
+			
+			
 		})
-
+	    
 	     // add a reset tag underneath the last tag row
-
+	     
 	     html = '<div style="text-align:left;"><button class="resetTags greenButton">'+'Show All'+'</button></div>';
-
+	     
 	     if ($('#resetButtonDiv').find('.resetTags').length == 0){
-
+		     
 		      $('#resetButtonDiv').append(html);
-
+		     
 	     }
-
-
-
-
+	     
+	    
+	    
+	    
     })
-
+    
     //reset tags button
-
+    
     $('.content').on('click', '.resetTags', function() {
-
-
+	    
+	    
 	    $('.tagSet').show();
-
+		
 		$('.tagSet').prev().show();
-
+		
 		$('.lslimage').show()
-
+	
 		//var hello = $(this).parent().parent().prev().children();
-
+		
 		//console.log(hello);
-
+	
 		$(this).parent().parent().prev().children().removeClass('greenButton').addClass('tagButton');
-
+		
 		$(this).remove();
-
-
+	    
+	    
 	})
-
+	
 	//take to the individual tag display page
-
-	/*$('.tagLink').on('click', function (){
-
+	
+	$('.tagLink').on('click', function (){
+		
 		var tagid = $(this).attr('id');
-
+		
 		tagid = tagid.slice(3);
-
+		
 		window.location.href = siteRoot + "scripts/display/atlasTag.php?id="+tagid;
-
-
-
-
-	})*/
-
+		
+		
+		
+		
+	})
+	
 	$('.pubMedSearch').on('click', function (){
-
-
+		
+		
 		//get the tag name
-
-		var searchTerm = $(this).parent().prev().prev().find('h3').html();
-
+		
+		var searchTerm = $(this).parent().prev().prev().children().find('.imageSetTitle').text();
+		
 		console.log(searchTerm);
-
+		
 		PopupCenter("https://www.ncbi.nlm.nih.gov/pubmed?term="+searchTerm, 'PubMed Search (endoWiki)', 600, 700);
 
-
-
-
-
+		
+		
+		
+		
 	})
-
+	
+    
     $('.uptodateSearch').on('click', function (){
-
-
+		
+		
 		//get the tag name
-
-		var searchTerm = $(this).parent().prev().find('h3').html();
-
+		
+		var searchTerm = $(this).parent().prev().children().find('.imageSetTitle').text();
+		
 		console.log(searchTerm);
-
+		
 		PopupCenter("https://www.uptodate.com/contents/search?search="+searchTerm, 'UpToDate Search (endoWiki)', 600, 700);
 
-
-
-
-
+		
+		
+		
+		
 	})
-
-	$('.content').on('click', '.lslimage', function(){
-
-
-		var searchTerm = $(this).attr('id');
-
-		console.log(searchTerm);
-
-		//searchTerm = searchTerm.slice(8);
-
-		window.location.href = siteRoot + "scripts/display/displayVideo.php?id="+searchTerm;
-
-
-
-	})
-
-
-
+	
+	
+   
+    
+    
 
     //!Add new tag to single image
 
@@ -1568,40 +1645,40 @@ $(document).ready(function() {
 
 
     }));
-
+    
     */
-
+    
     $("#content").on('change', '#searchBox', (function(event) {
 
         var value = $(this).val();
 		var option = $('#json-datalist').find("[value='" + value + "']").attr('data-id');
-
-
-		  console.log('Tag to look for images is '+option);
-
+		
+		
+		  console.log('Tag to look for images is '+option);	
+		  
 		  //tagid
-
+		  
 		  request = $.ajax({
 	        url: siteRoot + "scripts/getImages.php",
 	        type: "get",
 	        data: 'tagid='+option,
-
+	
 		   });
-
+		   
 		   request.done(function(data){
-
+			   
 			   if (data){
-
+			   
 			    $('#imageTitle').html('<h3 style="text-align:left;">'+value+'</h3>');
 			   	$('#imageDisplay').html(data);
-
+			   
 			   }
-
+			   
 		   });
-
-
-
-
+	
+		  
+        
+ 
     }));
 
     $('.modal').on('click', '#newTagCategory', function() {
@@ -1632,29 +1709,31 @@ $(document).ready(function() {
 
 
     })
-
+    
     $('.content').on('click', '#captionHide', function() {
 
         $('.caption').toggle();
-
+        
+        $('.describer').toggle();
+		
 		if ($(this).text() == 'Toggle captions'){
-
+			
 			$(this).text('Captions shown');
-
+			
 		}
-
+		
 		if ($(this).text() == 'Captions shown'){
-
+			
 			$(this).text('Captions hidden');
-
+			
 		} else if ($(this).text() == 'Captions hidden'){
-
+			
 			$(this).text('Captions shown');
-
+			
 		}
-
+		
 		//$(this).text('Captions shown');
-
+        
 
 
         //window.open(siteRoot + "scripts/forms/tagsForm.php", "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,width=600,height=700");
@@ -1662,13 +1741,13 @@ $(document).ready(function() {
 
 
     })
-
+    
     $('.content').on('click', '#resetPage', function(event) {
 		event.preventDefault();
         $('#imageTitle').html('');
 		$('#imageDisplay').html('');
 		$('#searchBox').val('');
-
+        
 
 
         //window.open(siteRoot + "scripts/forms/tagsForm.php", "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,width=600,height=700");
@@ -1676,35 +1755,35 @@ $(document).ready(function() {
 
 
     })
-
+    
     //! allows opening of navbar with click
-
+    
     $('.dropbtn').on('click', function(){
-
+	
 		//console.dir(this);
-
-
-
+		
+		
+		
 		$(this).parent().find('.dropdown-content').toggle();
-
-
+	
+	
 	})
 
+    
 
 
+    
 
-
-
-})
+})		
 			</script>
 		<?php
-
-// Include the footer file to complete the template:
-include(BASE_URI . "/includes/footer.html");
-
-
-
-
-?>
+		
+		    // Include the footer file to complete the template:
+		    include(BASE_URI . "/includes/footer.html");
+		
+		
+		
+		
+		    ?>
 		</body>
 		</html>

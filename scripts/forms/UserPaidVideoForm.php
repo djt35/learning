@@ -55,7 +55,7 @@
 		
 		<html>
 		<head>
-		    <title>video Form</title>
+		    <title>UserPaidVideo Form</title>
 		</head>
 		
 		<?php
@@ -74,11 +74,11 @@
 		
 			        <div class='row'>
 		                <div class='col-9'>
-		                    <h2 style="text-align:left;">video Form</h2>
+		                    <h2 style="text-align:left;">UserPaidVideo Form</h2>
 		                </div>
 		
 		                <div id="messageBox" class='col-3 yellow-light narrow center'>
-							<p><button id="tablevideo" onclick="window.location.href = '<?php echo BASE_URL;?>/scripts/forms/videoTable.php';">Table of video</button></p>
+							<p><button id="tableUserPaidVideo" onclick="window.location.href = '<?php echo BASE_URL;?>/scripts/forms/UserPaidVideoTable.php';">Table of UserPaidVideo</button></p>
 		              
 		                </div>
 		            </div>
@@ -88,7 +88,7 @@
 		
 				        if ($id){
 		
-							$q = "SELECT  `id`  FROM  `video`  WHERE  id  = $id";
+							$q = "SELECT  `id`  FROM  `UserPaidVideo`  WHERE  id  = $id";
 							if ($general->returnYesNoDBQuery($q) != 1){
 								echo "Passed id does not exist in the database";
 								exit();
@@ -101,20 +101,11 @@
 		
 			        <p>
 		
-					    <form id="video">
-					    <?php echo $formv1->generateText('name', 'name', '', 'tooltip here');
-echo $formv1->generateText('url', 'url', '', 'tooltip here');
-echo $formv1->generateText('active', 'active', '', 'tooltip here');
-echo $formv1->generateText('split', 'split', '', 'tooltip here');
-echo $formv1->generateText('created', 'created', '', 'tooltip here');
-echo $formv1->generateText('updated', 'updated', '', 'tooltip here');
-echo $formv1->generateText('author', 'author', '', 'tooltip here');
-echo $formv1->generateText('description', 'description', '', 'tooltip here');
-echo $formv1->generateText('duration', 'duration', '', 'tooltip here');
-echo $formv1->generateText('thumbnail', 'thumbnail', '', 'tooltip here');
-echo $formv1->generateText('paid', 'paid', '', 'tooltip here');
+					    <form id="UserPaidVideo">
+					    <?php echo $formv1->generateText('user_id', 'user_id', '', 'tooltip here');
+echo $formv1->generateText('video_id', 'video_id', '', 'tooltip here');
 ?>
-						    <button id="submitvideo">Submit</button>
+						    <button id="submitUserPaidVideo">Submit</button>
 		
 					    </form>
 		
@@ -139,9 +130,9 @@ echo $formv1->generateText('paid', 'paid', '', 'tooltip here');
 
 		var siteRoot = rootFolder;
 		
-			 videoPassed = $("#id").text();
+			 UserPaidVideoPassed = $("#id").text();
 		
-			if ( videoPassed == ""){
+			if ( UserPaidVideoPassed == ""){
 		
 				var edit = 0;
 		
@@ -157,15 +148,15 @@ echo $formv1->generateText('paid', 'paid', '', 'tooltip here');
 		
 			function fillForm (idPassed){
 		
-				disableFormInputs("video");
+				disableFormInputs("UserPaidVideo");
 		
-				videoRequired = new Object;
+				UserPaidVideoRequired = new Object;
 		
-				videoRequired = getNamesFormElements("video");
+				UserPaidVideoRequired = getNamesFormElements("UserPaidVideo");
 		
-				videoString = '`id`=\''+idPassed+'\'';
+				UserPaidVideoString = '`id`=\''+idPassed+'\'';
 		
-				var selectorObject = getDataQuery ("video", videoString, getNamesFormElements("video"), 1);
+				var selectorObject = getDataQuery ("UserPaidVideo", UserPaidVideoString, getNamesFormElements("UserPaidVideo"), 1);
 		
 				//console.log(selectorObject);
 		
@@ -184,19 +175,19 @@ echo $formv1->generateText('paid', 'paid', '', 'tooltip here');
 		
 				    });
 				    
-				    $("#messageBox").append("Editing video id "+idPassed);
+				    $("#messageBox").append("Editing UserPaidVideo id "+idPassed);
 		
-				    enableFormInputs("video");
+				    enableFormInputs("UserPaidVideo");
 		
 				});
 		
 				try {
 		
-					$("form#video").find("button#deletevideo").length();
+					$("form#UserPaidVideo").find("button#deleteUserPaidVideo").length();
 		
 				}catch(error){
 		
-					$("form#video").find("button").after("<button id='deletevideo'>Delete</button>");
+					$("form#UserPaidVideo").find("button").after("<button id='deleteUserPaidVideo'>Delete</button>");
 		
 				}
 		
@@ -205,24 +196,24 @@ echo $formv1->generateText('paid', 'paid', '', 'tooltip here');
 		
 			//delete behaviour
 		
-			function deletevideo (){
+			function deleteUserPaidVideo (){
 		
-				//videoPassed is the current record, some security to check its also that in the id field
+				//UserPaidVideoPassed is the current record, some security to check its also that in the id field
 		
-				if (videoPassed != $("#id").text()){
+				if (UserPaidVideoPassed != $("#id").text()){
 		
 					return;
 		
 				}
 		
 		
-				if (confirm("Do you wish to delete this video?")) {
+				if (confirm("Do you wish to delete this UserPaidVideo?")) {
 		
-					disableFormInputs("video");
+					disableFormInputs("UserPaidVideo");
 		
-					var videoObject = pushDataFromFormAJAX("video", "video", "id", videoPassed, "2"); //delete video
+					var UserPaidVideoObject = pushDataFromFormAJAX("UserPaidVideo", "UserPaidVideo", "id", UserPaidVideoPassed, "2"); //delete UserPaidVideo
 		
-					videoObject.done(function (data){
+					UserPaidVideoObject.done(function (data){
 		
 						//console.log(data);
 		
@@ -230,17 +221,17 @@ echo $formv1->generateText('paid', 'paid', '', 'tooltip here');
 		
 							if (data == 1){
 		
-								alert ("video deleted");
+								alert ("UserPaidVideo deleted");
 								edit = 0;
-								videoPassed = null;
-								window.location.href = siteRoot + "scripts/forms/videoTable.php";
-								//go to video list
+								UserPaidVideoPassed = null;
+								window.location.href = siteRoot + "scripts/forms/UserPaidVideoTable.php";
+								//go to UserPaidVideo list
 		
 							}else {
 		
 							alert("Error, try again");
 		
-							enableFormInputs("video");
+							enableFormInputs("UserPaidVideo");
 		
 						    }
 		
@@ -256,24 +247,24 @@ echo $formv1->generateText('paid', 'paid', '', 'tooltip here');
 		
 			}
 		
-			function submitvideoForm (){
+			function submitUserPaidVideoForm (){
 		
 				//pushDataFromFormAJAX (form, table, identifierKey, identifier, updateType)
 		
 				if (edit == 0){
 		
-					var videoObject = pushDataFromFormAJAX("video", "video", "id", null, "0"); //insert new object
+					var UserPaidVideoObject = pushDataFromFormAJAX("UserPaidVideo", "UserPaidVideo", "id", null, "0"); //insert new object
 		
-					videoObject.done(function (data){
+					UserPaidVideoObject.done(function (data){
 		
 						//console.log(data);
 		
 						if (data){
 		
-							alert ("New video no "+data+" created");
+							alert ("New UserPaidVideo no "+data+" created");
 							edit = 1;
 							$("#id").text(data);
-							videoPassed = data;
+							UserPaidVideoPassed = data;
 							fillForm(data);
 		
 		
@@ -290,9 +281,9 @@ echo $formv1->generateText('paid', 'paid', '', 'tooltip here');
 		
 				} else if (edit == 1){
 		
-					var videoObject = pushDataFromFormAJAX("video", "video", "id", videoPassed, "1"); //insert new object
+					var UserPaidVideoObject = pushDataFromFormAJAX("UserPaidVideo", "UserPaidVideo", "id", UserPaidVideoPassed, "1"); //insert new object
 		
-					videoObject.done(function (data){
+					UserPaidVideoObject.done(function (data){
 		
 						//console.log(data);
 		
@@ -332,11 +323,11 @@ echo $formv1->generateText('paid', 'paid', '', 'tooltip here');
 		
 				if (edit == 1){
 		
-					fillForm(videoPassed);
+					fillForm(UserPaidVideoPassed);
 		
 				}else{
 					
-					$("#messageBox").append("New video");
+					$("#messageBox").append("New UserPaidVideo");
 					
 				}
 		
@@ -358,21 +349,21 @@ echo $formv1->generateText('paid', 'paid', '', 'tooltip here');
 					});
 		
 		
-				$("#content").on('click', '#submitvideo', (function(event) {
+				$("#content").on('click', '#submitUserPaidVideo', (function(event) {
 			        event.preventDefault();
-			        $('#video').submit();
+			        $('#UserPaidVideo').submit();
 		
 		
 			    }));
 		
-			    $("#content").on('click', '#deletevideo', (function(event) {
+			    $("#content").on('click', '#deleteUserPaidVideo', (function(event) {
 			        event.preventDefault();
-			        deletevideo();
+			        deleteUserPaidVideo();
 		
 		
 			    }));
 		
-				$("#video").validate({
+				$("#UserPaidVideo").validate({
 		
 			        invalidHandler: function(event, validator) {
 			            var errors = validator.numberOfInvalids();
@@ -387,33 +378,15 @@ echo $formv1->generateText('paid', 'paid', '', 'tooltip here');
 			                $('div.error').hide();
 			            }
 			        },rules: {
-name: { required: true },   
-url: { required: true },   
-active: { required: true },   
-split: { required: true },   
-created: { required: true },   
-updated: { required: true },   
-author: { required: true },   
-description: { required: true },   
-duration: { required: true },   
-thumbnail: { required: true },   
-paid: { required: true },   
+user_id: { required: true },   
+video_id: { required: true },   
 },messages: {
-name: { required: 'message' },   
-url: { required: 'message' },   
-active: { required: 'message' },   
-split: { required: 'message' },   
-created: { required: 'message' },   
-updated: { required: 'message' },   
-author: { required: 'message' },   
-description: { required: 'message' },   
-duration: { required: 'message' },   
-thumbnail: { required: 'message' },   
-paid: { required: 'message' },   
+user_id: { required: 'message' },   
+video_id: { required: 'message' },   
 },
 			        submitHandler: function(form) {
 		
-			            submitvideoForm();
+			            submitUserPaidVideoForm();
 		
 			          	console.log("submitted form");
 		

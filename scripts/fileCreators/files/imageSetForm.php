@@ -106,6 +106,7 @@
 echo $formv1->generateText('type', 'type', '', 'tooltip here');
 echo $formv1->generateText('author', 'author', '', 'tooltip here');
 echo $formv1->generateText('manipulated', 'manipulated', '', 'tooltip here');
+echo $formv1->generateText('paid', 'paid', '', 'tooltip here');
 echo $formv1->generateText('created', 'created', '', 'tooltip here');
 echo $formv1->generateText('updated', 'updated', '', 'tooltip here');
 ?>
@@ -386,6 +387,7 @@ name: { required: true },
 type: { required: true },   
 author: { required: true },   
 manipulated: { required: true },   
+paid: { required: true },   
 created: { required: true },   
 updated: { required: true },   
 },messages: {
@@ -393,6 +395,7 @@ name: { required: 'message' },
 type: { required: 'message' },   
 author: { required: 'message' },   
 manipulated: { required: 'message' },   
+paid: { required: 'message' },   
 created: { required: 'message' },   
 updated: { required: 'message' },   
 },

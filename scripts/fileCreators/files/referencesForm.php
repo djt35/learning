@@ -102,7 +102,8 @@
 			        <p>
 		
 					    <form id="references">
-					    <?php echo $formv1->generateText('DOI', 'DOI', '', 'tooltip here');
+					    <?php echo $formv1->generateText('PMID', 'PMID', '', 'tooltip here');
+echo $formv1->generateText('DOI', 'DOI', '', 'tooltip here');
 echo $formv1->generateText('formatted', 'formatted', '', 'tooltip here');
 echo $formv1->generateText('authors', 'authors', '', 'tooltip here');
 echo $formv1->generateText('journal', 'journal', '', 'tooltip here');
@@ -380,11 +381,13 @@ echo $formv1->generateText('journal', 'journal', '', 'tooltip here');
 			                $('div.error').hide();
 			            }
 			        },rules: {
+PMID: { required: true },   
 DOI: { required: true },   
 formatted: { required: true },   
 authors: { required: true },   
 journal: { required: true },   
 },messages: {
+PMID: { required: 'message' },   
 DOI: { required: 'message' },   
 formatted: { required: 'message' },   
 authors: { required: 'message' },   
